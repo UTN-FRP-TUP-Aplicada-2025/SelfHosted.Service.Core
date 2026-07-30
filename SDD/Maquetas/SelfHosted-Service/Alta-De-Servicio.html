@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alta de servicio · Maqueta de SelfHosted Service</title>
+<meta name="description" content="Superficie SUP-17 de la maqueta de validación visual de SelfHosted Service. PROPUESTA A VALIDAR: materializa los pasos 3 y 4 de CU-03, que ninguna superficie de 03-UX-UI-DX especificaba. El wireframe lo emite AG-03 en el paso 6.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/Estilos-Maqueta.css">
+</head>
+<body data-superficie="SUP-17">
+<a class="mq-skip" href="#contenido">Saltar al contenido</a>
+
+<!-- Instrumento de la maqueta, no parte del producto. Lo arma Maqueta.js. -->
+<div id="barra-validacion" class="mq-barra-validacion"></div>
+
+<div class="mq-shell-trabajo">
+  <nav class="mq-sidebar" id="nav-lateral" aria-label="Navegación principal"></nav>
+  <div class="mq-columna">
+    <header class="mq-topbar" id="topbar"></header>
+    <main class="mq-main" id="contenido" tabindex="-1">
+      <h1 class="mq-h1">Alta de servicio</h1>
+      <p class="mq-sr-only">Superficie SUP-17. Casos de uso: CU-03. Sin wireframe de origen: es una propuesta abierta del paso 5 de la Fase B2.</p>
+      <!-- Los datos los renderiza Maqueta.js desde Datos-Maqueta.js: este HTML no hardcodea ninguno. -->
+      <div id="superficie"></div>
+    </main>
+    <footer class="mq-pie-maqueta" id="sello-pie"></footer>
+  </div>
+</div>
+
+<p id="mq-anuncio" role="status" aria-live="polite" class="mq-sr-only"></p>
+
+<script src="assets/js/Datos-Maqueta.js"></script>
+<script src="assets/js/Maqueta.js"></script>
+</body>
+</html>

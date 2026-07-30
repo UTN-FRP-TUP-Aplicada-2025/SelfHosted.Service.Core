@@ -1,0 +1,961 @@
+/* ==========================================================================
+   Estilos-Maqueta.css — SelfHosted Service · maqueta de validación visual
+   --------------------------------------------------------------------------
+   Se carga DESPUÉS de Bootstrap 5.0 y lo sobreescribe.
+
+   Regla dura: ningún valor visual ad hoc. Todo valor sale del catálogo
+   `Devs/References/Design/` y se materializa acá como variable CSS con el
+   nombre semántico del catálogo. Fuera del bloque :root no hay literales de
+   color, de tipografía ni de radio; sólo se usan las variables.
+
+   Capas del catálogo aplicadas (Index-Design-Rules.md §4.1):
+     1. Design-Rules-Web-Generico.md 1.2            (base, siempre)
+     2. Design-Rules-Config-Esquema.md 1.1          (extensión por capacidad)
+     3. Design-Rules-Primer-Arranque.md 1.0         (extensión por capacidad)
+     4. Design-Rules-Acceso-Monousuario.md 1.0      (extensión por capacidad)
+     5. Design-Rules-Identidad-De-Version.md 1.0    (extensión por capacidad)
+   Modelo UX-UI: catálogo base (no hay modelos registrados en Modelos-UX-UI/).
+   ========================================================================== */
+
+/* ── 1. Tokens del catálogo ─────────────────────────────────────────────── */
+
+:root {
+  /* 1.1 Color · superficies, texto y bordes — Web-Generico §2.1 */
+  --color-background-primary: #FFFFFF;
+  --color-background-secondary: #F1F1EF;
+  --color-background-tertiary: #F7F6F4;
+  --color-text-primary: #1A1A18;
+  --color-text-secondary: #5C5C57;
+  --color-text-tertiary: #8A8A82;
+  --color-text-danger: #A03030;
+  --color-border-secondary: #D9D9D4;
+  --color-border-tertiary: #E6E6E1;
+  --color-border-danger: #E0B4B4;
+
+  /* 1.2 Color · rampa de marca y acentos por módulo — Web-Generico §2.1 */
+  --color-brand-primary: #0F6E56;
+  --color-brand-primary-dark: #04342C;
+  --color-brand-primary-tint: #E1F5EE;
+  --color-accent-module-a: #0F6E56;
+  --color-accent-module-b: #534AB7;
+  --color-accent-module-c: #854F0B;
+  --color-accent-module-d: #185FA5;
+
+  /* 1.3 Color · estados semánticos (texto + tint, siempre en par) */
+  --color-text-success: #0F6E56;
+  --color-background-success: #E1F5EE;
+  --color-text-warning: #854F0B;
+  --color-background-warning: #FAEEDA;
+  --color-text-error: #993556;
+  --color-background-error: #FBEAF0;
+  --color-text-info: #185FA5;
+  --color-background-info: #E7F0F9;
+  --color-border-info: #BBD4EA;
+  --color-text-neutral: var(--color-text-secondary);
+  --color-background-neutral: var(--color-background-secondary);
+
+  /* 1.4 Color · «pendiente de aplicar»
+     El catálogo base NO tiene estado semántico para «pendiente de aplicar»
+     (contradicción C-UX-01, brecha B-UX-05: el token corresponde promoverlo
+     al catálogo, no definirlo por proyecto). Para no inventar un literal,
+     la maqueta ALIAS al token de catálogo `color.accent.module-b`, que es
+     violeta y que en esta solución no está asignado a ningún módulo: así se
+     conserva la reserva de exclusividad que el anexo E-18 exige. Es un alias
+     provisional, no una promoción de token. */
+  --color-text-pendiente: var(--color-accent-module-b);
+  --color-border-pendiente: var(--color-accent-module-b);
+  /* El tint de fondo se DERIVA del mismo token del catálogo en lugar de
+     escribirse como literal, para no introducir un valor ad hoc. `color-mix`
+     está disponible en la única familia de navegador soportada por la matriz
+     de plataforma (Chrome de escritorio ≥ 150). */
+  --color-background-pendiente: color-mix(in srgb, var(--color-accent-module-b) 12%, var(--color-background-primary));
+
+  /* 1.5 Tipografía — Web-Generico §2.2 */
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Cascadia Mono", "Consolas", "SFMono-Regular", ui-monospace, monospace;
+  --type-title-size: 17px;
+  --type-title-weight: 500;
+  --type-body-strong-size: 14px;
+  --type-body-strong-weight: 500;
+  --type-body-size: 13px;
+  --type-body-weight: 400;
+  --type-caption-size: 12px;
+  --type-caption-weight: 400;
+  --type-meta-size: 11px;
+  --type-meta-weight: 500;
+  --type-line-height-body: 1.45;
+  --type-line-height-title: 1.2;
+
+  /* 1.6 Espaciado — Web-Generico §2.3 (escala base 4) */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-22: 22px;
+  --space-28: 28px;
+
+  /* 1.7 Radios — Web-Generico §2.3 */
+  --radius-md: 9px;
+  --radius-lg: 13px;
+  --radius-pill: 20px;
+  --radius-icon: 12px;
+
+  /* 1.8 Bordes — Web-Generico §2.3 */
+  --border-hairline: 0.5px solid var(--color-border-tertiary);
+  --border-control: 1px solid var(--color-border-secondary);
+  --border-danger: 1px solid var(--color-border-danger);
+
+  /* 1.9 Composición — Web-Generico §3.1, §3.3, §8 y extensiones §4.2 */
+  --shell-sidebar-width: 168px;
+  --card-narrow-width: 380px;
+  --section-gap: var(--space-28);
+  --card-gap: var(--space-14);
+  --card-padding: var(--space-16);
+  --page-padding: var(--space-20);
+  --grid-card-min: 190px;
+  --focus-ring-width: 2px;
+  --touch-target-min: 24px;
+
+  /* 1.10 Movimiento — Web-Generico §8 */
+  --motion-duration: 200ms;
+  --motion-easing: ease;
+}
+
+/* ── 2. Base y landmarks ────────────────────────────────────────────────── */
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-line-height-body);
+  color: var(--color-text-primary);
+  background: var(--color-background-tertiary);
+  margin: 0;
+}
+
+h1, h2, h3, h4 { line-height: var(--type-line-height-title); margin: 0; }
+
+a { color: var(--color-brand-primary); }
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+.mq-sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.mq-skip {
+  position: absolute; left: var(--space-8); top: var(--space-8);
+  transform: translateY(-200%);
+  background: var(--color-background-primary);
+  color: var(--color-brand-primary);
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-md);
+  border: var(--border-control);
+  z-index: 40;
+}
+.mq-skip:focus { transform: translateY(0); }
+
+/* ── 3. Barra de validación de maqueta (instrumento, no producto) ───────── */
+
+.mq-barra-validacion {
+  position: sticky; top: 0; z-index: 30;
+  background: var(--color-background-warning);
+  color: var(--color-text-warning);
+  border-bottom: 1px solid var(--color-border-secondary);
+  padding: var(--space-8) var(--space-12);
+  font-size: var(--type-caption-size);
+}
+.mq-barra-validacion .mq-barra-rotulo {
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  display: block;
+  margin-bottom: var(--space-4);
+}
+.mq-barra-fila {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12);
+}
+.mq-barra-campo { display: flex; align-items: center; gap: var(--space-4); }
+.mq-barra-campo label { font-size: var(--type-caption-size); white-space: nowrap; }
+.mq-barra-validacion select,
+.mq-barra-validacion input[type="checkbox"] {
+  font-size: var(--type-caption-size);
+  border: var(--border-control);
+  border-radius: var(--radius-md);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  padding: var(--space-4) var(--space-8);
+  min-height: var(--touch-target-min);
+}
+.mq-barra-validacion input[type="checkbox"] {
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+  padding: 0;
+}
+.mq-barra-validacion select:disabled,
+.mq-barra-validacion input:disabled { opacity: 0.55; }
+.mq-barra-motivo {
+  font-size: var(--type-meta-size);
+  color: var(--color-text-secondary);
+}
+.mq-barra-nota {
+  margin: var(--space-8) 0 0;
+  padding: var(--space-8) var(--space-12);
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  border: 1px solid var(--color-border-info);
+  border-radius: var(--radius-md);
+  font-size: var(--type-caption-size);
+}
+
+/* ── 4. Shell — Web-Generico §3.1, Acceso-Monousuario §3 ────────────────── */
+
+.mq-shell-trabajo { display: flex; min-height: calc(100vh - 44px); }
+
+.mq-sidebar {
+  flex: 0 0 var(--shell-sidebar-width);
+  width: var(--shell-sidebar-width);
+  background: var(--color-brand-primary-dark);
+  color: var(--color-background-primary);
+  padding: var(--space-16) var(--space-8);
+  display: flex; flex-direction: column; gap: var(--space-4);
+}
+.mq-sidebar .mq-identidad-producto {
+  display: flex; align-items: center; gap: var(--space-8);
+  padding: 0 var(--space-8) var(--space-16);
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+}
+.mq-nav-item {
+  display: flex; align-items: center; gap: var(--space-8);
+  min-height: 40px; padding: 0 var(--space-8);
+  border-radius: var(--radius-md);
+  color: var(--color-background-primary);
+  opacity: 0.72; text-decoration: none;
+  font-size: var(--type-body-size);
+}
+.mq-nav-item:hover { opacity: 1; color: var(--color-background-primary); }
+.mq-nav-item[aria-current="page"] {
+  background: var(--color-brand-primary);
+  opacity: 1;
+}
+.mq-nav-sep {
+  margin: var(--space-8) var(--space-8);
+  border: 0; border-top: 1px solid var(--color-brand-primary);
+  opacity: 0.5;
+}
+
+.mq-columna { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+
+.mq-topbar {
+  display: flex; align-items: center; gap: var(--space-12);
+  background: var(--color-background-primary);
+  border-bottom: var(--border-hairline);
+  padding: var(--space-8) var(--space-16);
+}
+.mq-topbar-titulo {
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  margin-right: auto;
+}
+.mq-barra-identidad { display: flex; align-items: center; gap: var(--space-8); }
+.mq-barra-identidad .mq-identidad-activa {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+}
+
+.mq-main {
+  flex: 1 1 auto;
+  padding: var(--page-padding);
+  min-width: 0;
+}
+.mq-main:focus { outline: none; }
+
+/* Shell de acceso: lienzo vacío, sin chrome — Primer-Arranque §4.1 */
+.mq-shell-acceso {
+  min-height: 62vh;
+  background: var(--color-background-tertiary);
+  padding: var(--space-28) var(--space-16);
+  display: flex; justify-content: center; align-items: flex-start;
+}
+.mq-tarjeta-angosta {
+  width: 100%;
+  max-width: var(--card-narrow-width);
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-20);
+}
+
+/* ── 5. Tipografía aplicada ─────────────────────────────────────────────── */
+
+.mq-h1 {
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  margin-bottom: var(--space-4);
+}
+.mq-subtitulo {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-16);
+}
+.mq-titulo-seccion {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+}
+.mq-meta { font-size: var(--type-meta-size); font-weight: var(--type-meta-weight); }
+.mq-caption { font-size: var(--type-caption-size); color: var(--color-text-secondary); }
+.mq-literal { font-family: var(--font-mono); font-size: var(--type-caption-size); }
+.mq-num { font-variant-numeric: tabular-nums; }
+
+/* ── 6. Encabezado de sección con acción primaria — Web-Generico §4.3 ───── */
+
+.mq-encabezado {
+  display: flex; align-items: flex-start; gap: var(--space-12);
+  margin-bottom: var(--space-16);
+}
+.mq-encabezado > div:first-child { margin-right: auto; }
+
+.mq-seccion {
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  margin-bottom: var(--section-gap);
+  border-left: 4px solid var(--color-border-tertiary);
+}
+.mq-seccion[data-acento="a"] { border-left-color: var(--color-accent-module-a); }
+.mq-seccion[data-acento="b"] { border-left-color: var(--color-accent-module-b); }
+.mq-seccion[data-acento="c"] { border-left-color: var(--color-accent-module-c); }
+.mq-seccion[data-acento="d"] { border-left-color: var(--color-accent-module-d); }
+
+/* ── 7. Botones — Web-Generico §4.9 ─────────────────────────────────────── */
+
+.mq-btn {
+  display: inline-flex; align-items: center; gap: var(--space-4);
+  min-height: 32px; padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-md);
+  border: var(--border-control);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  cursor: pointer;
+}
+.mq-btn:hover { color: var(--color-text-primary); }
+.mq-btn--primario {
+  background: var(--color-brand-primary);
+  border-color: var(--color-brand-primary);
+  color: var(--color-background-primary);
+}
+.mq-btn--primario:hover { color: var(--color-background-primary); }
+.mq-btn--destructivo {
+  color: var(--color-text-danger);
+  border-color: var(--color-border-danger);
+}
+.mq-btn--pill { border-radius: var(--radius-pill); }
+.mq-btn--ancho { width: 100%; justify-content: center; }
+.mq-btn[disabled], .mq-btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+.mq-btn-icono {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: var(--touch-target-min); min-height: var(--touch-target-min);
+  border-radius: var(--radius-md);
+  border: var(--border-control);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.mq-acciones { display: flex; gap: var(--space-8); justify-content: flex-end; }
+
+/* ── 8. Controles de formulario — Web-Generico §4.6, Config-Esquema §4.1 ── */
+
+.mq-campo { margin-bottom: var(--space-14); }
+.mq-campo > label {
+  display: block;
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+.mq-input, .mq-select, .mq-textarea {
+  width: 100%;
+  min-height: 34px;
+  padding: var(--space-4) var(--space-8);
+  border: var(--border-control);
+  border-radius: var(--radius-md);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  font-size: var(--type-body-size);
+  font-family: inherit;
+}
+.mq-input::placeholder { color: var(--color-text-tertiary); }
+.mq-input:disabled, .mq-select:disabled { background: var(--color-background-secondary); opacity: 0.7; }
+.mq-input[aria-invalid="true"], .mq-select[aria-invalid="true"] { border: var(--border-danger); }
+/* El hint usa `color.text.secondary` y no `color.text.tertiary`: el terciario
+   del catálogo es para marcadores de posición y metadatos decorativos, y no
+   alcanza el 4.5:1 que WCAG 2.2 AA exige para texto informativo. */
+.mq-hint {
+  display: block;
+  font-size: var(--type-meta-size);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+}
+.mq-error-inline {
+  display: block;
+  font-size: var(--type-caption-size);
+  color: var(--color-text-danger);
+  margin-top: var(--space-4);
+}
+.mq-grilla-campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-12);
+}
+
+/* Toggle — Web-Generico §4.7 */
+.mq-toggle { display: inline-flex; align-items: center; gap: var(--space-8); cursor: pointer; }
+.mq-toggle input { width: var(--touch-target-min); height: var(--touch-target-min); }
+
+/* Ayuda contextual — Config-Esquema §4.2 */
+.mq-ayuda {
+  margin-top: var(--space-8);
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  border: 1px solid var(--color-border-info);
+  border-radius: var(--radius-md);
+  padding: var(--space-12);
+  font-size: var(--type-caption-size);
+}
+.mq-ayuda ul { margin: var(--space-4) 0 0; padding-left: var(--space-18); }
+
+/* Divulgación progresiva — Config-Esquema §4.3 */
+.mq-expander {
+  border-top: var(--border-hairline);
+  margin-top: var(--space-14);
+  padding-top: var(--space-12);
+}
+.mq-expander > button {
+  background: none; border: 0; padding: 0;
+  color: var(--color-brand-primary);
+  font-size: var(--type-body-size); cursor: pointer;
+}
+
+/* Ranura del asistente — Config-Esquema §4.7 */
+.mq-ranura-asistente {
+  border: 1px dashed var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-12);
+  color: var(--color-text-secondary);
+  display: flex; align-items: center; gap: var(--space-8);
+  margin: var(--space-16) 0;
+}
+
+/* ── 9. Banda de resultado — Representacion-Banda-De-Resultado ──────────── */
+
+.mq-banda {
+  display: flex; align-items: flex-start; gap: var(--space-8);
+  border-radius: var(--radius-md);
+  padding: var(--space-8) var(--space-12);
+  margin-bottom: var(--space-14);
+  font-size: var(--type-caption-size);
+  border: 1px solid transparent;
+}
+.mq-banda--error {
+  background: var(--color-background-error);
+  color: var(--color-text-error);
+  border-color: var(--color-border-danger);
+}
+.mq-banda--confirmacion {
+  background: var(--color-background-success);
+  color: var(--color-text-success);
+  border-color: var(--color-brand-primary-tint);
+}
+.mq-banda--info {
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  border-color: var(--color-border-info);
+}
+.mq-banda--atencion {
+  background: var(--color-background-warning);
+  color: var(--color-text-warning);
+  border-color: var(--color-border-secondary);
+}
+.mq-banda code { color: inherit; }
+
+/* ── 10. Par de estado — Representacion-Lenguaje-Visual-De-Estados ──────── */
+
+.mq-par-estado {
+  display: inline-flex; align-items: center; gap: var(--space-4);
+  border-radius: var(--radius-pill);
+  padding: 1px var(--space-8);
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  white-space: nowrap;
+}
+.mq-par-estado svg { flex: 0 0 auto; }
+.mq-estado--activo { color: var(--color-text-success); background: var(--color-background-success); }
+.mq-estado--degradado { color: var(--color-text-warning); background: var(--color-background-warning); }
+.mq-estado--creando { color: var(--color-text-info); background: var(--color-background-info); }
+.mq-estado--detenido { color: var(--color-text-neutral); background: var(--color-background-neutral); }
+.mq-estado--fallido { color: var(--color-text-error); background: var(--color-background-error); }
+.mq-estado--pendiente { color: var(--color-text-pendiente); background: var(--color-background-pendiente); }
+.mq-estado--huerfano {
+  color: var(--color-text-neutral);
+  background: var(--color-background-neutral);
+  box-shadow: inset 0 0 0 1px var(--color-border-danger);
+}
+.mq-estado-causa {
+  display: block;
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+}
+
+/* ── 11. Grilla de listado / tabla — Web-Generico §4.3 ──────────────────── */
+
+.mq-tabla-envoltorio { overflow-x: auto; }
+.mq-tabla { width: 100%; border-collapse: collapse; }
+.mq-tabla th {
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  color: var(--color-text-secondary);
+  text-align: left;
+  background: var(--color-background-tertiary);
+  border-bottom: var(--border-hairline);
+  padding: var(--space-8);
+  white-space: nowrap;
+}
+.mq-tabla td {
+  font-size: var(--type-caption-size);
+  border-bottom: var(--border-hairline);
+  padding: var(--space-8);
+  vertical-align: top;
+}
+.mq-tabla tr[data-deshabilitada="si"] td { color: var(--color-text-tertiary); }
+.mq-tabla .mq-celda-acciones { text-align: right; white-space: nowrap; }
+.mq-fila-motivo td {
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+}
+
+/* ── 12. Tarjetas — Web-Generico §3.2, §4.2 ─────────────────────────────── */
+
+.mq-grilla-tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--grid-card-min), 1fr));
+  gap: var(--card-gap);
+}
+.mq-tarjeta {
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  display: flex; flex-direction: column; gap: var(--space-8);
+}
+.mq-tarjeta h3 {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+}
+.mq-tarjeta-icono {
+  width: 34px; height: 34px;
+  border-radius: var(--radius-icon);
+  background: var(--color-brand-primary-tint);
+  color: var(--color-brand-primary);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.mq-tarjeta-datos {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  display: grid; gap: 2px;
+}
+
+/* ── 13. Estados vacío, cargando y error — Web-Generico §5 ──────────────── */
+
+.mq-vacio {
+  text-align: center;
+  padding: var(--space-28) var(--space-16);
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+}
+.mq-vacio h3 {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+.mq-vacio .mq-ilustracion { color: var(--color-border-secondary); margin-bottom: var(--space-12); }
+
+.mq-esqueleto {
+  background: var(--color-background-secondary);
+  border-radius: var(--radius-md);
+  height: 14px;
+  margin-bottom: var(--space-8);
+  animation: mq-pulso 1.4s var(--motion-easing) infinite;
+}
+.mq-esqueleto--tarjeta { height: 96px; border-radius: var(--radius-lg); }
+.mq-esqueleto--bloque { height: 64px; border-radius: var(--radius-lg); }
+@keyframes mq-pulso { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+.mq-progreso-lineal {
+  height: 3px; border-radius: var(--radius-pill);
+  background: var(--color-background-secondary);
+  overflow: hidden; margin-bottom: var(--space-12);
+}
+.mq-progreso-lineal > span {
+  display: block; height: 100%; width: 40%;
+  background: var(--color-brand-primary);
+  animation: mq-indeterminado 1.6s var(--motion-easing) infinite;
+}
+@keyframes mq-indeterminado { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }
+
+.mq-spinner {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid var(--color-border-secondary);
+  border-top-color: var(--color-brand-primary);
+  border-radius: 50%;
+  animation: mq-giro 0.8s linear infinite;
+}
+.mq-btn--primario .mq-spinner { border-color: var(--color-brand-primary-tint); border-top-color: var(--color-background-primary); }
+@keyframes mq-giro { to { transform: rotate(360deg); } }
+
+/* ── 14. Barras de magnitud — Web-Generico §4.3, Tablero ────────────────── */
+
+.mq-magnitud { display: flex; align-items: center; gap: var(--space-8); }
+.mq-barra-magnitud {
+  flex: 1 1 90px; min-width: 60px; height: 8px;
+  background: var(--color-background-secondary);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.mq-barra-magnitud > span {
+  display: block; height: 100%;
+  background: var(--color-brand-primary);
+}
+.mq-magnitud .mq-cifra {
+  font-size: var(--type-caption-size);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* ── 15. Lienzo y nodo de servicio — Representacion-Nodo-De-Servicio ────── */
+
+.mq-lienzo-marco {
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+}
+.mq-lienzo {
+  position: relative;
+  overflow: auto;               /* excepción 1.4.10 acotada al lienzo */
+  min-height: 400px;
+}
+.mq-lienzo-svg { position: absolute; inset: 0; pointer-events: none; }
+.mq-lienzo-nodos { position: relative; min-width: 680px; min-height: 400px; }
+
+.mq-nodo {
+  position: absolute;
+  width: 260px;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-12);
+  display: grid; gap: var(--space-4);
+  font-size: var(--type-caption-size);
+  text-align: left;
+  cursor: pointer;
+}
+.mq-nodo-cabecera { display: flex; align-items: center; gap: var(--space-8); }
+.mq-nodo-nombre {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+  margin-right: auto;
+}
+.mq-nodo-sub, .mq-nodo-red, .mq-nodo-pie { color: var(--color-text-secondary); }
+.mq-nodo[data-estado="activo"] { border-color: var(--color-text-success); }
+.mq-nodo[data-estado="degradado"] { border-color: var(--color-text-warning); }
+.mq-nodo[data-estado="creando"] { border-style: dashed; border-color: var(--color-text-info); }
+.mq-nodo[data-estado="detenido"] { border-color: var(--color-border-secondary); }
+.mq-nodo[data-estado="fallido"] { border-color: var(--color-text-error); }
+.mq-nodo[data-estado="pendiente"] { border-style: dashed; border-color: var(--color-border-pendiente); }
+.mq-nodo[data-estado="huerfano"] {
+  border-color: var(--color-text-error);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-background-primary),
+    var(--color-background-primary) 6px,
+    var(--color-background-secondary) 6px,
+    var(--color-background-secondary) 12px);
+}
+.mq-puerto {
+  position: absolute; top: 50%;
+  width: var(--touch-target-min); height: var(--touch-target-min);
+  transform: translateY(-50%);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: 0; padding: 0;
+  color: var(--color-text-secondary); cursor: crosshair;
+}
+.mq-puerto--entrada { left: calc(var(--touch-target-min) * -1); }
+.mq-puerto--salida { right: calc(var(--touch-target-min) * -1); }
+.mq-puerto span {
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 1px solid currentColor;
+  background: var(--color-background-primary);
+  display: block;
+}
+
+/* Aristas: propuesta B-UX-01 (ver §5.1 del wireframe del lienzo) */
+.mq-arista { fill: none; stroke-width: 1.5; }
+.mq-arista--espera { stroke: var(--color-text-secondary); stroke-dasharray: none; }
+.mq-arista--sin-espera { stroke: var(--color-text-secondary); }
+.mq-arista--invalida { stroke: var(--color-text-danger); stroke-dasharray: 2 3; stroke-width: 2; }
+.mq-arista-rotulo {
+  font-size: 10px;
+  fill: var(--color-text-secondary);
+  font-family: var(--font-sans);
+}
+.mq-arista-rotulo--invalida { fill: var(--color-text-danger); }
+
+.mq-leyenda-aristas {
+  display: flex; flex-wrap: wrap; gap: var(--space-16);
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
+  border-top: var(--border-hairline);
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+}
+.mq-leyenda-aristas > div { display: flex; align-items: center; gap: var(--space-4); }
+
+/* Banner de cambios pendientes — E-18 */
+.mq-banner-pendientes {
+  display: flex; align-items: center; gap: var(--space-12);
+  background: var(--color-background-pendiente);
+  color: var(--color-text-pendiente);
+  border: 1px solid var(--color-border-pendiente);
+  border-radius: var(--radius-md);
+  padding: var(--space-8) var(--space-12);
+  margin-bottom: var(--space-12);
+  font-size: var(--type-caption-size);
+}
+.mq-banner-pendientes .mq-contador { font-weight: var(--type-body-strong-weight); }
+.mq-banner-pendientes .mq-acciones { margin-left: auto; }
+
+/* ── 16. Panel contextual / cajón lateral ───────────────────────────────── */
+
+.mq-lienzo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: var(--space-16);
+  align-items: start;
+}
+.mq-panel {
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+}
+.mq-panel-cabecera {
+  display: flex; align-items: flex-start; gap: var(--space-8);
+  padding-bottom: var(--space-12);
+  border-bottom: var(--border-hairline);
+  margin-bottom: var(--space-12);
+}
+.mq-panel-cabecera h2 {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+  margin-right: auto;
+}
+.mq-pestanas {
+  display: flex; flex-wrap: wrap; gap: var(--space-4);
+  border-bottom: var(--border-hairline);
+  margin-bottom: var(--space-12);
+}
+.mq-pestana {
+  background: none; border: 0;
+  border-bottom: 2px solid transparent;
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.mq-pestana[aria-selected="true"] {
+  color: var(--color-brand-primary);
+  border-bottom-color: var(--color-brand-primary);
+}
+.mq-filas-clave-valor { display: grid; gap: var(--space-8); }
+.mq-fila-cv {
+  display: grid; grid-template-columns: 130px minmax(0, 1fr);
+  gap: var(--space-8); font-size: var(--type-caption-size);
+}
+.mq-fila-cv > dt { color: var(--color-text-secondary); font-weight: var(--type-body-weight); }
+.mq-fila-cv > dd { margin: 0; }
+
+.mq-cajon {
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  max-width: 560px;
+}
+.mq-fila-cambio {
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-12);
+  margin-bottom: var(--space-8);
+  font-size: var(--type-caption-size);
+}
+.mq-fila-cambio .mq-clase {
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  color: var(--color-text-secondary);
+}
+.mq-fila-cambio .mq-resumen {
+  display: block;
+  color: var(--color-text-primary);
+  margin: var(--space-4) 0;
+  overflow-wrap: anywhere;
+}
+
+/* ── 17. Superficies superpuestas (modal con flujo propio) ──────────────── */
+
+.mq-superpuesta {
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--space-18);
+  max-width: 620px;
+  /* Sin drop-shadow: Design-Rules-Web-Generico.md §2 fija que la elevacion se
+     comunica con borde y superficie, no con sombras. El borde hairline y el
+     fondo propio de esta regla ya la comunican. */
+}
+.mq-superpuesta > header {
+  display: flex; align-items: flex-start; gap: var(--space-8);
+  margin-bottom: var(--space-14);
+}
+.mq-superpuesta > header h2 {
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  margin-right: auto;
+}
+.mq-bloque-conflicto {
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-12);
+  margin-bottom: var(--space-12);
+}
+.mq-opciones { display: grid; gap: var(--space-8); margin-top: var(--space-8); }
+.mq-opcion {
+  display: flex; gap: var(--space-8); align-items: flex-start;
+  border: var(--border-control);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  font-size: var(--type-caption-size);
+}
+.mq-opcion input { margin-top: 2px; width: 16px; height: 16px; }
+
+/* ── 18. Registro del contenedor ────────────────────────────────────────── */
+
+.mq-registro {
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-12);
+  max-height: 320px;
+  overflow: auto;                /* desplaza en su propio contenedor */
+  white-space: pre;
+  margin: 0;
+}
+
+/* ── 19. Sello de versión — Design-Rules-Identidad-De-Version §4.1 ──────── */
+
+.mq-sello {
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  color: var(--color-text-secondary);   /* contraste AA pese a jerarquía baja */
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8);
+}
+.mq-sello--centrado { justify-content: center; }
+.mq-distintivo-preliminar {
+  border-radius: var(--radius-pill);
+  padding: 0 var(--space-8);
+  background: var(--color-background-warning);
+  color: var(--color-text-warning);
+  font-size: var(--type-meta-size);
+}
+.mq-diagnostico {
+  margin-top: var(--space-12);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-12);
+  background: var(--color-background-tertiary);
+}
+
+/* Pie de sello de versión de la maqueta */
+.mq-pie-maqueta {
+  border-top: var(--border-hairline);
+  background: var(--color-background-primary);
+  padding: var(--space-12) var(--space-16);
+  font-size: var(--type-meta-size);
+  color: var(--color-text-secondary);
+  display: flex; flex-wrap: wrap; gap: var(--space-16);
+}
+
+/* ── 20. Utilidades de composición ──────────────────────────────────────── */
+
+.mq-pila { display: grid; gap: var(--space-12); }
+.mq-pila-8 { display: grid; gap: var(--space-8); }
+.mq-fila { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); }
+.mq-empuje { margin-left: auto; }
+.mq-lista-limpia { list-style: none; margin: 0; padding: 0; }
+.mq-lista-puntos { margin: var(--space-4) 0 0; padding-left: var(--space-18); }
+.mq-separador { border: 0; border-top: var(--border-hairline); margin: var(--space-16) 0; }
+.mq-nota-propuesta {
+  border: 1px dashed var(--color-accent-module-d);
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  border-radius: var(--radius-md);
+  padding: var(--space-12);
+  font-size: var(--type-caption-size);
+  margin-bottom: var(--space-12);
+}
+
+/* ── 21. Responsive — Web-Generico §8 (quiebre principal ~768px) ────────── */
+
+@media (max-width: 768px) {
+  .mq-shell-trabajo { flex-direction: column; }
+  .mq-sidebar {
+    flex: 0 0 auto; width: auto;
+    flex-direction: row; flex-wrap: wrap;
+    padding: var(--space-8);
+  }
+  .mq-sidebar .mq-identidad-producto { padding: 0 var(--space-8) 0 0; }
+  .mq-nav-sep { display: none; }
+  .mq-lienzo-layout { grid-template-columns: minmax(0, 1fr); }
+  .mq-fila-cv { grid-template-columns: minmax(0, 1fr); }
+  .mq-main { padding: var(--space-12); }
+}
+
+/* ── 22. Preferencia de movimiento reducido — Web-Generico §7 y §8 ──────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
