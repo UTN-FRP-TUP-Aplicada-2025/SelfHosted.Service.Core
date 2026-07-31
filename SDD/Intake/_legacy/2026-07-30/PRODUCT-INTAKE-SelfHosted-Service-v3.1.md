@@ -1,50 +1,54 @@
-# SOLUTION-INTAKE-SelfHosted-Service
+> **Archivado.** Estado: **Superado**. Este documento es la copia completa y autocontenida de la versión **3.1** de `PRODUCT-INTAKE-SelfHosted-Service.md`, archivada el 2026-07-30 antes de emitir la versión 3.2. La versión vigente es [`PRODUCT-INTAKE-SelfHosted-Service.md`](../../PRODUCT-INTAKE-SelfHosted-Service.md). El cuerpo que sigue no se modificó.
 
-**Plantilla aplicada:** `SOLUTION-INTAKE-template.md` v1.4 del Framework SDD, conjunto normativo 4.0. La versión 1.2 de este documento se emitió contra la plantilla 1.3; la sección «Migración al Framework SDD 4.0» declara qué cambió y por qué.
+---
+
+# PRODUCT-INTAKE-SelfHosted-Service
+
+**Plantilla aplicada:** `PRODUCT-INTAKE-template.md` v2.1 del Framework SDD, conjunto normativo 6.0. Este documento se migró desde la plantilla `SOLUTION-INTAKE-template.md` v1.4 (conjunto 4.1) en la fase M2 del orquestador de migración normativa; el plan es [`Plan-Migracion-4.1-a-6.0.md`](../Docs/Audit/Plan-Migracion-4.1-a-6.0.md) y la sección «Migración al Framework SDD 4.0» conserva el registro del salto anterior.
 
 | Campo | Valor |
 |---|---|
-| Nombre de producto | SelfHosted Service |
-| `Nombre-Solucion` (identidad documental) | `SelfHosted-Service` |
-| `NombreSolucionCodigo` (identidad de código) | `SelfHosted.Service.Core` |
-| Artefacto de agrupación de la construcción | `SelfHosted.Service.Core.sln` |
-| Product Owner | **Derivado, pendiente de confirmación.** El agente humano del proyecto, que es la misma persona que el propietario del servidor autoalojado de referencia y que el lead técnico. Ver la nota de abajo |
+| `Nombre-Producto` | SelfHosted Service |
+| `Slug-Producto` | `SelfHosted-Service` (derivado de `Nombre-Producto`, no se completa a mano) |
+| `Raiz-Codigo` | `SelfHosted.Service.Core` (se declara, no se deriva) |
+| `Artefacto-Agrupacion` | `SelfHosted.Service.Core.sln` |
+| Product Owner | **Confirmado el 2026-07-30.** El agente humano del proyecto, que es la misma persona que el propietario del servidor autoalojado de referencia y que el lead técnico. Ver la nota de abajo |
 | Cliente / Stakeholder principal | Propietario del servidor autoalojado de referencia, que opera el parque de contenedores y aprueba cada punto de control (rol; el nombre propio no está declarado en las fuentes) |
 | Repositorio | Repositorio destino local `DEV/SelfHosted.Service.Core`, con remoto `origin` en `https://github.com/UTN-FRP-TUP-Aplicada-2025/SelfHosted.Service.Core.git`. El flujo de trabajo es una rama y un pull request por etapa sobre ese remoto. Evidencia: `git remote get-url origin` en la raíz del repositorio destino, verificado el 2026-07-27 |
 | Lead técnico | Agente humano del proyecto: valida cada punto de control, ejecuta los guiones de demostración y realiza la fusión de cada rama de etapa |
-| Documento | `SOLUTION-INTAKE-SelfHosted-Service.md` |
-| Versión | 2.3 |
-| Fecha | 2026-07-29 |
+| Documento | `PRODUCT-INTAKE-SelfHosted-Service.md` |
+| Versión | 3.1 |
+| Fecha | 2026-07-30 |
 | Stack principal | .NET 10 con Blazor Interactive Server, MudBlazor 9.7.0, Entity Framework Core sobre SQLite |
 | Estado | Aprobado |
 
 **Nota sobre el Product Owner, incorporada en la versión 2.3.** El conjunto normativo 4.1 del Framework SDD declara al **Product Owner** como rol humano **fuera de la cadena de subagentes AG-XX**, dueño de la priorización MoSCoW y de las exclusiones, que declara en §4 y §9 de este documento aguas arriba de toda generación. El framework distingue explícitamente ese rol de la categoría de stakeholder «propietario»: quien financia también es propietario y no por eso es el Product Owner.
 
-En esta solución **las tres figuras coinciden en una sola persona**, que §2 declara en tres roles: dueño del problema y administrador único, agente humano del proyecto en su rol de validación técnica, y único usuario final con credenciales. El campo se completa por derivación de §2 y **queda marcado como pendiente de confirmación** en lugar de darse por cerrado, porque quién es el Product Owner determina quién decide las exclusiones que la categoría `00-Contexto` eleva, y ésa es una declaración que el intake no traía. Es responsabilidad del Product Owner el contenido de este documento y su aprobación; que su redacción esté asistida por un agente no delega la autoría.
+En este producto **las tres figuras coinciden en una sola persona**, que §2 declara en tres roles: dueño del problema y administrador único, agente humano del proyecto en su rol de validación técnica, y único usuario final con credenciales. El campo se completó por derivación de §2 y quedó marcado como pendiente de confirmación desde la versión 2.3, porque quién es el Product Owner determina quién decide las exclusiones que la categoría `00-Contexto` eleva, y ésa es una declaración que el intake no traía. **El agente humano del proyecto lo confirmó el 2026-07-30**, resolviendo la entrada `[R-1]` de la batería de la fase M2 de la migración normativa; la derivación deja de ser pendiente y pasa a ser dato cerrado. Es responsabilidad del Product Owner el contenido de este documento y su aprobación; que su redacción esté asistida por un agente no delega la autoría.
 
-> Este documento captura qué quiere el cliente, cómo se compone la solución y cómo se construye su proyecto de código.
-> El orquestador deriva de §13 el `SOLUTION-MANIFEST` canónico; no se completa el manifiesto a mano.
+> Este documento captura qué quiere el cliente, cómo se compone el producto y cómo se construye su proyecto de código.
+> El orquestador deriva de §13 el `PRODUCT-MANIFEST` canónico; no se completa el manifiesto a mano.
 
-## Identidad de la solución
+## Identidad del producto
 
-**Incorporada en la versión 2.1, 2026-07-29.** Hasta la versión 2.0 este documento tenía un solo campo de nombre, «Nombre de la solución», con el valor `SelfHosted.Service.Core`, que es un nombre de artefacto de código ocupando un campo de negocio. El agente humano del proyecto lo observó durante la fase de validación de intake y decidió separar las identidades. La cabecera declara ahora cuatro, cada una con su consumidor:
+**Incorporada en la versión 2.1, 2026-07-29.** Hasta la versión 2.0 este documento tenía un solo campo de nombre, «Nombre del producto», con el valor `SelfHosted.Service.Core`, que es un nombre de artefacto de código ocupando un campo de negocio. El agente humano del proyecto lo observó durante la fase de validación de intake y decidió separar las identidades. La cabecera declara ahora cuatro, cada una con su consumidor:
 
 | # | Identidad | Valor | Quién la consume | Origen |
 |---|---|---|---|---|
 | 1 | **Nombre de producto** | `SelfHosted Service` | 00-Contexto, 01-Necesidades-Negocio, README raíz, comunicación con el cliente | Decisión del agente humano del proyecto, 2026-07-29 **[D]** |
-| 2 | **`Nombre-Solucion`**, identidad documental | `SelfHosted-Service` | `SOLUTION-INTAKE-<slug>.md`, `SOLUTION-MANIFEST-<slug>.md` y las rutas de `SDD/` | **Derivado** del nombre de producto por `Master-Prompt.md` §3.2, pasos 1 a 7 |
-| 3 | **`NombreSolucionCodigo`**, identidad de código | `SelfHosted.Service.Core` | El archivo de solución, la raíz de los espacios de nombres y el prefijo de todo proyecto de código | **Declarado** en el perfil de convención de §13 **[D]** |
-| 4 | **Artefacto de agrupación** | `SelfHosted.Service.Core.sln` | `dotnet build`, la apertura del repositorio y los scripts | Derivado de 3 como `<NombreSolucionCodigo>.sln` **[D]** |
+| 2 | **`Slug-Producto`**, identidad documental | `SelfHosted-Service` | `PRODUCT-INTAKE-<slug>.md`, `PRODUCT-MANIFEST-<slug>.md` y las rutas de `SDD/` | **Derivado** del nombre de producto por `Master-Prompt.md` §3.2, pasos 1 a 7 |
+| 3 | **`Raiz-Codigo`**, identidad de código | `SelfHosted.Service.Core` | El archivo de solución de código, la raíz de los espacios de nombres y el prefijo de todo proyecto de código | **Declarado** en el perfil de convención de §13 **[D]** |
+| 4 | **Artefacto de agrupación** | `SelfHosted.Service.Core.sln` | `dotnet build`, la apertura del repositorio y los scripts | Derivado de 3 como `<Raiz-Codigo>.sln` **[D]** |
 
 **La propiedad que hay que sostener es que 1 y 3 son independientes.** El nombre de producto es una decisión de negocio; la identidad de código es una decisión técnica, acá preexistente por la estructura de `/src` del análisis integrado. Sólo 2 se deriva, y se deriva de 1.
 
-**Por qué esta solución hacía tan fácil confundirlas.** Acá el producto es monolítico *y* la solución de código es monolítica: un producto, un despliegue, una solución .NET, un contenedor, un proceso. Con las cardinalidades en 1:1:1, usar el mismo nombre para las tres cosas no rompe nada visible. En una solución de varios despliegues la confusión salta el primer día.
+**Por qué este producto hacía tan fácil confundirlas.** Acá el producto es monolítico *y* la solución de código es monolítica: un producto, un despliegue, una solución de código .NET, un contenedor, un proceso. Con las cardinalidades en 1:1:1, usar el mismo nombre para las tres cosas no rompe nada visible. En un producto de varios despliegues la confusión salta el primer día.
 
-**Consecuencia para la generación, y es la que un artefacto downstream debe respetar.** Las categorías de nivel solución —00-Contexto y 01-Necesidades-Negocio— hablan del **producto** y lo nombran `SelfHosted Service`. Un documento de visión que diga «`SelfHosted.Service.Core` resuelve el problema del propietario» está nombrando un archivo `.sln` en un documento de negocio. Las categorías por proyecto de código —02 a 11— hablan de **unidades de compilación** y usan los nombres de código. Es la misma frontera que §12 traza entre «proyecto SelfHosted» y «proyecto de código», aplicada un nivel más arriba.
+**Consecuencia para la generación, y es la que un artefacto downstream debe respetar.** Las categorías de nivel producto —00-Contexto y 01-Necesidades-Negocio— hablan del **producto** y lo nombran `SelfHosted Service`. Un documento de visión que diga «`SelfHosted.Service.Core` resuelve el problema del propietario» está nombrando un archivo `.sln` en un documento de negocio. Las categorías por proyecto de código —02 a 11— hablan de **unidades de compilación** y usan los nombres de código. Es la misma frontera que §12 traza entre «proyecto SelfHosted» y «proyecto de código», aplicada un nivel más arriba.
 
 **Sobre el renombrado de los dos artefactos de `SDD/Intake/`.** La identidad documental pasó de `SelfHosted-Service-Core` a `SelfHosted-Service` porque el slug **se deriva** del nombre de producto y el framework no admite declararlo estable. Los dos archivos cambiaron de nombre en consecuencia. Las copias archivadas en `_legacy/` conservan el nombre viejo y no se tocan: lo que archivan es el estado en que ese nombre era el vigente.
 
-**Sobre la composición: un único proyecto de código, decidido el 2026-07-29 [D].** La versión 2.1 declaraba cuatro proyectos de código, uno por capa. El agente humano del proyecto observó que el producto es **un solo despliegue** —un contenedor, un proceso, un ejecutable— y que ninguna de las cuatro unidades se publica ni se consume por separado, de modo que la frontera de compilación no aportaba ninguna capacidad de distribución y en cambio arrastraba a la documentación un modelo de cuatro componentes publicables inexistente. Desde la versión 2.2 la solución tiene **un proyecto de código**, `SelfHosted.Service.Core`, de tipo `web-monolith`, y las cuatro capas son **espacios de nombres internos**.
+**Sobre la composición: un único proyecto de código, decidido el 2026-07-29 [D].** La versión 2.1 declaraba cuatro proyectos de código, uno por capa. El agente humano del proyecto observó que el producto es **un solo despliegue** —un contenedor, un proceso, un ejecutable— y que ninguna de las cuatro unidades se publica ni se consume por separado, de modo que la frontera de compilación no aportaba ninguna capacidad de distribución y en cambio arrastraba a la documentación un modelo de cuatro componentes publicables inexistente. Desde la versión 2.2 el producto tiene **un proyecto de código**, `SelfHosted.Service.Core`, de tipo `web-monolith`, y las cuatro capas son **espacios de nombres internos**.
 
 | | Versión 2.1 | Versión 2.2 |
 |---|---|---|
@@ -75,13 +79,13 @@ Esta versión 2.0 no incorpora ninguna decisión de producto nueva. Es la **migr
 
 **Marcador nuevo: `[FA]`.** Señala material **derivado durante la Fase A previa**, bajo el conjunto normativo anterior, y transcripto en la Parte E de este documento. No es dato del cliente ni decisión del agente humano: es producto de los subagentes AG-00 y AG-01, revisado en su momento por el auditor independiente y por el agente humano del proyecto en los puntos que la Parte E declara. Se distingue de los otros tres marcadores así: un `[S]` es un valor que faltaba en las fuentes; un `[D-i]` es una especificación que el integrador derivó de una decisión del agente humano; un `[FA]` es una **derivación de categoría documental**, del nivel de 00-Contexto o 01-Necesidades-Negocio, que se conserva como insumo de la regeneración. Un artefacto downstream puede consumirlo, y debe tratarlo como propuesta previa —no como requisito cerrado del cliente— salvo donde la propia Parte E declare que el agente humano se pronunció.
 
-**Qué pasa al reejecutar el orquestador.** `SDD/Docs/` conserva el árbol generado bajo el conjunto anterior, y se deja deliberadamente en su lugar: el orquestador lo detecta en su fase de reconciliación normativa (`Master-Prompt.md` §2.1) y, como el manifiesto de esta solución **no declara bloque de procedencia** —fue derivado antes de que la procedencia existiera—, el caso que corresponde es «sin procedencia», donde el orquestador ofrece únicamente regenerar o abortar. La salida coherente con esta migración es **regenerar**: archiva `SDD/Docs/` completo en `SDD/Docs/_legacy/<fecha>/` y vuelve a generar bajo el conjunto vigente, tomando de la Parte E lo que la Fase A anterior había producido. Ninguna decisión de esa fase se pierde, porque está transcripta acá.
+**Qué pasa al reejecutar el orquestador.** `SDD/Docs/` conserva el árbol generado bajo el conjunto anterior, y se deja deliberadamente en su lugar: el orquestador lo detecta en su fase de reconciliación normativa (`Master-Prompt.md` §2.1) y, como el manifiesto de este producto **no declara bloque de procedencia** —fue derivado antes de que la procedencia existiera—, el caso que corresponde es «sin procedencia», donde el orquestador ofrece únicamente regenerar o abortar. La salida coherente con esta migración es **regenerar**: archiva `SDD/Docs/` completo en `SDD/Docs/_legacy/<fecha>/` y vuelve a generar bajo el conjunto vigente, tomando de la Parte E lo que la Fase A anterior había producido. Ninguna decisión de esa fase se pierde, porque está transcripta acá.
 
 **Lo que la migración deliberadamente no hizo.** No se modificó ninguna regla de negocio, ningún caso límite, ninguna capacidad, ningún umbral, ningún anexo de datos y ninguna decisión. No se tocó `SDD/Docs/`, que es materia de la reconciliación del orquestador y no de este documento. No se completó el bloque de procedencia del manifiesto: declararlo a mano afirmaría que el árbol existente se generó bajo el conjunto 4.0, que es falso, y D9 exige evidencia. No se reubicó §19, que sigue después de §21 por la misma razón registrada en su tabla de observaciones no aplicadas: de los títulos de la Parte D se derivan las veintidós anclas en uso, y §19 se cita por ancla desde artefactos que ya lo están leyendo.
 
 ## Tabla de contenido
 
-- [Identidad de la solución](#identidad-de-la-solución)
+- [Identidad del producto](#identidad-del-producto)
 - [Migración al Framework SDD 4.0](#migración-al-framework-sdd-40)
 - [Procedencia de este intake y convención de marcadores](#procedencia-de-este-intake-y-convención-de-marcadores)
 - [Decisiones del agente humano incorporadas en la versión 1.2](#decisiones-del-agente-humano-incorporadas-en-la-versión-12)
@@ -90,8 +94,9 @@ Esta versión 2.0 no incorpora ninguna decisión de producto nueva. Es la **migr
   - [Quinta pasada: identidad de objeto e higiene del modelo](#quinta-pasada-identidad-de-objeto-e-higiene-del-modelo)
   - [Qué decidió el agente humano y qué derivó el integrador](#qué-decidió-el-agente-humano-y-qué-derivó-el-integrador)
   - [Cuarta pasada: desambiguación del término «proyecto»](#cuarta-pasada-desambiguación-del-término-proyecto)
+- [Decisiones incorporadas en la versión 2.4: la redefinición del alta de servicio](#decisiones-incorporadas-en-la-versión-24-la-redefinición-del-alta-de-servicio)
 - [Supuestos registrados por este intake y su estado](#supuestos-registrados-por-este-intake-y-su-estado)
-- [Parte A — Negocio de la solución](#parte-a--negocio-de-la-solución)
+- [Parte A — Negocio del producto](#parte-a--negocio-del-producto)
   - [§1 Idea y problema](#1-idea-y-problema)
   - [§2 Audiencia y stakeholders](#2-audiencia-y-stakeholders)
   - [§3 Propuesta de valor y diferenciación](#3-propuesta-de-valor-y-diferenciación)
@@ -100,19 +105,19 @@ Esta versión 2.0 no incorpora ninguna decisión de producto nueva. Es la **migr
   - [§6 Flujos típicos](#6-flujos-típicos)
   - [§7 Casos límite y "qué pasa si"](#7-casos-límite-y-qué-pasa-si)
   - [§8 Métricas de éxito desde el negocio](#8-métricas-de-éxito-desde-el-negocio)
-  - [§9 Lo que NO es esta solución (exclusiones)](#9-lo-que-no-es-esta-solución-exclusiones)
+  - [§9 Lo que NO es este producto (exclusiones)](#9-lo-que-no-es-este-producto-exclusiones)
   - [§10 Restricciones del cliente](#10-restricciones-del-cliente)
   - [§11 Riesgos detectados desde el negocio](#11-riesgos-detectados-desde-el-negocio)
   - [§12 Glosario del dominio del cliente](#12-glosario-del-dominio-del-cliente)
-- [Parte B — Composición de la solución](#parte-b--composición-de-la-solución)
-  - [§13 Proyecto de código de la solución](#13-proyecto-de-código-de-la-solución)
-  - [§14 Estilo arquitectónico de la solución](#14-estilo-arquitectónico-de-la-solución)
+- [Parte B — Composición del producto](#parte-b--composición-del-producto)
+  - [§13 Proyectos de código del producto](#13-proyectos-de-código-del-producto)
+  - [§14 Estilo arquitectónico del producto](#14-estilo-arquitectónico-del-producto)
   - [§15 Esquema de descomposición y delivery](#15-esquema-de-descomposición-y-delivery)
     - [§15.1 Informe de cierre de etapa](#151-informe-de-cierre-de-etapa)
-  - [§16 Estructura de repositorio de la solución](#16-estructura-de-repositorio-de-la-solución)
+  - [§16 Estructura de repositorio del producto](#16-estructura-de-repositorio-del-producto)
     - [§16.1 Materialización de `/samples`](#161-materialización-de-samples)
-- [Parte C — Técnica del proyecto de código](#parte-c--técnica-del-proyecto-de-código)
-  - [§17 Bloque técnico del proyecto de código](#17-bloque-técnico-del-proyecto-de-código)
+- [Parte C — Técnica por proyecto de código](#parte-c--técnica-por-proyecto-de-código)
+  - [§17 Bloque técnico por proyecto de código](#17-bloque-técnico-por-proyecto-de-código)
     - [§17.P.1 Stack tecnológico](#17p1-stack-tecnológico)
     - [§17.P.2 Estilo arquitectónico del proyecto de código](#17p2-estilo-arquitectónico-del-proyecto-de-código)
     - [§17.P.3 Comunicación e integración](#17p3-comunicación-e-integración)
@@ -148,9 +153,10 @@ Esta versión 2.0 no incorpora ninguna decisión de producto nueva. Es la **migr
     - [§20.18 · E-18 · Maquetado de la interfaz web](#2018--e-18--maquetado-de-la-interfaz-web)
     - [§20.19 · E-19 · Parque de contenedores de referencia](#2019--e-19--parque-de-contenedores-de-referencia)
     - [§20.20 · E-20 · Configuraciones reales de contenedor, ofuscadas](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas)
-    - [§20.21 · E-21 · Correspondencia entre una configuración real y el modelo de la solución](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución)
+    - [§20.21 · E-21 · Correspondencia entre una configuración real y el modelo del producto](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto)
     - [§20.22 · E-22 · Casos de prueba derivados de las configuraciones reales](#2022--e-22--casos-de-prueba-derivados-de-las-configuraciones-reales)
-  - [§21 Anexo B — Cobertura de los ejemplos sobre el modelo y las reglas](#21-anexo-b--cobertura-de-los-ejemplos-sobre-el-modelo-y-las-reglas)
+    - [§20.23 · E-23 · La imagen como objeto con identidad, y el ciclo de vida que le falta](#2023--e-23--la-imagen-como-objeto-con-identidad-y-el-ciclo-de-vida-que-le-falta)
+  - [§21 Anexo B — Cobertura de campos y trazabilidad de los ejemplos](#21-anexo-b--cobertura-de-campos-y-trazabilidad-de-los-ejemplos)
 - [Parte E — Continuidad de la Fase A generada bajo el conjunto normativo anterior](#parte-e--continuidad-de-la-fase-a-generada-bajo-el-conjunto-normativo-anterior)
   - [§22 Consolidado de 00-Contexto](#22-consolidado-de-00-contexto)
     - [§22.1 Objetivos SMART y métricas de éxito](#221-objetivos-smart-y-métricas-de-éxito)
@@ -180,12 +186,12 @@ Este intake se construyó integrando cuatro documentos de entrada. Los tres prim
 
 | Fuente | Rol en este intake | Precedencia |
 |---|---|---|
-| `Analisis-Final-Integrado.md` | Definición completa de la solución: dominio, modelos de datos, decisiones técnicas evaluadas, maquetado, reglas de negocio, riesgos y glosario | Base |
+| `Analisis-Final-Integrado.md` | Definición completa del producto: dominio, modelos de datos, decisiones técnicas evaluadas, maquetado, reglas de negocio, riesgos y glosario | Base |
 | `Requerimientos-Funcionales.md` | Decisiones funcionales y de planeamiento por etapas, con sus hitos, guiones de demostración y puntos de control | Prevalece sobre la base en materia funcional y de entrega |
 | `Requerimientos-Tecnicos.md` | Decisiones técnicas cerradas: versiones ancladas, entorno de desarrollo, autenticación, persistencia, pruebas, despliegue, puertas técnicas y flujo de trabajo | Prevalece sobre la base en materia técnica |
-| `Analisis-Rayway.md` (fecha 2026-07-26, estado `draft`) | Relevamiento del modelo de abstracción de la plataforma comercial equivalente que §11 declara como antecedente funcional: definición formal de sus entidades (§3.2), mecanismo de referencias entre variables y semántica de las aristas del lienzo (§3.5), invariantes del modelo (§3.6) y traducción de ese modelo a un entorno Docker autoalojado (§7). **No es fuente normativa de la solución:** es evidencia de cómo resuelve el problema el producto de referencia, y sólo entra al intake por las decisiones D-5, D-6 y D-7, que la citan explícitamente | Aporta evidencia; no prevalece sobre las tres anteriores |
+| `Analisis-Rayway.md` (fecha 2026-07-26, estado `draft`) | Relevamiento del modelo de abstracción de la plataforma comercial equivalente que §11 declara como antecedente funcional: definición formal de sus entidades (§3.2), mecanismo de referencias entre variables y semántica de las aristas del lienzo (§3.5), invariantes del modelo (§3.6) y traducción de ese modelo a un entorno Docker autoalojado (§7). **No es fuente normativa del producto:** es evidencia de cómo resuelve el problema el producto de referencia, y sólo entra al intake por las decisiones D-5, D-6 y D-7, que la citan explícitamente | Aporta evidencia; no prevalece sobre las tres anteriores |
 
-**Regla de autocontención sobre esta cuarta fuente.** Todo lo que este intake toma de `Analisis-Rayway.md` está **transcripto** en el cuerpo o en los anexos, con la sección de origen citada; ningún dato del intake se respalda únicamente en ese archivo, igual que con las tres fuentes anteriores. Lo transcripto de ese documento se marca **[E]** respecto de él, aclarando que la evidencia es sobre el producto de referencia y no sobre esta solución.
+**Regla de autocontención sobre esta cuarta fuente.** Todo lo que este intake toma de `Analisis-Rayway.md` está **transcripto** en el cuerpo o en los anexos, con la sección de origen citada; ningún dato del intake se respalda únicamente en ese archivo, igual que con las tres fuentes anteriores. Lo transcripto de ese documento se marca **[E]** respecto de él, aclarando que la evidencia es sobre el producto de referencia y no sobre este producto.
 
 Se conserva la convención de marcadores de la fuente base, porque es la que permite distinguir hecho de propuesta sin ambigüedad:
 
@@ -372,9 +378,33 @@ Es una sola relación, y su predicado de barrido es **qué designa el término d
 
 Es el mismo criterio con el que la segunda pasada conservó el título del anexo E-4 pese a contener un término retirado, y con el que se conserva la ubicación de §19: **no se rompe un ancla en uso por una mejora de redacción**. Las dos decisiones están registradas en la tabla de observaciones no aplicadas de §19, y ésta se declara acá para que la asimetría no se lea como inconsistencia.
 
-**Nada técnico cambió, y es deliberado.** Conservan su forma la tabla `proyectos`, la columna `proyecto_id`, la clave JSON `proyectoId`, los endpoints `/api/v1/proyectos…`, el ámbito `proyectos:leer`, las carpetas `Proyectos/` de §16, los campos `Nombre-Proyecto` y `nombre-proyecto-codigo`, y los cuatro nombres de proyecto de código. El motivo: **dentro del producto el segundo sentido no existe**, de modo que no hay nada que desambiguar en la API ni en el esquema, y alargar esos identificadores costaría ergonomía sin resolver ninguna confusión.
+**Nada técnico cambió, y es deliberado.** Conservan su forma la tabla `proyectos`, la columna `proyecto_id`, la clave JSON `proyectoId`, los endpoints `/api/v1/proyectos…`, el ámbito `proyectos:leer`, las carpetas `Proyectos/` de §16, los campos `Nombre-Proyecto-Codigo` y `Identidad-Codigo`, y los cuatro nombres de proyecto de código. El motivo: **dentro del producto el segundo sentido no existe**, de modo que no hay nada que desambiguar en la API ni en el esquema, y alargar esos identificadores costaría ergonomía sin resolver ninguna confusión.
 
-**Un tercer sentido que no se toca.** «Proyecto Compose» —el que agrupa los servicios de un archivo `docker-compose.yml`— aparece en los anexos [E-19](#2019--e-19--parque-de-contenedores-de-referencia), [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas) y [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución), y ya viene calificado en origen o es inequívoco por contexto. No es un sentido del vocabulario de esta solución sino del de Docker, y se deja como está.
+**Un tercer sentido que no se toca.** «Proyecto Compose» —el que agrupa los servicios de un archivo `docker-compose.yml`— aparece en los anexos [E-19](#2019--e-19--parque-de-contenedores-de-referencia), [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas) y [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto), y ya viene calificado en origen o es inequívoco por contexto. No es un sentido del vocabulario de este producto sino del de Docker, y se deja como está.
+
+## Decisiones incorporadas en la versión 2.4: la redefinición del alta de servicio
+
+**Origen de esta versión.** Durante el paso 5 de la Fase B2 —ciclo de corrección de la maqueta— el agente humano del proyecto recorrió el alta de un servicio con origen «imagen de registro» y preguntó de dónde saca el usuario la dirección de la imagen. La respuesta expuso que el problema no era de representación visual sino de definición de producto: **el origen del servicio había quedado especificado como un campo técnico de tres valores, sin que nadie decidiera qué ofrece el producto al dar de alta un servicio**. El análisis completo, con su evidencia y sus veintiocho decisiones, vive en el documento de trabajo `SDD/Estado/Redefinicion-Servicio.md` v2.0, cuya parte normativa —§16 a §23— es la fuente de esta versión.
+
+**Cómo se leen sus conclusiones en este intake.** El documento de entrada tiene dos partes con estatuto distinto y su §0 lo declara: **normativa, §16 a §23**, que es lo que se aplica; y **derivación, §1 a §15**, que es antecedente y contiene pasajes superados. Donde las dos difieren manda la normativa. Este intake incorpora **sólo** lo que la parte normativa establece, y nada de la derivación se usó para contradecirla.
+
+**Las dos decisiones cerradas nuevas.** Son datos cerrados del agente humano del proyecto y por eso se marcan **[D]** con su fecha, nunca **[S]** ni **[D-i]**, siguiendo la convención de la versión 1.2:
+
+| # | Decisión | Fecha y origen | Dónde vive |
+|---|---|---|---|
+| D-14 | **La instancia queda desvinculada de la plantilla.** Un servicio creado desde un ítem del catálogo tiene su propio ciclo de vida: cambiar el ítem después no lo toca, borrar el ítem tampoco, y no se notifica que hay una versión más nueva. El vínculo es **débil y sólo en calidad de origen**: se guarda una **copia** del identificador, el nombre y la versión de contenido del ítem, no una clave foránea | 2026-07-29, agente humano del proyecto | §4 (F-14), E-2, E-6, E-16 (RN-39), `CU-16`, `CU-17` |
+| D-15 | **Se conservan las dos modalidades de despliegue** —imagen ya publicada con disparo externo, y repositorio que el producto construye—: no son alternativas del mismo problema sino una elección del usuario en el alta. Queda **abierto** si el disparo externo es propiedad transversal de cualquier servicio | 2026-07-29, agente humano del proyecto | §4 (F-10, F-16), E-2, E-13 |
+
+**Dos decisiones más que se cierran confirmando lo ya escrito**, y conviene registrarlas porque su valor está en que dejan de ser incógnita:
+
+| # | Qué se preguntó | Resolución | Evidencia de que ya estaba |
+|---|---|---|---|
+| D-16 | ¿El producto trae ítems de catálogo de fábrica? | **No [D], agente humano del proyecto, 2026-07-29.** El usuario define sus propias plantillas. Hay un solo nivel de catálogo, el del usuario | §4, tercera consecuencia de la nota de F-14: «el producto no se distribuye con contenido precargado». Y `CU-17` `FA-01` lo declara textualmente |
+| D-17 | ¿Una definición puede venir de afuera, y las plantillas se versionan? | **Ya estaba especificado.** `CU-17` exporta e importa, y distingue **versión de contenido** —que `FA-03` incrementa al editar un ítem publicado— de **versión de formato**, que sostiene la conversión determinista al importar | E-6, envoltorio versionado y regla de conversión de formato 1 a 2; `CU-17` §10 |
+
+**Lo que este intake no decide.** El documento de entrada abre veintiocho decisiones y **sólo cuatro están cerradas** —las cuatro de arriba—. De las restantes, **ocho tienen propuesta escrita y sin confirmar** y entran como especificaciones de integración `[D-i]`, aplicadas y revisables, enumeradas en §19 como `DI-17` a `DI-24`; y **diecisiete siguen abiertas sin propuesta cerrada** y entran como pendientes de decisión en la tabla de §19, con su consumidor identificado y **sin valor supuesto**. Ninguna se presume resuelta en este documento.
+
+**Una aritmética que conviene declarar, porque el documento de entrada la enuncia de dos formas.** Su §23 dice «veintiocho decisiones» y sus tres tablas suman **veintinueve filas**: la diferencia es que `Q-4` está partida en `Q-4a` y `Q-4b`, de modo que hay veintinueve filas sobre veintiocho identificadores. Y su §23.3 se lee «las dieciséis abiertas» en el prompt de ejecución mientras la tabla enumera **diecisiete** filas: `Q-5` a `Q-8`, `Q-10` a `Q-13`, `Q-15` a `Q-21`, `Q-27` y `Q-28`. Este intake toma las diecisiete que la tabla enumera, porque contar filas es verificable y la cifra en prosa no lo es.
 
 ## Supuestos registrados por este intake y su estado
 
@@ -382,12 +412,12 @@ Ninguno de estos valores estaba declarado en las tres fuentes. La versión 1.0 p
 
 | # | Sección | Supuesto adoptado | Estado | Resolución |
 |---|---|---|---|---|
-| S-01 | §8 | Las cuatro métricas de éxito de negocio y sus umbrales | **Confirmado** el 2026-07-27 | Los valores propuestos por la versión 1.0 se adoptan sin cambios y dejan de ser supuestos: son el objetivo de negocio de la solución |
+| S-01 | §8 | Las cuatro métricas de éxito de negocio y sus umbrales | **Confirmado** el 2026-07-27 | Los valores propuestos por la versión 1.0 se adoptan sin cambios y dejan de ser supuestos: son el objetivo de negocio del producto |
 | S-02 | §17 P.6 | Cobertura mínima de líneas y de ramas por proyecto de código | **Confirmado** el 2026-07-27 | Los cuatro pares de umbrales (60/50, 80/70, 55/45 y 90/85) se adoptan sin cambios y son gate bloqueante del pipeline |
 | S-03 | §17 P.10 | Los umbrales numéricos de los NFR que no vienen de una puerta técnica | **Confirmado** el 2026-07-27 | Los umbrales propuestos se adoptan sin cambios. Los umbrales de PT-01 nunca fueron supuestos: son **[E]** del documento técnico |
 | S-04 | §17 P.7 | Adopción de SemVer 2.0.0 y Conventional Commits, y etiquetado por etapa cerrada | **Confirmado** el 2026-07-27 | El esquema de versión propuesto se adopta sin cambios, sobre el etiquetado por etapa que las fuentes sí declaran |
 | S-05 | Cabecera | La URL del repositorio remoto GitHub | **Resuelto con evidencia** el 2026-07-27 | Deja de ser supuesto. El remoto existe y está configurado: `https://github.com/UTN-FRP-TUP-Aplicada-2025/SelfHosted.Service.Core.git`, verificable con `git remote get-url origin` en la raíz del repositorio destino |
-| S-06 | §2 | El nombre propio del propietario del problema y del lead técnico | **Cerrado por identificación de rol** el 2026-07-27 | No se aportan nombres propios y no se requieren. Los actores se identifican por su rol, que es unívoco en esta solución porque el propietario, el lead técnico y el usuario final son la misma persona. Ningún artefacto downstream debe pedir un nombre propio |
+| S-06 | §2 | El nombre propio del propietario del problema y del lead técnico | **Cerrado por identificación de rol** el 2026-07-27 | No se aportan nombres propios y no se requieren. Los actores se identifican por su rol, que es unívoco en este producto porque el propietario, el lead técnico y el usuario final son la misma persona. Ningún artefacto downstream debe pedir un nombre propio |
 
 Consecuencia para los subagentes: los seis supuestos numerados S-01 a S-06 dejaron de ser pendientes. Donde el marcador **[S]** aparece acompañado de la nota «confirmado el 2026-07-27» —en §8 y en los cuatro bloques de §17— señala el origen del dato (propuesto por este intake, no declarado por las fuentes) y no una pendiente: un artefacto downstream puede tratar esos valores como cerrados citando esta tabla.
 
@@ -404,7 +434,7 @@ No hay supuestos abiertos sobre el proceso de entrega: `Requerimientos-Funcional
 
 ---
 
-# Parte A — Negocio de la solución
+# Parte A — Negocio del producto
 
 ## §1 Idea y problema
 
@@ -420,11 +450,11 @@ El disparador es el propio parque existente: la herramienta tiene que ser adopta
 
 | Rol | Nombre o cargo | Categoría | Responsabilidad principal |
 |---|---|---|---|
-| Dueño del problema y administrador único | Propietario del servidor autoalojado de referencia (identificado por rol; ver S-06) | Propietario | Aprueba el intake, opera la solución y valida cada punto de control de etapa |
+| Dueño del problema y administrador único | Propietario del servidor autoalojado de referencia (identificado por rol; ver S-06) | Propietario | Aprueba el intake, opera el producto y valida cada punto de control de etapa |
 | Agente humano del proyecto | El mismo propietario en su rol de validación técnica | Propietario | Ejecuta los guiones de demostración, da el OK de cada etapa, fusiona la rama y avisa el cierre |
-| Equipo de desarrollo | Dos desarrolladores **[E]**, trabajando en etapas en serie | Implementador | Construyen y mantienen la solución, una rama y un pull request por etapa |
+| Equipo de desarrollo | Dos desarrolladores **[E]**, trabajando en etapas en serie | Implementador | Construyen y mantienen el producto, una rama y un pull request por etapa |
 | Agente IA de codificación | Orquestador SDD y sus subagentes | Implementador | Genera la documentación SDD y, en etapas posteriores, el código de cada etapa |
-| Usuario final: administrador de la solución | Único usuario con credenciales de la aplicación **[E]** | Beneficiario | Crea proyectos, configura servicios en el lienzo, despliega, arranca y detiene |
+| Usuario final: administrador del producto | Único usuario con credenciales de la aplicación **[E]** | Beneficiario | Crea proyectos, configura servicios en el lienzo, despliega, arranca y detiene |
 | Automatismo de integración continua | Workflow de GitHub Actions sobre el runner del propio servidor **[E]** | Beneficiario | Dispara despliegues con un token de API de ámbito mínimo, sin intervención humana |
 
 No hay financiador externo ni área a la que rendir resultados: el propietario del problema, el que decide y el que paga son la misma persona **[D]**. Tampoco hay actores de auditoría o legales, porque el servicio no sale de la red local.
@@ -445,13 +475,13 @@ Diferenciadores **[D]**:
 
 ## §4 Alcance funcional pretendido (MoSCoW)
 
-Las capacidades se derivan de los cuatro alcances incrementales declarados **[E]** y de los cortes verticales de `Requerimientos-Funcionales.md` §4.1. La etiqueta MoSCoW traduce a prioridad la pertenencia a cada alcance: el Alcance 1 es el mínimo sin el cual la solución no resuelve el problema.
+Las capacidades se derivan de los cuatro alcances incrementales declarados **[E]** y de los cortes verticales de `Requerimientos-Funcionales.md` §4.1. La etiqueta MoSCoW traduce a prioridad la pertenencia a cada alcance: el Alcance 1 es el mínimo sin el cual el producto no resuelve el problema.
 
 | ID | Capacidad | MoSCoW |
 |---|---|---|
 | F-01 | Alta del administrador único en el primer arranque, con validación de contraseña, sesión recordada, cambio de contraseña y cierre de sesión desde la barra superior | Must Have |
 | F-02 | Alta, listado, renombrado y eliminación de proyectos SelfHosted, con su modo de red y su persistencia | Must Have |
-| F-03 | Alta y configuración de servicios de un proyecto: origen de imagen, variables, puertos, montajes, dispositivos, capacidades, recursos, política de reinicio y marca de efímero | Must Have |
+| F-03 | Alta y configuración de servicios de un proyecto, sobre **dos ejes distintos**: la **vía de alta** por la que el usuario llega —siete opciones— y el **origen** que queda declarado —cinco variantes—. Declara además comando de arranque, variables, puertos, montajes, dispositivos, capacidades, recursos, política de reinicio, verificación de salud y marca de efímero, con **verificación del origen separada de la validación de la configuración** y **guardado admitido en cualquier punto**. Ver la nota de los dos ejes | Must Have |
 | F-04 | Lienzo visual: nodos de servicio, aristas de dependencia, desplazamiento, zoom, agrupación y layout persistente por proyecto | Must Have |
 | F-05 | Despliegue de un servicio desde imagen de registro público, con estado real reflejado en el nodo y acceso a los registros del contenedor | Must Have |
 | F-06 | Arranque y parada del proyecto completo y de cada servicio, con marca de autoarranque y respeto del orden topológico del grafo | Must Have |
@@ -461,8 +491,8 @@ Las capacidades se derivan de los cuatro alcances incrementales declarados **[E]
 | F-10 | Despliegue construyendo la imagen desde un Dockerfile local o desde un repositorio de GitHub, con seguimiento del progreso de construcción | Must Have |
 | F-11 | Descubrimiento de contenedores existentes en el servidor y adopción a un proyecto sin reinstanciarlos, con las salvaguardas de aislamiento | Must Have |
 | F-12 | Dashboard en tres capas: estado del servidor, vista general por proyecto y vista por contenedor | Should Have |
-| F-13 | Exportación e importación de la arquitectura completa de un proyecto como Docker Compose, más el manifiesto propio que preserva el layout, con las reglas de traducción del anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución) | Should Have |
-| F-14 | Catálogo editable, exportable e importable de plantillas reutilizables, con parámetros. Es la **cuarta vía de alta** de un servicio, junto a las tres variantes de origen, y un ítem puede contener uno o varios servicios con sus aristas | Should Have |
+| F-13 | Exportación e importación de la arquitectura completa de un proyecto como Docker Compose, más el manifiesto propio que preserva el layout, con las reglas de traducción del anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto) | Should Have |
+| F-14 | Catálogo editable, exportable e importable de plantillas reutilizables, con parámetros. Es **una de las siete vías de alta** de un servicio y no un origen, y un ítem puede contener uno o varios servicios con sus aristas. Lo instanciado queda **desvinculado** de la plantilla (D-14) | Should Have |
 | F-15 | Tokens de API con ámbitos, vigencia y revocación inmediata, emitidos desde la interfaz | Should Have |
 | F-16 | Disparo de despliegue desde un workflow de GitHub Actions con token de ámbito mínimo | Could Have |
 | F-17 | Exportación programada de proyectos y catálogo a un destino externo como estrategia de respaldo | Could Have |
@@ -475,7 +505,32 @@ Las capacidades se derivan de los cuatro alcances incrementales declarados **[E]
 | F-24 | Referencias entre variables con sintaxis `${{ … }}`: a otra variable del propio servicio, a una variable compartida del proyecto o a una variable de otro servicio del mismo proyecto, resueltas en el backend antes de crear el contenedor | Should Have |
 | F-25 | Higiene del modelo: el sistema detecta y **advierte, sin bloquear**, variables compartidas huérfanas, nombres repetidos en el mismo ámbito, claves que ya existen al instanciar y referencias que quedaron sin uso | Could Have |
 
-**Nota sobre F-14 [D], decisión del agente humano del proyecto del 2026-07-28 (D-7).** El catálogo es una **cuarta vía de alta de un servicio, no un cuarto origen**. El intake declara tres variantes de origen —imagen de registro, repositorio remoto y Dockerfile local, transcriptas en el anexo [E-2](#202--e-2--servicio-con-sus-tres-variantes-de-origen)—; el catálogo no es una cuarta variante de esa lista, sino otra forma de llegar a ellas: un ítem del catálogo es una **plantilla parametrizada que, al instanciarse, resuelve a uno de los tres orígenes reales**. La distinción está tomada de que el producto de referencia lista `Template` como una opción del menú de creación de servicio junto a `Docker Image` y `GitHub Repository`, y no dentro de ellas (`Analisis-Rayway.md` §3.2 **[E]** respecto de ese documento, que enumera ese menú a partir de la captura de la interfaz real).
+**Nota de los dos ejes del alta [D-i], incorporada en la versión 2.4.** La versión 1.2 declaró, con D-7, que el catálogo es una **vía de alta y no un origen**. Esta versión completa ese eje: **son dos ejes independientes y hay que declararlos los dos**, porque colapsarlos en un solo campo es exactamente el defecto que el paso 5 de la Fase B2 destapó.
+
+| Eje | Qué es | Cuántos valores | Se persiste |
+|---|---|---|---|
+| **Vía de alta** | Cómo llega el usuario a crear el servicio. Es una decisión de interfaz y de recorrido | **Siete** | **No.** Es cómo se llegó, no qué quedó. La adopción y el catálogo dejan huella en la **procedencia** del servicio, que es un campo de auditoría, y no en su origen |
+| **Origen** | Qué queda declarado como fuente de la imagen del contenedor. Es una **variante discriminada** por su tipo, y cada valor exige sus campos y ninguno más | **Cinco** | **Sí.** Es configuración del servicio |
+
+Las siete vías, con el origen al que resuelve cada una:
+
+| # | Vía de alta | Origen resultante | Qué la hace distinta |
+|---|---|---|---|
+| 1 | **Adoptar un contenedor existente** | El que la traducción de la configuración observada deduzca | No tiene origen propio: produce uno. Es la que resuelve el primer uso sobre un servidor que ya está en producción, y es `F-11` |
+| 2 | **Desde el catálogo** | El que declare la plantilla | Tampoco tiene origen propio. Es la única vía que puede crear **más de un servicio de una sola confirmación**, y es `F-14` |
+| 3 | **Imagen de registro público** | `imagen-publica` | Registro como selector, con el registro público de referencia por defecto |
+| 4 | **Imagen de registro privado** | `imagen-privada` | Registro como dirección más **credencial de registro declarada en el alta** |
+| 5 | **Repositorio remoto** | `repositorio` | Rama, ruta del archivo de construcción, contexto y argumentos de construcción |
+| 6 | **Archivo de construcción en línea** | `dockerfile` | El **contenido** del archivo de construcción, no una ruta del servidor |
+| 7 | **Servicio sin origen** | `ninguno` | No es una vía nueva: es el alta detenida en el paso del nombre. Puede figurar como opción explícita del menú por claridad, y no agrega mecánica |
+
+**Tres cosas que esta separación hace visibles y que la versión anterior ocultaba.** La adopción y el catálogo **no tienen origen propio**: producen uno de los otros, y su delta está en cómo se llega. La imagen pública y la privada **difieren en dos campos y no en su naturaleza** —el registro pasa de selector a dirección, y aparece la credencial—, lo que justifica separarlas en la interfaz sin duplicar el modelo. Y el servicio sin origen **es el alta detenida**, no una vía con mecánica propia.
+
+**Estado de esta nota.** El reparto de siete vías sobre cinco variantes, la separación de imagen pública y privada, y la existencia del servicio sin origen como nodo borrador son **propuesta del integrador sin confirmar**: son `DI-17`, `DI-18` y `DI-19` de §19. Están aplicadas en este documento para que la cadena no se bloquee, y se consumen declarándolas revisables.
+
+**Nota sobre F-14 [D], decisión del agente humano del proyecto del 2026-07-28 (D-7), ampliada en la versión 2.4.** El catálogo es una **vía de alta de un servicio, no un origen**. Un ítem del catálogo es una **plantilla parametrizada que, al instanciarse, resuelve a una de las cinco variantes de origen** del anexo [E-2](#202--e-2--servicio-con-sus-tres-variantes-de-origen), cuyo título conserva el número anterior por la regla de anclas de §19 y lo declara en su primera línea. La distinción está tomada de que el producto de referencia lista `Template` como una opción del menú de creación de servicio junto a `Docker Image` y `GitHub Repository`, y no dentro de ellas (`Analisis-Rayway.md` §3.2 **[E]** respecto de ese documento, que enumera ese menú a partir de la captura de la interfaz real). La versión 1.2 la llamaba «cuarta vía» sobre tres orígenes; con los dos ejes declarados es **una de siete vías sobre cinco variantes**, y el ordinal se retira porque contaba vías y orígenes en la misma lista.
+
+**Qué es una plantilla, dicho con precisión [D], agente humano del proyecto, 2026-07-29.** Es **el alta de un servicio sin la cola de despliegue**: declara lo mismo que un alta —origen, comando, variables, puertos, montajes, recursos, política de reinicio, verificación de salud— y **no se instancia, no se despliega y no ocupa dirección**. Lo que la vuelve plantilla es que sus valores variables quedan como parámetros. La consecuencia de interfaz es directa y conviene declararla acá: **el editor de plantillas es el formulario de alta de servicio menos los pasos de validar contra el motor, aplicar y desplegar**, y no una superficie nueva que haya que diseñar aparte.
 
 Tres consecuencias que hay que dejar explícitas, porque es el punto que más se presta a confusión —«catálogo de servicios» se lee como servicios corriendo—:
 
@@ -483,7 +538,7 @@ Tres consecuencias que hay que dejar explícitas, porque es el punto que más se
 2. **El catálogo arranca vacío** en una instalación nueva. Se puebla cuando el usuario guarda un servicio como plantilla o importa un catálogo exportado; el producto no se distribuye con contenido precargado.
 3. **Un ítem contiene un subgrafo, no un servicio.** Puede contener uno o varios servicios con sus aristas; al instanciarlo se crean N servicios, cada uno con su propio contenedor, más los enlaces entre ellos. Su forma completa, con parámetros y formato de exportación versionado, está en el anexo [E-6](#206--e-6--ítem-del-catálogo-de-servicios-reutilizables).
 
-**Fundamento técnico del ítem multi-servicio [D], D-7.** El subgrafo **no requiere empaquetar varios servicios en un mismo contenedor**, y hacerlo violaría la invariante I2 de §17.4 P.2, que declara que un servicio es siempre exactamente un contenedor. El mecanismo es el que la solución ya debe implementar para F-13: importar un archivo Compose crea varios servicios con sus enlaces de una sola vez. La plantilla multi-servicio es exactamente ese mecanismo con parámetros, y la instanciación crea tantos servicios y tantos contenedores como nodos tenga el subgrafo (RN-30).
+**Fundamento técnico del ítem multi-servicio [D], D-7.** El subgrafo **no requiere empaquetar varios servicios en un mismo contenedor**, y hacerlo violaría la invariante I2 de §17.4 P.2, que declara que un servicio es siempre exactamente un contenedor. El mecanismo es el que el producto ya debe implementar para F-13: importar un archivo Compose crea varios servicios con sus enlaces de una sola vez. La plantilla multi-servicio es exactamente ese mecanismo con parámetros, y la instanciación crea tantos servicios y tantos contenedores como nodos tenga el subgrafo (RN-30).
 
 **[D] Nota sobre F-25, decisión del agente humano del proyecto del 2026-07-28 (D-13).** Es la capacidad que la identidad de objeto (D-12) vuelve barata: con cada elemento identificado, detectar que dos se llaman igual o que nadie referencia a un tercero es una consulta, no un análisis. Las cinco detecciones y lo que informa cada una:
 
@@ -505,7 +560,7 @@ Tres consecuencias que hay que dejar explícitas, porque es el punto que más se
 
 ## §5 Historias de usuario / experiencias deseadas
 
-1. Como administrador que instala la solución por primera vez, quiero que el sistema me pida un nombre de usuario y una contraseña validada, para que nadie más pueda operar el panel que controla mi servidor.
+1. Como administrador que instala el producto por primera vez, quiero que el sistema me pida un nombre de usuario y una contraseña validada, para que nadie más pueda operar el panel que controla mi servidor.
 2. Como administrador, quiero crear un proyecto SelfHosted y agregarle servicios desde el panel lateral, para tener la arquitectura de un conjunto de contenedores en un solo lugar.
 3. Como administrador, quiero arrastrar los nodos del lienzo y que la disposición se conserve al recargar, para leer la arquitectura como la pensé y no como la ordenó el sistema.
 4. Como administrador, quiero trazar una arista de mi API a mi base de datos y que el sistema me proponga la variable de entorno correcta, para no escribir a mano una cadena de conexión que depende del modo de red.
@@ -548,16 +603,16 @@ Tres consecuencias que hay que dejar explícitas, porque es el punto que más se
 
 ## §8 Métricas de éxito desde el negocio
 
-**[S] S-01, confirmado el 2026-07-27.** Las fuentes describen capacidades y riesgos, no metas de negocio medidas. Estas métricas se propusieron a partir de los datos de dimensionamiento verificados del servidor de referencia (parque de ocho contenedores y dieciocho imágenes, sin redundancia de disco) y de los diferenciales declarados. El agente humano del proyecto las confirmó sin cambios en la batería de validación de intake: son el objetivo de negocio de la solución y se tratan como cerradas.
+**[S] S-01, confirmado el 2026-07-27.** Las fuentes describen capacidades y riesgos, no metas de negocio medidas. Estas métricas se propusieron a partir de los datos de dimensionamiento verificados del servidor de referencia (parque de ocho contenedores y dieciocho imágenes, sin redundancia de disco) y de los diferenciales declarados. El agente humano del proyecto las confirmó sin cambios en la batería de validación de intake: son el objetivo de negocio del producto y se tratan como cerradas.
 
 | Criterio | Métrica | Target | Plazo |
 |---|---|---|---|
 | Adopción del parque existente | Porcentaje de los contenedores en ejecución del servidor de referencia, enumerados en el anexo [E-19](#2019--e-19--parque-de-contenedores-de-referencia), incorporados a un proyecto SelfHosted sin haber sido reinstanciados | ≥ 75 % de los 8 contenedores del parque relevado | 3 meses desde el cierre del Alcance 1 |
-| Reemplazo del método manual | Porcentaje de altas de servicio nuevas realizadas desde la solución en lugar de por archivo Compose editado a mano | ≥ 90 % de las altas nuevas | 6 meses desde el cierre del Alcance 1 |
+| Reemplazo del método manual | Porcentaje de altas de servicio nuevas realizadas desde el producto en lugar de por archivo Compose editado a mano | ≥ 90 % de las altas nuevas | 6 meses desde el cierre del Alcance 1 |
 | Reproducibilidad de la arquitectura | Cantidad de proyectos con exportación vigente (Compose más manifiesto propio) sobre el total de proyectos declarados | 100 % de los proyectos, con exportación de antigüedad menor a 7 días | 3 meses desde el cierre del Alcance 3 |
 | Continuidad de la entrega | Porcentaje de etapas cerradas con su guion de demostración ejecutado y con los guiones de todas las etapas anteriores pasando sin corrección | 100 % de las etapas | Durante toda la construcción |
 
-## §9 Lo que NO es esta solución (exclusiones)
+## §9 Lo que NO es este producto (exclusiones)
 
 1. **No es un PaaS multiinquilino ni un orquestador de clúster [E].** Hay un único administrador y un único servidor. Incorporar inquilinos exigiría un modelo de identidad, de aislamiento y de cuotas que multiplica el alcance sin resolver el problema del propietario. No se contempla incorporación futura.
 2. **No administra proxies ni proxies inversos [E].** Está declarado fuera de alcance desde la definición del servicio. Consecuencia aceptada: no hay dominios públicos gestionados, y el reemplazo de una versión de un servicio es *detener y arrancar*, con ventana de indisponibilidad que la interfaz debe advertir explícitamente al confirmar el redespliegue.
@@ -616,12 +671,12 @@ Los diez riesgos de la matriz del análisis integrado **[E]**, en el orden y con
 | **Autoarranque** | Marca que indica que un proyecto o servicio debe levantarse al iniciar el sistema administrador |
 | **Bridge** | Red virtual del motor de contenedores con su propia subred privada; sus miembros se resuelven por nombre y publican puertos en el host |
 | **Canvas o lienzo** | Vista por defecto de un proyecto: espacio visual infinito donde cada bloque es un servicio y cada arista una dependencia |
-| **Catálogo** | Colección de plantillas reutilizables, editable, exportable e importable. Es la cuarta vía de alta de un servicio, junto a las tres variantes de origen. Nada del catálogo corre: sus ítems son definiciones en reposo. Arranca vacío en una instalación nueva |
+| **Catálogo** | Colección de plantillas reutilizables, editable, exportable e importable. Es **una de las siete vías de alta** de un servicio y no un origen. Nada del catálogo corre: sus ítems son definiciones en reposo. Arranca vacío en una instalación nueva y se puebla por dos caminos: guardar como plantilla e importar. Hay un solo nivel, el del usuario (D-16) |
 | **Changeset** | Conjunto de cambios de configuración acumulados y pendientes de aplicar en lote sobre un proyecto |
 | **Despliegue** | Intento concreto de materializar la configuración de un servicio: el contenedor creado, con su ciclo de vida |
 | **Efímero** | Servicio pensado para reconstruirse en cada uso, sin estado persistente propio |
-| **Escalado horizontal** | Agregar réplicas del mismo servicio. En esta solución, manual |
-| **Escalado vertical** | Aumentar los recursos de CPU y memoria asignados a un servicio. En esta solución, manual |
+| **Escalado horizontal** | Agregar réplicas del mismo servicio. En este producto, manual |
+| **Escalado vertical** | Aumentar los recursos de CPU y memoria asignados a un servicio. En este producto, manual |
 | **Etapa** | Unidad de entrega del proyecto. Se especifica con una plantilla obligatoria, termina en un punto de control y se corresponde con una rama y un pull request |
 | **Healthcheck o verificación de salud** | Comprobación periódica declarada en la imagen o en el servicio que determina si el contenedor está sano |
 | **Higiene del modelo** | Conjunto de condiciones que el sistema detecta y **advierte sin bloquear**: variables compartidas huérfanas, nombres repetidos en el mismo ámbito, claves que ya existen al instanciar y referencias sin uso. Informa, nunca impide (D-13, F-25) |
@@ -640,7 +695,7 @@ Los diez riesgos de la matriz del análisis integrado **[E]**, en el orden y con
 | **Puerta técnica** | Verificación medida que condiciona una decisión de arquitectura. Una puerta que no pasa detiene la planificación de lo que depende de ella |
 | **Referencia de variable** | Valor de una variable expresado como `${{ … }}` en lugar de como literal, que apunta a otra variable: del propio servicio, compartida del proyecto, o de otro servicio del mismo proyecto. Se resuelve en el backend antes de crear el contenedor; el contenedor nunca ve la expresión, ve el valor. Cuando apunta a otro servicio se persiste **vinculada al servicio y no a su nombre**, de modo que renombrarlo no la rompe |
 | **Réplica** | Cada instancia paralela de un mismo servicio |
-| **Servicio** | La configuración de un contenedor dentro de un proyecto: origen, variables, red, montajes, límites. No tiene estado de encendido |
+| **Servicio** | La configuración de un contenedor dentro de un proyecto: origen, comando de arranque, variables, red, montajes, límites. No tiene estado de encendido de contenedor, y **sí tiene estado de configuración**: `borrador`, `pendiente-de-aplicar` o `aplicado`, ortogonal al estado del despliegue |
 | **Socket del motor de contenedores** | Punto de acceso local a la API del demonio de contenedores. Acceder a él equivale a control administrativo del host |
 | **Subgrafo parametrizado** | Contenido de un ítem del catálogo: uno o varios servicios con sus aristas y con huecos parametrizables. Al instanciarlo se crean N servicios, cada uno con su propio contenedor, más los enlaces entre ellos |
 | **Token de API** | Credencial de máquina, con ámbitos y vigencia, revocable individualmente, usada por automatismos |
@@ -648,6 +703,13 @@ Los diez riesgos de la matriz del análisis integrado **[E]**, en el orden y con
 | **Variable de enlace** | Variable de entorno que el sistema escribe al trazar una arista en el lienzo. No es una clase aparte de variable: es una referencia común a las variables provistas del servicio destino, y el usuario puede editarla como cualquier otra |
 | **Variable generada** | **Término retirado.** Nombraba la variable que el enlace del lienzo producía cuando el enlace era un tipo de arista propio. Desde la segunda pasada sobre D-6 lo que el enlace produce es una **referencia de variable** común: ver «Referencia de variable» y «Variable de enlace». Se conserva la entrada porque el título del anexo E-4 sigue usando la expresión, por la razón declarada en §19 |
 | **Variable provista por el sistema** | Variable de sólo lectura que el sistema expone en cada servicio y que el usuario no declara ni edita. Son dos: su host interno y su nombre. Llevan prefijo `SELFHOSTED_`, se nombran en inglés porque las lee el proceso dentro del contenedor, y ninguna es secreta. **No hay variable de puerto**: el puerto lo declaró el usuario y se escribe literal |
+| **Vía de alta** | **Término nuevo en la versión 2.4.** Cómo llega el usuario a crear un servicio. Son **siete** y **no se persisten**: son cómo se llegó, no qué quedó. Dos de ellas —adoptar un contenedor existente y tomar un ítem del catálogo— no tienen origen propio y dejan huella en la **procedencia** del servicio. No confundir con **origen** |
+| **Origen** | **Precisado en la versión 2.4.** Qué queda declarado como fuente de la imagen del contenedor. Es una **variante discriminada** por su tipo, con **cinco** valores: imagen de registro público, imagen de registro privado, repositorio remoto, archivo de construcción en línea, y sin origen. Cada valor exige sus campos y ninguno más. Es configuración del servicio y se persiste. No confundir con **vía de alta** |
+| **Plantilla** | **Término nuevo en la versión 2.4.** Un ítem del catálogo, visto desde lo que declara: es **el alta de un servicio sin la cola de despliegue** —sin validar contra el motor, sin aplicar y sin desplegar—, con sus valores variables convertidos en parámetros. No se instancia, no se despliega y no ocupa dirección hasta que alguien la usa. Su consecuencia de interfaz es que el editor de plantillas **es el formulario de alta menos esos tres pasos**, y no una superficie nueva |
+| **Versión de contenido** | **Término nuevo en la versión 2.4.** Versión de lo que el usuario publicó de un ítem del catálogo: su plantilla y sus parámetros. Se incrementa al editar un ítem ya publicado, y es lo que el servicio instanciado **copia** como procedencia. No confundir con **versión de formato** |
+| **Versión de formato** | **Término nuevo en la versión 2.4.** Versión de la forma del archivo del catálogo, no de su contenido. Cambia cuando cambia el esquema, por decisión del producto, y es lo que permite convertir un catálogo importado sin adivinar su forma. No confundir con **versión de contenido** |
+| **Imagen** | **Término nuevo en la versión 2.4.** La imagen de contenedor, tratada como **objeto con identidad** y no como una cadena dentro del origen del servicio: se referencia desde el despliegue, sobrevive al servicio que la construyó y tiene ciclo de vida propio, de modo que las tres condiciones de D-12 la alcanzan. Lleva marca de **pertenencia**, que distingue lo que el producto administra de lo **ajeno** que ve y no administra, y marca de **conservada**, que la protege de la limpieza (E-23, RN-40) |
+| **Digesto** | **Término nuevo en la versión 2.4.** Identidad real de una imagen, calculada sobre su contenido. Es lo que permite saber **qué corre exactamente**, incluso cuando la etiqueta es flotante y hoy apunta a algo distinto de lo que apuntaba ayer. La **etiqueta**, en cambio, es un nombre reasignable y no identifica nada de forma estable |
 | **Ámbito** | Permiso concreto asociado a un token de API, por ejemplo `despliegues:ejecutar` |
 
 **Qué separa léxicamente a «proyecto SelfHosted» de un nombre de proyecto de código, y la consecuencia asumida.** Los dos términos comparten la palabra `SelfHosted`, y conviene declarar qué los distingue, porque la distinción **es léxica y no tipográfica**:
@@ -660,13 +722,13 @@ Los diez riesgos de la matriz del análisis integrado **[E]**, en el orden y con
 
 **El discriminador es el punto, y después el sufijo de capa.** Todo nombre del plano de código arranca con la identidad `SelfHosted.Service.Core`, con puntos como separador de segmento, y cada capa agrega el suyo; el término del producto es `SelfHosted` a secas, sin punto y precedido de la palabra «proyecto». Por eso la regla es decidible por la forma de la palabra, sin depender del contexto ni del formato. Los cuatro sufijos de capa —`Web`, `Application`, `Infrastructure`, `Domain`— siguen presentes en los espacios de nombres, y el término del producto no lleva ninguno.
 
-**Cómo sobrevivió esta regla a los dos cambios de composición.** La decisión D-E del 2026-07-29 llevó la raíz del plano de código de `SelfHosted` a `SelfHosted.Service.Core`, y la decisión del proyecto único del mismo día eliminó la forma `Nombre-Proyecto` por capa. Ninguna de las dos rompió la separación léxica, porque el discriminador nunca estuvo en la raíz ni en la existencia de cuatro nombres: está en que el plano de código escribe segmentos separados por punto y el término del producto no. El monoespaciado se usa donde el nombre de código se cita como identificador, pero es una **ayuda de lectura, no el mecanismo**: la distinción se sostiene igual en texto plano. Se exceptúan las filas donde el nombre es el **valor de un campo declarado** —`Nombre-Proyecto` en la tabla de §13 y en las cuatro tablas de identidad de §17—, que quedan sin formato deliberadamente: §13 es la fuente del manifiesto derivado y su tabla no se toca, de modo que ponerle formato sólo a §17 haría que las dos declaraciones del mismo dato dejaran de coincidir.
+**Cómo sobrevivió esta regla a los dos cambios de composición.** La decisión D-E del 2026-07-29 llevó la raíz del plano de código de `SelfHosted` a `SelfHosted.Service.Core`, y la decisión del proyecto único del mismo día eliminó la forma `Nombre-Proyecto-Codigo` por capa. Ninguna de las dos rompió la separación léxica, porque el discriminador nunca estuvo en la raíz ni en la existencia de cuatro nombres: está en que el plano de código escribe segmentos separados por punto y el término del producto no. El monoespaciado se usa donde el nombre de código se cita como identificador, pero es una **ayuda de lectura, no el mecanismo**: la distinción se sostiene igual en texto plano. Se exceptúan las filas donde el nombre es el **valor de un campo declarado** —`Nombre-Proyecto-Codigo` en la tabla de §13 y en las cuatro tablas de identidad de §17—, que quedan sin formato deliberadamente: §13 es la fuente del manifiesto derivado y su tabla no se toca, de modo que ponerle formato sólo a §17 haría que las dos declaraciones del mismo dato dejaran de coincidir.
 
 **Prohibición que se deriva, y que un artefacto downstream debe respetar:** no se admite ninguna construcción que fusione los dos términos, del tipo «el proyecto SelfHosted.Service.Core.Web» o «el proyecto de código SelfHosted». La prohibición alcanza a las dos formas del separador. Cuando hay que nombrar la unidad de compilación se escribe su nombre solo —`SelfHosted.Service.Core`— o «el proyecto de código `SelfHosted.Service.Core`», nunca «el proyecto SelfHosted.Service.Core». Cuando hay que nombrar una capa se escribe «la capa `Domain`» o su espacio de nombres completo, nunca «el proyecto `Domain`». Es la única forma en que los dos términos colapsarían, y hoy no ocurre en ninguna de las quinientas ocurrencias del documento.
 
 **Consecuencia asumida.** El agente humano del proyecto evaluó la alternativa de elegir un término que no compartiera el prefijo y la descartó el 2026-07-28, reafirmando «proyecto SelfHosted». Se acepta entonces que los dos términos se parezcan a simple vista y que la separación dependa de una regla de forma, declarada acá, en lugar de dos palabras sin nada en común.
 
-**Hay un tercer sentido, y no se califica.** Además de los dos anteriores, «proyecto» conserva su sentido corriente en el mundo del software: **el emprendimiento**, es decir el esfuerzo de construir esta solución, con sus etapas, su alcance, sus objetivos y sus criterios de aceptación. Aparece en expresiones como «el disparador del proyecto», «los objetivos del proyecto», «el proyecto no avanza a la etapa siguiente» o «unidad de entrega del proyecto», y en el propio rol «agente humano del proyecto».
+**Hay un tercer sentido, y no se califica.** Además de los dos anteriores, «proyecto» conserva su sentido corriente en el mundo del software: **el emprendimiento**, es decir el esfuerzo de construir este producto, con sus etapas, su alcance, sus objetivos y sus criterios de aceptación. Aparece en expresiones como «el disparador del proyecto», «los objetivos del proyecto», «el proyecto no avanza a la etapa siguiente» o «unidad de entrega del proyecto», y en el propio rol «agente humano del proyecto».
 
 Los tres sentidos se distinguen por el contexto en el que viven, y no hace falta calificar el tercero:
 
@@ -682,9 +744,9 @@ Se decidió **no calificarlo** porque los tres contextos son disjuntos y ninguna
 
 ---
 
-# Parte B — Composición de la solución
+# Parte B — Composición del producto
 
-## §13 Proyecto de código de la solución
+## §13 Proyectos de código del producto
 
 La composición se deriva de la estructura declarada en `Analisis-Final-Integrado.md` §12 **[E]**, que define cuatro capas —dominio, aplicación, infraestructura y web— y de la decisión del agente humano del proyecto del **2026-07-29** **[D]**, que fija que esas cuatro capas se compilan en **un único proyecto de código** y se separan por espacio de nombres. El despliegue es monolítico —un único proceso sirve la interfaz Blazor, la API REST y los servicios en segundo plano— y desde esta versión la unidad de compilación también lo es.
 
@@ -692,11 +754,11 @@ Esta sección habla **exclusivamente del proyecto de código**, en el sentido qu
 
 Tabla del proyecto de código (fuente del manifiesto derivado):
 
-| `Nombre-Proyecto` | `project_type` (D8) | Rol en la solución | Dependencias | `redistribuible` |
+| `Nombre-Proyecto-Codigo` | `tipo_proyecto_codigo` (D8) | Rol en el producto | Dependencias | `redistribuible` |
 |---|---|---|---|---|
 | SelfHosted-Service (único, y por lo tanto principal) | web-monolith | Único proyecto de código y único ejecutable: páginas Blazor Interactive Server, controladores REST `/api/v1` y servicios en segundo plano en un solo proceso, con las cuatro capas de la Clean Architecture como espacios de nombres internos | (ninguna) | false |
 
-El grafo de dependencias entre proyectos de código es **trivial**: un solo nodo, sin aristas, nivel topológico 0. La solución es el caso degenerado del framework —un único proyecto—, con las consecuencias que `Master-Prompt.md` §3.5 declara para la estructura de la documentación generada.
+El grafo de dependencias entre proyectos de código es **trivial**: un solo nodo, sin aristas, nivel topológico 0. El producto es el caso degenerado del framework —un único proyecto—, con las consecuencias que `Master-Prompt.md` §3.5 declara para la estructura de la documentación generada.
 
 **Las cuatro capas siguen existiendo, y su orden sigue importando.** Lo que dejó de ser un grafo de proyectos de código es ahora un grafo de espacios de nombres, con la misma regla de dependencia de la Clean Architecture y la misma dirección:
 
@@ -715,23 +777,23 @@ Perfil de convención de nombres de código:
 
 | Parámetro | Valor | Notas |
 |---|---|---|
-| `NombreSolucionCodigo`, forma del nombre de solución en código | `SelfHosted.Service.Core` | **Declarado explícitamente, no derivado.** Es la identidad de código de la solución, en el sentido del bloque «Identidad de la solución» de la cabecera: el argumento `-n` con el que se crea la solución y la raíz de todos los espacios de nombres. Se declara porque el algoritmo de `Master-Prompt.md` §3.2 —que concatena sin separadores— produciría `SelfHostedServiceCore`, una raíz que ningún artefacto de esta solución usa. Decisión del agente humano del proyecto, 2026-07-29 **[D]** |
+| `Raiz-Codigo`, forma del nombre de solución de código | `SelfHosted.Service.Core` | **Declarado explícitamente, no derivado.** Es la identidad de código del producto, en el sentido del bloque «Identidad del producto» de la cabecera: el argumento `-n` con el que se crea la solución de código y la raíz de todos los espacios de nombres. Se declara porque el algoritmo de `Master-Prompt.md` §3.2 —que concatena sin separadores— produciría `SelfHostedServiceCore`, una raíz que ningún artefacto de este producto usa. Decisión del agente humano del proyecto, 2026-07-29 **[D]** |
 | Separador de segmentos | `.` | Separa la identidad de código de los segmentos de capa y de rol |
-| `nombre-proyecto-codigo` del proyecto único | `SelfHosted.Service.Core` | **Coincide con `NombreSolucionCodigo`, sin sufijo de rol.** Es una desviación declarada de la composición `<NombreSolucionCodigo>.<Sufijo>` de `Master-Prompt.md` §3.2, y se toma a cambio de que las cuatro capas queden simétricas: con el proyecto sin sufijo, cada capa es una carpeta de su raíz y un segmento propio del espacio de nombres, incluida la presentación en `Web/`. Decisión del agente humano del proyecto, 2026-07-29 **[D]** |
-| Artefacto de agrupación de la construcción | `SelfHosted.Service.Core.sln` | Derivado como `<NombreSolucionCodigo>.sln`. El framework no modela este parámetro; se declara acá para que el nombre del archivo de solución tenga una fuente y no se decida en la etapa de scaffolding **[D]** |
-| Prefijo de paquetes redistribuibles | `Aplicada` | No se aplica en esta solución: el proyecto de código no es redistribuible y no se publica ningún paquete |
+| `Identidad-Codigo` del proyecto único | `SelfHosted.Service.Core` | **Coincide con `Raiz-Codigo`, sin sufijo de rol.** Es una desviación declarada de la composición `<Raiz-Codigo>.<Sufijo>` de `Master-Prompt.md` §3.2, y se toma a cambio de que las cuatro capas queden simétricas: con el proyecto sin sufijo, cada capa es una carpeta de su raíz y un segmento propio del espacio de nombres, incluida la presentación en `Web/`. Decisión del agente humano del proyecto, 2026-07-29 **[D]** |
+| `Artefacto-Agrupacion` | `SelfHosted.Service.Core.sln` | Derivado como `<Raiz-Codigo>.sln`. El framework no modela este parámetro; se declara acá para que el nombre del archivo de solución de código tenga una fuente y no se decida en la etapa de scaffolding **[D]** |
+| Prefijo de paquetes redistribuibles | `Aplicada` | No se aplica en este producto: el proyecto de código no es redistribuible y no se publica ningún paquete |
 
-**Por qué el proyecto de código lleva el mismo nombre que la solución.** Porque son la misma cosa: el archivo de solución agrupa exactamente un proyecto de producción y tres de prueba. La consecuencia buscada es que los cuatro espacios de nombres de las capas queden como segmentos directos de la identidad de código —`SelfHosted.Service.Core.Domain`, `.Application`, `.Infrastructure`, `.Web`—, **idénticos a los cuatro `nombre-proyecto-codigo` que la versión 2.1 declaraba**. Es lo que permite que todas las reglas que citan esas rutas, en particular la regla de aislamiento de `Requerimientos-Tecnicos.md` §2 **[E]**, sigan citándose literal: lo que cambió es que la ruta denota un espacio de nombres y ya no un directorio de proyecto.
+**Por qué el proyecto de código lleva el mismo nombre que la solución de código.** Porque son la misma cosa: el archivo de solución de código agrupa exactamente un proyecto de producción y tres de prueba. La consecuencia buscada es que los cuatro espacios de nombres de las capas queden como segmentos directos de la identidad de código —`SelfHosted.Service.Core.Domain`, `.Application`, `.Infrastructure`, `.Web`—, **idénticos a los cuatro `Identidad-Codigo` que la versión 2.1 declaraba**. Es lo que permite que todas las reglas que citan esas rutas, en particular la regla de aislamiento de `Requerimientos-Tecnicos.md` §2 **[E]**, sigan citándose literal: lo que cambió es que la ruta denota un espacio de nombres y ya no un directorio de proyecto.
 
-**Los dos planos de nombres siguen siendo independientes por diseño.** El `Nombre-Proyecto` —`SelfHosted-Service`, **idéntico al `Nombre-Solucion` y no por casualidad**: con un único proyecto de código, el proyecto es la solución y los dos identificadores documentales nombran la misma cosa— gobierna el plano de documentación; el `nombre-proyecto-codigo` —`SelfHosted.Service.Core`— gobierna el plano de código: `/src`, el `.csproj` y los espacios de nombres. Es la sub-decisión E-1 (a) del agente humano del proyecto del 2026-07-29 **[D]**, que sobrevive al colapso de la composición. En el caso degenerado el `Nombre-Proyecto` tiene un solo consumidor efectivo, `SDD/Maquetas/<Nombre-Proyecto>/`: `Master-Prompt.md` §3.5 aplana la salida y la documentación se genera directamente bajo `SDD/Docs/`, sin el subnivel `Proyectos/<Nombre-Proyecto>/`. Si la solución incorporara un segundo proyecto de código, los dos identificadores dejarían de coincidir y cada uno recuperaría su función.
+**Los dos planos de nombres siguen siendo independientes por diseño.** El `Nombre-Proyecto-Codigo` —`SelfHosted-Service`, **idéntico al `Slug-Producto` y no por casualidad**: con un único proyecto de código, el proyecto es el producto y los dos identificadores documentales nombran la misma cosa— gobierna el plano de documentación; el `Identidad-Codigo` —`SelfHosted.Service.Core`— gobierna el plano de código: `/src`, el `.csproj` y los espacios de nombres. Es la sub-decisión E-1 (a) del agente humano del proyecto del 2026-07-29 **[D]**, que sobrevive al colapso de la composición. En el caso degenerado el `Nombre-Proyecto-Codigo` tiene un solo consumidor efectivo, `SDD/Maquetas/<Nombre-Proyecto-Codigo>/`: `Master-Prompt.md` §3.5 aplana la salida y la documentación se genera directamente bajo `SDD/Docs/`, sin el subnivel `Proyectos/<Nombre-Proyecto-Codigo>/`. Si el producto incorporara un segundo proyecto de código, los dos identificadores dejarían de coincidir y cada uno recuperaría su función.
 
-## §14 Estilo arquitectónico de la solución
+## §14 Estilo arquitectónico del producto
 
-La solución aplica Clean Architecture con organización por módulos, en despliegue monolítico y en un único proyecto de código **[E]** para el estilo, **[D]** para la unidad de compilación. Como §13, esta sección habla del plano de código. La regla de dependencia es la del estilo: las dependencias apuntan hacia el dominio y nunca al revés.
+El producto aplica Clean Architecture con organización por módulos, en despliegue monolítico y en un único proyecto de código **[E]** para el estilo, **[D]** para la unidad de compilación. Como §13, esta sección habla del plano de código. La regla de dependencia es la del estilo: las dependencias apuntan hacia el dominio y nunca al revés.
 
 | Capa · espacio de nombres | Qué expone a las capas que dependen de ella | Quién la consume |
 |---|---|---|
-| `SelfHosted.Service.Core.Domain` | Entidades, objetos de valor, invariantes del modelo (I1 a I10, enumeradas en §17.P.2) y reglas de negocio (RN-01 a RN-37, transcriptas en el anexo [E-16](#2016--e-16--catálogo-de-reglas-de-negocio-rn-01-a-rn-37)) verificables sin infraestructura | Application, Infrastructure, Web |
+| `SelfHosted.Service.Core.Domain` | Entidades, objetos de valor, invariantes del modelo (I1 a I10, enumeradas en §17.P.2) y reglas de negocio (RN-01 a RN-40, transcriptas en el anexo [E-16](#2016--e-16--catálogo-de-reglas-de-negocio-rn-01-a-rn-37)) verificables sin infraestructura | Application, Infrastructure, Web |
 | `SelfHosted.Service.Core.Application` | Casos de uso por módulo (proyectos, servicios y despliegues, descubrimiento, red, catálogo, observabilidad, identidad y tokens), sus DTO y validadores, y las abstracciones de salida que la infraestructura implementa | Web, e Infrastructure sólo para implementar sus abstracciones |
 | `SelfHosted.Service.Core.Infrastructure` | Implementaciones de las abstracciones de Application: `DbContext` y configuraciones de EF Core, adaptador del motor de contenedores, lectura de métricas del host, exportación a Compose y respaldos. No expone contrato propio: se registra en el contenedor de dependencias durante el arranque | Web, sólo en la composición de arranque |
 | `SelfHosted.Service.Core.Web` | La interfaz de usuario y la API REST `/api/v1`. Es el punto de entrada del proceso | El administrador por navegador y los automatismos por HTTP |
@@ -763,7 +825,7 @@ La descomposición es **vertical, con walking skeleton inicial**, y está declar
 
 El valor demostrable end-to-end a través de la jerarquía se garantiza así:
 
-- Las etapas `a` y `b` son hitos internos que atraviesan la jerarquía sin lógica de negocio: `a` entrega la solución compilando y ejecutándose desde los scripts dentro del devcontainer, con una página de salud que responde en el navegador del host, y verifica la puerta técnica PT-02; `b` entrega el panel navegable con las rutas del mapa de navegación del anexo [E-18](#2018--e-18--maquetado-de-la-interfaz-web), validado contra la maqueta UX-UI que ese mismo anexo especifica: disposición de la pantalla del lienzo, anatomía del nodo, panel lateral, dashboard y lenguaje visual de estados.
+- Las etapas `a` y `b` son hitos internos que atraviesan la jerarquía sin lógica de negocio: `a` entrega el producto compilando y ejecutándose desde los scripts dentro del devcontainer, con una página de salud que responde en el navegador del host, y verifica la puerta técnica PT-02; `b` entrega el panel navegable con las rutas del mapa de navegación del anexo [E-18](#2018--e-18--maquetado-de-la-interfaz-web), validado contra la maqueta UX-UI que ese mismo anexo especifica: disposición de la pantalla del lienzo, anatomía del nodo, panel lateral, dashboard y lenguaje visual de estados.
 - La etapa `c` es el primer hito demostrable ante el cliente y ya recorre las cuatro capas: pantallas Blazor en Web, casos de uso de identidad en Application, reglas de contraseña en Domain y persistencia con migraciones en Infrastructure.
 - De `c` en adelante, **toda** etapa es un hito demostrable, sin excepción: si una etapa planificada no produce algo que el cliente pueda recorrer en el navegador, está mal cortada y debe redividirse.
 
@@ -797,7 +859,7 @@ Es un artefacto de documentación obligatorio por etapa, declarado en `Requerimi
 
 Cortes verticales ya declarados para el Alcance 1, cada uno una etapa demostrable independiente **[E]**: proyectos; servicios del proyecto; lienzo; despliegue desde imagen pública; arranque y parada; cambios pendientes; direcciones IP y conflictos; escalado manual; despliegue desde Dockerfile y repositorio; descubrimiento y adopción. Pueden reordenarse o subdividirse, pero no fusionarse hasta perder la demostrabilidad intermedia. Los condicionan dos puertas técnicas: PT-01 antes del corte del lienzo y PT-02 antes del corte de despliegue, verificada ya en la etapa `a`.
 
-## §16 Estructura de repositorio de la solución
+## §16 Estructura de repositorio del producto
 
 Árbol derivado del proyecto de código único de §13 y del perfil de convención, coherente con la estructura de carpetas declarada en `Analisis-Final-Integrado.md` §12 **[E]** y con los scripts y el entorno de desarrollo de `Requerimientos-Tecnicos.md` §3 **[E]**. Respecto de la fuente, la diferencia es de **frontera de compilación, no de organización**: las cuatro carpetas que la fuente muestra bajo `/src` como directorios de proyecto son ahora carpetas de primer nivel dentro del proyecto único, con los mismos nombres y las mismas subcarpetas.
 
@@ -869,7 +931,7 @@ La estructura sigue las convenciones del ecosistema .NET: `src` y `tests` como r
 
 **La regla de aislamiento se cita literal, sin reexpresión de referente.** `Requerimientos-Tecnicos.md` §2 declara **[E]** que ningún tipo de la librería de Docker puede aparecer fuera de `SelfHosted.Infrastructure/Contenedores/`, y con esta disposición eso es `SelfHosted.Service.Core.Infrastructure/Contenedores/`: el mismo sufijo de ruta, con la identidad de código delante. No hay referente que reexpresar ni reinterpretación que registrar. Es la razón principal por la que esta disposición se prefirió a las dos que se evaluaron antes el mismo día.
 
-La ruta `SDD/Maquetas/SelfHosted-Service/` usa el `Nombre-Proyecto` y no el `nombre-proyecto-codigo`, porque pertenece al plano de documentación. No es una inconsistencia con `/src`: es la separación de planos que §13 declara.
+La ruta `SDD/Maquetas/SelfHosted-Service/` usa el `Nombre-Proyecto-Codigo` y no el `Identidad-Codigo`, porque pertenece al plano de documentación. No es una inconsistencia con `/src`: es la separación de planos que §13 declara.
 
 ### §16.1 Materialización de `/samples`
 
@@ -886,17 +948,17 @@ Cada sample es autocontenido, se ejecuta desde los scripts dentro del devcontain
 
 ---
 
-# Parte C — Técnica del proyecto de código
+# Parte C — Técnica por proyecto de código
 
-## §17 Bloque técnico del proyecto de código
+## §17 Bloque técnico por proyecto de código
 
-La solución tiene **un único proyecto de código**, decidido por el agente humano del proyecto el 2026-07-29 **[D]**. Las cuatro capas de la Clean Architecture —dominio, aplicación, infraestructura y presentación— siguen existiendo como separación interna, materializadas en **carpetas y espacios de nombres** dentro de ese proyecto, no en unidades de compilación separadas. Este bloque es el único de la Parte C; donde una capa tiene una definición propia, se declara como sub-bloque de la sección P.x correspondiente en lugar de en un bloque técnico aparte.
+El producto tiene **un único proyecto de código**, decidido por el agente humano del proyecto el 2026-07-29 **[D]**. Las cuatro capas de la Clean Architecture —dominio, aplicación, infraestructura y presentación— siguen existiendo como separación interna, materializadas en **carpetas y espacios de nombres** dentro de ese proyecto, no en unidades de compilación separadas. Este bloque es el único de la Parte C; donde una capa tiene una definición propia, se declara como sub-bloque de la sección P.x correspondiente en lugar de en un bloque técnico aparte.
 
 | Campo | Valor |
 |---|---|
-| `Nombre-Proyecto` | SelfHosted-Service |
-| `nombre-proyecto-codigo` | `SelfHosted.Service.Core` |
-| `project_type` (D8) | web-monolith |
+| `Nombre-Proyecto-Codigo` | SelfHosted-Service |
+| `Identidad-Codigo` | `SelfHosted.Service.Core` |
+| `tipo_proyecto_codigo` (D8) | web-monolith |
 | Rol | Único proyecto de código y único ejecutable: interfaz Blazor, API REST y servicios en segundo plano en un solo proceso, con las cuatro capas como espacios de nombres internos |
 | `redistribuible` | false |
 | Path `/src` | `src/SelfHosted.Service.Core/` |
@@ -905,7 +967,7 @@ La solución tiene **un único proyecto de código**, decidido por el agente hum
 
 | Espacio de nombres | Carpeta | Qué contiene |
 |---|---|---|
-| `SelfHosted.Service.Core.Domain` | `Domain/` | Entidades, invariantes I1 a I10 y reglas de negocio RN-01 a RN-37, sin dependencias externas |
+| `SelfHosted.Service.Core.Domain` | `Domain/` | Entidades, invariantes I1 a I10 y reglas de negocio RN-01 a RN-40, sin dependencias externas |
 | `SelfHosted.Service.Core.Application` | `Application/` | Casos de uso por módulo, DTO, validadores y las abstracciones de salida |
 | `SelfHosted.Service.Core.Infrastructure` | `Infrastructure/` | Adaptadores: persistencia, motor de contenedores, métricas del host y exportación |
 | `SelfHosted.Service.Core.Web` | `Web/`, con `Components/`, `Controllers/` y `BackgroundServices/` adentro | Páginas Blazor, controladores REST y servicios en segundo plano |
@@ -923,7 +985,7 @@ Dependencias core, todas con versión anclada y verificada **[E]**. Cualquier ca
 | MudBlazor | 9.7.0 | MIT, publicada 2026-07-09 | Sistema visual completo de la interfaz; los nodos del lienzo se construyen con sus componentes. Sin ella no hay pantalla | `Web` |
 | Z.Blazor.Diagrams | 3.0.4.1 | MIT, publicada 2026-03-02, marcos `net6.0` a `net10.0` | Lienzo: nodos y grupos personalizados, puertos, enlaces, minimapa y virtualización. Sujeta a la puerta técnica PT-01 | `Web` |
 | ASP.NET Core Identity | Incluida en .NET 10 | — | Autenticación por cookie del administrador único | `Web` e `Infrastructure` |
-| Entity Framework Core con proveedor SQLite | La correspondiente a .NET 10 | — | Es la persistencia de toda la solución. Migraciones aplicadas al arrancar | `Infrastructure` |
+| Entity Framework Core con proveedor SQLite | La correspondiente a .NET 10 | — | Es la persistencia de todo el producto. Migraciones aplicadas al arrancar | `Infrastructure` |
 | Docker.DotNet.Enhanced | 4.3.3 | MIT, publicada 2026-06-28, marcos `netstandard2.0`, `net8.0`, `net9.0`, `net10.0` | Cliente del motor de contenedores. Declara soporte de la API del motor v29.4.1 | `Infrastructure`, exclusivamente en `Infrastructure/Contenedores/` |
 | `dotnet-ef` | Herramienta **local** del repositorio, no global | — | Para que la versión quede versionada junto al código **[E]** | Herramienta de desarrollo |
 
@@ -952,20 +1014,20 @@ La decisión estructural del modelo, de la que dependen casi todas las demás, e
 
 Invariantes que el modelo debe hacer cumplir **[E]**: un proyecto SelfHosted contiene N servicios y un servicio pertenece a exactamente un proyecto SelfHosted (I1); un servicio es siempre exactamente un contenedor (I2); el servicio no tiene estado de encendido (I3); el ciclo de vida vive en el despliegue (I4); un servicio tiene como máximo un despliegue activo por réplica (I5); los datos persistentes viven en el volumen o montaje adjunto al servicio y sobreviven a la parada (I6); dos servicios **activos** de proyectos distintos no pueden ocupar la misma dirección, dos configurados sí (I7); el nombre de servicio es único dentro del proyecto y es también su nombre DNS interno (I8); los cambios de arquitectura se acumulan en un changeset y se aplican en lote (I9); un contenedor adoptado pertenece a un solo proyecto (I10).
 
-**Correspondencia con las invariantes del producto de referencia [E]** respecto de `Analisis-Rayway.md` §3.6, transcriptas acá porque la tabla de procedencia declara esa sección como fuente y la regla de autocontención exige que lo tomado esté en el documento. No son invariantes de esta solución: son las del producto relevado, y sirven para mostrar cuáles se adoptaron, cuál se adaptó y cuál se descartó.
+**Correspondencia con las invariantes del producto de referencia [E]** respecto de `Analisis-Rayway.md` §3.6, transcriptas acá porque la tabla de procedencia declara esa sección como fuente y la regla de autocontención exige que lo tomado esté en el documento. No son invariantes de este producto: son las del producto relevado, y sirven para mostrar cuáles se adoptaron, cuál se adaptó y cuál se descartó.
 
 | # en la fuente | Invariante del producto de referencia | Qué se hizo con ella acá |
 |---|---|---|
 | I1 | Un `Project` contiene **N** `Service` | **Adoptada** como I1, que además fija la pertenencia a exactamente un proyecto |
 | I2 | Un `Service` **es** un contenedor desplegado desde una imagen | **Adoptada** literalmente como I2. Es la que prohíbe que un ítem multi-servicio del catálogo empaquete varios servicios en un contenedor (D-7, RN-30) |
 | I3 | Un `Service` no tiene estado on/off; su configuración existe siempre | **Adoptada** como I3 |
-| I4 | El ciclo de vida vive en el `Deployment` | **Adoptada** como I4, y extendida por I5, que fija un despliegue activo por réplica porque esta solución tiene escalado horizontal manual |
-| I5 | Toda configuración está *scoped* a un `Environment` | **Descartada.** Esta solución no tiene el concepto de entorno: hay un único servidor y un único administrador (§9). Es la diferencia de modelo más grande respecto de la fuente |
+| I4 | El ciclo de vida vive en el `Deployment` | **Adoptada** como I4, y extendida por I5, que fija un despliegue activo por réplica porque este producto tiene escalado horizontal manual |
+| I5 | Toda configuración está *scoped* a un `Environment` | **Descartada.** Este producto no tiene el concepto de entorno: hay un único servidor y un único administrador (§9). Es la diferencia de modelo más grande respecto de la fuente |
 | I6 | La conectividad privada es automática dentro del entorno | **Adaptada.** Acá la red es por proyecto y la conectividad automática vale dentro de ella; es lo que sostiene que la arista del lienzo no represente red sino dependencia de configuración (P.11) |
 | I7 | Los datos persistentes viven en el `Volume`, adjunto al servicio | **Adoptada** como I6, ampliada a montaje de directorio porque es el patrón mayoritario del parque real (E-19) |
 | I8 | Los cambios se acumulan en un *changeset* antes de aplicarse | **Adoptada** como I9 |
 
-Las invariantes propias de esta solución que la fuente no tiene son I7 (conflicto de direcciones entre servicios activos de proyectos distintos), I8 (nombre de servicio único y a la vez nombre DNS interno) e I10 (un contenedor adoptado pertenece a un solo proyecto). Las tres nacen de cosas que el producto de referencia no enfrenta: direcciones fijas de una LAN real, y un parque preexistente que hay que adoptar sin reinstanciar.
+Las invariantes propias de este producto que la fuente no tiene son I7 (conflicto de direcciones entre servicios activos de proyectos distintos), I8 (nombre de servicio único y a la vez nombre DNS interno) e I10 (un contenedor adoptado pertenece a un solo proyecto). Las tres nacen de cosas que el producto de referencia no enfrenta: direcciones fijas de una LAN real, y un parque preexistente que hay que adoptar sin reinstanciar.
 
 **Alternativas de estilo descartadas [E] salvo donde se indique:**
 
@@ -980,7 +1042,7 @@ Las invariantes propias de esta solución que la fuente no tiene son I7 (conflic
 
 | Alternativa | Por qué se descartó |
 |---|---|
-| **Cuatro proyectos de código**, uno por capa, que es lo que este documento declaraba | Multiplica las unidades de compilación de una solución que se despliega entera y de una sola vez, y arrastra a la documentación un modelo de cuatro componentes publicables que no existe |
+| **Cuatro proyectos de código**, uno por capa, que es lo que este documento declaraba | Multiplica las unidades de compilación de un producto que se despliega entera y de una sola vez, y arrastra a la documentación un modelo de cuatro componentes publicables que no existe |
 | **Un proyecto de código por adaptador** dentro de infraestructura **[D]** | Multiplicaría las unidades sin ganar aislamiento real, porque todas se despliegan juntas y ninguna se publica por separado. Se descartaba ya antes de esta decisión y con más razón después |
 
 **Lo que la decisión cuesta, declarado y compensado.** La frontera de proyecto hacía cumplir por compilación tres cosas que ahora hay que verificar: la regla de aislamiento del cliente del motor, la ausencia de dependencias externas en el dominio y la separación entre aplicación e infraestructura. Las tres pasan a verificarse con el **test de arquitectura** de P.6, que es gate bloqueante del pipeline. La diferencia real es el momento en que se detecta la violación: antes era un error de compilación, ahora es un test rojo del pipeline. Es una degradación de garantía asumida **[D]**, no un descuido.
@@ -1006,7 +1068,7 @@ La superficie de la API son los **treinta endpoints**, agrupados en las veintioc
 | Motor de contenedores | API HTTP del demonio sobre socket de dominio Unix (`/var/run/docker.sock`), montado del host | En desarrollo por `docker-outside-of-docker`; en producción por socket montado en el contenedor **[E]**. Siempre a través de `IContenedorEngine`. Registro de contenedores en flujo continuo para la vista de logs |
 | Base de datos | Archivo SQLite local, acceso en proceso | Ver P.4 |
 | Sistema de archivos | Lectura del sistema de archivos virtual del sistema operativo, montado en modo sólo lectura, para las métricas del host **[E]** | |
-| Exportación | Escritura de archivos Compose, de variables y del manifiesto propio en el directorio de datos de trabajo | Ver anexo [E-14](#2014--e-14--exportación-de-un-proyecto-a-docker-compose). Las reglas de traducción en el sentido inverso, de Compose al modelo, están en el anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución), verificadas contra las configuraciones reales del anexo [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas) |
+| Exportación | Escritura de archivos Compose, de variables y del manifiesto propio en el directorio de datos de trabajo | Ver anexo [E-14](#2014--e-14--exportación-de-un-proyecto-a-docker-compose). Las reglas de traducción en el sentido inverso, de Compose al modelo, están en el anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto), verificadas contra las configuraciones reales del anexo [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas) |
 
 **Contratos internos entre capas.** Ya no cruzan una frontera de proyecto, pero siguen siendo la estructura del código y se declaran igual **[E]**:
 
@@ -1014,7 +1076,7 @@ La superficie de la API son los **treinta endpoints**, agrupados en las veintioc
 - El contrato de `Application` hacia `Infrastructure` son las abstracciones que esta implementa: `IContenedorEngine`, los repositorios y `IRelojSistema`.
 - El contrato de `Domain` hacia el resto son sus tipos públicos. No tiene dependencias salientes: es la capa base.
 
-`IContenedorEngine` es el contrato más sensible de la solución: **ningún tipo de la librería de Docker puede aparecer fuera de `SelfHosted.Service.Core.Infrastructure/Contenedores/`** **[E]**. Los tipos que cruzan esta interfaz son propios de la solución, nunca del cliente de Docker. Es lo que permite cambiar de cliente sin tocar el resto. Desde la versión 2.2 la ruta denota un espacio de nombres y la regla la verifica el test de arquitectura, no el compilador.
+`IContenedorEngine` es el contrato más sensible del producto: **ningún tipo de la librería de Docker puede aparecer fuera de `SelfHosted.Service.Core.Infrastructure/Contenedores/`** **[E]**. Los tipos que cruzan esta interfaz son propios del producto, nunca del cliente de Docker. Es lo que permite cambiar de cliente sin tocar el resto. Desde la versión 2.2 la ruta denota un espacio de nombres y la regla la verifica el test de arquitectura, no el compilador.
 
 Política de breaking changes internos: al haber un único proyecto y ningún consumidor externo, un cambio de firma se propaga en el mismo commit a todos sus usos. La compilación sigue siendo el detector.
 
@@ -1033,12 +1095,12 @@ Los contenedores creados son **hermanos, no hijos** del devcontainer: nacen en e
 | Versionado del esquema | Migraciones de EF Core, aplicadas automáticamente al arrancar sobre una base inexistente o desactualizada. `scripts/migrate.sh` genera y aplica; `scripts/reset-db.sh` elimina la base local para reproducir el estado de primer arranque |
 | Ubicación del archivo | Configurable. En producción reside en un volumen persistente, nunca dentro de la imagen |
 | Respaldo | Exportación programada de proyectos SelfHosted y catálogo a un destino externo (DA-08). El respaldo debe ser consistente con WAL activo |
-| Almacén de Identity | Se materializa sobre el mismo `DbContext` de la solución **[D]** |
+| Almacén de Identity | Se materializa sobre el mismo `DbContext` del producto **[D]** |
 | Multi-tenant | No aplica. Hay un único administrador y una única instancia |
 
 **Dónde vive la persistencia dentro del proyecto.** Exclusivamente en `SelfHosted.Service.Core.Infrastructure.Persistencia`. Ni `Domain` ni `Application` conocen EF Core ni SQLite: `Domain` define las entidades y no su almacenamiento, y `Application` define las abstracciones de repositorio y no su implementación. Es la segunda regla que verifica el test de arquitectura de P.6.
 
-Modelo de datos: el esquema relacional está transcripto completo en el anexo [E-9](#209--e-9--esquema-relacional-de-la-base-sqlite). Tres decisiones de esquema que la solución debe sostener **[E]**:
+Modelo de datos: el esquema relacional está transcripto completo en el anexo [E-9](#209--e-9--esquema-relacional-de-la-base-sqlite). Tres decisiones de esquema que el producto debe sostener **[E]**:
 
 1. La dirección IP se guarda en `reservas_ip`, no sólo dentro del JSON de red, porque es el único dato que se consulta **entre proyectos** para detectar conflictos y necesita ser una columna indexada. La clave única por `(servicio_id, numero_replica)` permite escalar un servicio macvlan dando una dirección por réplica.
 2. `despliegues` no se borra nunca: es el historial que alimenta la línea de tiempo del panel de servicio, con la política de retención de DA-07.
@@ -1088,16 +1150,16 @@ Compliance: no aplica normativa alguna (§10).
 
 | Nivel | Proporción de la pirámide | Proyecto de prueba | Framework | Qué cubre |
 |---|---|---|---|---|
-| Unitarias de dominio | 100 % de la capa `Domain` | `SelfHosted.Service.Core.Domain.Tests` | xUnit | Invariantes del modelo (I1 a I10) y reglas de negocio (RN-01 a RN-37), **sin infraestructura** **[E]**, en particular la regla de conflicto de direcciones IP |
+| Unitarias de dominio | 100 % de la capa `Domain` | `SelfHosted.Service.Core.Domain.Tests` | xUnit | Invariantes del modelo (I1 a I10) y reglas de negocio (RN-01 a RN-40), **sin infraestructura** **[E]**, en particular la regla de conflicto de direcciones IP |
 | Unitarias de aplicación y de frontera | 90 % de la capa `Application`, 15 % de `Infrastructure`, 20 % de `Web` | `SelfHosted.Service.Core.Application.Tests` | xUnit con dobles de prueba | Casos de uso con `IContenedorEngine` y repositorios simulados **[E]**; mapeos y traducciones puras de la frontera, sin salida real; casos de uso invocados desde la capa web |
-| Integración | 85 % de `Infrastructure`, 60 % de `Web`, 10 % de `Application` | `SelfHosted.Service.Core.Integration.Tests` | xUnit más **Testcontainers** | Persistencia real contra SQLite y adaptador real contra el motor de contenedores **[E]**; endpoints de la API con persistencia real; los casos de uso cuyo comportamiento sólo se verifica contra un motor real, en particular la importación y exportación de Compose del anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución) |
+| Integración | 85 % de `Infrastructure`, 60 % de `Web`, 10 % de `Application` | `SelfHosted.Service.Core.Integration.Tests` | xUnit más **Testcontainers** | Persistencia real contra SQLite y adaptador real contra el motor de contenedores **[E]**; endpoints de la API con persistencia real; los casos de uso cuyo comportamiento sólo se verifica contra un motor real, en particular la importación y exportación de Compose del anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto) |
 | End-to-end | Guiones de demostración de cada etapa | — | Manual, ejecutado por el agente humano en el navegador | El flujo completo de usuario de la etapa, más los guiones acumulados de las etapas anteriores |
 
 **Cobertura mínima, gate del CI. Los cuatro umbrales confirmados en S-02 se conservan y se miden por filtro de espacio de nombres [D-i]:**
 
 | Espacio de nombres | Líneas | Ramas | Por qué ese umbral **[E]** |
 |---|---|---|---|
-| `SelfHosted.Service.Core.Domain` | 90 % | 85 % | Es el umbral más alto de la solución y está justificado: no hay código de frontera, no hay entrada ni salida, y cada regla de negocio está enunciada de forma verificable en las fuentes, con su momento de validación y su respuesta ante incumplimiento |
+| `SelfHosted.Service.Core.Domain` | 90 % | 85 % | Es el umbral más alto del producto y está justificado: no hay código de frontera, no hay entrada ni salida, y cada regla de negocio está enunciada de forma verificable en las fuentes, con su momento de validación y su respuesta ante incumplimiento |
 | `SelfHosted.Service.Core.Application` | 80 % | 70 % | Es la capa de mayor densidad de lógica de orquestación y se cubre con dobles de prueba, sin infraestructura; sólo el dominio lleva un umbral más alto |
 | `SelfHosted.Service.Core.Web` | 60 % | 50 % | Umbral deliberadamente moderado para la capa de presentación, donde el componente Razor se valida por guion de demostración y no por prueba unitaria |
 | `SelfHosted.Service.Core.Infrastructure` | 55 % | 45 % | Es la capa con mayor proporción de código de frontera, cuyo valor se verifica por prueba de integración contra el sistema real y no por cobertura de líneas |
@@ -1124,7 +1186,7 @@ Compliance: no aplica normativa alguna (§10).
 **[S] S-04, confirmado el 2026-07-27.** Las fuentes declaran el etiquetado por etapa cerrada y la actualización del `changelog.md` en la rama de la etapa **[E]**; el esquema de versión se propuso aquí y fue confirmado sin cambios.
 
 - **SemVer 2.0.0 y Conventional Commits, sin excepciones.** La versión es única, que desde la versión 2.2 de este documento es además una propiedad estructural: hay un solo proyecto de código y un solo artefacto.
-- Herramienta de cálculo de versión: derivada de los Conventional Commits desde la etiqueta anterior, en el pipeline. Mientras la solución no alcance su primera entrega completa, la versión permanece en `0.x`.
+- Herramienta de cálculo de versión: derivada de los Conventional Commits desde la etiqueta anterior, en el pipeline. Mientras el producto no alcance su primera entrega completa, la versión permanece en `0.x`.
 - Branching: una rama por etapa, creada desde la rama principal, fusionada por el agente humano tras el OK del punto de control, y borrada. No se abre la rama de una etapa antes de que se haya fusionado la anterior **[E]**.
 - Canales: no hay canal de distribución pública. El artefacto es una imagen de contenedor para el servidor propio. No se publica ningún paquete.
 - Cada etapa cerrada y fusionada recibe una **etiqueta** en el repositorio, para poder volver a cualquier demostración anterior **[E]**.
@@ -1226,7 +1288,7 @@ Los umbrales de PT-01 son **[E]**, declarados en `Requerimientos-Tecnicos.md` §
 | Tiempo de la batería completa de pruebas de dominio | ≤ 5 s, para que corra en cada guardado sin fricción |
 | Validación de conflicto de direcciones sobre 30 servicios | ≤ 10 ms, sin acceso a base de datos ni al motor |
 | Determinismo | Ninguna entidad lee el reloj del sistema ni genera aleatoriedad: ambos llegan como parámetro **[E]** |
-| Trazabilidad de las reglas | Cada regla RN-01 a RN-37 identificable en el código por su identificador **[D]** |
+| Trazabilidad de las reglas | Cada regla RN-01 a RN-40 identificable en el código por su identificador **[D]** |
 
 ### §17.P.11 Decisiones técnicas pre-tomadas (pre-ADR)
 
@@ -1301,7 +1363,7 @@ Cargas que no soporta: tráfico de usuarios concurrentes (hay uno solo), exposic
 
 ## §18 Estrategia de demo / samples
 
-Los samples de esta solución tienen un destinatario particular: no hay integradores externos, de modo que su función es sostener las demostraciones de las etapas y las puertas técnicas, que son el mecanismo de aceptación declarado. Cada uno es autocontenido, se ejecuta desde los scripts dentro del devcontainer y se reproduce en cinco pasos o menos.
+Los samples de este producto tienen un destinatario particular: no hay integradores externos, de modo que su función es sostener las demostraciones de las etapas y las puertas técnicas, que son el mecanismo de aceptación declarado. Cada uno es autocontenido, se ejecuta desde los scripts dentro del devcontainer y se reproduce en cinco pasos o menos.
 
 | # | Sample | Capa que ilustra | Complejidad | Vínculo con `/src` |
 |---|---|---|---|---|
@@ -1310,10 +1372,10 @@ Los samples de esta solución tienen un destinatario particular: no hay integrad
 | SM-03 | Juego de datos de siembra que reproduce el parque de referencia del anexo [E-19](#2019--e-19--parque-de-contenedores-de-referencia), materializado con las seis configuraciones reales ofuscadas del anexo [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas): proyectos con servicios en bridge y en macvlan, con sus direcciones, montajes, dispositivos y capacidades | `Web` | Baja | Puebla la base del anexo [E-9](#209--e-9--esquema-relacional-de-la-base-sqlite) para poder recorrer el lienzo y el dashboard sin configurar nada a mano. Es también el fixture base que declara el anexo [E-22](#2022--e-22--casos-de-prueba-derivados-de-las-configuraciones-reales) |
 | SM-04 | Consumo de los casos de uso con una implementación de prueba de `IContenedorEngine`, sin motor real | `Application` | Baja | Demuestra que la capa de aplicación es ejercitable sin infraestructura, que es la premisa de su cobertura del 80 % |
 | SM-05 | Resolución de un conflicto de direcciones IP de extremo a extremo, con sus tres resoluciones posibles | `Domain` | Baja | Ejercita la regla más específica del alcance, transcripta en el anexo [E-8](#208--e-8--reserva-de-direcciones-ip-e-informe-de-conflicto) |
-| SM-06 | Ida y vuelta con Docker Compose: importar una de las configuraciones reales del anexo [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas), representarla en el modelo y volver a exportarla con el archivo de variables vacío y el manifiesto propio del layout | `Infrastructure` | Media | Demuestra la portabilidad del anexo [E-14](#2014--e-14--exportación-de-un-proyecto-a-docker-compose), las reglas de traducción del anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución) y la regla de que ningún secreto se exporta |
+| SM-06 | Ida y vuelta con Docker Compose: importar una de las configuraciones reales del anexo [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas), representarla en el modelo y volver a exportarla con el archivo de variables vacío y el manifiesto propio del layout | `Infrastructure` | Media | Demuestra la portabilidad del anexo [E-14](#2014--e-14--exportación-de-un-proyecto-a-docker-compose), las reglas de traducción del anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto) y la regla de que ningún secreto se exporta |
 | SM-07 | Despliegue disparado por un workflow, con token de ámbito mínimo | `Web` | Baja | Demuestra el contrato del anexo [E-13](#2013--e-13--contrato-del-endpoint-de-despliegue) y cierra la discusión de autenticación con evidencia funcionando **[E]** |
 
-**Punto de extensión principal.** El punto de extensión de la solución es el adaptador del motor de contenedores detrás de `IContenedorEngine`: es lo que permite cambiar de cliente sin tocar el resto **[E]**. SM-02 y SM-04 lo demuestran desde los dos lados, con motor real y con implementación de prueba.
+**Punto de extensión principal.** El punto de extensión del producto es el adaptador del motor de contenedores detrás de `IContenedorEngine`: es lo que permite cambiar de cliente sin tocar el resto **[E]**. SM-02 y SM-04 lo demuestran desde los dos lados, con motor real y con implementación de prueba.
 
 ---
 
@@ -1409,15 +1471,17 @@ Qué hay que entender del ejemplo, en lo incorporado el 2026-07-28 **[D]**:
 
 ### §20.2 · E-2 · Servicio, con sus tres variantes de origen
 
-Citado desde §4 (F-03), §17.4 P.2 y §17.4 P.12. Procedencia: `Analisis-Final-Integrado.md`, líneas 571–683. Estado: `declarado`.
+> **Discrepancia declarada entre el título y el contenido, desde la versión 2.4.** El título dice «tres variantes de origen» y este anexo declara **cinco**. Se conserva el título por la misma regla que conserva el de E-4 y la ubicación de §19, registrada en la tabla de observaciones no aplicadas de esa sección: **de este título se deriva una de las veintidós anclas del intake, está citada siete veces en este documento y también desde `02-Especificacion-Funcional`, y no se rompe un ancla en uso**. La cifra vigente es cinco y la fija la tabla de §20.2.3 de acá abajo.
 
-**Contexto.** La configuración completa de un servicio tal como queda declarada en el registro, en sus cuatro formas: origen por imagen de registro, por repositorio remoto, por Dockerfile local y la variante macvlan con dirección fija y dispositivo anclado, que es el patrón mayoritario del parque real. Es lo que el alta de un servicio tiene que ser capaz de declarar el primer día.
+Citado desde §4 (F-03), §17.4 P.2 y §17.4 P.12. Procedencia: `Analisis-Final-Integrado.md`, líneas 571–683; **ampliado el 2026-07-29** con las cinco variantes discriminadas de origen, el comando de arranque, el estado del servicio, el disparo externo y la procedencia, por la redefinición del alta de servicio que la sección «Decisiones incorporadas en la versión 2.4» declara. Estado: `declarado`.
+
+**Contexto.** La configuración completa de un servicio tal como queda declarada en el registro del sistema, con sus **cinco variantes discriminadas de origen** —imagen de registro público, imagen de registro privado, repositorio remoto, archivo de construcción en línea y sin origen— más la variante macvlan con dirección fija y dispositivo anclado, que es el patrón mayoritario del parque real. Es lo que el alta de un servicio tiene que ser capaz de declarar el primer día.
 
 **Qué ejercita.** Las ocho dimensiones de configuración que el parque real exige y que el anexo [E-19](#2019--e-19--parque-de-contenedores-de-referencia) enumera; las seis referencias del servicio 101, que entre ellas cubren las tres formas de D-6, las dos clases de arista y la interpolación dentro de un valor más largo; la distinción entre forma legible y forma vinculada (D-8, ampliada por D-12); la persistencia de las dos formas del valor, la expresión sin resolver como fuente de verdad y el último valor resuelto como materialización; la propagación del carácter de secreto por la referencia (RN-23); y el campo `origen: "enlace"`, que registra cómo se creó la variable y no una clase distinta de variable.
 
-**Qué verificar.** Que al desplegar, el contenedor reciba valores y nunca expresiones: ninguna variable del contenedor puede contener la secuencia `${{` ni el marcador `#` del vínculo (T-38). Que renombrar el servicio destino o la variable destino no rompa ninguna referencia ni produzca un cambio pendiente (T-55, T-58, RN-33). Que `DB_PASSWORD` quede secreta por propagación, con `valor` en `null` y enmascarada en toda respuesta (T-37, RN-23). Que la variante macvlan rechace la publicación de puertos (T-10, RN-07). Que `SALUD_URL`, que referencia dos variables del propio servicio, no genere ninguna arista. Y que `DB_USER`, que referencia una variable declarada y no el host, dibuje arista y marque redespliegue sin ordenar el arranque ni exigir canal alcanzable (T-44, T-46).
+**Qué verificar.** Que al desplegar, el contenedor reciba valores y nunca expresiones: ninguna variable del contenedor puede contener la secuencia `${{` ni el marcador `#` del vínculo (T-38). Que renombrar el servicio destino o la variable destino no rompa ninguna referencia ni produzca un cambio pendiente (T-55, T-58, RN-33). Que `DB_PASSWORD` quede secreta por propagación, con `valor` en `null` y enmascarada en toda respuesta (T-37, RN-23). Que la variante macvlan rechace la publicación de puertos (T-10, RN-07). Que `SALUD_URL`, que referencia dos variables del propio servicio, no genere ninguna arista. Y que `DB_USER`, que referencia una variable declarada y no el host, dibuje arista y marque redespliegue sin ordenar el arranque ni exigir canal alcanzable (T-44, T-46). **Desde la versión 2.4:** que cada variante de origen admita exactamente los campos que su tipo declara y ninguno más; que un servicio en estado `borrador` no entre al conjunto de cambios pendientes; y que un servicio con origen `dockerfile` cuyo contenido declare una copia de archivos locales sea rechazado en la verificación del origen.
 
-Todo lo que sigue describe servicios de un **proyecto SelfHosted**. Modelo completo con origen por imagen de registro:
+Todo lo que sigue describe servicios de un **proyecto SelfHosted**. Modelo completo con origen por imagen de registro privado:
 
 ```json
 {
@@ -1425,13 +1489,16 @@ Todo lo que sigue describe servicios de un **proyecto SelfHosted**. Modelo compl
   "proyectoId": 12,
   "nombre": "api",
   "descripcion": "API REST del portal",
+  "estado": "aplicado",
   "origen": {
-    "tipo": "imagen",
+    "tipo": "imagen-privada",
+    "registroUrl": "registry.interno.lan",
     "imagen": "registro-privado/portal-api",
     "etiqueta": "1.4.2",
     "politicaActualizacion": "fijada",
-    "registro": { "url": "registry.interno.lan", "requiereCredenciales": true, "credencialId": 3 }
+    "credencialRegistroId": 3
   },
+  "comando": null,
   "red": {
     "modo": "bridge",
     "aliasDns": "api",
@@ -1472,6 +1539,17 @@ Todo lo que sigue describe servicios de un **proyecto SelfHosted**. Modelo compl
     "intervaloSegundos": null
   },
   "adopcion": null,
+  "procedencia": null,
+  "disparoExterno": {
+    "habilitado": true,
+    "tokenPrefijo": "sk-a41f",
+    "ambito": "despliegues:ejecutar",
+    "ultimoUso": { "en": "2026-07-29T11:02:00-03:00", "actor": "token:sk-a41f", "resultado": "desplegado" }
+  },
+  "verificaciones": {
+    "origen": { "estado": "verificado", "en": "2026-07-26T09:00:00-03:00", "informe": "…ver 20.2.5" },
+    "configuracion": { "estado": "validado", "en": "2026-07-26T09:01:00-03:00", "informe": "…ver 20.2.5" }
+  },
   "posicionCanvas": { "x": 160, "y": 120 },
   "estadoActual": {
     "estado": "activo",
@@ -1481,6 +1559,7 @@ Todo lo que sigue describe servicios de un **proyecto SelfHosted**. Modelo compl
   }
 }
 ```
+
 
 Seis de las variables de este servicio son referencias, y entre las seis ejercitan las tres formas de D-6 y las dos clases de arista. Su sintaxis, momento de resolución y efecto en el grafo están especificados en el anexo [E-4](#204--e-4--enlace-del-lienzo-y-su-variable-generada). La columna «Forma» muestra la **forma legible**, que es lo que el usuario escribe y lo que la interfaz muestra; lo que se persiste es la **forma vinculada**, con el identificador del servicio destino (D-8):
 
@@ -1500,40 +1579,305 @@ Cinco cosas que el ejemplo muestra y que el modelo hace cumplir:
 - **Se persisten las dos formas del valor**: `referencia` guarda la expresión sin resolver y `valor` la última resolución, con `resueltaEn` como marca de tiempo.
 - **El carácter de secreto se propaga por la referencia** (RN-23): `DB_PASSWORD` referencia una variable compartida secreta, de modo que ella misma es secreta, tiene `valor` en `null` y viaja como referencia a secreto, igual que `API_KEY_EXTERNA`. Ninguna variable provista es secreta, de modo que una referencia a `SELFHOSTED_*` nunca dispara esta propagación.
 - **Un servicio puede referenciar sus propias variables provistas**, como hace `SALUD_URL` con `${{ SELFHOSTED_HOST }}`: es la forma de un segmento, no genera arista y no lleva vínculo, porque el servicio propio no necesita identificarse.
+#### §20.2.1 Los seis campos nuevos respecto de la versión 2.3
 
-Variante de origen por repositorio de GitHub:
+| Campo | Qué es | Estado |
+|---|---|---|
+| `origen.tipo` | De tres valores planos a **cinco variantes discriminadas**, cada una con sus campos propios | **[D-i]** `DI-17`, `DI-18` |
+| `comando` | **Comando de arranque del contenedor.** Nulo hereda el de la imagen | **Hueco puro cerrado.** No dependía de ninguna decisión: ver §20.2.2 |
+| `estado` | `borrador`, `pendiente-de-aplicar` o `aplicado`. **Ortogonal** al estado del despliegue, que sigue siendo el de [E-17](#2017--e-17--ciclo-de-vida-del-despliegue-y-correspondencia-con-el-motor) | **[D-i]** `DI-19` |
+| `disparoExterno` | Bloque opcional con su token y su último uso. Es **propiedad transversal del servicio, no un origen**: cualquier variante puede tenerlo, y [E-13](#2013--e-13--contrato-del-endpoint-de-despliegue) ya lo ejercita sobre este mismo servicio 101, de origen imagen | Enunciado **[D]** por D-15 en cuanto a que las dos modalidades se conservan; **abierto** si es transversal a cualquier servicio: es `Q-9` en su parte no cerrada |
+| `procedencia` | Huella de auditoría de la **vía de alta**: adopción o catálogo, con qué se instanció y cuándo. **No es configuración y no vive en `origen`** | **[D-i]** `DI-17`; su contenido para el catálogo es **[D]** por D-14 |
+| `verificaciones` | Estado, momento e informe de las **dos verificaciones**, la del origen y la de la configuración, que son operaciones distintas con informes distintos | **[D-i]** `DI-17` |
+
+#### §20.2.2 El comando de arranque: un hueco que era más grande de lo declarado
+
+El documento de entrada lo registra como hallazgo `H-B` y afirma, en su §6 y en su §17.1, que «el modelo de E-2 lo tiene, `"comando": null`, como campo de primer nivel del servicio, distinto del `comando` del healthcheck», de modo que el hueco estaría sólo del lado de la especificación funcional. **Verificado contra la versión 2.3 de este intake: la afirmación era falsa.** El único `"comando"` de E-2 vivía dentro del objeto `healthcheck`, y no había ningún campo de primer nivel. El hueco estaba en **las dos puntas**, intake y especificación, no en una.
+
+Su §22.1, en cambio, acierta: clasifica la fila como «no depende de decisión: es un hueco puro». Esta versión lo cierra agregando el campo, y la corrección **no necesita marcador `[D-i]`** porque no hay nada que elegir: la dimensión ya era exigible por dos evidencias independientes que el propio documento de entrada aporta y que se verificaron acá. El contenedor `ia-video` del anexo [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas) corre con un comando declarado, y `NB-02` exige poder adoptar los ocho contenedores del parque; sin el campo, el alta especificada **no puede dar de alta uno de los ocho**.
+
+#### §20.2.3 Las cinco variantes de `origen`
+
+`origen` es una **variante discriminada por `tipo`**. Cada valor exige sus campos y **ninguno más**; un campo de otra variante en el objeto es un dato inválido y no un campo opcional vacío.
 
 ```json
 {
-  "origen": {
+  "imagen-publica": {
+    "tipo": "imagen-publica",
+    "registro": "selector de registro publico admitido",
+    "imagen": "string",
+    "etiqueta": "string",
+    "politicaActualizacion": "fijada | flotante"
+  },
+
+  "imagen-privada": {
+    "tipo": "imagen-privada",
+    "registroUrl": "string · direccion del registro de imagenes",
+    "imagen": "string",
+    "etiqueta": "string",
+    "politicaActualizacion": "fijada | flotante",
+    "credencialRegistroId": 0
+  },
+
+  "repositorio": {
     "tipo": "repositorio",
     "proveedor": "github",
-    "url": "https://github.com/usuario/portal-api",
-    "rama": "main",
-    "rutaDockerfile": "src/Api/Dockerfile",
-    "contextoBuild": ".",
-    "argumentosBuild": { "CONFIGURATION": "Release" },
-    "credencialId": 2,
+    "url": "string",
+    "rama": "string",
+    "rutaDockerfile": "string · relativa al repositorio",
+    "contextoBuild": "string · relativa al repositorio",
+    "argumentosBuild": { "CLAVE": "valor · sin expresiones de referencia" },
+    "credencialRepositorioId": 0,
     "reconstruirEnDespliegue": true
-  }
+  },
+
+  "dockerfile": {
+    "tipo": "dockerfile",
+    "contenido": "string · el archivo de construccion completo, sin instrucciones de copia local",
+    "argumentosBuild": { "CLAVE": "valor" },
+    "modificadoEn": "fecha · el panel es dueno del contenido y sabe cuando cambio"
+  },
+
+  "ninguno": { "tipo": "ninguno" }
 }
 ```
 
-Variante de origen por Dockerfile local:
+**Cinco precisiones que el modelo obliga y que la versión anterior no podía expresar:**
+
+1. **`credencialRegistroId` y `credencialRepositorioId` son entidades distintas.** Una autentica contra un registro de imágenes y la otra contra un proveedor de repositorios. La versión 2.3 las nombraba a las dos `credencialId`, lo que ocultaba que son dos cosas con ciclo de vida y ámbito distintos.
+2. **La imagen pública y la privada difieren en dos campos**: el registro pasa de **selector** a **dirección**, y aparece la credencial. No son dos naturalezas: es el mismo origen con y sin autenticación.
+3. **El archivo de construcción se declara como contenido y no como ruta del servidor.** Elimina los cuatro problemas de la vía por ruta que §13 del documento de entrada analiza: que la ruta la resuelve el demonio del host y no el proceso del panel, que el modelo admitía cualquier ruta del servidor sin regla que la acote, que el insumo era el único que el producto no podía obtener ni verificar, y que sin repositorio no había señal de que el archivo cambió —para lo cual `modificadoEn` es el equivalente del commit—. **Su límite técnico se declara en lugar de dejarse como sorpresa:** sin contexto de construcción, un archivo de construcción **no puede copiar archivos locales**, de modo que la vía sirve para el patrón «tomar una imagen pública y ajustarla», que es su único caso irreemplazable. Es `DI-20`.
+4. **Las expresiones de referencia `${{ … }}` nunca son resolubles en tiempo de construcción**, por RN-24, que las resuelve inmediatamente antes de crear el contenedor. No van en `argumentosBuild`. Lo que necesita valores resueltos —una migración de base de datos, por ejemplo— va en el **comando de arranque**.
+5. **La vía de alta no aparece en `origen`.** Adopción y catálogo dejan huella en `procedencia`, que es auditoría del servicio y no configuración.
+
+#### §20.2.4 Cuatro instancias, una por variante que no es la de arriba
+
+Con origen por **imagen de registro público**, que es el caso del primer alta de un servicio de caché:
 
 ```json
 {
+  "id": 401, "proyectoId": 31, "nombre": "cache-ia", "estado": "pendiente-de-aplicar",
+  "origen": {
+    "tipo": "imagen-publica", "registro": "registro-publico-de-referencia",
+    "imagen": "redis", "etiqueta": "7.2-alpine", "politicaActualizacion": "fijada"
+  },
+  "comando": null,
+  "red": { "modo": "bridge", "aliasDns": "cache-ia", "ipFija": "172.19.0.5", "interfazPadre": null },
+  "puertos": [ { "contenedor": 6379, "host": 6379, "protocolo": "tcp", "publicar": true } ],
+  "montajes": [ { "tipo": "volumen", "nombre": "cache-ia-datos", "destino": "/data", "soloLectura": false } ],
+  "recursos": { "limiteMemoriaMb": 512, "reservaMemoriaMb": 128, "limiteCpus": 0.5 },
+  "politicaReinicio": "unless-stopped", "autoArranque": true, "efimero": false,
+  "healthcheck": { "modo": "heredado-de-la-imagen", "comando": null, "intervaloSegundos": 30 },
+  "disparoExterno": null, "procedencia": null
+}
+```
+
+Con origen por **repositorio remoto**. Es el caso que muestra por qué el comando de arranque hace falta: la migración corre ahí y no en la construcción, porque durante la construcción la red privada no está disponible:
+
+```json
+{
+  "id": 402, "proyectoId": 12, "nombre": "informes", "estado": "pendiente-de-aplicar",
+  "origen": {
+    "tipo": "repositorio", "proveedor": "github",
+    "url": "https://github.com/usuario/portal-informes", "rama": "main",
+    "rutaDockerfile": "src/Informes/Dockerfile", "contextoBuild": ".",
+    "argumentosBuild": { "CONFIGURATION": "Release" },
+    "credencialRepositorioId": 2, "reconstruirEnDespliegue": true
+  },
+  "comando": "dotnet Informes.dll --migrar-y-arrancar",
+  "red": { "modo": "bridge", "aliasDns": "informes", "ipFija": null, "interfazPadre": null },
+  "puertos": [ { "contenedor": 8080, "host": 8081, "protocolo": "tcp", "publicar": true } ],
+  "variables": [
+    { "clave": "ConnectionStrings__Default", "valor": null, "secreta": false, "origen": "referencia",
+      "referencia": "Host=${{ db#103.SELFHOSTED_HOST }};Port=5432;Database=portal", "resueltaEn": null }
+  ],
+  "montajes": [], "recursos": { "limiteMemoriaMb": 256, "reservaMemoriaMb": 64, "limiteCpus": 0.5 },
+  "politicaReinicio": "unless-stopped", "autoArranque": false, "efimero": false,
+  "healthcheck": { "modo": "ninguno", "comando": null, "intervaloSegundos": null },
+  "disparoExterno": null, "procedencia": null
+}
+```
+
+Con origen por **archivo de construcción en línea**, en estado borrador y con las dos verificaciones sin correr. Es el caso de tomar una imagen pública y ajustarla, sin ninguna instrucción de copia local:
+
+```json
+{
+  "id": 403, "proyectoId": 31, "nombre": "proxy-interno", "estado": "borrador",
   "origen": {
     "tipo": "dockerfile",
-    "rutaDockerfile": "/srv/proyectos/portal/Dockerfile",
-    "contextoBuild": "/srv/proyectos/portal",
+    "contenido": "FROM nginx:1.25-alpine\nRUN apk add --no-cache curl\nENV NGINX_ENTRYPOINT_QUIET_LOGS=1\nEXPOSE 8080\nCMD [\"nginx\", \"-g\", \"daemon off;\"]",
     "argumentosBuild": {},
-    "reconstruirEnDespliegue": true
+    "modificadoEn": "2026-07-29T16:40:00-03:00"
+  },
+  "comando": null,
+  "red": { "modo": "bridge", "aliasDns": "proxy-interno", "ipFija": null, "interfazPadre": null },
+  "puertos": [], "variables": [], "montajes": [],
+  "recursos": { "limiteMemoriaMb": 128, "reservaMemoriaMb": 32, "limiteCpus": 0.25 },
+  "politicaReinicio": "unless-stopped", "autoArranque": false, "efimero": false,
+  "healthcheck": { "modo": "ninguno", "comando": null, "intervaloSegundos": null },
+  "disparoExterno": null, "procedencia": null,
+  "verificaciones": {
+    "origen": { "estado": "sin-verificar", "en": null, "informe": null },
+    "configuracion": { "estado": "sin-validar", "en": null, "informe": null }
   }
 }
 ```
 
-Variante macvlan con dirección fija y dispositivo anclado, que es el caso del parque real:
+**Sin origen**, que es el alta detenida en el paso del nombre y guardada. Es el caso de prueba de que un borrador no entra al conjunto de cambios pendientes:
+
+```json
+{
+  "id": 406, "proyectoId": 31, "nombre": "pendiente-de-definir", "estado": "borrador",
+  "origen": { "tipo": "ninguno" },
+  "comando": null,
+  "red": { "modo": "bridge", "aliasDns": "pendiente-de-definir", "ipFija": null, "interfazPadre": null },
+  "puertos": [], "variables": [], "montajes": [],
+  "recursos": { "limiteMemoriaMb": null, "reservaMemoriaMb": null, "limiteCpus": null },
+  "politicaReinicio": "unless-stopped", "autoArranque": false, "efimero": false,
+  "healthcheck": { "modo": "ninguno", "comando": null, "intervaloSegundos": null },
+  "disparoExterno": null, "procedencia": null,
+  "verificaciones": {
+    "origen": { "estado": "sin-verificar", "en": null, "informe": null },
+    "configuracion": { "estado": "sin-validar", "en": null, "informe": null }
+  }
+}
+```
+
+Y las dos vías **sin origen propio**, que muestran cómo queda `procedencia`. La adopción, sobre el `print-server` del parque real, ya incorporado —nótese que `puertos` vacío es correcto y no un dato faltante, porque RN-07 prohíbe publicar puertos en macvlan—:
+
+```json
+{
+  "id": 404, "proyectoId": 40, "nombre": "print-server", "estado": "aplicado",
+  "procedencia": { "via": "adopcion", "contenedorId": "9c1f2ab7", "adoptadoEn": "2026-07-29T10:15:00-03:00" },
+  "origen": {
+    "tipo": "imagen-privada", "registroUrl": "registry.interno.lan",
+    "imagen": "registro-privado/print-server", "etiqueta": "1.4.x",
+    "politicaActualizacion": "flotante", "credencialRegistroId": 3
+  },
+  "comando": null,
+  "red": { "modo": "macvlan", "aliasDns": "print-server", "ipFija": "192.168.1.139", "interfazPadre": "enp1s0" },
+  "puertos": [],
+  "variables": [ { "clave": "TZ", "valor": "America/Argentina/Buenos_Aires", "secreta": false, "origen": "manual", "referencia": null } ],
+  "montajes": [ { "tipo": "directorio", "nombre": "/srv/despliegues/print-server/data", "destino": "/data", "soloLectura": false } ],
+  "recursos": { "limiteMemoriaMb": 512, "reservaMemoriaMb": 128, "limiteCpus": 0.5 },
+  "politicaReinicio": "unless-stopped", "autoArranque": true, "efimero": false,
+  "healthcheck": { "modo": "heredado-de-la-imagen", "comando": null, "intervaloSegundos": 30 },
+  "disparoExterno": null
+}
+```
+
+Y el catálogo, con el **vínculo débil de D-14**: `procedencia` guarda una **copia** del identificador, el nombre y la versión de contenido del ítem, no una clave foránea. La plantilla puede borrarse y este servicio sigue respondiendo de dónde salió:
+
+```json
+{
+  "id": 405, "proyectoId": 12, "nombre": "db-informes", "estado": "pendiente-de-aplicar",
+  "procedencia": {
+    "via": "catalogo",
+    "itemCatalogoId": "cat-postgres-16",
+    "itemNombre": "PostgreSQL 16",
+    "versionContenido": 4,
+    "instanciadoEn": "2026-07-29T16:50:00-03:00",
+    "vinculo": "debil-solo-origen"
+  },
+  "origen": {
+    "tipo": "imagen-publica", "registro": "registro-publico-de-referencia",
+    "imagen": "postgres", "etiqueta": "16.3", "politicaActualizacion": "fijada"
+  },
+  "comando": null,
+  "red": { "modo": "bridge", "aliasDns": "db-informes", "ipFija": null, "interfazPadre": null },
+  "puertos": [],
+  "variables": [
+    { "clave": "POSTGRES_USER", "valor": "informes", "secreta": false, "origen": "manual", "referencia": null },
+    { "clave": "POSTGRES_PASSWORD", "valor": null, "secreta": true, "referenciaSecreto": "sec-021", "origen": "manual", "referencia": null }
+  ],
+  "montajes": [ { "tipo": "volumen", "nombre": "db-informes-datos", "destino": "/var/lib/postgresql/data", "soloLectura": false } ],
+  "recursos": { "limiteMemoriaMb": 1024, "reservaMemoriaMb": 256, "limiteCpus": 1.0 },
+  "politicaReinicio": "unless-stopped", "autoArranque": true, "efimero": false,
+  "healthcheck": { "modo": "propio", "comando": "pg_isready -U informes", "intervaloSegundos": 30 },
+  "disparoExterno": null
+}
+```
+
+#### §20.2.5 Los dos informes de verificación
+
+Son **dos operaciones distintas con dos informes distintos**, y la separación es lo que la versión 2.3 no tenía. La del **origen** consulta un sistema externo y responde si lo declarado existe y es alcanzable; la de la **configuración** verifica contra el modelo propio y contra el motor de contenedores. Cuatro criterios las gobiernan, y son **[D-i]** `DI-17`:
+
+| # | Criterio |
+|---|---|
+| V-1 | **Toda verificación emite informe que declara su propio alcance.** Un tilde sin decir qué se consultó es una afirmación sin evidencia, y viola D9 |
+| V-2 | **«No existe» y «no pude consultar» son fallos distintos** y se tratan distinto: corregir un dato contra reintentar |
+| V-3 | **Ninguna de las dos bloquea guardar.** Las dos bloquean el paso a `pendiente-de-aplicar`, que es la puerta al conjunto de cambios |
+| V-4 | Qué verifica la del origen **depende de la variante**: que la imagen y la etiqueta existan y devolver el digesto; lo mismo más que la credencial autentique; que el repositorio y la rama sean alcanzables y que la ruta del archivo de construcción exista en esa rama, devolviendo el último commit; o que el contenido del archivo de construcción sea interpretable y no lleve instrucciones de copia local |
+
+Informe de origen, caso exitoso:
+
+```json
+{
+  "resultado": "verificado",
+  "en": "2026-07-29T16:30:00-03:00",
+  "alcance": "Consultado el registro de imagenes publico con identidad anonima. No se verificaron procesos del host.",
+  "comprobaciones": [
+    { "que": "La imagen existe en el registro de imagenes", "resultado": "si", "detalle": "redis" },
+    { "que": "La etiqueta existe", "resultado": "si", "detalle": "7.2-alpine" },
+    { "que": "Digesto resuelto", "resultado": "si", "detalle": "sha256:9b1e…" }
+  ]
+}
+```
+
+Informe de origen, los dos fallos que `V-2` obliga a distinguir:
+
+```json
+[
+  {
+    "resultado": "fallido",
+    "clase": "dato-incorrecto",
+    "en": "2026-07-29T16:31:00-03:00",
+    "alcance": "Consultado el registro de imagenes publico.",
+    "comprobaciones": [
+      { "que": "La imagen existe en el registro de imagenes", "resultado": "si", "detalle": "redis" },
+      { "que": "La etiqueta existe", "resultado": "no", "detalle": "7.2-alpne no existe. Similares: 7.2-alpine" }
+    ],
+    "accionSugerida": "corregir-el-dato"
+  },
+  {
+    "resultado": "indeterminado",
+    "clase": "consulta-imposible",
+    "en": "2026-07-29T16:32:00-03:00",
+    "alcance": "No se pudo consultar el registro de imagenes publico.",
+    "comprobaciones": [
+      { "que": "Registro de imagenes alcanzable", "resultado": "no", "detalle": "Sin respuesta tras 10 s" }
+    ],
+    "accionSugerida": "reintentar"
+  }
+]
+```
+
+Informe de configuración, con el hallazgo de colisión de puerto publicado en el host que RN-38 hace exigible:
+
+```json
+{
+  "resultado": "con-hallazgos",
+  "en": "2026-07-29T16:35:00-03:00",
+  "alcance": "Verificado contra el registro del sistema y contra el motor de contenedores. No contra procesos del host.",
+  "comprobaciones": [
+    { "que": "Nombre unico en el proyecto (RN-01)", "resultado": "si" },
+    { "que": "Direccion dentro del rango gestionado (RN-06)", "resultado": "si" },
+    { "que": "Direccion libre entre servicios activos (RN-03)", "resultado": "si" },
+    { "que": "Puertos compatibles con el modo de red (RN-07)", "resultado": "si" },
+    { "que": "Puerto de host libre (RN-38)", "resultado": "no",
+      "detalle": "El puerto 6379 lo publica el servicio 'cache' del proyecto 'Portal Interno'",
+      "nivel": "bloqueante" },
+    { "que": "Aristas con canal alcanzable (RN-04)", "resultado": "si" },
+    { "que": "Referencias resolubles (RN-21)", "resultado": "si" }
+  ]
+}
+```
+
+**El alcance que el informe de configuración declara tiene un límite real y hay que escribirlo:** el sistema sólo conoce los puertos de lo que administra y los del motor de contenedores. Un proceso del sistema operativo que no corre en un contenedor puede tener el puerto tomado y el informe no lo sabe. Declarar el alcance es lo que evita que el tilde sostenga una afirmación que el sistema no puede verificar.
+
+#### §20.2.6 La variante de red macvlan, que es ortogonal al origen
+
+Con dirección fija y dispositivo anclado, que es el caso mayoritario del parque real. **No es una variante de origen y conviene no confundirla con una**: el modo de red y el origen son dimensiones independientes, y cualquiera de las cinco variantes de origen puede correr en macvlan.
 
 ```json
 {
@@ -1835,7 +2179,7 @@ Las cuatro combinaciones son alcanzables y ninguna es un error: es lo que la tab
 
 **Consecuencia sobre la detección de ciclos.** El grafo de arranque es el subgrafo de las aristas **que declaran espera**. RN-05 impide un ciclo de **arranque** sobre ese subgrafo; los ciclos de **valor** —`a.X` que referencia `b.Y` que referencia `a.X`— los cubre RN-22 sobre el grafo completo de referencias, y siguen siendo inadmisibles con independencia de la espera. Son dos cosas distintas en dos reglas distintas, y el reparto no cambia respecto de la segunda pasada: lo único que cambió es qué aristas forman el subgrafo de arranque.
 
-**5 · Convivencia con la expansión de variables de Docker Compose [D-i].** Sigue siendo un criterio dominante del diseño, porque el intake declara importación y exportación de Compose en ambos sentidos (F-13, anexos [E-14](#2014--e-14--exportación-de-un-proyecto-a-docker-compose) y [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución)). Compose interpola `$VAR`, `${VAR}` y sus formas con valor por defecto, y escapa el signo con `$$`; la secuencia `${{` **no es una interpolación válida de Compose**, que espera un nombre de variable después de la llave y falla si encuentra otra llave. La convivencia se resuelve así, en las dos direcciones, y no queda librada a que las dos sintaxis no se parezcan:
+**5 · Convivencia con la expansión de variables de Docker Compose [D-i].** Sigue siendo un criterio dominante del diseño, porque el intake declara importación y exportación de Compose en ambos sentidos (F-13, anexos [E-14](#2014--e-14--exportación-de-un-proyecto-a-docker-compose) y [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto)). Compose interpola `$VAR`, `${VAR}` y sus formas con valor por defecto, y escapa el signo con `$$`; la secuencia `${{` **no es una interpolación válida de Compose**, que espera un nombre de variable después de la llave y falla si encuentra otra llave. La convivencia se resuelve así, en las dos direcciones, y no queda librada a que las dos sintaxis no se parezcan:
 
 | Dirección | Resolución declarada | Regla |
 |---|---|---|
@@ -1931,19 +2275,21 @@ El informe de impacto no cambia respecto de la versión anterior del ejemplo: `a
 
 ### §20.6 · E-6 · Ítem del catálogo de servicios reutilizables
 
-Citado desde §4 (F-14). Procedencia: `Analisis-Final-Integrado.md`, líneas 815–854, reescrito el 2026-07-28 por la decisión D-7. Estado: `declarado`.
+Citado desde §4 (F-14). Procedencia: `Analisis-Final-Integrado.md`, líneas 815–854, reescrito el 2026-07-28 por la decisión D-7; **ampliado el 2026-07-29** con los tipos de parámetro cerrados, la conversión de secretos al guardar como plantilla, los informes de instanciación e importación, y las consecuencias del vínculo débil de D-14. Estado: `declarado`.
 
-**Contexto.** Dos ítems del catálogo —uno de un solo servicio, que es el caso frecuente, y uno multi-servicio con la arista entre sus dos nodos y una variable compartida que la plantilla declara— más el envoltorio del archivo de exportación del catálogo completo, con su versión de formato. Representa el momento en que el administrador convierte en activo reutilizable algo que ya resolvió una vez.
+**Contexto.** Dos ítems del catálogo —uno de un solo servicio, que es el caso frecuente, y uno multi-servicio con la arista entre sus dos nodos y una variable compartida que la plantilla declara— más el envoltorio del archivo de exportación del catálogo completo, con su versión de formato, más los **dos caminos por los que el catálogo se puebla** —guardar como plantilla e importar— con el informe que produce cada uno. Representa el momento en que el administrador convierte en activo reutilizable algo que ya resolvió una vez.
 
-**Qué ejercita.** El catálogo como **cuarta vía de alta** y no como cuarto origen de imagen; el ítem como subgrafo parametrizado que al instanciarse crea N servicios y N contenedores (RN-30); la convivencia de las tres sintaxis —`{{ parametro }}` del instanciador, `${{ camino }}` del resolutor de referencias y `${VAR}` de Compose— con su orden de resolución por etapas; el `idLocal`, que sostiene la parametrización del nombre sin anidar huecos dentro de una expresión de referencia; y la conversión determinista del formato 1 al 2.
+**Qué ejercita.** El catálogo como **vía de alta** y no como origen de imagen; el ítem como subgrafo parametrizado que al instanciarse crea N servicios y N contenedores (RN-30); la convivencia de las tres sintaxis —`{{ parametro }}` del instanciador, `${{ camino }}` del resolutor de referencias y `${VAR}` de Compose— con su orden de resolución por etapas; el `idLocal`, que sostiene la parametrización del nombre sin anidar huecos dentro de una expresión de referencia; la conversión determinista del formato 1 al 2; los **cuatro tipos de parámetro como conjunto cerrado** con `porDefecto` prohibido sobre `secreto`; la **conversión de variables secretas a parámetro con `generar`** al guardar como plantilla; el **vínculo débil** de D-14 con su copia en lugar de clave foránea; y la **colisión de identificador al importar**.
 
-**Qué verificar.** Que instanciar el ítem multi-servicio cree dos servicios, dos contenedores y una arista con espera declarada, y que ninguna expresión persistida conserve un `{{ }}` de parámetro (T-43). Que un nombre de servicio que ya existe en el proyecto destino se **sufije con aviso**, sin rechazar y sin preguntar (T-60, RN-36). Que una clave de variable compartida que ya existe no sea conflicto: con el mismo valor se advierte ofreciendo reusar, con distinto valor se crean separadas y se avisa, y en ninguno de los dos casos se bloquea (T-61, T-62, RN-37). Que ningún servicio instanciado comparta contenedor con otro (I2). Y que un archivo de `version: 1` siga siendo importable, envolviendo su plantilla en un subgrafo de un nodo sin pérdida.
+**Qué verificar.** Que instanciar el ítem multi-servicio cree dos servicios, dos contenedores y una arista con espera declarada, y que ninguna expresión persistida conserve un `{{ }}` de parámetro (T-43). Que un nombre de servicio que ya existe en el proyecto destino se **sufije con aviso**, sin rechazar y sin preguntar (T-60, RN-36). Que una clave de variable compartida que ya existe no sea conflicto: con el mismo valor se advierte ofreciendo reusar, con distinto valor se crean separadas y se avisa, y en ninguno de los dos casos se bloquea (T-61, T-62, RN-37). Que ningún servicio instanciado comparta contenedor con otro (I2). Que un archivo de `version: 1` siga siendo importable, envolviendo su plantilla en un subgrafo de un nodo sin pérdida. **Desde la versión 2.4:** que guardar como plantilla un servicio con una variable secreta con valor literal produzca un parámetro de tipo `secreto` con `generar`, **sin el valor**, y que el informe declare cuál convirtió; que un `porDefecto` sobre un parámetro de tipo `secreto` sea rechazado; que el contador de material sensible de la exportación sea cero; que **borrar un ítem no afecte a los servicios instanciados desde él y no emita advertencia de «en uso»** (RN-39); que un servicio instanciado responda de dónde salió **aunque el ítem ya no exista**; y que importar un identificador ya existente produzca una copia con identificador nuevo sin modificar el existente, con aviso no bloqueante.
 
-**Qué es el catálogo [D], D-7 del 2026-07-28.** Es la **cuarta vía de alta de un servicio**, no un cuarto origen: las tres variantes de origen del anexo [E-2](#202--e-2--servicio-con-sus-tres-variantes-de-origen) —imagen de registro, repositorio remoto y Dockerfile local— siguen siendo tres, y un ítem del catálogo es una plantilla parametrizada que, **al instanciarse, resuelve a** una de ellas. La distinción está tomada de que el producto de referencia lista `Template` en el mismo menú de creación de servicio que `Docker Image` y `GitHub Repository`, y define la entidad como *"Templates provide a way to jumpstart a project by packaging a service or set of services into a reusable, distributable format"* (`Analisis-Rayway.md` §3.2 **[E]** respecto de ese documento, tanto la definición de la entidad como la enumeración del menú). Tres notas que evitan la confusión más probable:
+**Qué es el catálogo [D], D-7 del 2026-07-28, ampliado en la versión 2.4.** Es **una de las siete vías de alta de un servicio**, no un origen: las variantes de origen del anexo [E-2](#202--e-2--servicio-con-sus-tres-variantes-de-origen) son **cinco** desde la versión 2.4, y un ítem del catálogo es una plantilla parametrizada que, **al instanciarse, resuelve a** una de ellas. La distinción está tomada de que el producto de referencia lista `Template` en el mismo menú de creación de servicio que `Docker Image` y `GitHub Repository`, y define la entidad como *"Templates provide a way to jumpstart a project by packaging a service or set of services into a reusable, distributable format"* (`Analisis-Rayway.md` §3.2 **[E]** respecto de ese documento, tanto la definición de la entidad como la enumeración del menú). Tres notas que evitan la confusión más probable:
 
 - **Nada del catálogo corre.** Sus ítems son definiciones en reposo: no tienen despliegue, no tienen contenedor, no ocupan dirección y no aparecen en ningún lienzo hasta instanciarse.
-- **El catálogo arranca vacío** en una instalación nueva, y se puebla cuando el usuario guarda un servicio como plantilla o importa un catálogo exportado.
+- **El catálogo arranca vacío** en una instalación nueva, y se puebla por **exactamente dos caminos**: guardar un servicio como plantilla, e importar un catálogo exportado. El producto no se distribuye con contenido precargado, y desde la versión 2.4 eso es **dato cerrado del agente humano del proyecto (D-16)** y no sólo una consecuencia derivada. Hay **un solo nivel de catálogo, el del usuario**: la idea de un nivel de producto con procedencia y bifurcación al editar se evaluó y **se retiró**, porque resolvía un problema que este intake ya había decidido que no existe.
 - **Un ítem contiene un subgrafo**, es decir uno o varios servicios con sus aristas. Al instanciarlo se crean N servicios, cada uno con **su propio contenedor**, más los enlaces entre ellos (RN-30). Empaquetar varios servicios en un mismo contenedor violaría la invariante I2 y está prohibido; el mecanismo es el que F-13 ya exige al importar un archivo Compose, que crea varios servicios con sus enlaces de una sola vez, con parámetros encima.
+- **Un ítem sólo puede resolver a contenedores**, por RN-30. No hay ninguna forma de ítem que produzca un servicio gestionado sin contenedor: es la invariante que cierra la pregunta antes de que se abra.
+- **Lo instanciado queda desvinculado [D], D-14 del 2026-07-29.** El servicio creado desde un ítem tiene su propio ciclo de vida. Ver la tabla de consecuencias más abajo, y RN-39.
 
 Ítem de un solo servicio, que es el caso más frecuente. La plantilla es un subgrafo de un nodo y ninguna arista:
 
@@ -1958,7 +2304,7 @@ Citado desde §4 (F-14). Procedencia: `Analisis-Final-Integrado.md`, líneas 815
     "servicios": [
       {
         "nombre": "{{ slug }}-db",
-        "origen": { "tipo": "imagen", "imagen": "imagen-oficial/postgres", "etiqueta": "16-alpine", "politicaActualizacion": "fijada" },
+        "origen": { "tipo": "imagen-publica", "registro": "registro-publico-de-referencia", "imagen": "imagen-oficial/postgres", "etiqueta": "16-alpine", "politicaActualizacion": "fijada" },
         "puertos": [ { "contenedor": 5432, "protocolo": "tcp", "publicar": false } ],
         "variables": [
           { "clave": "POSTGRES_DB", "valor": "{{ nombreBase }}", "secreta": false },
@@ -2000,7 +2346,7 @@ Citado desde §4 (F-14). Procedencia: `Analisis-Final-Integrado.md`, líneas 815
       {
         "idLocal": "db",
         "nombre": "{{ slug }}-db",
-        "origen": { "tipo": "imagen", "imagen": "imagen-oficial/postgres", "etiqueta": "16-alpine", "politicaActualizacion": "fijada" },
+        "origen": { "tipo": "imagen-publica", "registro": "registro-publico-de-referencia", "imagen": "imagen-oficial/postgres", "etiqueta": "16-alpine", "politicaActualizacion": "fijada" },
         "puertos": [ { "contenedor": 5432, "protocolo": "tcp", "publicar": false } ],
         "variables": [
           { "clave": "POSTGRES_DB", "valor": "{{ nombreBase }}", "secreta": false },
@@ -2015,7 +2361,7 @@ Citado desde §4 (F-14). Procedencia: `Analisis-Final-Integrado.md`, líneas 815
       {
         "idLocal": "api",
         "nombre": "{{ slug }}-api",
-        "origen": { "tipo": "imagen", "imagen": "{{ imagenApi }}", "etiqueta": "{{ etiquetaApi }}", "politicaActualizacion": "fijada" },
+        "origen": { "tipo": "imagen-publica", "registro": "registro-publico-de-referencia", "imagen": "{{ imagenApi }}", "etiqueta": "{{ etiquetaApi }}", "politicaActualizacion": "fijada" },
         "puertos": [ { "contenedor": 8080, "protocolo": "tcp", "publicar": true } ],
         "variables": [
           { "clave": "ConnectionStrings__Default", "valor": null, "secreta": false, "origen": "enlace" },
@@ -2074,15 +2420,179 @@ Envoltorio del archivo de exportación del catálogo completo, con versión de f
 
 Un archivo con `version: 1` sigue siendo importable: un ítem de formato 1 tiene la plantilla de un servicio suelto y se convierte a formato 2 envolviéndola en `servicios: [ … ]` con `enlaces: []`. La conversión es determinista y no pierde nada, porque un ítem de formato 1 es exactamente un subgrafo de un nodo.
 
+#### §20.6.1 Los cuatro tipos de parámetro, declarados como conjunto cerrado
+
+Hasta la versión 2.3 los cuatro tipos **se inferían de los ejemplos** y no estaban enunciados. Desde la 2.4 se declaran como **enum cerrado**, y se agrega la prohibición que faltaba:
+
+| Tipo | Qué recibe | `porDefecto` |
+|---|---|---|
+| `texto` | Cadena libre que el usuario completa | Admitido |
+| `secreto` | Material sensible | **Prohibido.** Su único mecanismo es `generar` |
+| `imagen` | Referencia de imagen que el usuario aporta | Admitido |
+| `volumen` | Nombre de volumen o ruta de directorio | Admitido |
+
+**Por qué `porDefecto` queda prohibido sobre `secreto`.** `porDefecto` es un **valor literal que vive en la definición del ítem y se exporta con él**. Un valor por defecto secreto es, por construcción, un secreto escrito en un archivo distribuible, que es exactamente lo que RN-15 prohíbe. `generar` no tiene ese problema: el sistema produce el valor en la instanciación y nunca vive en la definición. El ejemplo de E-6 ya lo hacía bien —el parámetro `password` de los dos ítems lleva `"generar": true` y ningún `porDefecto`—, y lo que faltaba era enunciarlo como regla en lugar de dejarlo como costumbre del ejemplo. Es `DI-22`.
+
+#### §20.6.2 Guardar como plantilla un servicio ya resuelto: la conversión de los secretos
+
+Es el camino que más valor tiene y el más delicado, porque convierte «armé algo que funciona» en «lo tengo para la próxima». Y es donde el catálogo exportable se juega: **al guardar como plantilla un servicio ya resuelto, `POSTGRES_PASSWORD` tiene valor literal, y copiar el subgrafo copiaría el valor**.
+
+**Tratamiento declarado.** El sistema **convierte cada variable secreta del servicio en un parámetro de tipo `secreto` con `"generar": true`, descarta el valor, e informa cuáles convirtió**. No es una restricción molesta: una plantilla cuyo segundo uso hereda la contraseña del primero **no es reutilizable**, y generar es mejor que pedirla tipeada. Es `DI-21`.
+
+**Una plantilla escrita como plantilla nunca lleva secretos, y E-6 lo demuestra:** en sus dos ítems, todo secreto es un hueco `{{ password }}` o una referencia `${{ shared.DB_PASSWORD }}`. El problema aparece sólo en el camino inverso, el de guardar algo resuelto, que es el que esta versión cierra.
+
+**Un tercer caso se menciona para descartarlo:** una cadena de conexión con la contraseña adentro, escrita en una variable marcada `"secreta": false`. RN-23 propaga el carácter de secreto **a través de referencias** y no alcanza a un literal, pero eso ocurre igual en un servicio normal y **no es un problema del catálogo**.
+
+Éste es el ítem que produce el camino de guardar como plantilla, con las tres decisiones aplicadas. Nótese que `POSTGRES_PASSWORD` llegó con valor real y salió convertido en parámetro con `generar`, y que el ítem **no lleva campo de procedencia**, porque hay un solo nivel de catálogo:
+
+```json
+{
+  "id": "cat-postgres-16",
+  "nombre": "PostgreSQL 16",
+  "categoria": "base-de-datos",
+  "icono": "database",
+  "versionContenido": 1,
+  "versionFormato": 2,
+  "origenDelItem": "guardado-desde-servicio",
+  "plantilla": {
+    "servicios": [
+      {
+        "nombre": "{{ slug }}-db",
+        "origen": {
+          "tipo": "imagen-publica",
+          "registro": "registro-publico-de-referencia",
+          "imagen": "library/postgres",
+          "etiqueta": "16.3-alpine",
+          "politicaActualizacion": "fijada"
+        },
+        "comando": null,
+        "puertos": [ { "contenedor": 5432, "protocolo": "tcp", "publicar": false } ],
+        "variables": [
+          { "clave": "POSTGRES_DB", "valor": "{{ nombreBase }}", "secreta": false },
+          { "clave": "POSTGRES_USER", "valor": "{{ usuario }}", "secreta": false },
+          { "clave": "POSTGRES_PASSWORD", "valor": "{{ password }}", "secreta": true }
+        ],
+        "montajes": [ { "tipo": "volumen", "nombre": "{{ slug }}-datos", "destino": "/var/lib/postgresql/data" } ],
+        "recursos": { "limiteMemoriaMb": 1024, "limiteCpus": null },
+        "politicaReinicio": "unless-stopped",
+        "healthcheck": { "modo": "propio", "comando": "pg_isready -U {{ usuario }}", "intervaloSegundos": 30 }
+      }
+    ],
+    "variablesCompartidas": [],
+    "enlaces": []
+  },
+  "parametros": [
+    { "clave": "slug", "etiqueta": "Prefijo de recursos", "tipo": "texto", "requerido": true, "porDefecto": null },
+    { "clave": "nombreBase", "etiqueta": "Nombre de la base", "tipo": "texto", "requerido": true, "porDefecto": "app" },
+    { "clave": "usuario", "etiqueta": "Usuario", "tipo": "texto", "requerido": true, "porDefecto": "app" },
+    { "clave": "password", "etiqueta": "Contraseña", "tipo": "secreto", "requerido": true, "generar": true }
+  ],
+  "informeDeGuardado": {
+    "variablesConvertidasAParametroSecreto": [ "POSTGRES_PASSWORD" ],
+    "parametrosPropuestos": [ "slug", "nombreBase", "usuario" ],
+    "valoresDescartados": 1
+  },
+  "publicadoEn": "2026-07-29T10:12:00-03:00"
+}
+```
+
+#### §20.6.3 Las dos versiones del ítem, y el informe de la instanciación
+
+Las **dos versiones ya estaban especificadas** y conviene no confundirlas, porque confundirlas es el error probable:
+
+| | Qué versiona | Cuándo cambia | Para qué sirve |
+|---|---|---|---|
+| **Versión de contenido** | Lo que el usuario publicó del ítem: su plantilla y sus parámetros | **Se incrementa al editar un ítem ya publicado** | Es lo que el servicio instanciado **copia** como procedencia, por D-14. Permite responder «vino de `cat-postgres-16` v4» |
+| **Versión de formato** | La forma del archivo, no su contenido | Cuando cambia el esquema del catálogo, por decisión del producto | Permite convertir un catálogo importado sin adivinar su forma, de manera determinista y sin pérdida |
+
+En este anexo se ven las dos: `versionContenido` es del ítem, y `versionFormato` viaja además en el envoltorio del archivo de exportación.
+
+**El informe de la instanciación**, que es lo que la interfaz muestra y que la versión 2.3 no modelaba en ninguna parte. Corresponde a instanciar el ítem multi-servicio en un proyecto donde `portal-db` ya existe:
+
+```json
+{
+  "operacion": "instanciar-plantilla",
+  "plantilla": { "id": "cat-api-con-base", "versionContenido": 1 },
+  "proyecto": "portal-interno",
+  "resultado": "creado-con-avisos",
+  "serviciosCreados": [
+    { "id": "svc-a1", "nombreSolicitado": "portal-db", "nombreAsignado": "portal-db-2", "sufijado": true },
+    { "id": "svc-a2", "nombreSolicitado": "portal-api", "nombreAsignado": "portal-api", "sufijado": false }
+  ],
+  "variablesCompartidasCreadas": [ { "clave": "DB_PASSWORD", "secreta": true, "reusada": false } ],
+  "enlacesCreados": [
+    { "origen": "svc-a2", "destino": "svc-a1", "puerto": 5432, "esperaAlDestino": true }
+  ],
+  "avisos": [
+    { "codigo": "nombre-sufijado", "regla": "RN-36", "detalle": "El nombre «portal-db» ya existía en el proyecto; se asignó «portal-db-2»", "bloquea": false }
+  ],
+  "estadoDeLosServicios": "pendiente-de-aplicar"
+}
+```
+
+**`"bloquea": false` no es decorativo.** RN-36 **sufija e informa**: no rechaza y no pregunta, y RN-37 hace lo propio con las claves compartidas. Un consumidor que trate estos avisos como errores rompe las dos reglas.
+
+#### §20.6.4 La instancia queda desvinculada de la plantilla [D], D-14
+
+**No pasa nada cuando la plantilla cambia después de instanciar.** El servicio instanciado se constituye y tiene su propio ciclo de vida. Al instanciar se copia el subgrafo resuelto; cambiar la plantilla después no toca nada de lo ya creado. La alternativa —instancias vivas que se actualizan— convertiría el catálogo en un gestor de configuración, que es otro producto.
+
+Las cinco consecuencias de que el vínculo sea **débil**, escritas con precisión para que no se implemente como una relación fuerte por descuido:
+
+| Aspecto | Qué se sigue |
+|---|---|
+| Qué se guarda | Una **copia** del identificador, el nombre y la versión de contenido del ítem, **no una clave foránea**. Vive en `procedencia` del servicio, en [E-2](#202--e-2--servicio-con-sus-tres-variantes-de-origen) |
+| Borrar la plantilla | **Permitido y sin efecto** sobre los servicios instanciados. Ninguna advertencia de «en uso», porque no está en uso |
+| Servicio huérfano de plantilla | Puede responder «vino de `cat-postgres-16` v4» aunque ese ítem ya no exista. Por eso la copia y no la referencia |
+| Plantilla más nueva | **No se notifica.** Un aviso de «hay una versión nueva» instala la expectativa de un botón para actualizar, que es precisamente lo que esta decisión descarta |
+| Para qué sirve la procedencia entonces | Para responder de dónde salió una configuración, y para agrupar en los informes. Nada más |
+
+El servicio instanciado resultante, con el secreto cargado y no legible, está en [E-2](#202--e-2--servicio-con-sus-tres-variantes-de-origen) §20.2.4, último bloque. **El secreto sale con `"valor": null` y una marca de presencia**, que es lo que RN-15 exige: la lectura nunca devuelve el secreto en claro, y el consumidor necesita saber que está cargado para no mostrarlo como faltante.
+
+#### §20.6.5 Importar un ítem cuyo identificador ya existe
+
+Con el producto sin contenido precargado, importar es **uno de los dos únicos caminos** para poblar el catálogo, y **nadie declaró qué pasa cuando el identificador del ítem importado ya existe**: la conversión de formato cubre el formato anterior, la edición cubre el ítem propio, y las excepciones cubren el formato no admitido y la conversión con pérdida. La colisión no está en ninguno.
+
+**Resolución propuesta y sin confirmar: importar como copia** con identificador nuevo, sin tocar el existente. Es `DI-24`. El informe que produce:
+
+```json
+{
+  "operacion": "importar-catalogo",
+  "archivo": { "versionFormato": 1, "items": 3 },
+  "resultado": "importado-con-avisos",
+  "detalle": [
+    { "id": "cat-redis-7", "accion": "importado", "conversionDeFormato": "1-a-2" },
+    { "id": "cat-mysql-8", "accion": "importado", "conversionDeFormato": "1-a-2" },
+    { "id": "cat-postgres-16", "accion": "importado-como-copia", "idAsignado": "cat-postgres-16-importado", "motivo": "identificador-ya-existente" }
+  ],
+  "avisos": [
+    { "codigo": "identificador-ya-existente", "detalle": "El ítem «cat-postgres-16» ya existe. Se importó como copia con identificador nuevo; el existente no se modificó", "bloquea": false }
+  ]
+}
+```
+
+**Por qué se propone ésta y no las otras dos.** Rechazar el ítem hace que un solo choque frustre una importación entera. Pisar el existente **destruye trabajo del usuario en silencio**, y con el vínculo débil de D-14 no habría forma de recuperarlo, porque las instancias no conservan el contenido del ítem. Importar como copia **no pierde nada y no bloquea nada**, a cambio de dejar dos ítems parecidos que el usuario puede borrar cuando los compare. Es la única de las tres que no destruye información.
+
+Y el envoltorio de exportación, con las dos versiones en su lugar y con el contador que hace verificable la conversión de secretos: **si la conversión funciona, `itemsConMaterialSensible` es siempre cero**, y si alguna vez no lo es, la exportación tiene que declararlo antes de emitir el archivo, porque RN-15 prohíbe escribir un secreto en una exportación.
+
+```json
+{
+  "tipoDeArchivo": "catalogo-selfhosted",
+  "versionFormato": 2,
+  "exportadoEn": "2026-07-29T12:00:00-03:00",
+  "items": [ "cat-postgres-16", "cat-api-con-base" ],
+  "informe": { "itemsExportados": 2, "itemsConMaterialSensible": 0 }
+}
+```
+
 ### §20.7 · E-7 · Descubrimiento de contenedores adoptables
 
-Citado desde §6 (flujo 2). Procedencia: `Analisis-Final-Integrado.md`, líneas 861–892. Estado: `declarado`.
+Citado desde §6 (flujo 2). Procedencia: `Analisis-Final-Integrado.md`, líneas 861–892; **ampliado el 2026-07-29** con el campo `puertosPublicados` y la regla RA-07. Estado: `declarado`.
 
-**Contexto.** La lista de candidatos que devuelve el descubrimiento sobre el servidor de referencia, con lo que se sabe de cada contenedor y con los que no son incorporables marcados y con su motivo escrito. Es el primer paso del flujo que hace adoptable la solución sobre un servidor que ya está en producción.
+**Contexto.** La lista de candidatos que devuelve el descubrimiento sobre el servidor de referencia, con lo que se sabe de cada contenedor y con los que no son incorporables marcados y con su motivo escrito. Es el primer paso del flujo que hace adoptable el producto sobre un servidor que ya está en producción.
 
-**Qué ejercita.** Las seis reglas de adopción RA-01 a RA-06; el descubrimiento en modo sólo lectura, donde listar no habilita operar; el campo `variablesSugeridasComoSecretas`, que es la sugerencia de la heurística y ya no una decisión (D-2); la exclusión del contenedor que monta el socket del motor, por la dependencia circular de control que crearía (RA-04); y el filtro del contenedor ya adoptado, que es el fundamento de la invariante I10 cerrado por D-3.
+**Qué ejercita.** Las siete reglas de adopción RA-01 a RA-07; el descubrimiento en modo sólo lectura, donde listar no habilita operar; el campo `variablesSugeridasComoSecretas`, que es la sugerencia de la heurística y ya no una decisión (D-2); la exclusión del contenedor que monta el socket del motor, por la dependencia circular de control que crearía (RA-04); el filtro del contenedor ya adoptado, que es el fundamento de la invariante I10 cerrado por D-3; y **los puertos publicados del candidato**, que son a la vez lo que la adopción debe conservar y lo que RN-38 necesita para verificar la colisión contra el parque no adoptado (RA-07).
 
-**Qué verificar.** Que un contenedor ya adoptado por otro proyecto aparezca deshabilitado, con el proyecto que lo tomó, y no vuelva a ofrecerse (T-15, RN-11). Que el caso C-1, que monta el socket, salga con `adoptable: false` y motivo declarado, forzable sólo con confirmación explícita (T-16). Que la heurística **sugiera y no decida**: una variable que no coincide con ninguno de sus fragmentos llega al paso de clasificación desmarcada, no en claro y sin aviso (T-17). Que una que sí coincide llegue premarcada con su motivo de sugerencia (T-17b). Y que ninguna operación de escritura se habilite desde el descubrimiento.
+**Qué verificar.** Que un contenedor ya adoptado por otro proyecto aparezca deshabilitado, con el proyecto que lo tomó, y no vuelva a ofrecerse (T-15, RN-11). Que el caso C-1, que monta el socket, salga con `adoptable: false` y motivo declarado, forzable sólo con confirmación explícita (T-16). Que la heurística **sugiera y no decida**: una variable que no coincide con ninguno de sus fragmentos llega al paso de clasificación desmarcada, no en claro y sin aviso (T-17). Que una que sí coincide llegue premarcada con su motivo de sugerencia (T-17b). Que ninguna operación de escritura se habilite desde el descubrimiento. **Desde la versión 2.4:** que el candidato `cache`, que publica el 6379 en el host, llegue con ese puerto declarado; que adoptarlo produzca un servicio **con** ese puerto publicado y no sin él; y que un servicio nuevo que pretenda publicar el 6379 sea rechazado por RN-38 aunque `cache` no pertenezca a ningún proyecto SelfHosted.
 
 ```json
 {
@@ -2095,6 +2605,7 @@ Citado desde §6 (flujo 2). Procedencia: `Analisis-Final-Integrado.md`, líneas 
       "estado": "running",
       "creadoEn": "2026-05-02T11:00:00-03:00",
       "redes": [ { "nombre": "infra_vlan", "modo": "macvlan", "ip": "192.168.1.139" } ],
+      "puertosPublicados": [],
       "montajes": [ { "tipo": "bind", "origen": "/srv/despliegues/print-server/data", "destino": "/data" } ],
       "variablesDetectadas": 4,
       "variablesSugeridasComoSecretas": ["ADMIN_TOKEN"],
@@ -2109,14 +2620,44 @@ Citado desde §6 (flujo 2). Procedencia: `Analisis-Final-Integrado.md`, líneas 
       "imagen": "imagen-oficial/panel-ce:latest",
       "estado": "running",
       "redes": [ { "nombre": "infra_vlan", "modo": "macvlan", "ip": "192.168.1.130" } ],
+      "puertosPublicados": [],
       "montajes": [ { "tipo": "socket", "origen": "/var/run/docker.sock", "destino": "/var/run/docker.sock" } ],
       "adoptable": false,
       "motivoNoAdoptable": "monta-el-socket-de-docker",
+      "yaAdoptadoPor": null
+    },
+    {
+      "contenedorId": "7e5d1c8b3a92",
+      "nombre": "cache",
+      "imagen": "redis:7.2-alpine",
+      "estado": "running",
+      "creadoEn": "2026-06-14T08:30:00-03:00",
+      "redes": [ { "nombre": "portal-interno-net", "modo": "bridge", "ip": "172.20.0.4" } ],
+      "puertosPublicados": [
+        { "contenedor": 6379, "host": 6379, "protocolo": "tcp", "direccionHost": "0.0.0.0" }
+      ],
+      "montajes": [ { "tipo": "volumen", "origen": "portal-cache-datos", "destino": "/data" } ],
+      "variablesDetectadas": 1,
+      "variablesSugeridasComoSecretas": [],
+      "etiquetasCompose": { "proyecto": "portal-interno", "servicio": "cache" },
+      "adoptable": true,
+      "motivoNoAdoptable": null,
       "yaAdoptadoPor": null
     }
   ]
 }
 ```
+
+**El campo `puertosPublicados`, incorporado en la versión 2.4.** Hasta la versión 2.3 el candidato traía direcciones IP y **ningún puerto**, y eso producía dos defectos verificados que este campo cierra de una vez:
+
+| Defecto | Qué pasaba | Qué cierra el campo |
+|---|---|---|
+| **Pérdida en la traducción** | Un contenedor adoptado con puertos publicados **los perdía**: la configuración observada no los traía, de modo que el servicio creado quedaba sin ellos y el redespliegue posterior no los reponía | La traducción de la configuración observada puede declararlos |
+| **Verificación imposible de la colisión de puerto** | La validación de la configuración no podía comprobar si un puerto del host estaba tomado por un contenedor del parque no adoptado, porque el dato no existía en el modelo del candidato | RN-38 puede verificar contra el motor de contenedores y no sólo contra el registro del sistema |
+
+El candidato `cache` es el que hace verificable el segundo: publica el 6379 en el host, y un servicio nuevo que pretenda publicar el mismo puerto tiene que ser rechazado por RN-38 aunque ese contenedor no pertenezca a ningún proyecto SelfHosted. Los dos candidatos en macvlan traen la lista vacía y **es correcto, no un dato faltante**: RN-07 prohíbe publicar puertos en ese modo de red.
+
+El campo es **[D-i]** `DI-23`: propuesta del integrador, aplicada y revisable. Su forma —lista de objetos con puerto de contenedor, puerto de host, protocolo y dirección de escucha del host— sigue la del campo `puertos` del servicio en [E-2](#202--e-2--servicio-con-sus-tres-variantes-de-origen), más la dirección de escucha, que el servicio no declara porque siempre publica en todas.
 
 Reglas de adopción que este ejemplo materializa:
 
@@ -2128,6 +2669,7 @@ Reglas de adopción que este ejemplo materializa:
 | RA-04 | Un contenedor que monta el socket de Docker se marca no adoptable por defecto, porque gobernarlo desde el administrador crearía una dependencia circular de control. Puede forzarse con confirmación explícita |
 | RA-05 | **Reescrita el 2026-07-28 por D-2 [D].** La heurística por nombre —claves que contienen `PASSWORD`, `TOKEN`, `SECRET`, `KEY` o `PAT`— **sugiere, no decide**: las variables que coinciden se ofrecen **premarcadas** como secretas en el paso de clasificación, y el campo `variablesSugeridasComoSecretas` del descubrimiento es esa sugerencia. Lo que queda marcado como secreto al confirmar se importa enmascarado y requiere recarga manual; lo que queda desmarcado se importa como valor literal. La heurística ya no determina por sí sola el valor de `secreta` |
 | RA-06 | **Nueva el 2026-07-28 por D-2 [D].** La adopción **no se completa** sin el paso de clasificación de variables: el usuario ve **todas** las variables importadas, no sólo las sugeridas, y puede marcar o desmarcar cualquiera. Es un paso obligatorio del flujo, no una pantalla opcional que se pueda saltear. Formalizado en RN-29 y detallado en el anexo [E-11](#2011--e-11--adopción-de-un-contenedor-existente) |
+| RA-07 | **Nueva el 2026-07-29 [D-i], `DI-23`.** El descubrimiento devuelve los **puertos publicados** de cada candidato, y la adopción los traduce al modelo del servicio. Un contenedor adoptado con puertos publicados **conserva sus puertos**. La lista vacía es un dato válido y significa que el contenedor no publica ninguno, no que no se sepa |
 
 **Por qué la heurística deja de decidir [D], D-2.** El defecto que motivó el cambio está transcripto en el caso C-2 del anexo [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas): una configuración real del parque lleva una clave simétrica en una variable llamada `ClaveMaestra`, que no contiene ninguno de los cinco fragmentos de la heurística. Con la regla anterior esa clave se importaba en claro y nadie se enteraba. De las tres resoluciones que C-2 planteaba —ampliar la lista de fragmentos, agregar una heurística sobre la forma del valor, o pedir confirmación de cada variable importada—, el agente humano del proyecto eligió la tercera, que es la única que no vuelve a apostar a que la lista de fragmentos esté completa. Las otras dos no quedan prohibidas: pueden sumarse como fuentes de sugerencia, porque sugerir mejor no cambia quién decide.
 
@@ -2234,7 +2776,7 @@ Respuesta de error de la API cuando el arranque se bloquea, en formato `ProblemD
 
 Citado desde §16.1, §17.3 P.4, §17.4 P.4 y §18 (SM-03). Procedencia: `Analisis-Final-Integrado.md`, líneas 954–1096, ampliado el 2026-07-28 con la tabla `variables_proyecto` (D-5), con el discriminador de origen de la arista y la persistencia de la referencia sin resolver (D-6) y con el subgrafo del ítem de catálogo (D-7). Estado: `declarado`.
 
-**Contexto.** El esquema relacional completo de la base de la solución, con sus tablas, claves, restricciones de coherencia e índices. Es la forma persistida de todo lo que los demás anexos describen como modelo, y el insumo de la categoría de arquitectura técnica, en sus secciones de las capas `Domain` e `Infrastructure`.
+**Contexto.** El esquema relacional completo de la base del producto, con sus tablas, claves, restricciones de coherencia e índices. Es la forma persistida de todo lo que los demás anexos describen como modelo, y el insumo de la categoría de arquitectura técnica, en sus secciones de las capas `Domain` e `Infrastructure`.
 
 **Qué ejercita.** La persistencia de las entidades del modelo y de las incorporaciones del 2026-07-28: la tabla `variables_proyecto` con su clave (D-5), las columnas de la arista que sostienen la espera declarada y el puerto de destino (D-10, D-11), las columnas `referencia` y `resuelta_en` de la variable (D-6), el subgrafo del ítem de catálogo (D-7) y los índices `ix_enlaces_destino` e `ix_variables_referencia`, cada uno con la consulta que sirve. Ejercita además el índice único parcial que hace cumplir la unicidad de la arista de espera sin variable, que la clave única de la tabla no alcanza a expresar con columnas nulas.
 
@@ -2503,6 +3045,13 @@ CREATE TABLE eventos_auditoria (
 --     comparten todos los servicios del proyecto, se crea antes que los
 --     contenedores, sobrevive a ellos, y `reservas_ip` habla de ella. Pasa a
 --     ser objeto.
+--   IMAGEN. Incorporada el 2026-07-29. Hoy es una cadena dentro del origen del
+--     servicio. Cumple las TRES condiciones: la referencia cada despliegue y
+--     varios despliegues referencian la misma; sobrevive al contenedor, al
+--     servicio y al proyecto; y tiene ciclo de vida propio -- se descarga o se
+--     construye, ocupa disco, se conserva y se limpia --. Pasa a ser objeto.
+--     Su modelo conceptual esta en el anexo E-23, con las siete decisiones que
+--     deja abiertas declaradas ahi. Acá no se disenan sus columnas.
 --
 -- Lo que NO cambia, por la misma prueba: recursos, healthcheck, montajes y
 -- layout del lienzo son ATRIBUTOS -- nadie los referencia, no sobreviven a su
@@ -2567,14 +3116,14 @@ Citado desde §6 (flujo 1). Procedencia: `Analisis-Final-Integrado.md`, líneas 
 
 **Contexto.** El recorrido completo de un administrador que crea un proyecto desde cero, agrega una base desde el catálogo y una API desde una imagen de registro, traza la dependencia entre ellas y aplica los cambios, con la variante del mismo alta usando una variable compartida para la credencial. Es el flujo 1 de §6 y el guion natural de la primera demostración del producto.
 
-**Qué ejercita.** Las cuatro vías de alta conviviendo en el mismo menú; la instanciación de un ítem de catálogo de un solo nodo; el azúcar del lienzo, que escribe la referencia al trazar la flecha; el orden de arranque derivado del subgrafo de aristas con espera; el secreto que vive referenciado y nunca en texto plano; el volumen que sobrevive a detener y redesplegar; y, en la variante, la declaración de un valor una sola vez a nivel proyecto con su propagación a los dos servicios que lo usan.
+**Qué ejercita.** Las siete vías de alta conviviendo en el mismo menú; la instanciación de un ítem de catálogo de un solo nodo; el azúcar del lienzo, que escribe la referencia al trazar la flecha; el orden de arranque derivado del subgrafo de aristas con espera; el secreto que vive referenciado y nunca en texto plano; el volumen que sobrevive a detener y redesplegar; y, en la variante, la declaración de un valor una sola vez a nivel proyecto con su propagación a los dos servicios que lo usan.
 
 **Qué verificar.** Que el paso 4 escriba una referencia editable y no una variable de clase aparte, con el puerto literal y la espera propuesta (T-53, T-12). Que la base no publique ningún puerto en el host, porque la API la alcanza por nombre dentro de la red del proyecto. Que el arranque respete el orden sin configuración manual (T-14, RN-14). Que la contraseña no aparezca en claro ni en la interfaz ni en la exportación (RN-15). Que el volumen sobreviva al redespliegue y sólo se borre al eliminar el servicio con confirmación explícita (T-21, T-27, RN-09, RN-10). Y que, en la variante, rotar la contraseña marque los dos servicios como pendientes de redespliegue desde un único cambio (E-5, cambio 4).
 
 Pasos en la interfaz:
 
 1. `Nuevo proyecto` → nombre "Portal Interno" → se elige modo de red **bridge**, y el sistema propone la subred `172.20.0.0/24`. Se aterriza en el lienzo vacío.
-2. `+ Nuevo servicio` → **Desde catálogo** → *PostgreSQL 16* → se completan los parámetros (`nombreBase=portal`, `usuario=portal`, contraseña generada). El nodo `db` aparece en violeta, pendiente. El catálogo es una de las **cuatro vías de alta** que ofrece este menú, junto a las tres variantes de origen; el ítem elegido es una plantilla que resuelve al origen "imagen de registro", y como su subgrafo tiene un solo servicio, la instanciación crea un servicio y un contenedor (D-7, RN-30).
+2. `+ Nuevo servicio` → **Desde catálogo** → *PostgreSQL 16* → se completan los parámetros (`nombreBase=portal`, `usuario=portal`, contraseña generada). El nodo `db` aparece en violeta, pendiente. El catálogo es una de las **siete vías de alta** que ofrece este menú; el ítem elegido es una plantilla que resuelve al origen `imagen-publica`, y como su subgrafo tiene un solo servicio, la instanciación crea un servicio y un contenedor (D-7, RN-30).
 3. `+ Nuevo servicio` → **Imagen de registro** → `registro-privado/portal-api:1.4.2` → nodo `api`, también pendiente.
 4. Se arrastra una arista de `api` a `db`. El sistema propone la variable:
 
@@ -2638,7 +3187,7 @@ Servicio resultante de la importación, vinculado al contenedor existente sin re
   "id": 305,
   "proyectoId": 7,
   "nombre": "print-server",
-  "origen": { "tipo": "imagen", "imagen": "registro-privado/print-server", "etiqueta": "1.4.18", "politicaActualizacion": "fijada" },
+  "origen": { "tipo": "imagen-privada", "registroUrl": "registry.interno.lan", "imagen": "registro-privado/print-server", "etiqueta": "1.4.18", "politicaActualizacion": "fijada", "credencialRegistroId": 3 },
   "red": { "modo": "macvlan", "ipFija": "192.168.1.139", "interfazPadre": "enp1s0" },
   "montajes": [ { "tipo": "bind", "origen": "/srv/despliegues/print-server/data", "destino": "/data", "soloLectura": false } ],
   "dispositivos": [ { "host": "/dev/serial/by-id/usb-FTDI-if00-port0", "contenedor": "/dev/ttyUSB0", "permisos": "rwm" } ],
@@ -2944,7 +3493,7 @@ Correspondencia entre el modelo propio y Compose, con su pérdida declarada:
 
 El archivo Compose exportado sigue siendo **autosuficiente**: quien lo recibe sin el manifiesto propio obtiene un proyecto que levanta, con los valores ya resueltos y los secretos por completar; quien lo recibe con el manifiesto propio recupera además el lienzo, el nivel de variable compartida y la intención de cada referencia. Un manifiesto de `version: 1` sigue siendo importable: no declara ni `variablesCompartidas` ni `referencias`, y se lee como un proyecto sin ninguna de las dos cosas.
 
-Regla de la importación inversa: al importar un Compose sin manifiesto propio, los nodos se disponen automáticamente por capas según el grafo de `depends_on`, para que el lienzo resultante sea legible desde el primer momento. **La interpolación de Compose no produce referencias** (RN-26): un `${VAR}` del archivo es interpolación de Compose y se traduce con la regla que ya declara el anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución). La única referencia que la importación crea es la reexpresión de un `depends_on` sobre un literal que ya coincide con el host y el puerto del destino, que ese mismo anexo desarrolla; no alcanza a ninguna forma de `${VAR}`.
+Regla de la importación inversa: al importar un Compose sin manifiesto propio, los nodos se disponen automáticamente por capas según el grafo de `depends_on`, para que el lienzo resultante sea legible desde el primer momento. **La interpolación de Compose no produce referencias** (RN-26): un `${VAR}` del archivo es interpolación de Compose y se traduce con la regla que ya declara el anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto). La única referencia que la importación crea es la reexpresión de un `depends_on` sobre un literal que ya coincide con el host y el puerto del destino, que ese mismo anexo desarrolla; no alcanza a ninguna forma de `${VAR}`.
 
 ### §20.15 · E-15 · Superficie de la API REST
 
@@ -2978,7 +3527,7 @@ Citado desde §17.1 P.3. Procedencia: `Analisis-Final-Integrado.md`, líneas 161
 | `GET /api/v1/descubrimiento/contenedores` | `proyectos:leer` | Candidatos a adopción |
 | `POST /api/v1/proyectos/{id}/adoptar` | `proyectos:escribir` | Adopta contenedores existentes |
 | `GET /api/v1/proyectos/{id}/exportar/compose` | `proyectos:leer` | Exporta la arquitectura como Docker Compose |
-| `POST /api/v1/proyectos/importar/compose` | `proyectos:escribir` | Importa un Compose como proyecto nuevo. Devuelve el **informe de importación**, que además de lo creado declara lo que no se pudo representar (anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-de-la-solución)). Sin ese informe cualquier pérdida de traducción sería silenciosa **[D-i]** |
+| `POST /api/v1/proyectos/importar/compose` | `proyectos:escribir` | Importa un Compose como proyecto nuevo. Devuelve el **informe de importación**, que además de lo creado declara lo que no se pudo representar (anexo [E-21](#2021--e-21--correspondencia-entre-una-configuración-real-y-el-modelo-del-producto)). Sin ese informe cualquier pérdida de traducción sería silenciosa **[D-i]** |
 | `GET /api/v1/catalogo` · `POST /api/v1/catalogo` | `catalogo:leer` / `catalogo:escribir` | Catálogo de plantillas reutilizables |
 | `GET /api/v1/sistema/estado` | `sistema:leer` | CPU, memoria, swap y disco del host |
 | `GET /api/v1/red/conflictos` | `sistema:leer` | Estado de reservas y conflictos de IP |
@@ -2993,11 +3542,13 @@ Citado desde §17.1 P.3. Procedencia: `Analisis-Final-Integrado.md`, líneas 161
 
 ### §20.16 · E-16 · Catálogo de reglas de negocio RN-01 a RN-37
 
-Citado desde §14, §17.1 P.3, §17.4 P.5, §17.4 P.6 y §17.4 P.10. Procedencia: `Analisis-Final-Integrado.md`, líneas 2183–2210. Estado: `declarado`. La fuente lo declara pensado para que **cada regla se traduzca en una prueba automatizada**: es el insumo directo de la categoría `08-Calidad-Y-Pruebas` y de la batería de `SelfHosted.Service.Core.Domain.Tests`.
+> **Discrepancia declarada entre el título y el contenido, desde la versión 2.4.** El título dice «RN-01 a RN-37» y este anexo declara **cuarenta reglas, RN-01 a RN-40**. Se conserva el título por la regla de anclas de §19: de él se deriva una de las anclas del intake, citada cinco veces en este documento. El alcance vigente es RN-01 a RN-40 y lo fija la tabla de acá abajo; el resto del documento ya lo cita con la cifra corregida.
+
+Citado desde §14, §17.1 P.3, §17.4 P.5, §17.4 P.6 y §17.4 P.10. Procedencia: `Analisis-Final-Integrado.md`, líneas 2183–2210; **ampliado el 2026-07-29** con RN-38, RN-39 y RN-40, y con la reformulación de RN-08 y RN-15. Estado: `declarado`. La fuente lo declara pensado para que **cada regla se traduzca en una prueba automatizada**: es el insumo directo de la categoría `08-Calidad-Y-Pruebas` y de la batería de `SelfHosted.Service.Core.Domain.Tests`.
 
 **Contexto.** El catálogo completo de reglas de negocio verificables, con el momento en que cada una se valida y la respuesta ante su incumplimiento. La fuente lo declara pensado para que **cada regla se traduzca en una prueba automatizada**, y es el insumo directo de la especificación funcional y de la batería de pruebas del dominio.
 
-**Qué ejercita.** Las treinta y siete reglas con su momento de validación y su respuesta; la autoría declarada regla por regla, que distingue el enunciado que fijó el agente humano —marcado `[D]`— de la exigibilidad que derivó el integrador —marcada `[D-i]`—; y las tres ampliaciones de reglas preexistentes, RN-04, RN-05 y RN-14, que hoy se derivan de la propiedad declarada de espera y de la deducción de si la arista referencia el host.
+**Qué ejercita.** Las cuarenta reglas con su momento de validación y su respuesta; la autoría declarada regla por regla, que distingue el enunciado que fijó el agente humano —marcado `[D]`— de la exigibilidad que derivó el integrador —marcada `[D-i]`—; y las tres ampliaciones de reglas preexistentes, RN-04, RN-05 y RN-14, que hoy se derivan de la propiedad declarada de espera y de la deducción de si la arista referencia el host.
 
 **Qué verificar.** Que cada regla tenga al menos un caso ejecutable en el anexo [E-22](#2022--e-22--casos-de-prueba-derivados-de-las-configuraciones-reales), con entrada concreta y resultado esperado, y que ninguna quede sin cobertura. Que la respuesta declarada se cumpla también en su código: un `422` no puede materializarse como `400`, ni un `409` como `422`, porque la interfaz distingue esos casos. Que las reglas marcadas `[D-i]` se consuman aguas abajo **declarándolas revisables** y no como requisito cerrado del cliente. Y que el enunciado original de una regla ampliada siga siendo cierto: el marcador alcanza a la ampliación, nunca al enunciado que venía de la fuente base.
 
@@ -3010,14 +3561,14 @@ Citado desde §14, §17.1 P.3, §17.4 P.5, §17.4 P.6 y §17.4 P.10. Procedencia
 | RN-05 (ampliación **[D-i]**) | El **grafo de arranque** no puede tener ciclos. El grafo de arranque es el subgrafo de las aristas que **declaran espera** al destino; un ciclo formado por aristas que no esperan no es un ciclo de arranque y no lo rechaza esta regla, pero sí lo alcanza RN-22 si además es un ciclo de valor | Creación de enlace y cambio de la propiedad de espera | `422` señalando el ciclo |
 | RN-06 | Toda dirección IP fija debe pertenecer al rango gestionado y no estar excluida | Alta y edición | `422` con la siguiente dirección libre sugerida |
 | RN-07 | Un servicio en macvlan no puede publicar puertos en el host | Alta y edición | Campo deshabilitado en la interfaz; `422` desde la API |
-| RN-08 | El servicio con origen "repositorio" requiere ruta de Dockerfile y rama | Alta | `422` |
+| RN-08 (**reformulada el 2026-07-29**; enunciado base **[E]**, reparto por variante **[D-i]** `DI-17`) | **Cada variante de origen exige sus propios datos obligatorios y ninguno de otra variante.** `imagen-publica`: registro, imagen y etiqueta. `imagen-privada`: los mismos con el registro como dirección, más la credencial de registro. `repositorio`: URL, rama y **ruta del archivo de construcción** —que es el enunciado original de esta regla y sigue vigente sin cambios—, más el contexto de construcción. `dockerfile`: el **contenido** del archivo de construcción. `ninguno`: nada. Un campo que pertenece a otra variante es dato inválido, no campo opcional vacío | Alta, edición del origen y verificación del origen | `422` señalando el campo faltante o el campo ajeno a la variante |
 | RN-09 | Al detener un servicio, sus volúmenes y montajes **no** se tocan | Detención | Invariante, verificable por prueba |
 | RN-10 | Al eliminar un servicio se pide confirmación escribiendo su nombre, y se ofrece conservar los volúmenes | Eliminación | Interacción obligatoria |
 | RN-11 | Un contenedor adoptado no puede adoptarse dos veces | Descubrimiento y adopción | Aparece deshabilitado con el proyecto que lo tomó |
 | RN-12 | Los cambios visuales no entran al changeset ni disparan redespliegue | Edición del lienzo | Invariante |
 | RN-13 | Aplicar el changeset redespliega **sólo** los servicios afectados | Aplicación | El informe de impacto lo declara antes de ejecutar |
 | RN-14 (ampliación **[D-i]**) | El arranque del proyecto respeta el orden topológico del **grafo de arranque**, que es el subgrafo de las aristas que declaran espera al destino. Una arista que no declara espera dibuja el vínculo y marca redespliegue, pero no ordena | Arranque | Invariante |
-| RN-15 | Un secreto nunca se devuelve en texto plano por la API ni se escribe en una exportación | Toda respuesta y exportación | Enmascarado con `***` |
+| RN-15 (enunciado base **[E]**; alcance a la plantilla **[D-i]** `DI-21`, **ampliado el 2026-07-29**) | Un secreto nunca se devuelve en texto plano por la API ni se escribe en una exportación. **Alcanza explícitamente a la plantilla del catálogo y no sólo a la exportación**: guardar como plantilla un servicio que tiene variables secretas **convierte cada una en parámetro de tipo `secreto` con `generar` activo y descarta el valor**, e informa cuáles convirtió; y `porDefecto` queda **prohibido** sobre un parámetro de tipo `secreto`, porque es un literal que vive en la definición del ítem y viaja con la exportación | Toda respuesta y exportación, **más el guardado como plantilla y la publicación de un ítem** | Enmascarado con `***`. En el guardado como plantilla, conversión con informe; un `porDefecto` sobre un parámetro secreto se rechaza con `422` |
 | RN-16 | El token de API se muestra una única vez y sólo se persiste su hash | Creación de token | Invariante |
 | RN-17 | Toda operación de escritura queda registrada en auditoría con su actor | Cada operación | Invariante |
 | RN-18 | El escalado horizontal crea réplicas con nombres sufijados y sin dirección IP fija duplicada | Cambio de réplicas | `422` si el servicio tiene una sola dirección fija y se piden más réplicas |
@@ -3041,6 +3592,10 @@ Citado desde §14, §17.1 P.3, §17.4 P.5, §17.4 P.6 y §17.4 P.10. Procedencia
 | RN-36 **[D]**, D-13 | Al instanciar un ítem del catálogo, si el nombre de un servicio del subgrafo ya existe en el proyecto destino, el sistema **sufija automáticamente e informa qué sufijó**; no rechaza y no pregunta. Como la identidad ya es el identificador, sufijar no rompe ninguna referencia y renombrar después es gratis. Una clave de variable que ya existe **no** es conflicto: se crea el objeto nuevo y se advierte según RN-37 | Instanciación | Servicio creado con nombre sufijado, y aviso no bloqueante con el nombre asignado |
 | RN-37 **[D]**, D-13 | El sistema **detecta y advierte, sin bloquear**, cinco condiciones de higiene del modelo: variable compartida sin ninguna referencia; dos elementos con el mismo nombre visible en el mismo ámbito; al instanciar, una clave que ya existe con el **mismo** valor —donde sí se ofrece reusar—; al instanciar, una clave que ya existe con **distinto** valor —donde se crean separadas y se avisa—; y referencia que quedó sin uso tras un cambio | Instanciación, alta y edición, y revisión periódica del proyecto | Aviso informativo. **Ninguna condición bloquea ninguna operación** |
 
+| RN-38 **[D-i]**, `DI-17` · **nueva el 2026-07-29** | **Un puerto del host no puede ser publicado por más de un servicio.** El sistema no permite asignar un puerto de host que ya está registrado, en lugar de dejar que el motor de contenedores falle al crear el contenedor. Dos precisiones que la regla necesita: **no aplica a servicios en macvlan**, que por RN-07 no publican puertos; y **sí aplica a los servicios pendientes de aplicar**, porque dos cambios del mismo conjunto pueden colisionar entre sí antes de desplegarse. **Su alcance se declara en el informe**: el sistema conoce los puertos de lo que administra y los del motor de contenedores —incluidos los del parque no adoptado, por el `puertosPublicados` de [E-7](#207--e-7--descubrimiento-de-contenedores-adoptables)—, y **no** los de procesos del sistema operativo que no corren en un contenedor | Alta, edición y validación de la configuración | `422` con el servicio y el proyecto que ya publican ese puerto, más el próximo puerto libre sugerido |
+| RN-39 **[D]**, D-14 · **nueva el 2026-07-29** | **Cambiar un ítem del catálogo no afecta a los servicios ya instanciados desde él, y borrarlo tampoco.** El vínculo es débil y sólo en calidad de origen: el servicio guarda una **copia** del identificador, el nombre y la versión de contenido del ítem, no una clave foránea. Borrar el ítem está permitido y **no emite advertencia de «en uso»**, porque no está en uso; y una versión de contenido más nueva **no se notifica** al servicio instanciado | Edición y borrado de un ítem; instanciación | Invariante, verificable por prueba. El borrado no pide confirmación adicional por instancias existentes |
+| RN-40 **[D-i]**, `DI-17` · **nueva el 2026-07-29** | **Una imagen marcada como conservada no se limpia, y una imagen ajena no se toca.** Ninguna operación de limpieza puede eliminar una imagen con la marca de conservada, ni una que no lleve la marca de pertenencia del producto, aunque ningún despliegue activo la referencie. Es lo que hace practicable cualquier limpieza en un almacén de imágenes que el producto **comparte** con el parque preexistente y con el ejecutor de integración continua | Toda operación de limpieza de imágenes | La imagen se excluye de la operación y el informe declara por qué. **Depende de `Q-15` a `Q-21`**, abiertas: la regla declara la protección y no el modo de disparo de la limpieza |
+
 Las catorce reglas RN-21 a RN-34 se incorporaron el 2026-07-28 con ocasión de las decisiones del agente humano del proyecto —RN-32 en la segunda pasada sobre D-6, y RN-33 y RN-34 en la tercera—, pero **no todas tienen la misma autoría**, y la columna de identificador lo declara:
 
 - **[D]**, contenido de la decisión: RN-24 (D-6), RN-30 (D-7) y RN-31 (D-1) completas, más el **enunciado** de RN-21 (D-6), el de RN-29 (D-2), el de RN-32 (D-6 y D-9) y el de RN-33 (D-8). Son enunciados que el agente humano fijó.
@@ -3048,15 +3603,17 @@ Las catorce reglas RN-21 a RN-34 se incorporaron el 2026-07-28 con ocasión de l
 
 Las veinte reglas anteriores no se renumeran, y **ninguna cambió el comportamiento observable del enlace que el usuario traza en el lienzo**, que sigue referenciando el host del destino, declarando espera y quedando sujeto a lo mismo que antes. Tres conservan una ampliación, y su celda de identificador lo declara con el mismo criterio que las reglas nuevas: **RN-04** exige canal alcanzable según si la arista referencia el host, con independencia de la espera; **RN-05** acota su grafo al de arranque; y **RN-14** declara que ordena ese mismo subgrafo. Las tres se derivan hoy de la propiedad declarada de espera (D-11) y de la deducción de si la arista referencia el host. **RN-01 recuperó su enunciado original**: la reserva del nombre `shared` que la segunda pasada le había agregado dejó de hacer falta al persistirse el vínculo y no el nombre (D-8). El marcador alcanza a la ampliación, nunca al enunciado original de la regla, que sigue siendo **[E]** de la fuente base.
 
+**Las tres reglas nuevas de la versión 2.4, y su reparto de autoría.** RN-39 es **[D]** completa: su enunciado es exactamente el contenido de D-14 y no hubo nada que derivar. RN-38 y RN-40 son **[D-i]**: la decisión de principio —que si el producto administra el orden de qué se asigna, es él quien debe impedir asignar un puerto tomado— la tomó el agente humano del proyecto, y el reparto en tres niveles de verificación con su límite declarado lo derivó el integrador. RN-40 lleva además una dependencia explícita sobre siete decisiones abiertas y la declara en su propia celda en lugar de presumirlas resueltas. **Las tres suman cuarenta reglas**, RN-01 a RN-40, y ninguna de las treinta y siete anteriores se renumera.
+
 Detalle de RN-18: el escalado horizontal y la dirección fija de macvlan son **incompatibles** entre sí, porque dos réplicas no pueden compartir dirección. Un servicio en macvlan que quiera escalar necesita una dirección por réplica; el modelo lo admite con la clave única `(servicio_id, numero_replica)` de `reservas_ip`, pero la interfaz debe pedirlas explícitamente en lugar de fallar en el arranque.
 
 ### §20.17 · E-17 · Ciclo de vida del despliegue y correspondencia con el motor
 
 Citado desde §17.4 P.2 y §17.3 P.10. Procedencia: `Analisis-Final-Integrado.md`, líneas 373–405. Estado: `declarado`. Es la máquina de estados que el sincronizador debe reproducir y la tabla de traducción que consulta en cada reconciliación.
 
-**Contexto.** La máquina de estados de un despliegue y la tabla que traduce el estado real que reporta el motor de contenedores al estado que la solución muestra. Es lo que el sincronizador reproduce en cada reconciliación y lo que se consulta al reabrir un proyecto.
+**Contexto.** La máquina de estados de un despliegue y la tabla que traduce el estado real que reporta el motor de contenedores al estado que el producto muestra. Es lo que el sincronizador reproduce en cada reconciliación y lo que se consulta al reabrir un proyecto.
 
-**Qué ejercita.** El alcance por contenedor de la máquina, que es consecuencia directa de RN-31; los estados que no son caída y que la interfaz debe distinguir —degradado, pausado, finalizado— y el estado huérfano, que es el que hace visible la deriva cuando alguien opera contenedores por fuera de la solución; y la ausencia deliberada de una transición asociada a la caída del circuito de la interfaz.
+**Qué ejercita.** El alcance por contenedor de la máquina, que es consecuencia directa de RN-31; los estados que no son caída y que la interfaz debe distinguir —degradado, pausado, finalizado— y el estado huérfano, que es el que hace visible la deriva cuando alguien opera contenedores por fuera del producto; y la ausencia deliberada de una transición asociada a la caída del circuito de la interfaz.
 
 **Qué verificar.** Que un contenedor `running` con verificación de salud en `unhealthy` quede en `Activo (degradado)` y no en `Caido` (T-28). Que un `exited` con código cero quede `Finalizado` y con código distinto de cero, `Caido` (T-29). Que al reabrir el proyecto todo despliegue se resuelva en un estado y nunca en «no se sabe»: el que nunca llegó a crearse queda `Fallido` y el que existía y desapareció, `Huérfano`. Que la reconciliación se ejecute también en la apertura del proyecto y no sólo por período. Y que ninguna transición de la máquina se dispare por un evento del circuito de la interfaz, que sólo observa.
 
@@ -3262,13 +3819,13 @@ La traducción de estos patrones a requisitos del alta de servicio es directa: e
 
 Citado desde §3, §16.1, §17.3 P.3 y §18 (SM-03, SM-06). Procedencia: archivos de despliegue en producción del servidor de referencia, relevados y sincronizados con su estado real el 2026-07-18, cuyo inventario está indexado en `Host.Infra.Documentos/ia-db/indexes/02_servicios-docker.md` y `03_redes.md`. Estado: `medido` en cuanto a estructura y valores de capacidad —son configuraciones que corren hoy—, con **ofuscación aplicada** según la política declarada más abajo.
 
-**Contexto.** Seis configuraciones de despliegue reales y en funcionamiento en el servidor de referencia, ofuscadas según la política que el propio anexo declara. Son el insumo inverso de los demás anexos: no describen cómo la solución representará un servicio, sino qué tiene que ser capaz de importar, representar en el lienzo y volver a exportar sin pérdida.
+**Contexto.** Seis configuraciones de despliegue reales y en funcionamiento en el servidor de referencia, ofuscadas según la política que el propio anexo declara. Son el insumo inverso de los demás anexos: no describen cómo el producto representará un servicio, sino qué tiene que ser capaz de importar, representar en el lienzo y volver a exportar sin pérdida.
 
 **Qué ejercita.** Origen por imagen con etiqueta flotante, por Dockerfile con argumentos de construcción y por imagen sin etiqueta; red macvlan creada por un proyecto y consumida como externa por los demás; volumen nombrado, montaje de directorio y montaje del socket del motor; dispositivos anclados y capacidades del kernel; límites y reservas de recursos; servicio efímero; secretos embebidos en el archivo de despliegue (C-2) y secretos por archivo externo (C-6), que es el mismo parque conteniendo el patrón incorrecto y su corrección; y un proyecto multi-servicio en bridge con dependencia declarada, que es el que ejercita el grafo.
 
 **Qué verificar.** Que las seis se importen, se representen y se exporten sin pérdida de dimensiones de configuración, que es el criterio de NB-03 con denominador seis. Que C-1, que monta el socket, resulte no adoptable por defecto (T-16). Que la clave de C-2 llegue al paso de clasificación desmarcada y que marcarla la deje cifrada, con su traza registrada (T-17, T-32). Que la importación de C-5 no derive ninguna referencia de la interpolación de Compose y sí reexprese el literal del `depends_on` (T-40). Que la ida y vuelta de C-3 sea equivalente (T-30). Y que ningún secreto real aparezca en ninguna forma en este documento, que es público: la verificación es de contenido y no de estructura.
 
-**Por qué están acá.** Los anexos E-1 a E-19 son modelos de diseño: describen cómo la solución representará un servicio. Estos son el insumo inverso, y son los únicos datos del intake tomados de un sistema real en funcionamiento: seis configuraciones que la solución tiene que ser capaz de **importar, representar en el lienzo y volver a exportar sin pérdida**. Sirven a dos propósitos concretos: poblar la maqueta con casos que no son inventados, y dar a las pruebas fixtures cuya forma ya se sabe que existe.
+**Por qué están acá.** Los anexos E-1 a E-19 son modelos de diseño: describen cómo el producto representará un servicio. Estos son el insumo inverso, y son los únicos datos del intake tomados de un sistema real en funcionamiento: seis configuraciones que el producto tiene que ser capaz de **importar, representar en el lienzo y volver a exportar sin pérdida**. Sirven a dos propósitos concretos: poblar la maqueta con casos que no son inventados, y dar a las pruebas fixtures cuya forma ya se sabe que existe.
 
 **Política de ofuscación aplicada a este anexo.** Este documento es público. Sobre el material original se aplicó exactamente el mismo criterio del Anexo C del análisis integrado, que ya rige para E-19:
 
@@ -3277,7 +3834,7 @@ Citado desde §3, §16.1, §17.3 P.3 y §18 (SM-03, SM-06). Procedencia: archivo
 | Nombre del host, su FQDN y su dominio | **Eliminados.** Se dice "el host de contenedores" |
 | Nombres de contenedor, de proyecto y de imagen propia | **Normalizados** a los mismos alias que usa E-19 (`panel-admin`, `vm-windows`, `bot-mensajeria`, `runner-ci`, `print-server`, `ia-api`, `ia-webui`, `ia-video`), y los registros a `registro-privado/…`, `imagen-oficial/…`, `imagen-comunidad/…` |
 | Direcciones IP | **Reasignadas** a las mismas direcciones ya ofuscadas en E-19, dentro del rango gestionado que declara E-8. Se conservan la estructura, el modo de red y la relación entre servicios |
-| Secretos, claves, contraseñas y tokens | **Eliminados por completo.** Ningún valor real se transcribe: se reemplazan por una referencia a secreto o por un marcador explícito. Uno de los casos originales llevaba una clave simétrica embebida en el propio archivo de despliegue; acá aparece como lo que la solución debe hacer con ella, no con su valor |
+| Secretos, claves, contraseñas y tokens | **Eliminados por completo.** Ningún valor real se transcribe: se reemplazan por una referencia a secreto o por un marcador explícito. Uno de los casos originales llevaba una clave simétrica embebida en el propio archivo de despliegue; acá aparece como lo que el producto debe hacer con ella, no con su valor |
 | Rutas absolutas del sistema de archivos del propietario, usuario y UID | **Reemplazadas** por rutas de ejemplo (`/srv/…`) y por un usuario genérico |
 | Identificadores de dispositivo USB y números de serie | **Truncados** al patrón, conservando que el anclaje es por identificador estable |
 | Puertos en escucha del host y su alcance de exposición real | **Omitidos.** Se conserva la publicación de puertos donde es parte de la estructura del despliegue, pero no se declara qué escucha el servidor real ni en qué interfaces |
@@ -3287,7 +3844,7 @@ Citado desde §3, §16.1, §17.3 P.3 y §18 (SM-03, SM-06). Procedencia: archivo
 
 ---
 
-**C-1 · Servicio de imagen pública en macvlan, con el socket del motor montado.** Es el caso que la regla RA-04 marca como no adoptable por defecto: gobernarlo desde la solución crearía una dependencia circular de control.
+**C-1 · Servicio de imagen pública en macvlan, con el socket del motor montado.** Es el caso que la regla RA-04 marca como no adoptable por defecto: gobernarlo desde el producto crearía una dependencia circular de control.
 
 ```yaml
 services:
@@ -3316,7 +3873,7 @@ Qué ejercita: origen por imagen con etiqueta flotante `latest`, que es el anti-
 
 ---
 
-**C-2 · Servicio propio con secreto embebido en el archivo de despliegue.** El original llevaba una clave simétrica en texto plano dentro del compose. Acá aparece como referencia, que es exactamente lo que la solución debe producir al importarlo.
+**C-2 · Servicio propio con secreto embebido en el archivo de despliegue.** El original llevaba una clave simétrica en texto plano dentro del compose. Acá aparece como referencia, que es exactamente lo que el producto debe producir al importarlo.
 
 ```yaml
 services:
@@ -3327,7 +3884,7 @@ services:
       Moderacion__Gateway: "Mensajeria"
       Persistencia__RutaBase: "/app/data/moderador.db"
       # En el archivo original esta clave viajaba en claro dentro del compose.
-      # Al importarlo, la solucion debe detectarla por heuristica (RA-05),
+      # Al importarlo, el producto debe detectarla por heuristica (RA-05),
       # enmascararla y exigir recarga manual: nunca conservar el valor.
       ClaveMaestra: "${CLAVE_MAESTRA}"
     networks:
@@ -3508,7 +4065,7 @@ services:
       TZ: ${TZ}
       # Nombre de contenedor por la red interna, NO localhost: dentro del
       # contenedor localhost es el mismo. Esta variable es exactamente lo que
-      # la solucion genera al trazar una arista de ia-webui a ia-api.
+      # el producto genera al trazar una arista de ia-webui a ia-api.
       API_BASE_URL: http://ia-api:11434
       AUTENTICACION: "true"
       CLAVE_SESION: ${CLAVE_SESION}
@@ -3639,11 +4196,11 @@ networks:
 
 Qué ejercita: la marca de servicio efímero; reserva de recursos además del límite, que el modelo de recursos de E-2 contempla como `reservaMemoriaMb`; secretos por archivo externo en lugar de embebidos; y un servicio que **no expone nada** y sólo hace conexiones salientes, cuya dirección sirve para identificarlo y no para alcanzarlo.
 
-### §20.21 · E-21 · Correspondencia entre una configuración real y el modelo de la solución
+### §20.21 · E-21 · Correspondencia entre una configuración real y el modelo del producto
 
 Citado desde §4 (F-13) y §17.3 P.3. Procedencia: derivado de E-20 (caso C-3) y del modelo de servicio de E-2. Estado: `derivado`. Es el contrato de la importación desde Compose y la fuente de las pruebas de ida y vuelta de esa conversión.
 
-**Contexto.** La traducción campo por campo de una configuración de Compose al modelo de la solución, tomando el caso C-3 del anexo anterior, con las reglas verificables una por una y con el tratamiento declarado de `depends_on` en sus dos casos. Es el contrato de la importación y la fuente de las pruebas de ida y vuelta.
+**Contexto.** La traducción campo por campo de una configuración de Compose al modelo del producto, tomando el caso C-3 del anexo anterior, con las reglas verificables una por una y con el tratamiento declarado de `depends_on` en sus dos casos. Es el contrato de la importación y la fuente de las pruebas de ida y vuelta.
 
 **Qué ejercita.** La correspondencia de cada elemento de Compose con su campo del modelo, incluida la política de actualización derivada de si la etiqueta es explícita o flotante; el tratamiento de la interpolación de Compose, que nunca produce una referencia del modelo (RN-26); el escape del signo peso en los dos sentidos; la importación de un `depends_on` con variable que ya lleva el host y sin ninguna que lo lleve, los dos sin pérdida desde D-11; y la distinción entre un proyecto que **crea** la red y otro que la consume como externa.
 
@@ -3739,7 +4296,7 @@ Citado desde §17.2 P.6 y §17.4 P.6. Procedencia: derivado del catálogo de reg
 
 **Qué ejercita.** La cobertura del catálogo de reglas caso por caso, incluidas las combinaciones que sólo se distinguen entre sí por un eje: espera declarada frente a referencia al host (T-44 a T-46), ciclo de arranque frente a ciclo de valor (T-13, T-36, T-52), unicidad exigida frente a unicidad que dejó de exigirse (T-04, T-42, T-59), y las dos direcciones del escape del signo peso (T-47, T-48). Ejercita además el fixture base sugerido, que es el parque de E-19 con sus dos modos de red, sus cinco orígenes distintos y su conflicto de direcciones reproducible.
 
-**Qué verificar.** Que cada regla RN-01 a RN-37 tenga al menos un caso y que ninguno quede sin regla que lo justifique. Que los casos que cambiaron de objeto en las pasadas segunda, tercera y quinta verifiquen el modelo vigente y no el anterior: el listado del cierre de este anexo enumera cuáles son, y es contra ese listado que hay que calibrar cualquier barrido. Que la categoría de calidad y pruebas los tome como criterio de aceptación y no como sugerencia. Y que el fixture base se pueda levantar entero, porque es lo que la solución tiene que poder representar el primer día.
+**Qué verificar.** Que cada regla RN-01 a RN-40 tenga al menos un caso y que ninguno quede sin regla que lo justifique. Que los casos que cambiaron de objeto en las pasadas segunda, tercera y quinta verifiquen el modelo vigente y no el anterior: el listado del cierre de este anexo enumera cuáles son, y es contra ese listado que hay que calibrar cualquier barrido. Que la categoría de calidad y pruebas los tome como criterio de aceptación y no como sugerencia. Y que el fixture base se pueda levantar entero, porque es lo que el producto tiene que poder representar el primer día.
 
 | # | Regla | Entrada | Resultado esperado |
 |---|---|---|---|
@@ -3813,9 +4370,90 @@ Citado desde §17.2 P.6 y §17.4 P.6. Procedencia: derivado del catálogo de reg
 
 Los treinta y tres casos T-31 a T-63 se incorporaron el 2026-07-28 con las reglas RN-21 a RN-34. T-17 y T-17b se reescribieron por la resolución de CL-15. En la **segunda pasada** sobre D-6 cambiaron de objeto T-11, T-12, T-38, T-43, T-44, T-45 y T-46, porque probaban la distinción entre dos tipos de arista que dejó de existir. En la **tercera** volvieron a cambiar de objeto T-12, T-38, T-43, T-44, T-45, T-46, T-50, T-51, T-53 y T-54: los cuatro primeros porque el orden de arranque dejó de deducirse de la variable referenciada y pasó a ser una propiedad declarada; T-50 y T-51 porque la variable de puerto y la reserva del nombre `shared` desaparecieron; y T-53 y T-54 por el azúcar del lienzo y por la arista sin variable, que dejó de ser una pérdida. El caso T-32 es el que cierra explícitamente el hueco del caso C-2 del anexo [E-20](#2020--e-20--configuraciones-reales-de-contenedor-ofuscadas), que es el que motivó la decisión D-2. T-47 y T-48 cierran las dos combinaciones de literal por sentido que la tabla de convivencia del anexo [E-4](#204--e-4--enlace-del-lienzo-y-su-variable-generada) declara, y son los únicos casos de la tanda que verifican el escape.
 
-**Fixture base sugerido para la maqueta y para las pruebas de integración [D]:** un proyecto en macvlan con los cuatro servicios de C-1 a C-4 y un proyecto en bridge con los tres de C-5, más el efímero de C-6. Da ocho servicios, dos modos de red, cinco orígenes distintos (imagen fijada, imagen flotante, dockerfile, imagen sin etiqueta y construcción local), dispositivos, capacidades, límites, reservas, una dependencia y un conflicto de direcciones reproducible. Es exactamente el parque de E-19, que es lo que la solución tiene que poder representar el primer día.
+**Fixture base sugerido para la maqueta y para las pruebas de integración [D]:** un proyecto en macvlan con los cuatro servicios de C-1 a C-4 y un proyecto en bridge con los tres de C-5, más el efímero de C-6. Da ocho servicios, dos modos de red, cinco orígenes distintos (imagen fijada, imagen flotante, dockerfile, imagen sin etiqueta y construcción local), dispositivos, capacidades, límites, reservas, una dependencia y un conflicto de direcciones reproducible. Es exactamente el parque de E-19, que es lo que el producto tiene que poder representar el primer día.
 
-## §21 Anexo B — Cobertura de los ejemplos sobre el modelo y las reglas
+### §20.23 · E-23 · La imagen como objeto con identidad, y el ciclo de vida que le falta
+
+Citado desde §4 (F-05, F-10) y §17.4 P.11. Procedencia: **derivado el 2026-07-29** del análisis del ciclo de vida de las imágenes de `SDD/Estado/Redefinicion-Servicio.md` §14 y §17.5, aplicando la prueba de tres condiciones del principio de identidad de objeto (D-12) que este intake ya declara. Estado: `derivado`.
+
+**Contexto.** La imagen del contenedor era, hasta la versión 2.3, **una cadena de texto dentro del origen del servicio** y nada más: no había entidad, no había digesto, no había ciclo de vida, no había limpieza y no había forma de saber qué corre exactamente. Este anexo declara la imagen como objeto con identidad y emite su modelo. Es el hueco más grande que la redefinición del alta de servicio encontró, y el que **más decisiones deja abiertas**: por eso el anexo declara qué está resuelto y qué no, en lugar de emitir un modelo completo que sostendría decisiones que nadie tomó.
+
+**Qué ejercita.** La aplicación de D-12 a un elemento que las tres condiciones alcanzan: se referencia desde el despliegue, sobrevive al servicio que la construyó, y tiene ciclo de vida propio. El digesto como identidad real frente a la etiqueta, que es un nombre reasignable. La distinción entre lo que el producto administra y lo que no, en un almacén de imágenes que **el producto comparte con el parque preexistente y con el ejecutor de integración continua**. Y la protección de la versión a la que el usuario quiere poder volver, frente a la limpieza.
+
+**Qué verificar.** Que una imagen marcada como ajena **no se toque nunca** por ninguna operación de limpieza. Que una imagen marcada como conservada no se limpie aunque ningún despliegue activo la referencie. Que dos despliegues del mismo servicio con la misma etiqueta flotante y digestos distintos se distingan por su digesto. Y que la operación de volver a un despliegue anterior resuelva **por digesto** y no por etiqueta.
+
+**Por qué la imagen es un objeto con identidad y no un atributo.** La prueba de tres condiciones de D-12 declara que lo es todo elemento que se referencia, que sobrevive al objeto que lo contiene, o que tiene ciclo de vida propio. La imagen cumple las tres, y conviene mostrarlo condición por condición porque es lo que hace que esta declaración sea derivación y no propuesta nueva:
+
+| Condición de D-12 | Cómo la cumple la imagen |
+|---|---|
+| Se referencia | Cada despliegue la referencia, y **varios despliegues referencian la misma**: es la relación de muchos a uno que un atributo no puede representar |
+| Sobrevive al objeto que la contiene | Sigue en el almacén de imágenes cuando el contenedor se destruye, cuando el servicio se elimina y cuando el proyecto se borra |
+| Tiene ciclo de vida propio | Se descarga o se construye, ocupa disco, se puede conservar deliberadamente y se puede limpiar. Nada de eso es ciclo de vida del servicio |
+
+```json
+{
+  "digesto": "sha256:3f7a…  · identidad real de la imagen",
+  "referencia": "registry.interno.lan/registro-privado/portal-api:1.4.2",
+  "etiqueta": "1.4.2",
+  "origenDeLaImagen": "descargada | construida-por-el-panel | construida-por-el-ejecutor | ajena",
+  "pertenencia": {
+    "gestionadaPorElPanel": true,
+    "proyectoId": 12,
+    "servicioId": 101
+  },
+  "conservada": false,
+  "creadaEn": "2026-07-26T09:00:00-03:00",
+  "tamanoMb": 214,
+  "desplieguesQueLaReferencian": [ 5472, 5480 ]
+}
+```
+
+**Tres campos hacen el trabajo, y conviene entender qué resuelve cada uno:**
+
+| Campo | Qué habilita |
+|---|---|
+| `digesto` | Saber **qué corre exactamente**, incluso con etiqueta flotante. Sin él, «qué versión está corriendo» no tiene respuesta verificable |
+| `pertenencia.gestionadaPorElPanel` | La regla conservadora que hace segura cualquier limpieza: **lo que no lleva la marca del producto, no se toca**. Es lo que la vuelve practicable en un almacén compartido con el ejecutor de integración continua y con el parque no adoptado |
+| `conservada` | Proteger de la limpieza la versión a la que el usuario quiere poder volver. Es lo que RN-40 hace exigible |
+
+Y `origenDeLaImagen` con el valor `ajena` representa el caso que agrava todo el resto: **una imagen del parque preexistente que el producto ve y no administra**. El motor de contenedores es uno y compartido, de modo que el producto no puede distinguir lo propio de lo ajeno sin este campo, y una limpieza sin él sería una operación destructiva sobre trabajo de otro.
+
+El despliegue registra la imagen que usó. Extiende lo que [E-3](#203--e-3--despliegue-con-su-línea-de-tiempo-de-eventos-y-sus-métricas) ya declara y sólo agrega el bloque `imagen`:
+
+```json
+{
+  "id": 5480,
+  "servicioId": 101,
+  "numeroReplica": 1,
+  "estado": "desplegado",
+  "imagen": {
+    "digesto": "sha256:3f7a…",
+    "referencia": "registry.interno.lan/registro-privado/portal-api:1.4.2"
+  },
+  "iniciadoEn": "2026-07-26T11:02:00-03:00",
+  "actor": "token:sk-a41f"
+}
+```
+
+**Con este bloque, «volver al despliegue 5472» pasa a ser una operación posible**: se toma su digesto y se despliega esa imagen. Sin él, «volver» sólo conoce una etiqueta, que puede apuntar hoy a algo distinto de lo que apuntaba entonces.
+
+**Por qué esto es más grande de lo que parece, con su evidencia.** Este intake declara una retención de cincuenta despliegues por servicio, que alimentan la línea de tiempo del panel. El usuario **los ve y no puede volver a ninguno**, y tampoco sabe qué imagen usó cada uno. Y el modo de falla más probable de un servidor autoalojado de referencia —llenar el disco— no tiene en este intake ninguna capacidad que lo prevenga: verificado, cero menciones de limpieza, poda, espacio en disco o retención de imágenes antes de esta versión.
+
+**Qué queda abierto, declarado y sin valor supuesto.** El modelo de arriba es la **forma mínima** que las decisiones abiertas necesitan para poder tomarse; **no cierra ninguna de ellas**. Siete de las diecisiete pendientes de decisión de §19 viven en este anexo:
+
+| Pendiente | Qué falta decidir | Consecuencia de no decidirlo |
+|---|---|---|
+| `Q-15` | Si el despliegue registra el **digesto** de la imagen | **Es la pieza que habilita todo el resto de este anexo.** Sin ella, el modelo de arriba es una entidad sin quien la escriba |
+| `Q-16` | Si las imágenes construidas llevan **marca de pertenencia** | Sin ella, `gestionadaPorElPanel` no se puede determinar y ninguna limpieza es segura |
+| `Q-17` | Si la limpieza es **manual, sugerida o programada** | El modo de disparo condiciona la superficie de interfaz y la capacidad de API |
+| `Q-18` | Si la limpieza tiene **ámbito propio** de credencial, distinto del de desplegar | Por el principio de ámbito mínimo: un automatismo que despliega no debe poder borrar |
+| `Q-19` | Si existe la operación de **volver a un despliegue anterior** | Es la que justifica conservar imágenes que ningún despliegue activo usa |
+| `Q-20` | Al volver, si la política de actualización **pasa a fijada sola o se pregunta** | Sin decidirlo, el usuario cree que volvió y el próximo redespliegue con etiqueta flotante lo lleva adelante otra vez |
+| `Q-21` | Si la imagen conservada queda **protegida de la limpieza** | Sin ella, la limpieza borra exactamente la versión a la que se quería poder volver |
+
+**Un dato que las siete comparten y que conviene declarar:** las siete se cierran con `Q-15`. Registrar el digesto por despliegue es la pieza única de la que dependen saber qué corre, decidir qué se descarta y volver a una versión anterior. Es la decisión de mayor palanca de las diecisiete abiertas.
+
+## §21 Anexo B — Cobertura de campos y trazabilidad de los ejemplos
 
 Matriz derivada de §20 y de las reglas de negocio e invariantes declaradas en las fuentes. Demuestra que los ejemplos anexados cubren el modelo, los invariantes y los flujos que este intake declara.
 
@@ -3844,7 +4482,7 @@ Matriz derivada de §20 y de las reglas de negocio e invariantes declaradas en l
 | Exportación a Compose con secretos vacíos y manifiesto propio (RN-15) | E-14 |
 | Importación inversa con disposición automática por capas | E-14 |
 | Superficie de la API, con ámbito por endpoint | E-15 |
-| Catálogo completo de reglas verificables RN-01 a RN-37, con momento de validación y respuesta | E-16 |
+| Catálogo completo de reglas verificables RN-01 a RN-40, con momento de validación y respuesta | E-16 |
 | Máquina de estados del despliegue y su traducción desde el estado del contenedor | E-17 |
 | Estado degradado, pausado y huérfano, que no son caída | E-17, E-18 |
 | Mapa de navegación y rutas que la etapa `b` debe dejar navegables | E-18 |
@@ -3874,7 +4512,7 @@ Matriz derivada de §20 y de las reglas de negocio e invariantes declaradas en l
 | Variables provistas por el sistema, con la resolución del host por modo de red, y el puerto literal (RN-32, D-9) | E-4, E-2, T-38, T-49, T-50 |
 | Exigencia de canal alcanzable según si la arista referencia el host (RN-04) | E-4, §17.4 P.11, T-11, T-46 |
 | Clasificación obligatoria de variables en la adopción, con la heurística como sugerencia (D-2, RA-05, RA-06, RN-29) | E-7, E-11, E-20 (C-2), E-21, T-17, T-17b, T-32, T-33 |
-| Catálogo como cuarta vía de alta y como subgrafo parametrizado (D-7, RN-30) | §4 (F-14), E-6, E-10, T-43 |
+| Catálogo como vía de alta —una de las siete desde la versión 2.4— y como subgrafo parametrizado (D-7, RN-30) | §4 (F-14), E-6, E-10, T-43 |
 | Resultado del despliegue determinado por contenedor y despliegue parcial legítimo (D-1, RN-31) | E-3, E-13, E-17, T-31 |
 | Fundamento de I10: el alta crea desde cero y la adopción es el único camino, filtrado por el descubrimiento (D-3, RN-11) | §17.4 P.11, E-7 (RA-01), T-15 |
 
@@ -3892,7 +4530,7 @@ Esta parte **no existe en la plantilla del framework**. Se incorpora en la versi
 
 ## §22 Consolidado de 00-Contexto
 
-Los cinco documentos de la categoría, con la versión que tenían al migrar: `Vision-Producto` 1.5, `Alcance-Proyecto` 1.5, `Roadmap-Producto` 1.5, `Compatibilidad-Plataformas` 1.4 y `Acuerdo-Equipo` 1.4, más el README de la categoría. Los cinco en estado Propuesto. Dos de ellos se generaron apartándose del criterio por defecto de la categoría, por decisión explícita del agente humano: `Compatibilidad-Plataformas`, porque el intake declara en los cuatro bloques P.9 una matriz restrictiva que necesita un lugar consolidado del que la categoría de devops derive la configuración sin recorrer cuatro bloques técnicos; y `Acuerdo-Equipo`, porque el cliente ya tenía cerrado un acuerdo operativo completo que condiciona a cinco categorías posteriores.
+Los cinco documentos de la categoría, con la versión que tenían al migrar: `Vision-Producto` 1.5, `Alcance-Producto` 1.5, `Roadmap-Producto` 1.5, `Compatibilidad-Plataformas` 1.4 y `Acuerdo-Equipo` 1.4, más el README de la categoría. Los cinco en estado Propuesto. Dos de ellos se generaron apartándose del criterio por defecto de la categoría, por decisión explícita del agente humano: `Compatibilidad-Plataformas`, porque el intake declara en los cuatro bloques P.9 una matriz restrictiva que necesita un lugar consolidado del que la categoría de devops derive la configuración sin recorrer cuatro bloques técnicos; y `Acuerdo-Equipo`, porque el cliente ya tenía cerrado un acuerdo operativo completo que condiciona a cinco categorías posteriores.
 
 ### §22.1 Objetivos SMART y métricas de éxito
 
@@ -3901,12 +4539,12 @@ Los cinco objetivos derivados de §8 y del dimensionamiento de §17.1 P.10 **[FA
 | ID | Objetivo | Métrica | Target | Plazo |
 |---|---|---|---|---|
 | OBJ-01 | Incorporar el parque existente sin reinstanciar contenedores | Contenedores en ejecución incorporados sobre el total relevado | ≥ 6 de 8 (≥ 75 %) | 3 meses desde el cierre del Alcance 1 |
-| OBJ-02 | Reemplazar el alta manual de servicios por el alta desde la solución | Altas nuevas hechas desde la solución sobre el total | ≥ 90 % | 6 meses desde el cierre del Alcance 1 |
+| OBJ-02 | Reemplazar el alta manual de servicios por el alta desde el producto | Altas nuevas hechas desde el producto sobre el total | ≥ 90 % | 6 meses desde el cierre del Alcance 1 |
 | OBJ-03 | Hacer reproducible la arquitectura fuera del servidor | Proyectos con exportación vigente, de antigüedad menor a 7 días | 100 % | 3 meses desde el cierre del Alcance 3 |
 | OBJ-04 | Sostener la entrega por etapas sin regresión acumulada | Etapas cerradas con su guion ejecutado y los anteriores pasando sin corrección | 100 % | Durante toda la construcción |
 | OBJ-05 | Operar la escala real sin degradación perceptible | Nodos y aristas por lienzo, y contenedores por parque | 30 nodos y 40 aristas; menos de 50 contenedores | Verificado en PT-01, antes de comprometer el corte del lienzo |
 
-**Estado objetivo a tres años, y lo que se posterga explícitamente [FA].** A tres años el parque completo está representado en la solución: cada contenedor en ejecución pertenece a un proyecto declarado, con su red, sus direcciones reservadas y su disposición, y la pregunta «qué consume qué y con qué dirección» se responde mirando una pantalla. La arquitectura de cada proyecto es reproducible fuera del servidor, y esa exportación **es** la estrategia de respaldo frente a un servidor sin redundancia de disco. El alta deja de ser copiar y adaptar, con un catálogo que arranca vacío y que el propietario puebla, y con los valores compartidos definidos una sola vez. Y la publicación de una versión nueva puede dispararse desde un automatismo con credencial de ámbito mínimo. **El avance hacia ese estado no se mide por fechas de calendario**, sino por etapas cerradas con su punto de control aprobado. Se posterga explícitamente: la operación de más de un servidor y de más de un inquilino; la exposición del servicio fuera de la red local; la gestión de dominios públicos y del enrutamiento de entrada, con la consecuencia asumida de que reemplazar la versión de un servicio implica detener y arrancar, con una ventana de indisponibilidad que la interfaz debe advertir; la distribución de tráfico entre réplicas, que mientras no exista deja el escalado horizontal útil sólo para procesos sin tráfico entrante; y la gestión de múltiples usuarios, roles y permisos junto al segundo factor de autenticación.
+**Estado objetivo a tres años, y lo que se posterga explícitamente [FA].** A tres años el parque completo está representado en el producto: cada contenedor en ejecución pertenece a un proyecto declarado, con su red, sus direcciones reservadas y su disposición, y la pregunta «qué consume qué y con qué dirección» se responde mirando una pantalla. La arquitectura de cada proyecto es reproducible fuera del servidor, y esa exportación **es** la estrategia de respaldo frente a un servidor sin redundancia de disco. El alta deja de ser copiar y adaptar, con un catálogo que arranca vacío y que el propietario puebla, y con los valores compartidos definidos una sola vez. Y la publicación de una versión nueva puede dispararse desde un automatismo con credencial de ámbito mínimo. **El avance hacia ese estado no se mide por fechas de calendario**, sino por etapas cerradas con su punto de control aprobado. Se posterga explícitamente: la operación de más de un servidor y de más de un inquilino; la exposición del servicio fuera de la red local; la gestión de dominios públicos y del enrutamiento de entrada, con la consecuencia asumida de que reemplazar la versión de un servicio implica detener y arrancar, con una ventana de indisponibilidad que la interfaz debe advertir; la distribución de tráfico entre réplicas, que mientras no exista deja el escalado horizontal útil sólo para procesos sin tráfico entrante; y la gestión de múltiples usuarios, roles y permisos junto al segundo factor de autenticación.
 
 OBJ-01 a OBJ-04 traducen las cuatro métricas de §8, confirmadas por el agente humano el 2026-07-27 (S-01); OBJ-01 lleva a valor absoluto el porcentaje, con el denominador de ocho contenedores tomado del anexo [E-19](#2019--e-19--parque-de-contenedores-de-referencia). **OBJ-05 es derivación de la categoría y sigue pendiente de confirmación**: la batería de validación del 2026-07-27 no lo alcanzó, y el README de `00-Contexto` lo registraba como pregunta abierta. Las cuatro métricas las verifica el agente humano del proyecto: las tres primeras se leen del propio sistema una vez que exista la capacidad, contrastadas contra el inventario del parque, y la cuarta se lee de los informes de cierre de etapa y de su índice.
 
@@ -3931,7 +4569,7 @@ Las doce restricciones del cliente, derivadas de §10 **[FA]**. RE-12 es la que 
 | RE-03 | Sin presupuesto monetario; toda dependencia de licencia abierta y permisiva | Ninguna capacidad puede depender de un producto de licencia comercial |
 | RE-04 | Etapas en serie, con el punto de control como cuello por diseño | El punto de control bloquea el avance, y es decisión aceptada |
 | RE-05 | El motor de contenedores del host es el sustrato, por su socket local | El producto no existe sin él y hereda sus límites |
-| RE-06 | Servidor de gama modesta, sin redundancia de disco | Solución liviana, presupuesto de memoria de cientos de MB, sin sondeo agresivo |
+| RE-06 | Servidor de gama modesta, sin redundancia de disco | Producto liviano, presupuesto de memoria de cientos de MB, sin sondeo agresivo |
 | RE-07 | Sólo red local, sin publicación a internet | No hay superficie pública; el acceso remoto queda fuera de alcance |
 | RE-08 | El ciclo de desarrollo ocurre dentro del entorno contenedorizado | Ningún guion puede asumir herramientas instaladas en el host |
 | RE-09 | Ningún marco normativo aplicable | Sin requisitos de cumplimiento que condicionen el alcance |
@@ -3961,15 +4599,15 @@ Entregables **[FA]**:
 
 | ID | Entregable |
 |---|---|
-| EN-01 | Aplicación desplegable en el servidor de referencia, único artefacto ejecutable de la solución |
-| EN-02 | Especificación de la solución: el conjunto de categorías de `SDD/Docs/` |
+| EN-01 | Aplicación desplegable en el servidor de referencia, único artefacto ejecutable del producto |
+| EN-02 | Especificación del producto: el conjunto de categorías de `SDD/Docs/` |
 | EN-03 | Informe de cierre por etapa, de trece secciones, con su índice acumulativo |
 | EN-04 | Guion de demostración por etapa, que debe seguir pasando en todas las posteriores |
 | EN-05 | Materializaciones de las puertas técnicas PT-01 y PT-02 |
 | EN-06 | Juego de datos de siembra que reproduce el parque de referencia |
-| EN-07 | Registro de cambios de la solución, actualizado en la rama de cada etapa |
+| EN-07 | Registro de cambios del producto, actualizado en la rama de cada etapa |
 
-Ambientes: **desarrollo**, entorno contenedorizado declarativo sobre el host del equipo, con acceso al motor del propio host y resultado observado desde el navegador del host; y **producción**, la solución corriendo como un contenedor más en el servidor de referencia. **No hay ambiente intermedio de pruebas ni de preproducción**: el punto de control de cada etapa cumple esa función, y es decisión declarada por el cliente, no una omisión.
+Ambientes: **desarrollo**, entorno contenedorizado declarativo sobre el host del equipo, con acceso al motor del propio host y resultado observado desde el navegador del host; y **producción**, el producto corriendo como un contenedor más en el servidor de referencia. **No hay ambiente intermedio de pruebas ni de preproducción**: el punto de control de cada etapa cumple esa función, y es decisión declarada por el cliente, no una omisión.
 
 Criterios de aceptación del proyecto **[FA]**:
 
@@ -3994,8 +4632,8 @@ Cinco fases, con la correspondencia uno a uno entre alcance del intake y fase, s
 
 | Fase | Objetivo | Épicas | Etapas |
 |---|---|---|---|
-| Fase 0 — Cimientos | Solución compilando, ejecutándose y navegable, con PT-02 verificada antes de que ninguna capacidad dependa del motor | EPC-01, EPC-02 | `a` esqueleto ejecutable, `b` panel navegable |
-| Fase 1 — Alcance 1: núcleo operable | El mínimo sin el cual la solución no resuelve el problema | EP-01 a EP-11 | `c` y `01` a `10` |
+| Fase 0 — Cimientos | Producto compilando, ejecutándose y navegable, con PT-02 verificada antes de que ninguna capacidad dependa del motor | EPC-01, EPC-02 | `a` esqueleto ejecutable, `b` panel navegable |
+| Fase 1 — Alcance 1: núcleo operable | El mínimo sin el cual el producto no resuelve el problema | EP-01 a EP-11 | `c` y `01` a `10` |
 | Fase 2 — Alcance 2: observabilidad | Estado del servidor, del proyecto y del contenedor en un único tablero | EP-12 | 1 etapa estimada |
 | Fase 3 — Alcance 3: portabilidad y reutilización | Arquitectura reproducible fuera del servidor y alta reutilizable | EP-13, EP-14, EP-17 | 3 etapas estimadas |
 | Fase 4 — Alcance 4: automatización | Un automatismo dispara un despliegue sin conocer la contraseña del administrador | EP-15, EP-16 | 2 etapas estimadas, 1 si EP-15 se adelanta |
@@ -4045,7 +4683,7 @@ Criterios de transición entre fases **[FA]**, que son listas de verificación y
 | Transición | Criterios verificables |
 |---|---|
 | — → Fase 0 | El intake aprobado y el manifiesto derivado; las decisiones de producto pendientes registradas y asignadas al cliente, ninguna alcanzando a una etapa de esta fase |
-| Fase 0 → Fase 1 | La solución compila y arranca desde los guiones, dentro del entorno, sin pasos manuales; la página de salud responde en el navegador del host; PT-02 verificada y su materialización corriendo como prueba automatizada; todas las rutas del mapa navegables y validadas contra la maqueta; informes de `a` y `b` publicados y anotados; puntos de control de `a` y `b` con OK explícito |
+| Fase 0 → Fase 1 | El producto compila y arranca desde los guiones, dentro del entorno, sin pasos manuales; la página de salud responde en el navegador del host; PT-02 verificada y su materialización corriendo como prueba automatizada; todas las rutas del mapa navegables y validadas contra la maqueta; informes de `a` y `b` publicados y anotados; puntos de control de `a` y `b` con OK explícito |
 | Fase 1 → Fase 2 | Las once capacidades F-01 a F-11 entregadas, cada una con su etapa cerrada y su punto de control aprobado; PT-01 medida y aprobada, o su plan de contingencia aplicado y el corte del lienzo replanificado y cerrado; los guiones de las once etapas pasando de corrido; el parque de referencia recorrible con el juego de datos de siembra; **al menos un contenedor del parque real adoptado sin reinstanciarlo y sin cortar su servicio**; salvaguardas de aislamiento presentes en las etapas de despliegue y adopción; umbrales de cobertura cumplidos |
 | Fase 2 → Fase 3 | El tablero muestra las tres capas; la presión de memoria se atribuye a un servicio concreto desde el tablero; la recolección de estadísticas ocurre sólo con vistas abiertas; los guiones anteriores siguen pasando |
 | Fase 3 → Fase 4 | Un proyecto se exporta y se reimporta conservando arquitectura y disposición; ninguna exportación contiene un secreto y el archivo de variables sale vacío; el catálogo permite dar de alta un servicio frecuente con sus parámetros; existe una exportación programada hacia un destino externo; los guiones anteriores siguen pasando |
@@ -4080,7 +4718,7 @@ Restricciones de plataforma justificadas **[FA]**:
 | CP-04 | Los contenedores creados son hermanos del entorno de desarrollo, no hijos | Para alcanzar por red un servicio recién desplegado hay que adjuntarse a su red o usar el puerto publicado |
 | CP-05 | Sin soporte para motores de contenedores distintos del declarado | El punto de extensión existe, pero ningún otro motor está verificado |
 | CP-06 | Sin soporte para bases de datos distintas de la declarada | Dos instancias sobre el mismo archivo de datos no están soportadas |
-| CP-07 | El servicio no se publica a internet | Sin superficie pública ni certificado gestionado por la solución |
+| CP-07 | El servicio no se publica a internet | Sin superficie pública ni certificado gestionado por el producto |
 | CP-08 | Dominio y aplicación no pueden tener superficie de plataforma | Control de arquitectura bloqueante en el pipeline, no una convención |
 | CP-09 | El entorno de desarrollo no define ni condiciona la imagen de producción | La imagen de producción se construye con su propia definición multietapa |
 
@@ -4095,7 +4733,7 @@ Regla de cierre de la matriz **[FA]**: **toda combinación de plataforma no list
 | Navegadores sin soporte de WebSockets | Ninguna. La sesión persistente es constitutiva del modelo de interfaz, y el sondeo largo como transporte alternativo está explícitamente descartado por su efecto sobre la fluidez del lienzo |
 | Navegadores móviles y pantallas pequeñas | Fuera de la matriz. No son plataforma target: los anchos de ventana en los que se verifica el comportamiento responsivo los declara la maqueta y los registra la etapa `b` en su informe |
 | Acceso desde fuera de la red local | Ninguna. Requeriría una capa de protección adicional, hoy excluida |
-| Más de una instancia sobre el mismo almacenamiento | Ninguna. Es una carga que la solución declara no soportar (CP-06) |
+| Más de una instancia sobre el mismo almacenamiento | Ninguna. Es una carga que el producto declara no soportar (CP-06) |
 
 Verificación prevista por plataforma **[FA]**, que es lo que convierte cada fila de la matriz en un hecho comprobable y no en una declaración. El sistema todavía no está construido, de modo que la matriz especifica el objetivo y esta tabla dice con qué se va a verificar:
 
@@ -4131,7 +4769,7 @@ Los veintiocho acuerdos operativos, todos redactados como regla verificable **[F
 | AT-08 | Antes de abrir el pull request se verifica que los guiones previos siguen pasando | El pull request declara el resultado; es control bloqueante |
 | AT-09 | Un criterio incumplido se declara en el informe; un informe que declara terminada una etapa incompleta invalida el punto de control | Contraste entre el informe y el resultado del guion |
 | AT-10 | Conventional Commits sin excepciones | Control automatizado sobre los mensajes |
-| AT-11 | SemVer 2.0.0, único para toda la solución, porque se despliega como un único artefacto. **[FA]** decía «para los cuatro proyectos de código»; desde la versión 2.2 hay uno solo y la unicidad pasó de acuerdo a propiedad estructural | La versión calculada en el pipeline es única |
+| AT-11 | SemVer 2.0.0, único para todo el producto, porque se despliega como un único artefacto. **[FA]** decía «para los cuatro proyectos de código»; desde la versión 2.2 hay uno solo y la unicidad pasó de acuerdo a propiedad estructural | La versión calculada en el pipeline es única |
 | AT-12 | La versión se deriva de los mensajes desde la etiqueta anterior; hasta la primera entrega completa permanece en la serie 0.x | Salida del cálculo de versión |
 | AT-13 | Las migraciones de esquema no se editan una vez fusionadas | Ninguna migración fusionada aparece modificada después |
 | AT-14 | Cada etapa cierra con su informe autocontenido, publicado antes del punto de control | El archivo existe con su nombre de orden y etapa |
@@ -4157,7 +4795,7 @@ Roles, con la autoridad que cada uno tiene declarada **[FA]**. La regla de separ
 | Agente humano del proyecto | Recibe el guion de demostración, lo ejecuta, da o niega el OK, fusiona la rama y avisa el cierre | Única autoridad para aprobar un punto de control, fusionar y aceptar un cambio de alcance |
 | Equipo de desarrollo | Especifica la etapa con la plantilla, construye el corte vertical, escribe las pruebas de las reglas que introduce y redacta el informe de cierre | Decide la implementación dentro del alcance de la etapa; eleva todo lo que lo exceda |
 | Agente IA de codificación | Genera la documentación y el código de cada etapa, y verifica que los guiones previos siguen pasando antes de preparar el pull request | No fusiona ramas y no aprueba puntos de control |
-| Administrador de la solución | Opera el producto entregado y reporta lo que no funciona | Origen de todo pedido de cambio |
+| Administrador del producto | Opera el producto entregado y reporta lo que no funciona | Origen de todo pedido de cambio |
 
 Ceremonias, todas disparadas por un evento del ciclo de la etapa y ninguna de cadencia fija **[FA]**, porque no hay sprints de duración fija y toda ceremonia tiene que ser observable en el repositorio:
 
@@ -4206,11 +4844,11 @@ Definición de listo **[FA]**, doce condiciones, todas bloqueantes:
 | DoR-11 | Ningún supuesto abierto del que dependa el comportamiento a especificar sigue sin respuesta del cliente |
 | DoR-12 | El guion arranca con los guiones de ejecución, dentro del entorno de desarrollo, sin pasos manuales de preparación fuera de ellos |
 
-Herramientas **[FA]**: repositorio remoto en GitHub con el flujo de una rama y un pull request por etapa; repositorio de documentación separado para los informes de cierre y su índice; GitHub Actions con ejecutor autoalojado en el propio servidor, que requiere el socket del motor disponible; entorno de desarrollo contenedorizado declarativo; guiones del repositorio para construir, ejecutar, migrar, probar y reiniciar la base local; configuración de depuración del editor como camino separado; navegador de escritorio del host como único lugar donde se observa el resultado de un guion; registro de cambios de la solución; y herramienta de migración de esquema declarada como local del repositorio y no global, para que su versión quede versionada junto al código.
+Herramientas **[FA]**: repositorio remoto en GitHub con el flujo de una rama y un pull request por etapa; repositorio de documentación separado para los informes de cierre y su índice; GitHub Actions con ejecutor autoalojado en el propio servidor, que requiere el socket del motor disponible; entorno de desarrollo contenedorizado declarativo; guiones del repositorio para construir, ejecutar, migrar, probar y reiniciar la base local; configuración de depuración del editor como camino separado; navegador de escritorio del host como único lugar donde se observa el resultado de un guion; registro de cambios del producto; y herramienta de migración de esquema declarada como local del repositorio y no global, para que su versión quede versionada junto al código.
 
 ## §23 Consolidado de 01-Necesidades-Negocio
 
-Ocho necesidades, generadas una sola vez a nivel solución, con cuarenta y cuatro criterios de éxito, treinta y seis casos de uso previstos y un grafo de dependencias acíclico. Versiones al migrar: NB-01 en 1.5, NB-05 y NB-06 en 1.4, las otras cinco en 1.2, con el índice maestro y el README en 1.5. Todas en estado Propuesto.
+Ocho necesidades, generadas una sola vez a nivel producto, con cuarenta y cuatro criterios de éxito, treinta y seis casos de uso previstos y un grafo de dependencias acíclico. Versiones al migrar: NB-01 en 1.5, NB-05 y NB-06 en 1.4, las otras cinco en 1.2, con el índice maestro y el README en 1.5. Todas en estado Propuesto.
 
 ### §23.1 Catálogo de necesidades y su grafo
 
@@ -4257,7 +4895,7 @@ Cada capacidad de §4 tiene exactamente una necesidad responsable **[FA]**. Las 
 | F-09 | NB-06 | F-24 | NB-04 |
 | F-10 | NB-04 | F-25 | NB-01 |
 
-Casos de uso previstos, con numeración única en toda la solución y sin colisión entre necesidades **[FA]**. Treinta y uno corresponden a `SelfHosted-Web`, tres a `SelfHosted-Infrastructure`, uno a `SelfHosted-Application` y uno a `SelfHosted-Domain`:
+Casos de uso previstos, con numeración única en todo el producto y sin colisión entre necesidades **[FA]**. Treinta y uno corresponden a `SelfHosted-Web`, tres a `SelfHosted-Infrastructure`, uno a `SelfHosted-Application` y uno a `SelfHosted-Domain`:
 
 | NB | CU | Proyecto de código |
 |---|---|---|
@@ -4321,7 +4959,7 @@ Siete decisiones de partición, cada una con su argumento, que la regeneración 
 
 **Cómo se llegó de seis criterios derivados a dos.** El 2026-07-28 el agente humano se pronunció sobre los seis que el catálogo declaraba: dos siguen derivados y pendientes; el de estabilidad de la sesión dejó de serlo al adoptar el umbral cualitativo que el intake declara para PT-01, que es la puerta la que fija el número al medir; dos de NB-04 se **retiraron**, porque un porcentaje de adopción no es medible sobre un catálogo que arranca vacío y que el usuario puebla o no; y el de NB-05 se **reemplazó** por uno no derivado, porque miraba el lugar equivocado: lo verificable no es cuántas direcciones quedaron anotadas afuera sino que toda dirección asignada salga del rango gestionado y quede registrada como reserva.
 
-**Extensión declarada del formato de la categoría.** La tabla de trazabilidad a casos de uso lleva una cuarta columna, `Proyecto de código`, además de las tres que fija la regla de la categoría. La extensión es deliberada y responde a una condición de esta solución: los casos de uso se generan por proyecto de código y la composición tiene cuatro, de modo que sin esa columna la categoría de especificación funcional no sabría a qué proyecto de código despachar cada caso. Si el orquestador prefiere el formato estricto de tres columnas, la información se reubica dentro de la celda de la CU sin pérdida.
+**Extensión declarada del formato de la categoría.** La tabla de trazabilidad a casos de uso lleva una cuarta columna, `Proyecto de código`, además de las tres que fija la regla de la categoría. La extensión es deliberada y responde a una condición de este producto: los casos de uso se generan por proyecto de código y la composición tiene cuatro, de modo que sin esa columna la categoría de especificación funcional no sabría a qué proyecto de código despachar cada caso. Si el orquestador prefiere el formato estricto de tres columnas, la información se reubica dentro de la celda de la CU sin pérdida.
 
 ### §23.5 Dolores específicos y responsabilidades por necesidad
 
@@ -4330,7 +4968,7 @@ Los dolores que cada necesidad declara resolver, uno por uno **[FA]**. Es el mat
 | NB | Problemas específicos que resuelve |
 |---|---|
 | NB-01 | No existe inventario de qué conjuntos de servicios hay ni de qué se compone cada uno; la dependencia entre dos servicios no está declarada y se infiere leyendo variables de archivos separados; la configuración declarada y lo que el motor ejecuta pueden divergir sin que nada lo señale; la disposición mental que el operador tiene de su arquitectura no está registrada; mirando el dibujo no se puede anticipar en qué orden va a levantar el conjunto; los datos que sí están anotados viven fuera de todo sistema y no sobreviven a una reinstalación; renombrar cualquier elemento obliga a corregir a mano todo lo que lo nombraba y lo que se pase por alto se rompe en silencio; y el registro acumula restos con el uso sin que nada lo señale |
-| NB-02 | Incorporar un servicio en uso exige recrearlo, con su ventana de indisponibilidad; la configuración real de un contenedor en ejecución sólo se conoce inspeccionándolo a mano, comando por comando; no hay forma de saber qué contenedores ya están gobernados por la solución, y uno mismo podría quedar asociado a dos conjuntos; hay contenedores que no deben gobernarse y hoy nada lo señala antes de intentarlo; y las variables de un contenedor en producción contienen credenciales que una importación ingenua dejaría legibles |
+| NB-02 | Incorporar un servicio en uso exige recrearlo, con su ventana de indisponibilidad; la configuración real de un contenedor en ejecución sólo se conoce inspeccionándolo a mano, comando por comando; no hay forma de saber qué contenedores ya están gobernados por el producto, y uno mismo podría quedar asociado a dos conjuntos; hay contenedores que no deben gobernarse y hoy nada lo señala antes de intentarlo; y las variables de un contenedor en producción contienen credenciales que una importación ingenua dejaría legibles |
 | NB-03 | No existe ninguna representación de la arquitectura fuera del propio servidor; la reconstrucción tras una reinstalación no está documentada y depende de la memoria de una sola persona; los archivos que describen partes de la configuración no están versionados y contienen credenciales, de modo que no sirven de respaldo; la disposición con la que el operador lee su arquitectura se perdería en cualquier reconstrucción; y el respaldo depende de una acción manual que nadie garantiza |
 | NB-04 | Cada alta parte de la configuración de otro servicio y arrastra decisiones que ya no corresponden; las dimensiones que el parque real exige declarar no están en ningún formulario único; no hay forma de reutilizar la configuración de un servicio frecuente ni de un conjunto que suele ir junto, sin copiarla y editarla; un valor que comparten varios servicios se escribe una vez por servicio y se sincroniza a mano, sin que nada avise cuando una copia quedó vieja; llevar la configuración declarada a un contenedor corriendo es un paso manual y distinto según el origen de la imagen; y la construcción de una imagen propia ocurre fuera del alcance de todo registro |
 | NB-05 | El orden correcto de arranque no está declarado y se recuerda de memoria, y no hay dónde asentar cuál dependencia obliga a esperar y cuál no; las direcciones fijas se anotan fuera del sistema y nadie sabe cuáles están ocupadas; el conflicto se descubre cuando el motor falla, con un mensaje que no identifica al ocupante ni ofrece salida; un arranque que falla a mitad deja el conjunto en un estado que nadie eligió y que no queda registrado; y al reasignar una dirección los servicios que la consumían quedan apuntando a un valor obsoleto sin que nada lo señale |
@@ -4414,7 +5052,7 @@ El tercero apareció al aplicar la prueba que separa objeto de atributo, y es un
 
 Negocio (Parte A):
 
-- [x] La cabecera tiene nombre de solución, cliente, fecha y estado.
+- [x] La cabecera tiene nombre de producto, cliente, fecha y estado.
 - [x] §1 describe un problema concreto y qué pasa si no se construye.
 - [x] §2 tiene al menos un stakeholder por categoría con rol explícito: propietario, implementador y beneficiario.
 - [x] §4 tiene al menos un ítem en cada categoría MoSCoW y el Must Have es el Alcance 1, que es el mínimo razonable. Las capacidades F-23 y F-24, incorporadas el 2026-07-28 por D-5 y D-6, son Should Have; su asignación a un alcance y a un corte vertical figura entre lo abierto.
@@ -4424,11 +5062,11 @@ Negocio (Parte A):
 - [x] §9 lista 7 exclusiones con justificación.
 - [x] §10 declara "sin fecha" justificado y la naturaleza de la restricción económica; no hay presupuesto monetario asignado.
 - [x] §11 lista 10 riesgos con probabilidad, impacto y mitigación.
-- [x] §12 define 35 términos del dominio, uno de ellos declarado como término retirado.
+- [x] §12 define **46** términos del dominio, uno de ellos declarado como término retirado. Siete se incorporaron en la versión 2.4: vía de alta, origen, plantilla, versión de contenido, versión de formato, imagen y digesto. **Corrección de conteo, versión 2.4:** este ítem declaraba «35 términos» y la sección tenía **39** antes de esta versión. La cifra se venía arrastrando desde antes de las pasadas que agregaron entradas, y no se había actualizado; se recuenta acá y la cifra vigente es verificable contando filas de la tabla de §12.
 
 Composición (Parte B):
 
-- [x] §13 enumera el proyecto de código de la solución —**uno solo desde la versión 2.2**, `SelfHosted-Service` / `SelfHosted.Service.Core`—, con su valor D8 `web-monolith`, señalado como principal. El grafo de dependencias entre proyectos de código es trivial y por lo tanto acíclico: un nodo, sin aristas. Las cuatro capas conservan su grafo acíclico de cuatro niveles como espacios de nombres, declarado en la segunda tabla de §13.
+- [x] §13 enumera el proyecto de código del producto —**uno solo desde la versión 2.2**, `SelfHosted-Service` / `SelfHosted.Service.Core`—, con su valor D8 `web-monolith`, señalado como principal. El grafo de dependencias entre proyectos de código es trivial y por lo tanto acíclico: un nodo, sin aristas. Las cuatro capas conservan su grafo acíclico de cuatro niveles como espacios de nombres, declarado en la segunda tabla de §13.
 - [x] §13 declara el perfil de convención de nombres; no hay colisión de nombres de proyecto de código ni de nombres de código.
 - [x] §14 describe la composición y los contratos entre proyectos de código, coherentes con las aristas de §13.
 - [x] §15 garantiza valor demostrable end-to-end en el primer sprint a través de la jerarquía, con corte vertical obligatorio.
@@ -4441,10 +5079,10 @@ Técnica por proyecto de código (Parte C):
 
 Anexos de datos (Parte D):
 
-- [x] Los veintidós identificadores E-1 a E-22 citados en el cuerpo tienen su contenido completo en §20, y ningún escenario de §20 queda huérfano.
+- [x] Los veintitrés identificadores E-1 a E-23 citados en el cuerpo tienen su contenido completo en §20, y ningún escenario de §20 queda huérfano. E-23 se incorporó en la versión 2.4 con estado `derivado`.
 - [x] Los anexos derivados de un sistema real declaran su procedencia y la política de ofuscación aplicada, y no contienen ningún secreto, hostname, dominio, ruta de usuario ni hallazgo de seguridad del servidor de referencia. Este documento es público. E-19 y E-20 declaran estado `medido`, con su fecha de relevamiento; E-21 y E-22, `derivado`, con la regla de cálculo declarada.
 - [x] Los insumos de maquetado (mapa de navegación, disposición de pantallas, anatomía del nodo, dashboard, lenguaje visual de estados y juego de datos de maqueta) están transcriptos en E-18 y E-19, de modo que `03-UX-UI-DX` y `SDD/Maquetas/SelfHosted-Service/` pueden generarse sin abrir las fuentes.
-- [x] Los insumos de generación de pruebas (reglas RN-01 a RN-37 con momento de validación y respuesta, invariantes I1 a I10, máquina de estados, contratos de la API y esquema de datos) están transcriptos en E-16, E-17, E-15, E-9 y §17.4 P.2.
+- [x] Los insumos de generación de pruebas (reglas RN-01 a RN-40 con momento de validación y respuesta, invariantes I1 a I10, máquina de estados, contratos de la API y esquema de datos) están transcriptos en E-16, E-17, E-15, E-9 y §17.4 P.2.
 - [x] Ningún dato del intake se respalda únicamente en una referencia a un archivo externo: todo lo citado está transcripto. Alcanza también a la cuarta fuente incorporada el 2026-07-28, `Analisis-Rayway.md`, cuyas **cuatro** secciones declaradas en la tabla de procedencia están transcriptas: la definición de la entidad plantilla y la enumeración del menú de creación de servicio (§3.2) en §4 y en E-6; la sintaxis de las referencias entre variables (§3.5) en E-4; las invariantes del modelo (§3.6) en §17.4 P.2, con la correspondencia de cuál se adoptó, cuál se adaptó y cuál se descartó; y el momento de resolución (§7) en E-4. Cada una con su sección de origen citada.
 - [x] Cada escenario de §20 declara procedencia (archivo y líneas) y estado.
 - [x] Cada escenario de §20 declara sus cuatro bloques: **contexto**, **qué ejercita**, la carga completa y **qué verificar**. Los cuatro se emiten contiguos al encabezado del anexo, con la divergencia de orden declarada en el preámbulo de la Parte D y su motivo: varios anexos contienen más de una carga y un bloque de verificación al final quedaría ambiguo respecto de a cuál se refiere.
@@ -4453,9 +5091,9 @@ Anexos de datos (Parte D):
 
 Navegabilidad:
 
-- [x] El documento emite su tabla de contenido inmediatamente después de la cabecera, con las secciones de primer y segundo nivel y con los veintidós escenarios de la Parte D listados por identificador.
+- [x] El documento emite su tabla de contenido inmediatamente después de la cabecera, con las secciones de primer y segundo nivel y con los veintitrés escenarios de la Parte D listados por identificador.
 
-Continuidad de la Fase A (Parte E, propia de esta solución):
+Continuidad de la Fase A (Parte E, propia de este producto):
 
 - [x] La Parte E transcribe los resultados citables de los quince documentos que la Fase A generó bajo el conjunto normativo anterior, con todos sus identificadores emitidos, y declara que son insumo de la regeneración y no su resultado.
 - [x] Todo su contenido está marcado `[FA]`, y los puntos donde el agente humano del proyecto sí se pronunció están señalados como tales.
@@ -4492,8 +5130,8 @@ Este documento lleva **tres registros de cosas sin cerrar, con alcances distinto
 | Registro | Qué enumera | Dónde vive |
 |---|---|---|
 | Supuestos `[S]` | Valores que **faltaban** en las fuentes y que el intake propuso. Seis numerados, todos resueltos el 2026-07-27, más dos sin número, de los cuales queda uno abierto | Sección «Supuestos registrados por este intake y su estado» |
-| Pendientes de decisión | Decisiones de producto que **nadie tomó** y que este intake deliberadamente no toma. Cinco | La tabla que sigue |
-| Especificaciones de integración `[D-i]` | Decisiones que el orquestador **sí tomó** al integrar, para hacer operables las siete del agente humano, y que están aplicadas pero pendientes de confirmación. Dieciséis | La tabla del final de esta sección |
+| Pendientes de decisión | Decisiones de producto que **nadie tomó** y que este intake deliberadamente no toma. Cinco de la Fase A, más **diecisiete** incorporadas en la versión 2.4 por la redefinición del alta de servicio: **veintidós** en total, una de ellas ya cerrada | La tabla que sigue, en sus dos bloques |
+| Especificaciones de integración `[D-i]` | Decisiones que el orquestador **sí tomó** al integrar, para hacer operables las decisiones del agente humano, y que están aplicadas pero pendientes de confirmación. Dieciséis de la Fase A, más **ocho** incorporadas en la versión 2.4: **veinticuatro** en total | La tabla del final de esta sección |
 
 Los tres registros clasifican por **origen**, no por ítem, y hay una superposición declarada: la matriz de navegadores figura en los dos primeros, porque era a la vez un supuesto `[S]` que el intake nunca cerró y una decisión de producto que nadie había tomado. Es la única superposición; el registro de especificaciones de integración no comparte ningún ítem con los otros dos. Desde la versión 2.1 ese ítem está cerrado en los dos registros por la misma decisión, que es lo coherente con que fuera el mismo ítem visto desde dos orígenes.
 
@@ -4507,7 +5145,38 @@ Un artefacto downstream debe tratarlos distinto. Un supuesto resuelto es dato ce
 | Distinción visual entre las aristas que **declaran espera** y las que no | E-18 | `03-UX-UI-DX` y `SDD/Maquetas/SelfHosted-Service/`. E-18 declara el lenguaje visual de los **estados del nodo** pero no uno de aristas, y el violeta está reservado a "pendiente de aplicar". Desde D-11 la distinción con consecuencia observable ya no es entre referencia de red y de dato sino entre **esperar y no esperar**: es lo que determina el orden de arranque, es una propiedad que el usuario cambia, y un usuario que no pueda verla en el dibujo no puede prever ni auditar el orden. Alcanza también a la arista sin variable, que sólo existe por su espera y que hoy no tiene forma declarada de representarse |
 | Maquetado del paso de clasificación de variables de la adopción y de la pantalla de variables compartidas del proyecto | E-18 | `03-UX-UI-DX`. Las dos pantallas son obligatorias por RN-29 y por F-23, y E-18 no declara ninguna de las dos: el mapa de navegación tampoco tiene ruta para las variables del proyecto |
 
-**Especificaciones de integración pendientes de confirmación (marcador `[D-i]`).** Dieciséis puntos que el orquestador resolvió al integrar las siete decisiones, porque sin ellos las decisiones no eran implementables. **Están aplicados en este documento y la cadena puede consumirlos**, pero no los decidió el agente humano del proyecto: son propuesta del integrador y deben declararse revisables aguas abajo. La convención `[D-i]` está definida en la sección «Procedencia de este intake y convención de marcadores», y el reparto de autoría frente a cada decisión está en «Qué decidió el agente humano y qué derivó el integrador».
+**Diecisiete pendientes nuevas, incorporadas en la versión 2.4.** Son las que la redefinición del alta de servicio abrió y que **nadie decidió**. Este intake **no las toma**, y ninguna lleva valor supuesto: donde el dato falta, la fila lo declara. Se agrupan por bloque para que la conversación con el agente humano del proyecto sea abordable, que es el mismo criterio con el que §24.1 agrupó las catorce especificaciones sin revisar.
+
+| # | Pendiente | Dónde vive | Qué condiciona · destinatario |
+|---|---|---|---|
+| `Q-5` | Si el **disparo automático del origen repositorio** es por ejecutor autoalojado, por consulta periódica, o siempre manual | E-2 variante `repositorio`, E-13 | Define si esta vía tiene paridad con la plataforma de referencia o es deliberadamente más manual. **Agente humano del proyecto**; luego `02-Especificacion-Funcional` y `05-Arquitectura-Tecnica` |
+| `Q-6` | Si se registra **qué commit construyó cada despliegue** | E-3, E-23 | Sin eso el usuario no sabe qué versión corre. **Lo responde `Q-15`**: el digesto lo cubre. **Agente humano del proyecto** |
+| `Q-7` | Si el único proveedor de repositorios es el declarado, o la lista va a crecer | E-2 variante `repositorio` | Cambia el control de la interfaz: un selector de un elemento, o un campo extensible. **Agente humano del proyecto**; luego `03-UX-UI-DX` |
+| `Q-8` | Si se admite **cualquier repositorio alcanzable** o sólo una lista declarada | E-2 variante `repositorio`, §17.P.5 | Construir ejecuta código en el servidor que administra el motor de contenedores. Es decisión de seguridad, no de comodidad. **Agente humano del proyecto** |
+| `Q-10` | Si el panel **genera el fragmento de configuración del automatismo** de integración continua | E-13 | Es lo que vuelve usable la capacidad para quien no conoce esa herramienta. **Agente humano del proyecto**; luego `03-UX-UI-DX` |
+| `Q-11` | Si se muestra **cuándo y desde dónde se disparó** el último despliegue externo | E-2 bloque `disparoExterno`, RN-17 | RN-17 ya lo registra; falta que el panel lo exhiba. **`03-UX-UI-DX`** |
+| `Q-12` | Si el archivo de construcción en línea **se acota** en lo que puede hacer | E-2 variante `dockerfile`, §17.P.5 | Cruzado con el acceso al punto de acceso del motor, es la mayor superficie de riesgo del producto. **Agente humano del proyecto** |
+| `Q-13` | Si se registra la **fecha de modificación** del archivo de construcción usado en cada despliegue | E-2 variante `dockerfile`, E-3 | Es el equivalente del commit en esta vía. El campo `modificadoEn` del origen existe; lo que falta es decidir si el despliegue lo copia. **Agente humano del proyecto** |
+| `Q-15` | Si el despliegue registra el **digesto** de la imagen | E-23, E-3 | **Es la pieza de mayor palanca de las diecisiete**: habilita todo el anexo E-23, responde `Q-6` y es condición de `Q-19`. **Agente humano del proyecto** |
+| `Q-16` | Si las imágenes construidas llevan **marca de pertenencia** | E-23 | Sin ella no se puede distinguir lo propio de lo ajeno en un almacén compartido, y ninguna limpieza es segura. **Agente humano del proyecto** |
+| `Q-17` | Si la limpieza de imágenes es **manual, sugerida o programada** | E-23 | Llenar el disco es el modo de falla más probable del servidor de referencia. El modo de disparo condiciona superficie e interfaz. **Agente humano del proyecto**; luego `03-UX-UI-DX` |
+| `Q-18` | Si la limpieza tiene **ámbito de credencial propio**, distinto del de desplegar | E-23, E-12, §17.P.5 | Por ámbito mínimo: un automatismo que despliega no debe poder borrar. **Agente humano del proyecto** |
+| `Q-19` | Si existe la operación de **volver a un despliegue anterior** | E-23, E-3 | Se retienen cincuenta despliegues por servicio y hoy no se puede volver a ninguno. **Agente humano del proyecto** |
+| `Q-20` | Al volver, si la **política de actualización pasa a fijada** sola o se pregunta | E-23, E-2 | Sin decidirlo, el usuario cree que volvió y el próximo redespliegue con etiqueta flotante lo lleva adelante otra vez. **Agente humano del proyecto** |
+| `Q-21` | Si la **imagen conservada queda protegida** de la limpieza | E-23, E-16 (RN-40) | RN-40 declara la protección; lo que está abierto es si el usuario puede marcarla y con qué alcance. Sin ella, la limpieza borra la versión a la que se quería volver. **Agente humano del proyecto** |
+| `Q-27` | Si hay alguna forma de **explorar un registro de imágenes**, o conocer la dirección de la imagen es requisito del usuario | §4, E-2 | **Es el primer minuto de uso.** Sin catálogo de fábrica y sin exploración, quien no sabe la dirección de la imagen no tiene camino. **Las dos respuestas son legítimas; dejarlo sin declarar no.** Si hay exploración es una pantalla nueva; si no, es una línea de ayuda. **Agente humano del proyecto**; condiciona `03-UX-UI-DX` |
+| `Q-28` | Si el **origen es editable** después del alta | E-2, `CU-03` `FA-01` | La reentrada de la configuración arranca en el paso del modo de red y excluye el origen **sin decirlo**. Corregir una etiqueta mal escrita no tiene camino hoy. **Agente humano del proyecto**; condiciona `02-Especificacion-Funcional` y `03-UX-UI-DX` |
+
+**Cuatro de las diecisiete condicionan la forma de una pantalla**, y por lo tanto hay que cerrarlas antes de rehacer la maqueta; el resto condiciona datos o reglas y puede resolverse después. No son cuatro de esta tabla: **tres de ellas son especificaciones de integración `DI-17` a `DI-19`** —que están aplicadas y sólo esperan confirmación— y **una es `Q-27`**, que sí está abierta:
+
+| Decisión | Registro donde vive | Qué pantalla condiciona |
+|---|---|---|
+| `DI-17` · siete vías sobre cinco variantes | `[D-i]` aplicada | El alta entera. Sin taxonomía de vías, la superficie de alta no cambia |
+| `DI-18` · separar imagen pública de privada | `[D-i]` aplicada | Si no se separan, no hay paso de credenciales |
+| `DI-19` · el servicio sin origen | `[D-i]` aplicada | Si no existe el nodo borrador, el lienzo no admite un servicio sin origen |
+| `Q-27` · exploración de registro de imágenes | **Pendiente de decisión** | Si hay exploración, es una pantalla nueva; si no, es una línea de ayuda |
+
+**Especificaciones de integración pendientes de confirmación (marcador `[D-i]`).** **Veinticuatro** puntos que el orquestador resolvió al integrar las decisiones del agente humano, porque sin ellos las decisiones no eran implementables. Las dieciséis primeras vienen de la versión 1.2 y de sus pasadas; `DI-17` a `DI-24` se incorporaron en la versión 2.4 con la redefinición del alta de servicio. **Están aplicados en este documento y la cadena puede consumirlos**, pero no los decidió el agente humano del proyecto: son propuesta del integrador y deben declararse revisables aguas abajo. La convención `[D-i]` está definida en la sección «Procedencia de este intake y convención de marcadores», y el reparto de autoría frente a cada decisión está en «Qué decidió el agente humano y qué derivó el integrador».
 
 | # | Especificación de integración | Decisión que la origina | Dónde vive |
 |---|---|---|---|
@@ -4527,12 +5196,22 @@ Un artefacto downstream debe tratarlos distinto. Un supuesto resuelto es dato ce
 | DI-14 | Cómo se importa un `depends_on`: **reexpresión** de la variable que ya lleva el host del destino cuando existe, y **arista sin variable con espera declarada** cuando no existe ninguna. Con el descarte razonado de crear una variable, que inyectaría en el contenedor una que el archivo no tenía | D-6, D-11 | E-21, E-16 (RN-26, RN-34), E-22 (T-40, T-54) |
 | DI-15 | RN-34 completa: que toda arista deba aportar una referencia o una espera, que el sistema **proponga** la espera al crear la arista según si apunta al host, y que no haya más de una arista de espera sin variable entre dos servicios | D-11 | E-16, E-9, E-22 (T-56, T-57) |
 | DI-16 | Que el **puerto de la arista** se persista como columna `puerto_destino` y que la unicidad de la arista de espera sin variable se haga cumplir con un índice único parcial, porque la clave única de la tabla no alcanza con columnas nulas | D-10, D-11 | E-9, E-1, E-4 |
+| DI-17 | **El reparto de siete vías de alta sobre cinco variantes discriminadas de origen**, con la vía como eje que no se persiste y la procedencia como su huella de auditoría; el estado del servicio con sus tres valores ortogonal al del despliegue; las **dos verificaciones** separadas con sus cuatro criterios; la reformulación de RN-08 por variante; y las reglas RN-38 y RN-40 | Redefinición del alta de servicio, 2026-07-29 | §4, E-2, E-7, E-16 (RN-08, RN-38, RN-40), E-23 |
+| DI-18 | Que **la imagen pública y la privada se separen en la interfaz sin duplicar el modelo**: el registro pasa de selector a dirección y aparece la credencial, y `credencialRegistroId` y `credencialRepositorioId` son entidades distintas | Redefinición del alta de servicio, 2026-07-29 | §4, E-2 |
+| DI-19 | Que el **servicio sin origen** exista como nodo en estado `borrador`, no desplegable y fuera del conjunto de cambios pendientes, y que sea el alta detenida en el paso del nombre en lugar de una vía con mecánica propia | Redefinición del alta de servicio, 2026-07-29 | §4, E-2 |
+| DI-20 | Que el **archivo de construcción se declare como contenido en línea y no como ruta del servidor**, con su límite técnico declarado —sin contexto no puede copiar archivos locales— y con la fecha de modificación como equivalente del commit | Redefinición del alta de servicio, 2026-07-29 | E-2, E-16 (RN-08) |
+| DI-21 | Que **guardar como plantilla convierta cada variable secreta en parámetro de tipo `secreto` con `generar` activo**, descartando el valor e informando cuáles convirtió; y el alcance de RN-15 a la plantilla del catálogo y no sólo a la exportación | Redefinición del alta de servicio, 2026-07-29 | E-6, E-16 (RN-15) |
+| DI-22 | Que los **cuatro tipos de parámetro sean un conjunto cerrado** y que `porDefecto` quede **prohibido** sobre un parámetro de tipo `secreto`, con `generar` como su único mecanismo | Redefinición del alta de servicio, 2026-07-29 | E-6, E-16 (RN-15) |
+| DI-23 | Que el **descubrimiento devuelva los puertos publicados** de cada candidato y que la adopción los traduzca, con la forma concreta del campo y la regla RA-07 | Redefinición del alta de servicio, 2026-07-29 | E-7, E-16 (RN-38) |
+| DI-24 | Que **importar un ítem cuyo identificador ya existe lo importe como copia** con identificador nuevo, sin tocar el existente, con su informe y con el argumento de por qué es la única de las tres resoluciones que no destruye información | Redefinición del alta de servicio, 2026-07-29 | E-6 |
 
 **Renumeración de esta tabla, 2026-07-28.** Se renumeró dos veces en el mismo día y conviene declarar las dos, porque artefactos aguas abajo podrían citarla. **Segunda pasada sobre D-6:** desaparecieron la vieja DI-01 —identificadores propios de sintaxis— y la vieja DI-05 —arista única con dos orígenes—, y entraron el prefijo `SELFHOSTED_` y el predicado de referencia de red. **Tercera pasada:** se da de baja la mitad de DI-01 que reservaba el nombre `shared`, porque D-8 la volvió innecesaria, y se da de baja entera la DI-06 de entonces —«sólo las referencias de red ordenan el arranque»—, porque D-11 la reemplazó por una propiedad declarada. Entran tres: DI-06 con la forma del vínculo (D-8), y DI-15 y DI-16 con la exigibilidad de la espera y el registro del puerto (D-10 y D-11); DI-05 y DI-14 cambian de contenido sin cambiar de número. La aritmética cierra: catorce entradas, menos la vieja DI-06, más tres, son dieciséis. El resto conserva contenido y número.
 
-Tres notas sobre esta tabla. Ninguna de las dieciséis contradice la decisión que la origina: son las formas concretas que faltaban. Ninguna es un supuesto `[S]`: no cubren información faltante en las fuentes sino detalles que una decisión tomada no fija. Y si el agente humano prefiere otra forma para cualquiera de ellas, se reemplaza la especificación sin tocar la decisión ni reabrir el caso límite que la originó.
+Tres notas sobre esta tabla. Ninguna de las veinticuatro contradice la decisión que la origina: son las formas concretas que faltaban. Ninguna es un supuesto `[S]`: no cubren información faltante en las fuentes sino detalles que una decisión tomada no fija. Y si el agente humano prefiere otra forma para cualquiera de ellas, se reemplaza la especificación sin tocar la decisión ni reabrir el caso límite que la originó.
 
-**Estado de revisión, incorporado en la versión 2.0.** Dos de las dieciséis fueron revisadas y aprobadas por el agente humano del proyecto al cierre de la Fase A —DI-01 y DI-03— y las catorce restantes siguen sin revisar. El detalle, con las catorce agrupadas por lo que deciden para que la revisión sea abordable, está en [§24.1](#241-las-dieciséis-especificaciones-derivadas-y-su-estado-de-revisión).
+**Aritmética de la versión 2.4, declarada.** Las ocho nuevas corresponden **una a una** a las ocho decisiones que el documento de entrada clasifica como «con propuesta escrita, esperando confirmación»: `Q-1`→`DI-17`, `Q-2`→`DI-18`, `Q-3`→`DI-19`, `Q-14`→`DI-20`, `Q-22`→`DI-21`, `Q-24`→`DI-22`, `Q-25`→`DI-23`, `Q-26`→`DI-24`. **Una discrepancia interna del documento de entrada se declara en lugar de resolverse en silencio:** su §18.7 clasifica `Q-24`, `Q-25` y `Q-26` como «abiertas» mientras su §23.2 las clasifica como «con propuesta escrita». Se aplicó la clasificación de §23, que es la sección consolidada y la última del documento, y las tres entraron como `[D-i]` aplicadas y revisables en lugar de como pendientes sin valor. Si el agente humano prefiere tratarlas como abiertas, se retiran de esta tabla y pasan a la de pendientes sin tocar nada más, porque las tres están marcadas.
+
+**Estado de revisión, incorporado en la versión 2.0 y actualizado en la 2.4.** Dos de las veinticuatro fueron revisadas y aprobadas por el agente humano del proyecto al cierre de la Fase A —DI-01 y DI-03—. Las catorce restantes de esa tanda siguen sin revisar, y las **ocho de la versión 2.4 nacen sin revisar**, de modo que **veintidós de veinticuatro** esperan confirmación. El detalle, con las catorce agrupadas por lo que deciden para que la revisión sea abordable, está en [§24.1](#241-las-dieciséis-especificaciones-derivadas-y-su-estado-de-revisión).
 
 **Observaciones de auditoría aceptadas y deliberadamente no aplicadas.** Las auditorías de coherencia registradas en `SDD/Docs/Audit/Intake-v1.2-Coherencia-v1.0.md` levantaron señalamientos que este documento **no** corrige, y el motivo se registra acá para que la decisión quede en la cadena y no haya que reconstruirla:
 
@@ -4555,23 +5234,24 @@ Tres notas sobre esta tabla. Ninguna de las dieciséis contradice la decisión q
 | §1 a §12 (negocio) | `00-Contexto/`, `01-Necesidades-Negocio/` | Visión, alcance, roadmap por alcances 1 a 4, NB-XX |
 | §4 MoSCoW y §5 historias | `01-Necesidades-Negocio/`, `02-Especificacion-Funcional/` | NB-XX, CU-XX |
 | §7 casos límite y §11 riesgos | `02-Especificacion-Funcional/`, `05-Arquitectura-Tecnica/` | CU alternativos, ADR de mitigación |
-| §13 (proyectos de código) | `SOLUTION-MANIFEST` derivado; todas las categorías por proyecto de código | Manifiesto canónico; selector de variantes D8 |
-| §14 estilo de solución | `05-Arquitectura-Tecnica/` | Arquitectura de las cuatro capas y su grafo de dependencias. **No hay vista de solución**: con un único proyecto de código, `Master-Prompt.md` §3.5 omite `Solucion/` |
+| §13 (proyectos de código) | `PRODUCT-MANIFEST` derivado; todas las categorías por proyecto de código | Manifiesto canónico; selector de variantes D8 |
+| §14 estilo de producto | `05-Arquitectura-Tecnica/` | Arquitectura de las cuatro capas y su grafo de dependencias. **No hay vista de producto**: con un único proyecto de código, `Master-Prompt.md` §3.5 omite `Producto/` |
 | §15 y §15.1 delivery | `07-Plan-Sprint/` | Plan de sprint por etapas, con el informe de cierre como definición de terminado |
-| §16 estructura | `05-Arquitectura-Tecnica/`, `11-Documentacion/` | Árbol de la solución, README de carpeta |
+| §16 estructura | `05-Arquitectura-Tecnica/`, `11-Documentacion/` | Árbol del producto, README de carpeta |
 | §17.P.x del proyecto de código | `05`, `08`, `09`, `00` | ADR (DA-01 a DA-08), estrategia de testing con sus cuatro umbrales por espacio de nombres y el test de arquitectura, pipeline, NFR |
 | §17.1 P.5 y §17.3 P.5 | `05-Arquitectura-Tecnica/` e Infrastructure | ADR de autenticación, ADR de salvaguardas de aislamiento del host |
 | §18 samples y puertas técnicas | `10-Examples/` | Ejemplo-XX; SM-01 y SM-02 son las materializaciones de PT-01 y PT-02 |
 | **Lectura inversa de esta tabla** | Además de declarar qué documento deriva de qué sección, esta tabla es el **índice de propagación**: cuando un enunciado de una sección cambia de forma —no sólo de contenido—, indica qué artefactos hay que revisar para que sus réplicas queden alineadas. Es la contramedida de la cuarta disciplina de barrido, y su necesidad crece con la cantidad de artefactos | Todas las categorías |
 | §20 y §21 anexos de datos | `02-Especificacion-Funcional/`, `10-Examples/`, `SDD/Maquetas/SelfHosted-Service/` | Modelo conceptual con ejemplos, fixtures de prueba, datos de maqueta |
 | E-15 superficie de la API | `02-Especificacion-Funcional/` y `05-Arquitectura-Tecnica/` | CU por recurso, contrato OpenAPI |
-| E-16 reglas RN-01 a RN-37 | `02-Especificacion-Funcional/` y `08-Calidad-Y-Pruebas/` | RN-XX y casos de prueba, uno por regla |
+| E-16 reglas RN-01 a RN-40 | `02-Especificacion-Funcional/` y `08-Calidad-Y-Pruebas/` | RN-XX y casos de prueba, uno por regla |
 | E-17 ciclo de vida del despliegue | `02-Especificacion-Funcional/`, `05-Arquitectura-Tecnica/`, `08-Calidad-Y-Pruebas/` | Modelo de estados, pruebas del sincronizador |
 | E-18 maquetado de la interfaz | `03-UX-UI-DX/` y `SDD/Maquetas/SelfHosted-Service/` | Wireframes, mapa de navegación, sistema visual de estados |
 | E-19 parque de referencia | `10-Examples/` y `SDD/Maquetas/SelfHosted-Service/` | Datos de siembra y de maqueta |
 | E-20 configuraciones reales ofuscadas | `10-Examples/`, `02-Especificacion-Funcional/` y `SDD/Maquetas/SelfHosted-Service/` | Fixtures de importación, datos de maqueta, casos de adopción |
 | E-21 traducción Compose ↔ modelo | `02-Especificacion-Funcional/` y `08-Calidad-Y-Pruebas/` (capa `Infrastructure`) | Contrato de importación y exportación, pruebas de ida y vuelta |
 | E-22 casos de prueba | `08-Calidad-Y-Pruebas/` | Casos de prueba con entrada y resultado esperado, uno o más por regla |
+| E-23 la imagen como objeto con identidad | `02-Especificacion-Funcional/`, `03-UX-UI-DX/` y `05-Arquitectura-Tecnica/` | Entidad Imagen del modelo conceptual, casos de uso de higiene de imágenes y de volver a un despliegue anterior, superficie de imágenes, y modelo lógico de la entidad. **Lleva siete decisiones abiertas declaradas**: se consume sabiendo cuáles |
 | §22 consolidado de 00-Contexto | `00-Contexto/` | Visión, alcance, roadmap, compatibilidad y acuerdo de equipo, con los identificadores `OBJ`, `DV`, `RE`, `OP`, `EN`, `CA`, `CP`, `EPC`, `EP` y `AT` ya emitidos y citados |
 | §23 consolidado de 01-Necesidades-Negocio | `01-Necesidades-Negocio/` y `02-Especificacion-Funcional/` | Las ocho NB con su grafo, sus cuarenta y cuatro criterios y las treinta y seis CU previstas con su proyecto de código |
 | §24 estado al cierre de la Fase A | Todas las categorías, y en particular `03-UX-UI-DX`, `05-Arquitectura-Tecnica` y `07-Plan-Sprint` | Especificaciones derivadas sin revisar, matriz de navegadores pendiente y los tres objetos que la Fase C recibe declarados y no diseñados |
@@ -4582,6 +5262,19 @@ Tres notas sobre esta tabla. Ninguna de las dieciséis contradice la decisión q
 
 | Versión | Fecha | Cambios | Autor |
 |---|---|---|---|
+| 3.1 | 2026-07-30 | **Corrección del hallazgo `P1-03` del informe de M6**, ronda 1. Sube **minor**: corrige una cita y no toca ninguna decisión de producto ni ninguna sección de contenido. El renombre de artefacto `SOLUTION-INTAKE` → `PRODUCT-INTAKE` que aplicó la versión 3.0 había alcanzado una cita de §16 que nombra un **archivo archivado**, `_legacy/2026-07-28/SOLUTION-INTAKE-SelfHosted-Service-Core-v1.2.md`, cuyo nombre en disco conserva la forma legada porque la entrada `[5.0]` del `CHANGELOG.md` del framework declara que `_legacy/` no se toca. La cita quedaba apuntando a un archivo inexistente, que `Master-Prompt.md` §10 tipifica como evidencia que no resuelve. Restituida al nombre real; las dos citas a `_legacy/` de este documento resuelven. Es la clase de defecto que `Vocabulario-Rules.md` §9.5 previene: un renombre correcto aplicado sobre una ocurrencia cuyo referente es **histórico** y por lo tanto no cambia de nombre. **Nota de proceso, incorporada por el hallazgo `P1-r2-01` de la ronda 2**: esta corrección se había aplicado primero **dentro de la fila 3.0 y sin subir versión**, sobre un documento en estado `Aprobado`, lo que no es ninguno de los dos casos de escritura que `Master-Prompt.md` §13 regla 2 admite. Se deshizo: la 3.0 quedó restituida a su texto de emisión, se archivó en `SDD/Intake/_legacy/2026-07-30/PRODUCT-INTAKE-SelfHosted-Service-v3.0.md` y la corrección pasó a esta versión propia, con su fila. El defecto era del orquestador y no del contenido. | Orquestador de migración normativa SDD |
+| 3.0 | 2026-07-30 | **Migración normativa del conjunto 4.1 al 6.0**, fase M2 del orquestador de migración, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../Docs/Audit/Plan-Migracion-4.1-a-6.0.md) aprobado el mismo día. Sube **major** porque una migración estructural reexpresa secciones ya aprobadas, según `Migracion-Rules.md` §4.4 regla 3. **Ninguna decisión de producto cambia y ningún contenido se agrega**: rige la regla de no invención de §4.1. Lo que cambia es la nomenclatura. **Renombre del artefacto**: `SOLUTION-INTAKE-SelfHosted-Service.md` pasa a `PRODUCT-INTAKE-SelfHosted-Service.md`; el estado previo, versión 2.4, queda archivado en `SDD/Intake/_legacy/2026-07-30/`. **Cabecera** reexpresada bajo `PRODUCT-INTAKE-template.md` 2.1: `Nombre de producto` pasa a `Nombre-Producto`, `Nombre-Solucion` a `Slug-Producto` —declarado como derivado y no completado a mano—, `NombreSolucionCodigo` a `Raiz-Codigo` y el artefacto de agrupación a `Artefacto-Agrupacion`. **Diez secciones renombradas**: las Partes A, B y C, y §9, §13 —que pasa a plural—, §14, §16, §17, §21 y «Identidad de la solución». **Renombre léxico de «solución» a «producto» por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y no por sustitución global**: 148 ocurrencias enumeradas y clasificadas en seis referentes, 108 sustituidas, 8 conservadas como «solución de código» —el `.sln`, que es el único compuesto que la `[5.0]` preserva—, 19 anclas de la tabla de contenido reescritas, 2 «nivel solución» a «nivel producto» y **13 intactas en el control de cambios**, porque `SDD-Development-Guide.md` §VI.2 prohíbe reescribir filas históricas. **Barrido negativo corrido**: las 97 ocurrencias de «resolución» quedan intactas y no se produjo ninguna «reproducto»; cero roturas de concordancia de género. Un defecto se introdujo y se reparó dentro de la misma fase: la regla de «Solución» suelta alcanzó a las tres ocurrencias del identificador `Nombre-Solucion` y las llevó a `Nombre-Producto` en lugar de a `Slug-Producto`; se detectó porque la regla de identificador quedó en cero coincidencias y se corrigió antes de escribir. **Identificadores** renombrados por la `[5.0]`: `Nombre-Proyecto` a `Nombre-Proyecto-Codigo` (10), `nombre-proyecto-codigo` a `Identidad-Codigo` (6), `project_type` a `tipo_proyecto_codigo` (2), `Alcance-Proyecto` a `Alcance-Producto` (1). **El choque de vocabulario de `Intake-Rules.md` §5 ya estaba declarado** en §12 y no se tocó: los tres sentidos de «proyecto» —entidad del dominio, unidad de compilación y emprendimiento— conservan su tabla y su criterio de contextos disjuntos, que es el mismo de `Vocabulario-Rules.md` §9.1. Se verificó además que «módulo» se usa con el sentido de área funcional que la `[5.0]` preservó, de modo que no hay choque; declararlo lo sería es el falso positivo que `Vocabulario-Rules.md` §10 trata como defecto del informe. **Product Owner confirmado** por el agente humano del proyecto el 2026-07-30, resolviendo `[R-1]` de la batería de M2; el campo deja de ser derivación pendiente. **Los siete bloques que la plantilla vigente no ubica se preservan íntegros** por resolución `[R-2]` de la misma batería: las seis secciones anteriores a §1 y la Parte E con §22, §23 y §24. Ninguna sección se rellenó y ninguna quedó sin fuente.| Orquestador de migración normativa SDD |
+| 2.4 | 2026-07-29 | Actualización de la cabecera: los campos Documento y Versión pasan a 2.4. Motivo: incorporar la **redefinición del alta y la configuración de servicios y de ítems del catálogo** que la parte normativa —§16 a §23— de `SDD/Estado/Redefinicion-Servicio.md` v2.0 establece. La versión 2.3 queda archivada en `SDD/Intake/_legacy/2026-07-29/`, con su bloque de archivado. **Sólo se incorporó la parte normativa del documento de entrada**; su parte de derivación, §1 a §15, es antecedente y contiene seis pasajes superados que su §0.1 enumera, y ninguno se usó. | Orquestador SDD |
+| 2.4 | 2026-07-29 | Sección nueva «Decisiones incorporadas en la versión 2.4: la redefinición del alta de servicio». Registra las **dos decisiones cerradas nuevas** del agente humano del proyecto, marcadas **[D]** con su fecha: **D-14**, la instancia queda desvinculada de la plantilla con vínculo débil y copia en lugar de clave foránea; y **D-15**, se conservan las dos modalidades de despliegue. Registra además **D-16** y **D-17**, que se cierran **confirmando lo ya escrito** —no hay ítems de fábrica, y las dos versiones del ítem ya estaban especificadas—, con la evidencia de dónde ya estaba cada una. Declara explícitamente qué **no** se decide: ocho puntos entran como `[D-i]` aplicados y revisables, y diecisiete quedan como pendientes de decisión sin valor supuesto. Y declara la aritmética del documento de entrada, que enuncia «veintiocho decisiones» sobre veintinueve filas —`Q-4` está partida en `Q-4a` y `Q-4b`— y cuya tabla de abiertas tiene diecisiete filas y no dieciséis. | Orquestador SDD |
+| 2.4 | 2026-07-29 | Actualización de §4: **F-03 se reformula sobre dos ejes** —la vía de alta, con siete opciones, y el origen, con cinco variantes discriminadas—, e incorpora el comando de arranque, la verificación del origen separada de la validación de la configuración, y el guardado admitido en cualquier punto. **F-14 deja de ser «la cuarta vía»**: el ordinal contaba vías y orígenes en la misma lista, y pasa a ser «una de las siete vías», con la desvinculación de D-14 declarada. Se agrega la **nota de los dos ejes**, con la tabla de las siete vías y el origen al que resuelve cada una, las tres cosas que la separación hace visibles, y la declaración de que el reparto es `DI-17` a `DI-19` y por lo tanto revisable. Se agrega **qué es una plantilla** con la definición del agente humano del proyecto —el alta de un servicio sin la cola de despliegue— y su consecuencia de interfaz. Origina el cambio: la redefinición del alta de servicio. | Orquestador SDD |
+| 2.4 | 2026-07-29 | Actualización del anexo **E-2**, que es la primera dependencia de toda la cadena. `origen` pasa de **tres valores planos a cinco variantes discriminadas** por tipo, cada una con sus campos y ninguno más, con las cinco emitidas en §20.2.3 y una instancia por variante en §20.2.4. Se agregan los campos `comando`, `estado`, `disparoExterno`, `procedencia` y `verificaciones`, enumerados en §20.2.1 con su marcador. Se emiten los **dos informes de verificación** en §20.2.5, con sus cuatro criterios y con los dos fallos que hay que distinguir —dato incorrecto contra consulta imposible—, y con el límite de alcance del informe de configuración declarado. Las dos variantes viejas de origen por repositorio y por Dockerfile local **se retiran**, superadas por §20.2.3. La variante de red macvlan pasa a §20.2.6 y declara que es **ortogonal al origen**. **Se declara la discrepancia entre el título del anexo y su contenido** —«tres variantes» contra cinco— y se conserva el título por la regla de anclas de §19, con el mismo criterio y el mismo precedente que el título de E-4. Origina el cambio: §22.1 del documento de entrada. | Orquestador SDD |
+| 2.4 | 2026-07-29 | **Corrección de una afirmación del documento de entrada, registrada en §20.2.2.** Su §6 `H-B` y su §17.1 afirman que el campo de comando de arranque «existe en E-2» y que el hueco está sólo del lado de la especificación funcional. **Verificado contra la versión 2.3: era falso.** El único `"comando"` de E-2 vivía dentro del objeto `healthcheck`; no había campo de primer nivel, de modo que el hueco estaba en **las dos puntas**. Su §22.1, en cambio, acierta al clasificar la fila como hueco puro. El campo se agrega **sin marcador `[D-i]`**, porque no hay nada que elegir: la dimensión ya era exigible por dos evidencias que el propio documento de entrada aporta —un contenedor del parque real la usa, y `NB-02` exige poder adoptar los ocho—. | Orquestador SDD |
+| 2.4 | 2026-07-29 | Actualización del anexo **E-6**: se declaran los **cuatro tipos de parámetro como conjunto cerrado** y se **prohíbe `porDefecto` sobre un parámetro de tipo `secreto`**, con su argumento —es un literal que vive en la definición y viaja con la exportación—. Se declara la **conversión de secretos al guardar como plantilla**, con el ítem resultante emitido y su informe de guardado. Se emiten el **informe de la instanciación** con el sufijo de RN-36 marcado no bloqueante, las **dos versiones del ítem** en una tabla que las separa, las **cinco consecuencias del vínculo débil** de D-14, y el caso de **importar un identificador ya existente** con su informe y el argumento de por qué importar como copia es la única de las tres resoluciones que no destruye información. Se declara que el catálogo tiene **un solo nivel, el del usuario**, y que se puebla por exactamente dos caminos. Origina el cambio: §22.1 y §18 del documento de entrada. | Orquestador SDD |
+| 2.4 | 2026-07-29 | Actualización del anexo **E-7**: se agrega el campo `puertosPublicados` a cada candidato del descubrimiento y la regla **RA-07**, que exige devolverlos y traducirlos. Se agrega un tercer candidato, en bridge y publicando un puerto en el host, que es el que vuelve verificables los dos defectos que el campo cierra: la **pérdida de los puertos en la traducción** de un contenedor adoptado, y la **imposibilidad de verificar la colisión de puerto** contra el parque no adoptado. Los dos candidatos en macvlan traen la lista vacía y se declara que es correcto por RN-07, no un dato faltante. Origina el cambio: §22.1 del documento de entrada. | Orquestador SDD |
+| 2.4 | 2026-07-29 | **Anexo nuevo E-23**, «La imagen como objeto con identidad, y el ciclo de vida que le falta», estado `derivado`. Declara la imagen como objeto con identidad **aplicando la prueba de tres condiciones de D-12 que este intake ya tenía**, condición por condición, de modo que es derivación y no propuesta nueva. Emite su modelo con los tres campos que hacen el trabajo —digesto, pertenencia y marca de conservada—, el bloque `imagen` del despliegue, y el valor `ajena` que representa la imagen del parque preexistente que el producto ve y no administra. Declara con evidencia por qué el hueco es grande: se retienen cincuenta despliegues por servicio que el usuario ve y a los que no puede volver, y no había ninguna capacidad que previniera llenar el disco. Y **declara las siete decisiones que deja abiertas sin presumir ninguna**, con la observación de que las siete se cierran con una sola, `Q-15`. El bloque de identidad de objeto de **E-9** suma la entrada de la imagen, sin diseñar sus columnas. Origina el cambio: §22.1 del documento de entrada, fila «Nuevo anexo o E-9». | Orquestador SDD |
+| 2.4 | 2026-07-29 | Actualización del anexo **E-16**: se emiten tres reglas nuevas —**RN-38**, un puerto del host no puede ser publicado por más de un servicio, con sus dos precisiones y su límite de alcance declarado; **RN-39**, la desvinculación de la plantilla, que es **[D]** completa porque su enunciado es exactamente D-14; y **RN-40**, la protección de la imagen conservada y de la imagen ajena frente a la limpieza, con su dependencia sobre siete decisiones abiertas declarada en su propia celda—. **RN-08 se reformula** para exigir los datos obligatorios **por variante de origen**, conservando su enunciado original para la variante repositorio. **RN-15 amplía su alcance** explícitamente a la plantilla del catálogo. El catálogo pasa de treinta y siete a **cuarenta** reglas y ninguna anterior se renumera. Se declara la discrepancia entre el título del anexo y su contenido, con el mismo criterio de anclas. Las citas del alcance vigente en §14, §17.1 P.3, §17.4 P.5, §17.4 P.6, §17.4 P.10, E-22, §21 y la trazabilidad downstream pasan a «RN-01 a RN-40». Origina el cambio: §22.3 del documento de entrada. | Orquestador SDD |
+| 2.4 | 2026-07-29 | Actualización de **§12**: siete entradas nuevas al glosario del dominio —**vía de alta**, **origen**, **plantilla**, **versión de contenido**, **versión de formato**, **imagen** y **digesto**—, cada una con la advertencia de con qué término no hay que confundirla, que es lo que las vuelve útiles: vía de alta contra origen, y versión de contenido contra versión de formato son los dos pares que se confunden. Las entradas **Catálogo** y **Servicio** se actualizan. Origina el cambio: §22.4 del documento de entrada. | Orquestador SDD |
+| 2.4 | 2026-07-29 | Actualización de **§19**: la tabla de especificaciones de integración incorpora **`DI-17` a `DI-24`**, que corresponden una a una a las ocho decisiones con propuesta escrita y sin confirmar del documento de entrada, y pasa de dieciséis a **veinticuatro** entradas, de las cuales **veintidós esperan confirmación**. La tabla de pendientes de decisión incorpora las **diecisiete abiertas**, agrupadas por bloque, cada una con dónde vive, qué condiciona y su destinatario, y **ninguna con valor supuesto**. Se agrega la tabla de las **cuatro que condicionan la forma de una pantalla**, con la precisión de que tres de las cuatro son `[D-i]` ya aplicadas y sólo una está abierta. Se **declara una discrepancia interna del documento de entrada**: su §18.7 clasifica `Q-24`, `Q-25` y `Q-26` como abiertas y su §23.2 como con propuesta escrita; se aplicó la clasificación de §23, que es la consolidada, y se declara cómo revertirlo si el agente humano prefiere la otra. Se corrigen tres conteos del checklist —anexos, escenarios del índice y términos del glosario—, y se registra que el conteo de términos **venía mal desde antes**: declaraba 35 sobre 39 reales. | Orquestador SDD |
 | 1.0 | 2026-07-27 | Intake unificado inicial de la solución SelfHosted.Service.Core, integrado desde `Analisis-Final-Integrado.md`, `Requerimientos-Funcionales.md` y `Requerimientos-Tecnicos.md`. Incluye la Parte D con veintidós escenarios transcriptos y su matriz de cobertura: los nueve modelos de datos con su JSON completo y el esquema relacional (E-1 a E-9), los cinco escenarios de extremo a extremo (E-10 a E-14), la superficie de la API (E-15), el catálogo de reglas verificables (E-16), el ciclo de vida del despliegue (E-17), el maquetado de la interfaz (E-18), el parque de referencia como juego de datos de maqueta (E-19), seis configuraciones de despliegue reales ofuscadas con sus Compose y Dockerfile (E-20), la traducción entre Compose y el modelo de servicio (E-21) y treinta casos de prueba derivados (E-22). | Prompt integrador de Documento Intake (Claude Code) |
 | 1.1 | 2026-07-27 | Actualización de la sección «Supuestos registrados por este intake y su estado», que en la versión 1.0 se titulaba «Supuestos abiertos que este intake registra»: consolidación de la respuesta del agente humano del proyecto a la batería de validación de intake emitida por el orquestador. Motivo: los seis supuestos estaban registrados como pendientes de confirmación explícita y la generación de `00-Contexto` los consumió como cerrados sin respaldo en este documento, lo que el audit independiente de la Fase A reportó como hallazgo P0. Se publica la tabla de resolución por supuesto, que pasa a ser la fuente de verdad de su estado: S-01 a S-04 confirmados sin cambios en sus valores propuestos, S-05 resuelto con evidencia verificable y S-06 cerrado por identificación de rol. Se declara además que la generalización sobre el marcador `[S]` alcanza únicamente a S-01 a S-06, y se enumeran los dos marcadores `[S]` sin número que siguen abiertos. Ningún valor cambió: la actualización es de estado y de evidencia. | Orquestador SDD |
 | 1.1 | 2026-07-27 | Actualización de la cabecera y del título del documento. El campo Repositorio incorpora la URL del remoto `origin` y su método de verificación, que es la resolución de S-05; los campos Documento y Versión pasan a 1.1; el Estado pasa de Borrador a Aprobado. Motivo: consolidación de la misma batería de validación. La versión 1.0 queda archivada en `SDD/Intake/_legacy/2026-07-27/`. | Orquestador SDD |

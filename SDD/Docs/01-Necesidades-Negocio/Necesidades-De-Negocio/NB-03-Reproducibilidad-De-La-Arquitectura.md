@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | NB-03-Reproducibilidad-De-La-Arquitectura.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §1, §4 (F-13, F-17), §7 (CL-10), §11 (RG-07), §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §1.2, §4.1, §5 (OBJ-03), §6, §8.1 (RG-07); Alcance-Proyecto.md §4.1; Roadmap-Producto.md §2.2 (Fase 3), §2.3 (EP-13, EP-17), §2.6 |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §1, §4 (F-13, F-17), §7 (CL-10), §11 (RG-07), §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §1.2, §4.1, §5 (OBJ-03), §6, §8.1 (RG-07); Alcance-Producto.md §4.1; Roadmap-Producto.md §2.2 (Fase 3), §2.3 (EP-13, EP-17), §2.6 |
 | Trazabilidad downstream | CU-09, CU-10, CU-11, CU-12 (previstas en 02-Especificacion-Funcional) |
 
 ---
@@ -108,5 +108,6 @@ Should Have. Agrupa una capacidad Should Have y una Could Have que responden al 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3 y §4 R3; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado y al artefacto hermano `Alcance-Producto.md`, antes `Alcance-Proyecto.md`. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: **cero ocurrencias de «solución»** en este documento, y por lo tanto cero sustituciones; tampoco hay «resolución». Las nueve ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: cuatro son «proyecto SelfHosted», la entidad del dominio, y dos son el emprendimiento —«el agente humano del proyecto» en §5 y en §6—, y las dos clases quedan intactas según el intake §12; las restantes eran la etiqueta de cabecera y el nombre del artefacto hermano. Ninguna necesidad, criterio de éxito, dependencia, prioridad, CU prevista ni brecha cambió: la migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar el estado anterior, por la política de versionado de `Master-Prompt.md` §5. Se completa el campo `Trazabilidad upstream` de la cabecera con las secciones que el cuerpo cita y que faltaban: `Roadmap-Producto.md` §2.6, que el §5 cita como origen de la brecha del orden de las etapas de la Fase 3; el intake §23.4, que es el origen de la decisión de recorte que agrupa F-13 y F-17 y que el §9 y el control de cambios invocan; y `Vision-Producto.md` §6, de donde proviene la métrica de reproducibilidad. Origen: hallazgo H-02 del informe [Audit/A-00-01-r1.md](../../Audit/A-00-01-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir del consolidado de la Fase A previa transcripto en el intake §23, y de los documentos de 00-Contexto. Conserva el identificador NB-03, sus cinco criterios de éxito y la decisión de recorte que agrupa F-13 y F-17 en una sola necesidad. Declara como brecha el orden todavía no declarado de las etapas de la Fase 3 |

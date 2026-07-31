@@ -1,10 +1,11 @@
 # Wireframes — Lienzo del proyecto
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Lienzo-Del-Proyecto.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -15,7 +16,9 @@
 - [1. Pantalla y propósito](#1-pantalla-y-propósito)
 - [2. Layout](#2-layout)
 - [3. Componentes principales](#3-componentes-principales)
-  - [3.1 El menú de las cuatro vías de alta](#31-el-menú-de-las-cuatro-vías-de-alta)
+  - [3.1 El menú de las siete vías de alta](#31-el-menú-de-las-siete-vías-de-alta)
+  - [3.2 La instanciación de una plantilla mete N nodos de una confirmación](#32-la-instanciación-de-una-plantilla-mete-n-nodos-de-una-confirmación)
+  - [3.3 El nodo borrador](#33-el-nodo-borrador)
 - [4. Interacciones](#4-interacciones)
 - [5. Estados](#5-estados)
   - [5.1 Pendencia declarada `B-UX-01`, distinción visual de las aristas](#51-pendencia-declarada-b-ux-01-distinción-visual-de-las-aristas)
@@ -90,18 +93,50 @@ La navegación de la izquierda es la del proyecto SelfHosted abierto y sus cuatr
 | Acción primaria | Da de alta un servicio | Abre el menú de las **cuatro vías de alta** | Única acción primaria de la pantalla. Ver §3.1 |
 | Controles de encuadre | Ajustar el encuadre y abrir el minimapa | — | Cambios puramente visuales |
 
-### 3.1 El menú de las cuatro vías de alta
+### 3.1 El menú de las siete vías de alta
 
-El anexo E-10 declara que las cuatro vías de alta conviven en el mismo menú, y el intake es explícito en que **el catálogo es una cuarta vía de alta y no un cuarto origen**: un ítem del catálogo es una plantilla parametrizada que, al instanciarse, resuelve a uno de los tres orígenes reales.
+El intake declara **dos ejes independientes**: la **vía de alta**, que es cómo llega el administrador y que **no se persiste**, y el **origen**, que es qué queda declarado y que sí se persiste como variante discriminada de cinco valores. El menú del lienzo es la materialización del primer eje.
 
 | Vía | Qué abre | Origen al que resuelve |
 | --- | --- | --- |
-| Imagen de registro | Formulario de alta con origen de imagen | Imagen de registro |
-| Repositorio remoto | Formulario de alta con origen de repositorio, que exige además la ruta del archivo de construcción y la rama | Repositorio remoto |
-| Archivo de construcción local | Formulario de alta con origen local, con su contexto de construcción y sus argumentos | Archivo de construcción local |
-| Desde el catálogo | Selección de un ítem y su formulario de parámetros | Resuelve a uno de los tres anteriores al instanciarse |
+| Adoptar un contenedor existente | El descubrimiento, en [`Wireframes-Descubrimiento-E-Incorporacion.md`](Wireframes-Descubrimiento-E-Incorporacion.md) | El que la traducción de la configuración observada deduzca |
+| Desde el catálogo | Selección de un ítem y su formulario de parámetros, en [`Wireframes-Catalogo-De-Plantillas.md`](Wireframes-Catalogo-De-Plantillas.md) | El que declare la plantilla |
+| Imagen de registro público | El alta con esa vía elegida, en [`Wireframes-Alta-De-Servicio.md`](Wireframes-Alta-De-Servicio.md) | Imagen de registro público |
+| Imagen de registro privado | Lo mismo, con el paso de credencial de registro | Imagen de registro privado |
+| Repositorio remoto | Lo mismo, exigiendo rama y ruta del archivo de construcción | Repositorio remoto |
+| Archivo de construcción en línea | Lo mismo, con el editor de contenido del archivo de construcción | Archivo de construcción en línea |
+| Servicio sin origen | El alta detenida en el paso del nombre | Sin origen |
 
-Las cuatro se presentan al mismo nivel del menú. Presentar el catálogo dentro de una de las otras tres contradiría la decisión declarada.
+**Las siete se presentan al mismo nivel del menú, y cada una dice qué resuelve.** Presentar el catálogo o la adopción dentro de una de las variantes de origen contradiría la separación de los dos ejes; y presentar sólo los valores técnicos de origen es el defecto que la versión 1.0 tenía: **el administrador tenía que saber qué es una dirección de imagen antes de que el producto le contara qué le ofrece**.
+
+**Cambio respecto de la versión 1.0**, declarado porque cambia una cifra que otros artefactos citan: eran **cuatro** vías sobre **tres** orígenes, y son **siete** sobre **cinco**. El ordinal «cuarta vía» se retira porque contaba vías y orígenes en la misma lista.
+
+**Estado:** el reparto es la especificación de integración `DI-17` del intake §19, **sin revisar**, junto con `DI-18` —separar imagen pública de privada— y `DI-19` —el servicio sin origen—. Se consume declarándolo revisable.
+
+### 3.2 La instanciación de una plantilla mete N nodos de una confirmación
+
+Es lo propio de la vía del catálogo y **ninguna de las otras seis lo hace**: una sola confirmación puede producir **dos o tres nodos con sus aristas trazadas**. El lienzo tiene que absorberlo sin que el administrador se pregunte qué pasó.
+
+| Qué exige | Por qué |
+| --- | --- |
+| **Declarar antes de crear** cuántos servicios, con qué nombres previstos, y qué aristas y variables compartidas se van a crear | El administrador está por meter varios nodos con una sola acción, y tiene que saber cuántos antes de darle |
+| Los nodos nuevos aparecen **en modo pendiente**, con sus aristas ya trazadas | Es el estado que les corresponde: quedan pendientes de aplicar, no aplicados |
+| El **aviso de nombre sufijado** se muestra como información y **no como error** | El sufijo automático es el comportamiento correcto y declarado: no rechaza y no pregunta. Presentarlo en rojo haría que el administrador buscara un problema que no existe |
+| La vista **encuadra los nodos nuevos** en lugar de dejarlos donde caigan | Con dos o tres nodos apareciendo de golpe, no encuadrarlos obliga a buscarlos |
+
+### 3.3 El nodo borrador
+
+Un servicio puede existir **incompleto y visible** en el lienzo: es el estado `borrador`, que es lo que hace utilizable guardar a mitad de camino. El lienzo tiene que representarlo, y con tres propiedades que lo distinguen del modo pendiente:
+
+| Propiedad | Nodo borrador | Nodo en modo pendiente |
+| --- | --- | --- |
+| Qué significa | Existe, está **incompleto** y no es aplicable | Está completo y **espera que se aplique el conjunto de cambios** |
+| Entra al cajón de cambios pendientes | **No** | Sí |
+| Qué acción ofrece | Retomar el alta donde se dejó | Aplicar, o descartar el cambio |
+
+**No pueden compartir representación visual**, porque significan cosas opuestas: uno no está listo y el otro sí. El lenguaje visual de estados reserva un color para el modo pendiente, y el borrador necesita el suyo.
+
+**Brecha declarada, `B-UX-24`.** El anexo E-18 del intake declara el lenguaje visual de los estados del nodo y **no incluye el borrador**, porque el estado no existía cuando se declaró. Qué señal visual lo representa —y que no colisione con el violeta del modo pendiente ni con los estados de ejecución— es materia de [`Representacion-Lenguaje-Visual-De-Estados.md`](../Representaciones/Representacion-Lenguaje-Visual-De-Estados.md), que esta superficie no reescribe. Destinatario: `03-UX-UI-DX`, en la revisión de esa representación.
 
 ---
 
@@ -203,7 +238,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-04](../../02-Especificacion-Funcional/Casos-De-Uso/CU-04-Composicion-Del-Lienzo.md) y [CU-05](../../02-Especificacion-Funcional/Casos-De-Uso/CU-05-Persistencia-Y-Recuperacion-De-La-Disposicion.md) como origen principal; [CU-03](../../02-Especificacion-Funcional/Casos-De-Uso/CU-03-Alta-Y-Configuracion-De-Servicio.md), [CU-13](../../02-Especificacion-Funcional/Casos-De-Uso/CU-13-Despliegue-Desde-Imagen-De-Registro.md), [CU-15](../../02-Especificacion-Funcional/Casos-De-Uso/CU-15-Despliegue-Construyendo-La-Imagen.md), [CU-16](../../02-Especificacion-Funcional/Casos-De-Uso/CU-16-Alta-Desde-Plantilla-Del-Catalogo.md), [CU-18](../../02-Especificacion-Funcional/Casos-De-Uso/CU-18-Arranque-Y-Parada-Con-Autoarranque.md), [CU-22](../../02-Especificacion-Funcional/Casos-De-Uso/CU-22-Acumulacion-De-Cambios-Pendientes.md), [CU-28](../../02-Especificacion-Funcional/Casos-De-Uso/CU-28-Reconciliacion-Con-El-Motor-De-Contenedores.md) |
 | Reglas de negocio relevantes | RN-03, RN-04, RN-05, RN-09, RN-12, RN-14, RN-17, RN-20, RN-21, RN-31, RN-32, RN-33, RN-34, RN-35 |
 | Insumo del intake | §4 capacidades F-04, F-06; §5 historias 3 y 4; §6 flujo 1; §17.P.10 regla de oro del lienzo; §17.P.11 decisiones DA-05 y de disposición; anexos E-1, E-4, E-10, E-17, E-18 |
@@ -222,5 +257,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 4, bajo `Rules-UX-UI-DX` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen** en su versión 1.1, archivado sin modificar en `_legacy/2026-07-30/Wireframes-Lienzo-Del-Proyecto-v1.1.md`. Sube **major** desde 1.1 porque la nomenclatura anterior deja de cumplir. **El nombre del archivo no cambia**: `Wireframes-Lienzo-Del-Proyecto.md` nombra la **entidad del dominio** —el lienzo del agrupador de servicios, vista por defecto de un proyecto SelfHosted—, no la unidad de compilación; es el referente R6 de §3.5 paso 2 del plan, que declara textualmente que estos nombres no se tocan. **Cabecera:** se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige como primer campo por ser ésta una categoría de nivel proyecto de código (`Vocabulario-Rules` §4 R3) y que el `PRODUCT-MANIFEST` §2 declara como `Nombre-Proyecto-Codigo`; la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor `SelfHosted Service`, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro. Los dos campos conviven: el primero lo exige §4.1 y el segundo lo preserva `Migracion-Rules` §4.2. Los dos valores **difieren sólo por el guion** y no son intercambiables. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: la **única** ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia de género —«Administrador único de la solución» a «Administrador único **del** producto»—; no hay ninguna «solución de código», y la única ocurrencia de la cadena `soluci` restante —dentro de «resolución», en §5.1— quedó **intacta**. Las veintinueve ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: quince llevan la forma calificada «proyecto SelfHosted»; tres son el **nombre canónico de la superficie** `Lienzo del proyecto`, que se conserva textualmente; ocho son la misma entidad del dominio en forma corta, admitida por el `PRODUCT-INTAKE` §12 y por el glosario raíz de `Vision-Producto.md` §9 donde el contexto ya fijó el sentido —entre ellas la cita literal «porque la arquitectura *es* el proyecto» del anexo E-18, que es transcripción de fuente y **no se reescribe**, y la etiqueta «Proyecto» del panel contextual dentro del bloque ASCII de §2—; una es el segmento `/proyectos/{id}` de la ruta del anexo E-18; una nombra un artefacto del dominio en su enlace; y una era la etiqueta de cabecera. **El nombre canónico de la superficie `Lienzo del proyecto` y su identificador `SUP-05` se conservan textualmente**, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **El bloque ASCII de §2 no se tocó** y conserva su ancho. **Nada del contenido emitido por el fix de definiciones de servicio de la Fase B2 se alteró**: los dos ejes de §3.1, las siete vías, la instanciación de N nodos de §3.2, el nodo borrador de §3.3 y la brecha `B-UX-24` quedan idénticos, y las filas 1.1 y 1.0 de este control de cambios no se reescribieron. **Se detectó y no se propagó una diferencia preexistente**: la fila «Acción primaria» de §3 sigue diciendo «el menú de las **cuatro** vías de alta», cifra de la versión 1.0 que el fix de la Fase B2 actualizó en el encabezado de §3.1 y en la tabla de contenido pero no acá. Se declara como pendiente de confirmación humana y **no se corrige en esta migración**, por `Migracion-Rules` §4.2 regla 3. Origen: [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
+| 1.1 | 2026-07-29 | **El menú de alta pasa de cuatro vías sobre tres orígenes a siete sobre cinco**, y el lienzo incorpora dos representaciones que no tenía. §3.1 se rehace: declara los **dos ejes** —vía de alta, que no se persiste, y origen, que sí—, enumera las siete vías con qué resuelve cada una, y declara por qué presentar sólo los valores técnicos de origen era el defecto de la versión 1.0: **el administrador tenía que saber qué es una dirección de imagen antes de que el producto le contara qué le ofrece**. **§3.2** especifica que la instanciación de una plantilla mete **N nodos y sus aristas de una sola confirmación**, con las cuatro cosas que el lienzo tiene que hacer, incluida que el aviso de nombre sufijado **no se muestre como error**. **§3.3** especifica el **nodo borrador**, con la tabla que lo distingue del modo pendiente en tres propiedades y con la brecha `B-UX-24`, porque el lenguaje visual de estados del intake no lo incluye. La versión 1.0 queda archivada en `_legacy/2026-07-29/`. Origen: §22.5 del documento de trabajo `SDD/Estado/Redefinicion-Servicio.md` v2.0 |
 | 1.0 | 2026-07-29 | Versión inicial. Transcribe la disposición de la pantalla del lienzo del anexo E-18 con sus cinco decisiones; especifica el menú de las cuatro vías de alta con el catálogo al mismo nivel que los tres orígenes; especifica la interacción de trazado de arista con la pregunta de puerto y la propuesta de espera, y su alternativa completa por teclado, independiente de la mitigación que decida la puerta técnica PT-01; declara dieciséis estados; declara la excepción de reflujo del criterio 1.4.10 acotada al lienzo y no al resto de la superficie; declara la pendencia `B-UX-01` sin resolverla y su consecuencia para la maqueta |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** la fila de casos de uso de §8 pierde CU-36 y §3 pierde el componente de avisos de higiene, porque el lienzo **navega** a la superficie que los consolida y no los exhibe; §4 suma la interacción de apertura que lo declara. Se suma la fila que declara la fuente única de la correspondencia. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

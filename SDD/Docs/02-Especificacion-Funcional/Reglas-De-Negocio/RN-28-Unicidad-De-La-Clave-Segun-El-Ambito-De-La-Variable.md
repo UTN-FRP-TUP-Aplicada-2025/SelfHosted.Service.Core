@@ -1,13 +1,14 @@
 # RN-28 — Unicidad de la clave según el ámbito de la variable
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** RN-28-Unicidad-De-La-Clave-Segun-El-Ambito-De-La-Variable.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service anexo E-16, fila RN-28. **Autoría declarada en la fuente:** Reformulada **[D]**, decisión D-12.
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service anexo E-16, fila RN-28. **Autoría declarada en la fuente:** Reformulada **[D]**, decisión D-12.
 
 ---
 
@@ -57,5 +58,6 @@ Las pruebas se realizan en 08-Calidad-Y-Pruebas. El anexo E-22 declara los casos
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que la gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3, y la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: **cero ocurrencias de «solución»** y por lo tanto cero sustituciones; tampoco hay «resolución». Las cinco ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: cuatro son la entidad del dominio —«proyecto SelfHosted» en §1 y §3, «el proyecto 12» y «el mismo proyecto» en §6— y quedan intactas según el PRODUCT-INTAKE §12 y el glosario raíz de `Vision-Producto.md` §9; la restante era la etiqueta de cabecera. Cero ocurrencias del emprendimiento. **El enunciado de la invariante no cambió**: la unicidad que se exige y la que no siguen siendo exactamente las que declara el anexo E-16. La migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5. §6 citaba el caso T-04 del anexo E-22 con el contenido reescrito: el anexo lo asigna a RN-01 y su entrada es un nombre de servicio duplicado, no una clave de variable duplicada dentro de un servicio. Se retira la cita y se declara como brecha que la mitad exigible del enunciado no tiene caso ejecutable en el anexo. Las otras dos citas de la sección, T-42 y T-59, sí corresponden a esta regla y se conservan. Origen: hallazgo H-01 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial. Transcripción del enunciado, del momento de validación y de la respuesta ante incumplimiento que declara el anexo E-16 del intake. No se reinterpreta ninguno de los tres |

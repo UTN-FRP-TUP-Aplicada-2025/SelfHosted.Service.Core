@@ -8,12 +8,15 @@
    nombre semántico del catálogo. Fuera del bloque :root no hay literales de
    color, de tipografía ni de radio; sólo se usan las variables.
 
-   Capas del catálogo aplicadas (Index-Design-Rules.md §4.1):
-     1. Design-Rules-Web-Generico.md 1.2            (base, siempre)
-     2. Design-Rules-Config-Esquema.md 1.1          (extensión por capacidad)
-     3. Design-Rules-Primer-Arranque.md 1.0         (extensión por capacidad)
-     4. Design-Rules-Acceso-Monousuario.md 1.0      (extensión por capacidad)
-     5. Design-Rules-Identidad-De-Version.md 1.0    (extensión por capacidad)
+   Capas del catálogo aplicadas (Index-Design-Rules.md 1.4 §4.1), con la
+   versión verificada en disco el 2026-07-30 y no transcripta de la
+   iteración anterior:
+     1. Design-Rules-Web-Generico.md 1.3            (base, siempre)
+     2. Design-Rules-Blazor-Mudblazor.md 1.3        (especialización de stack)
+     3. Design-Rules-Config-Esquema.md 1.2          (extensión por capacidad)
+     4. Design-Rules-Primer-Arranque.md 1.1         (extensión por capacidad)
+     5. Design-Rules-Acceso-Monousuario.md 1.1      (extensión por capacidad)
+     6. Design-Rules-Identidad-De-Version.md 1.1    (extensión por capacidad)
    Modelo UX-UI: catálogo base (no hay modelos registrados en Modelos-UX-UI/).
    ========================================================================== */
 
@@ -664,7 +667,7 @@ a { color: var(--color-brand-primary); }
   min-height: 400px;
 }
 .mq-lienzo-svg { position: absolute; inset: 0; pointer-events: none; }
-.mq-lienzo-nodos { position: relative; min-width: 680px; min-height: 400px; }
+.mq-lienzo-nodos { position: relative; min-width: 680px; min-height: 520px; }
 
 .mq-nodo {
   position: absolute;
@@ -822,6 +825,8 @@ a { color: var(--color-brand-primary); }
   font-weight: var(--type-meta-weight);
   color: var(--color-text-secondary);
 }
+.mq-fila-cambio .mq-caption,
+.mq-fila-cambio .mq-hint { display: block; }
 .mq-fila-cambio .mq-resumen {
   display: block;
   color: var(--color-text-primary);
@@ -959,3 +964,608 @@ a { color: var(--color-brand-primary); }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   23. Alta de servicio y fix de definiciones — iteración 2026-07-30
+   --------------------------------------------------------------------------
+   Sigue rigiendo la regla dura del encabezado: fuera de :root no hay
+   literales de color, de tipografía ni de radio. Los pocos valores numéricos
+   de este bloque son de composición (anchos mínimos de grilla y de columna),
+   que §3.2 y §8 del catálogo base expresan como magnitudes de layout y no
+   como tokens de color o tipografía, igual que los ya usados en §12 y §16.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 23.1 Menú de las siete vías — Web-Generico §4.2, tarjeta de acceso ─── */
+
+.mq-grilla-vias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--card-gap);
+}
+.mq-via {
+  display: flex; align-items: flex-start; gap: var(--space-12);
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  height: 100%;
+}
+.mq-via:hover { border-color: var(--color-brand-primary); color: var(--color-text-primary); }
+.mq-via .mq-tarjeta-icono { flex: 0 0 auto; }
+.mq-via-cuerpo { display: grid; gap: var(--space-4); min-width: 0; }
+.mq-via-titulo {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+}
+.mq-via-resuelve {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+}
+/* El servicio sin origen va aparte de los seis: no es una alternativa
+   equivalente, es el alta detenida en el paso del nombre. */
+.mq-via-aparte {
+  margin-top: var(--space-16);
+  padding-top: var(--space-16);
+  border-top: var(--border-hairline);
+  max-width: 420px;
+}
+
+/* ── 23.2 Indicador de avance — Web-Generico §4.5, wizard/stepper ───────── */
+
+.mq-avance {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8);
+  list-style: none; margin: 0 0 var(--space-4); padding: 0;
+}
+.mq-avance-paso {
+  display: inline-flex; align-items: center; gap: var(--space-4);
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+}
+.mq-avance-paso + .mq-avance-paso::before {
+  content: ""; display: inline-block;
+  width: 18px; height: 1px;
+  background: var(--color-border-secondary);
+  margin-right: var(--space-4);
+}
+.mq-avance-marca {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-secondary);
+  background: var(--color-background-secondary);
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+}
+.mq-avance-paso[data-estado="actual"] { color: var(--color-brand-primary); }
+.mq-avance-paso[data-estado="actual"] .mq-avance-marca {
+  background: var(--color-brand-primary);
+  border-color: var(--color-brand-primary);
+  color: var(--color-background-primary);
+}
+.mq-avance-paso[data-estado="completo"] { color: var(--color-text-success); }
+.mq-avance-paso[data-estado="completo"] .mq-avance-marca {
+  background: var(--color-background-success);
+  border-color: var(--color-text-success);
+  color: var(--color-text-success);
+}
+/* Lo incompleto queda VISIBLE: es la razón de ser del indicador. */
+.mq-avance-paso[data-estado="pendiente"] .mq-avance-marca {
+  border-style: dashed;
+  background: var(--color-background-primary);
+}
+
+/* ── 23.3 Los dos informes de verificación ─────────────────────────────── */
+
+.mq-informe {
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  margin: var(--space-14) 0;
+  background: var(--color-background-primary);
+}
+/* El resultado indeterminado NO usa el lenguaje visual de error, porque nada
+   está mal: usa el par informativo. */
+.mq-informe--info {
+  border-color: var(--color-border-info);
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+}
+.mq-informe--confirmacion {
+  border-color: var(--color-brand-primary-tint);
+  background: var(--color-background-success);
+  color: var(--color-text-success);
+}
+.mq-informe--error {
+  border-color: var(--color-border-danger);
+  background: var(--color-background-error);
+  color: var(--color-text-error);
+}
+.mq-informe-cabecera {
+  display: flex; align-items: center; gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+.mq-informe-cabecera h4 {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+  margin: 0 auto 0 0;
+}
+.mq-informe-momento { color: var(--color-text-secondary); }
+.mq-informe-alcance {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-primary);
+  background: var(--color-background-primary);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  margin: 0 0 var(--space-8);
+}
+.mq-comprobaciones { display: grid; gap: var(--space-4); }
+.mq-comprobacion {
+  display: flex; align-items: flex-start; gap: var(--space-8);
+  font-size: var(--type-caption-size);
+  color: var(--color-text-primary);
+}
+.mq-comprobacion[data-resultado="si"] .mq-comprobacion-marca { color: var(--color-text-success); }
+.mq-comprobacion[data-resultado="no"] .mq-comprobacion-marca { color: var(--color-text-danger); }
+.mq-comprobacion[data-nivel="bloqueante"] {
+  background: var(--color-background-error);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-8);
+}
+.mq-informe-limite {
+  margin: var(--space-12) 0 0;
+  font-size: var(--type-meta-size);
+  color: var(--color-text-secondary);
+  border-top: var(--border-hairline);
+  padding-top: var(--space-8);
+}
+
+/* ── 23.4 Bloque de origen y editor del archivo de construcción ─────────── */
+
+.mq-bloque-origen, .mq-origen-lectura {
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  margin: var(--space-14) 0;
+  background: var(--color-background-primary);
+}
+.mq-fila-explorar { margin-bottom: var(--space-12); }
+.mq-acciones-origen {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+.mq-campo--ancho { grid-column: 1 / -1; }
+.mq-editor-construccion {
+  width: 100%;
+  min-height: 132px;
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-line-height-body);
+  padding: var(--space-8);
+  border: var(--border-control);
+  border-radius: var(--radius-md);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  /* Desplaza en su propio contenedor y no produce desplazamiento de página. */
+  overflow: auto;
+  white-space: pre;
+  resize: vertical;
+}
+.mq-digesto {
+  margin-top: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: var(--border-hairline);
+  font-size: var(--type-caption-size);
+}
+.mq-digesto .mq-literal { overflow-wrap: anywhere; }
+
+/* ── 23.5 Pie del alta: las dos acciones de salida, que son dos ─────────── */
+
+.mq-pie-alta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8);
+  border-top: var(--border-hairline);
+  margin-top: var(--space-16);
+  padding-top: var(--space-14);
+}
+
+/* ── 23.6 Nodo borrador y marcas de clase de cambio ─────────────────────── */
+
+/* B-UX-24: el borrador no tiene fila en el contrato visual del anexo E-18.
+   No se inventa color ni insignia: se usa el par NEUTRO ya existente más el
+   trazo punteado que distingue a todo estado no aplicado, y la etiqueta
+   textual propia es el canal que lo separa de «pendiente de aplicar», que
+   conserva su violeta exclusivo. */
+.mq-nodo[data-estado="borrador"] {
+  border-style: dashed;
+  border-color: var(--color-border-secondary);
+  background: var(--color-background-tertiary);
+}
+.mq-estado--borrador { font-style: normal; }
+.mq-nodo-borrador {
+  display: flex; align-items: flex-start; gap: var(--space-4);
+  font-size: var(--type-meta-size);
+  color: var(--color-text-secondary);
+}
+
+.mq-marca-clase, .mq-marca-recreacion {
+  display: inline-flex; align-items: center; gap: var(--space-4);
+  border-radius: var(--radius-pill);
+  padding: 1px var(--space-8);
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+}
+.mq-marca-clase {
+  color: var(--color-text-secondary);
+  background: var(--color-background-secondary);
+}
+.mq-marca-clase[data-clase="cosmetico"] {
+  color: var(--color-text-info);
+  background: var(--color-background-info);
+}
+/* La marca de recreación va en el ítem del cambio: es la que dice cuál
+   descartar. Usa el par de atención del catálogo, no un color nuevo. */
+.mq-marca-recreacion {
+  color: var(--color-text-warning);
+  background: var(--color-background-warning);
+}
+.mq-resumen-lote {
+  display: flex; align-items: center; gap: var(--space-4);
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  background: var(--color-background-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-8) var(--space-12);
+  margin: 0 0 var(--space-12);
+}
+.mq-fila-ficha td {
+  background: var(--color-background-tertiary);
+  font-size: var(--type-caption-size);
+}
+
+/* ── 23.7 Superficie superpuesta ancha, para el alta por pasos ──────────── */
+
+.mq-superpuesta--ancha { max-width: 860px; }
+.mq-superpuesta--ancha > header { align-items: flex-start; }
+
+/* Expansor nativo, con foco visible y estado propio del elemento. */
+details.mq-expander > summary {
+  cursor: pointer;
+  color: var(--color-brand-primary);
+  font-size: var(--type-body-size);
+}
+
+/* ── 23.8 Responsive del bloque nuevo — quiebre principal ~768px ────────── */
+
+@media (max-width: 768px) {
+  .mq-grilla-vias { grid-template-columns: minmax(0, 1fr); }
+  .mq-pie-alta > .mq-empuje { margin-left: 0; width: 100%; }
+  .mq-avance { gap: var(--space-4); }
+}
+
+/* Un control en modo lectura se distingue del editable: si se ve igual, el
+   administrador va a intentar escribir en él. Usa la superficie de control
+   inerte del catálogo, no un color nuevo. */
+.mq-input[readonly], .mq-select:disabled, .mq-editor-construccion[readonly] {
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  border-style: dashed;
+}
+
+/* Rótulo de un dato en lectura: no es un control y no lleva `label for`. */
+.mq-campo-rotulo {
+  display: block;
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   24. Imágenes (SUP-18) y exploración de registro (SUP-19)
+   --------------------------------------------------------------------------
+   Sigue rigiendo la regla dura: ningún valor visual ad hoc. Todo lo de acá
+   abajo se compone con las variables del bloque :root, que son las del
+   catálogo. No se introduce ni un color, ni un radio, ni un tamaño nuevo.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 24.1 Celda del digesto — SUP-18 §3.2 ───────────────────────────────── */
+
+/* La etiqueta es lo que se reconoce y va prominente en la línea principal de
+   la fila; el digesto es lo que identifica y va SECUNDARIO. La jerarquía se
+   comunica con el tamaño de tipografía del catálogo, no con un color nuevo. */
+.mq-digesto-celda {
+  display: block;
+  font-size: var(--type-caption-size);
+}
+.mq-digesto-celda .mq-literal { overflow-wrap: anywhere; }
+/* El digesto abreviado NO se acorta más al angostar: abreviarlo más lo
+   volvería inútil para distinguir dos imágenes (SUP-18 §6). */
+.mq-digesto-celda code { white-space: nowrap; }
+/* Secundario y no terciario: es texto normal y el terciario no llega al
+   contraste 4.5:1 del piso WCAG 2.2 AA sobre la superficie primaria. */
+.mq-digesto-celda--ausente { color: var(--color-text-secondary); }
+
+.mq-expander--compacto {
+  border-top: 0;
+  margin-top: var(--space-4);
+  padding-top: 0;
+}
+.mq-expander--compacto > summary { font-size: var(--type-caption-size); }
+
+/* ── 24.2 Indicador de uso — SUP-18 §3.4 ────────────────────────────────── */
+
+/* Las cuatro lecturas se distinguen por TEXTO, que es el canal primario: el
+   nombre accesible de la celda expone la lectura y no sólo la cantidad. El
+   color acompaña y nunca es el único canal. */
+.mq-uso { display: grid; gap: 2px; }
+.mq-uso-lectura {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+}
+.mq-uso--en-uso .mq-uso-lectura { color: var(--color-text-success); }
+.mq-uso--solo-historial .mq-uso-lectura { color: var(--color-text-secondary); }
+.mq-uso--sin-referencia .mq-uso-lectura { color: var(--color-text-warning); }
+.mq-uso--no-atribuible .mq-uso-lectura { color: var(--color-text-info); }
+
+/* ── 24.3 Fila del inventario ───────────────────────────────────────────── */
+
+.mq-img-etiqueta {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+  overflow-wrap: anywhere;
+}
+.mq-img-antigua {
+  display: block;
+  /* Texto normal: secundario, que sí alcanza 4.5:1 sobre la superficie. */
+  color: var(--color-text-secondary);
+}
+
+/* La marca de conservada se expone como ESTADO y no como decoración: lleva
+   texto propio además del ícono, y el par de color del catálogo. */
+.mq-marca-conservada {
+  display: inline-flex; align-items: center; gap: var(--space-4);
+  border-radius: var(--radius-pill);
+  padding: 2px var(--space-8);
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  color: var(--color-text-info);
+  background: var(--color-background-info);
+  border: 1px solid var(--color-border-info);
+  margin-right: var(--space-4);
+}
+
+.mq-filtros { margin-bottom: var(--space-4); align-items: flex-end; }
+
+/* ── 24.4 Banda de sugerencia de limpieza — SUP-18 §3.5 ─────────────────── */
+
+/* Región de estado y NO alerta: no hay nada mal, hay algo que conviene. Usa
+   el par informativo del catálogo y no el de advertencia ni el de error, que
+   es lo que la distingue visualmente de un problema. */
+.mq-sugerencia {
+  display: flex; align-items: flex-start; gap: var(--space-8);
+  border: 1px solid var(--color-border-info);
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  margin-bottom: var(--section-gap);
+}
+.mq-sugerencia-cuerpo { display: grid; gap: var(--space-4); margin-right: auto; }
+.mq-sugerencia .mq-acciones { display: flex; gap: var(--space-8); flex-wrap: wrap; }
+
+/* Línea de la sugerencia dentro del bloque del servidor del tablero
+   (SUP-09 §3.2). Es consecuencia de la fila de disco y por eso vive adentro
+   del bloque: se separa con una regla fina, no con una tarjeta propia. */
+.mq-linea-sugerencia {
+  display: flex; align-items: center; gap: var(--space-8);
+  flex-wrap: wrap;
+  border-top: var(--border-hairline);
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
+  color: var(--color-text-info);
+  font-size: var(--type-caption-size);
+}
+
+/* ── 24.5 Propuesta e informe de la limpieza — SUP-18 §3.3 ──────────────── */
+
+/* Las dos usan la MISMA estructura a propósito: lo único que cambia es el
+   tiempo verbal. Por eso comparten regla. */
+.mq-exclusiones { display: grid; gap: var(--space-8); margin-top: var(--space-8); }
+.mq-exclusion {
+  display: grid; gap: 2px;
+  border: var(--border-control);
+  border-left: 3px solid var(--color-border-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  background: var(--color-background-primary);
+}
+.mq-exclusion-motivo {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+}
+/* Los tres motivos de exclusión se distinguen entre sí porque la acción del
+   administrador es distinta en cada uno: retirar la conservación, nada, o
+   esperar. Cada uno toma el par del catálogo que le corresponde. */
+.mq-exclusion--conservada { border-left-color: var(--color-text-info); }
+.mq-exclusion--ajena { border-left-color: var(--color-text-tertiary); }
+.mq-exclusion--en-uso { border-left-color: var(--color-text-success); }
+.mq-exclusion--entra { border-left-color: var(--color-text-warning); }
+.mq-exclusion--motor { border-left-color: var(--color-text-error); }
+
+/* ── 24.6 Explicación en palabras del umbral — SUP-12 §3.4 ──────────────── */
+
+.mq-explicacion-umbral {
+  border: var(--border-control);
+  border-radius: var(--radius-md);
+  background: var(--color-background-tertiary);
+  padding: var(--space-12);
+  margin-top: var(--space-12);
+  font-size: var(--type-caption-size);
+}
+.mq-explicacion-umbral p { margin: var(--space-4) 0 0; }
+/* La plantilla sin componer se muestra con sus ranuras a la vista, en
+   monoespaciada, para que se lea como plantilla y no como una frase real. */
+.mq-explicacion-umbral .mq-literal { color: var(--color-text-secondary); }
+
+/* ── 24.7 Exploración de registro — SUP-19 ──────────────────────────────── */
+
+.mq-zona-resultado { margin: var(--space-14) 0; }
+
+.mq-resultados { display: grid; gap: var(--space-8); }
+.mq-resultado-fila { margin: 0; }
+.mq-resultado-boton {
+  display: grid; gap: 2px; width: 100%; text-align: left;
+  border: var(--border-control);
+  border-radius: var(--radius-md);
+  background: var(--color-background-primary);
+  padding: var(--space-8) var(--space-12);
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+.mq-resultado-boton:hover { background: var(--color-background-tertiary); }
+/* La referencia legible completa NO se trunca al angostar: desplaza dentro
+   de su propia fila, porque una referencia truncada deja de identificar,
+   que es lo único para lo que sirve (SUP-19 §6). */
+.mq-resultado-boton .mq-meta { overflow-x: auto; white-space: nowrap; }
+
+/* Las tres clases de no-resultado se ven distinto porque la acción del
+   administrador es distinta. El indeterminado NO usa lenguaje visual de
+   error: nada está mal, no se pudo consultar. */
+.mq-resultado {
+  border: var(--border-control);
+  border-left: 3px solid var(--color-border-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--card-padding);
+  background: var(--color-background-primary);
+}
+.mq-resultado--vacio { border-left-color: var(--color-text-tertiary); }
+.mq-resultado--indeterminado {
+  border-left-color: var(--color-text-info);
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+}
+.mq-resultado--fallido {
+  border-left-color: var(--color-text-error);
+  background: var(--color-background-error);
+  color: var(--color-text-error);
+}
+.mq-resultado--limitado {
+  border-left-color: var(--color-text-warning);
+  background: var(--color-background-warning);
+  color: var(--color-text-warning);
+}
+.mq-resultado .mq-acciones { display: flex; gap: var(--space-8); flex-wrap: wrap; margin-top: var(--space-8); }
+
+/* Grupo de selección única de etiquetas, con nombre accesible propio. La
+   nota de reasignabilidad forma parte de la descripción del grupo. */
+.mq-etiquetas { border: 0; margin: 0; padding: 0; }
+.mq-etiquetas > legend {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  padding: 0;
+}
+.mq-etiqueta-cuerpo { display: grid; gap: 2px; }
+.mq-etiqueta-linea { display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: baseline; }
+.mq-opcion--elegida {
+  border-color: var(--color-brand-primary);
+  background: var(--color-brand-primary-tint);
+}
+
+/* ── 24.8 Responsive de las dos superficies — quiebre principal ~768px ──── */
+
+@media (max-width: 768px) {
+  /* La banda de sugerencia apila su texto sobre sus dos acciones y CONSERVA
+     las dos: una sugerencia que no se puede descartar deja de ser una
+     sugerencia (SUP-18 §6). */
+  .mq-sugerencia { flex-direction: column; }
+  .mq-sugerencia .mq-acciones { width: 100%; }
+  /* El indicador de ocupación reflúye a una columna conservando el reparto
+     entre lo administrado y lo ajeno. */
+  .mq-filtros { flex-direction: column; align-items: stretch; }
+  /* La fila de etiqueta apila el digesto debajo del nombre, conservando los
+     dos (SUP-19 §6). */
+  .mq-etiqueta-linea { flex-direction: column; gap: 0; }
+  .mq-linea-sugerencia > .mq-empuje { margin-left: 0; }
+}
+
+/* ── 24.9 Tabla del inventario de imágenes ──────────────────────────────── */
+
+/* La tabla de inventario conserva sus columnas de etiqueta, tamaño y uso, y
+   desplaza horizontalmente dentro de su contenedor antes que comprimirlas
+   (SUP-18 §6). Se reparte el ancho para que la referencia de imagen —que es
+   lo que el administrador reconoce— tenga sitio, y para que las acciones no
+   queden cortadas. */
+.mq-grupo-imagenes .mq-tabla { table-layout: fixed; }
+.mq-grupo-imagenes .mq-tabla td { overflow-wrap: anywhere; }
+
+.mq-grupo-imagenes[data-grupo="administrada"] .mq-tabla th:nth-child(1) { width: 26%; }
+/* La columna del digesto se ensancha porque puede alojar el bloque de
+   conflicto, que lleva las dos declaraciones con su fuente. */
+.mq-grupo-imagenes[data-grupo="administrada"] .mq-tabla th:nth-child(2) { width: 24%; }
+.mq-grupo-imagenes[data-grupo="administrada"] .mq-tabla th:nth-child(3) { width: 9%; }
+.mq-grupo-imagenes[data-grupo="administrada"] .mq-tabla th:nth-child(4) { width: 20%; }
+.mq-grupo-imagenes[data-grupo="administrada"] .mq-tabla th:nth-child(5) { width: 21%; }
+
+.mq-grupo-imagenes[data-grupo="ajena"] .mq-tabla th:nth-child(1) { width: 32%; }
+.mq-grupo-imagenes[data-grupo="ajena"] .mq-tabla th:nth-child(2) { width: 20%; }
+.mq-grupo-imagenes[data-grupo="ajena"] .mq-tabla th:nth-child(3) { width: 10%; }
+.mq-grupo-imagenes[data-grupo="ajena"] .mq-tabla th:nth-child(4) { width: 38%; }
+
+/* La celda de acciones de esta tabla lleva, además de sus controles, los
+   motivos por los que un control no está y los tramos sin decidir. Tiene que
+   poder envolver: cortarlos escondería justamente lo que hay que validar. */
+.mq-celda-acciones--imagenes {
+  text-align: left;
+  white-space: normal;
+  display: table-cell;
+}
+.mq-celda-acciones--imagenes .mq-btn { margin-top: var(--space-4); }
+
+/* La referencia de imagen es larga por naturaleza y es lo que el
+   administrador reconoce: envuelve dentro de su celda en lugar de invadir la
+   del digesto. Y la celda de acciones de esta tabla envuelve, contra la
+   regla general de la tabla, porque lleva prosa además de controles.
+   Las dos reglas necesitan la especificidad del grupo para ganarle a
+   `.mq-tabla th` y a `.mq-tabla .mq-celda-acciones`. */
+.mq-grupo-imagenes .mq-tabla th[scope="row"] {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  background: var(--color-background-primary);
+  font-size: var(--type-caption-size);
+  color: var(--color-text-primary);
+}
+.mq-grupo-imagenes .mq-tabla .mq-celda-acciones--imagenes {
+  text-align: left;
+  white-space: normal;
+}
+
+/* ── 24.10 Digesto declarado distinto por dos fuentes ───────────────────── */
+
+/* Cuando dos anexos vigentes declaran digestos distintos para la misma
+   imagen, la maqueta no elige: exhibe los dos con su fuente. El bloque toma
+   el par de advertencia del catálogo —no el de error— porque no es un fallo
+   del producto sino una contradicción de la documentación, y su destinatario
+   es el paso 6. Lo comparten SUP-06 y SUP-18. */
+.mq-digesto-conflicto {
+  display: grid; gap: var(--space-4);
+  box-sizing: border-box; max-width: 100%; min-width: 0;
+  border: 1px solid var(--color-border-secondary);
+  border-left: 3px solid var(--color-text-warning);
+  border-radius: var(--radius-md);
+  background: var(--color-background-warning);
+  color: var(--color-text-warning);
+  padding: var(--space-8);
+  margin-top: var(--space-4);
+}
+.mq-conflicto-lista { display: grid; gap: var(--space-4); }
+.mq-conflicto-lista li { display: grid; gap: 2px; }
+.mq-conflicto-lista code { overflow-wrap: anywhere; }
+
+/* El digesto es el dato más importante del bloque y no puede quedar por
+   debajo del piso de contraste. Bootstrap pinta `code` con su propio color,
+   que sobre el tinte de advertencia da 3.92:1. Se fuerza a heredar el color
+   del bloque, que es un token del catálogo y da 5.87:1. */
+.mq-digesto-conflicto code { color: inherit; }

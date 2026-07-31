@@ -1,10 +1,11 @@
 # Wireframes — Informe de conflicto de direcciones
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Informe-De-Conflicto-De-Direcciones.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -171,7 +172,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-21](../../02-Especificacion-Funcional/Casos-De-Uso/CU-21-Informe-De-Conflicto-Y-Resolucion.md) como origen principal; [CU-20](../../02-Especificacion-Funcional/Casos-De-Uso/CU-20-Validacion-De-Conflicto-De-Direcciones.md) produce el veredicto que la abre; [CU-18](../../02-Especificacion-Funcional/Casos-De-Uso/CU-18-Arranque-Y-Parada-Con-Autoarranque.md) y [CU-24](../../02-Especificacion-Funcional/Casos-De-Uso/CU-24-Aplicacion-En-Lote.md) la disparan |
 | Reglas de negocio relevantes | RN-03, RN-06, RN-13, RN-17, RN-20 |
 | Insumo del intake | §5 historia 6; §6 flujo 3; §7 caso límite CL-01; §17.P.10 umbral de validación; anexo E-8 |
@@ -190,5 +191,6 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 4, bajo `Rules-UX-UI-DX` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/Wireframes-Informe-De-Conflicto-De-Direcciones-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige como primer campo por ser ésta una categoría de nivel proyecto de código (`Vocabulario-Rules` §4 R3) y que el `PRODUCT-MANIFEST` §2 declara como `Nombre-Proyecto-Codigo`; la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor `SelfHosted Service`, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro. Los dos campos conviven: el primero lo exige §4.1 y el segundo lo preserva `Migracion-Rules` §4.2. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: la **única** ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia de género —«Administrador único de la solución» a «Administrador único **del** producto»—; no hay ninguna «solución de código». **Las treinta y nueve ocurrencias de «resolución» y «resoluciones» quedaron intactas**, verificadas con conteo antes y después: este documento es el más cargado de la palabra en todo el corte, y la cadena `soluci` que vive dentro de ella es exactamente la que produjo las treinta ocurrencias de una palabra inexistente en doce archivos del framework, registradas en su entrada `[5.1]`. Las treinta y siete ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: veintisiete llevan la forma calificada «proyecto SelfHosted»; siete son la misma entidad del dominio en forma corta, admitida por el `PRODUCT-INTAKE` §12 y por el glosario raíz de `Vision-Producto.md` §9 donde el contexto ya fijó el sentido; una es el emprendimiento —«agente humano del proyecto»—, que `Vocabulario-Rules` §4 R1 deja sin calificar; una nombra un artefacto del dominio en su enlace, que no se renombra; y una era la etiqueta de cabecera. **El nombre canónico de la superficie `Informe de conflicto de direcciones` y su identificador `SUP-14` se conservan textualmente**, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **Los bloques ASCII de §2 no se tocaron** y conservan su ancho: ninguno contenía una palabra a migrar. **Ningún componente, interacción, estado, resolución, nota, referencia de trazabilidad ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica la superficie a partir del anexo E-8 y del intake §6 flujo 3, declarando que el anexo E-18 no la maqueta y que su forma es supuesto `S-UX-03`; transcribe las tres resoluciones sin agregar ni quitar ninguna y declara su aplicabilidad por clase de conflicto, con la regla de que una resolución que no aplica se omite y no se dibuja deshabilitada; declara las tres cosas que la superficie deliberadamente no hace; declara trece estados |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

@@ -1,10 +1,11 @@
 # Wireframes — Cajón de cambios pendientes
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Cajon-De-Cambios-Pendientes.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -18,6 +19,8 @@
   - [3.1 La frontera de propuesta, realizada](#31-la-frontera-de-propuesta-realizada)
   - [3.2 La advertencia de ventana de indisponibilidad](#32-la-advertencia-de-ventana-de-indisponibilidad)
   - [3.3 La ranura del asistente y su contradicción declarada](#33-la-ranura-del-asistente-y-su-contradicción-declarada)
+  - [3.4 Las dos clases de cambio de configuración, distinguidas](#34-las-dos-clases-de-cambio-de-configuración-distinguidas)
+  - [3.5 El servicio en borrador no aparece acá](#35-el-servicio-en-borrador-no-aparece-acá)
 - [4. Interacciones](#4-interacciones)
 - [5. Estados](#5-estados)
   - [5.1 Brecha `B-UX-18`, dependencia entre cambios](#51-brecha-b-ux-18-dependencia-entre-cambios)
@@ -136,11 +139,35 @@ La advertencia vive **en la vista del informe, antes de la confirmación**, y no
 
 ### 3.3 La ranura del asistente y su contradicción declarada
 
-`Rules-UX-UI-DX.md` §1.4 obliga a «reservar la ranura del asistente de IA (forward-compat) sin construirla» en todo proyecto que cargue la extensión de configuración por esquema, y `Design-Rules-Config-Esquema.md` §4.7 la especifica: contenedor con borde discontinuo, título y distintivo de disponibilidad futura, en estado deshabilitado, **sin ocupar un lugar central que compita con la configuración manual**.
+`Rules-UX-UI-DX.md` §1.4 obliga a «reservar la ranura del asistente de IA (forward-compat) sin construirla» en todo proyecto de código que cargue la extensión de configuración por esquema, y `Design-Rules-Config-Esquema.md` §4.7 la especifica: contenedor con borde discontinuo, título y distintivo de disponibilidad futura, en estado deshabilitado, **sin ocupar un lugar central que compita con la configuración manual**.
 
 Se ubica en esta superficie y no en el panel lateral del servicio porque es acá donde vive la frontera de propuesta: cuando se conecte, el asistente llenará una propuesta que pasará por la misma previsualización y la misma confirmación que una propuesta manual. Es la ubicación coherente con lo que la extensión declara.
 
-**Contradicción declarada `C-UX-03`.** Ninguna fuente de esta solución declara asistencia de un modelo de lenguaje, y el alcance del intake no la enumera ni entre lo pospuesto. Se aplica la regla de la categoría por ser normativa y explícita, y se declara la tensión como brecha `B-UX-09`, con destinatario en el agente humano del proyecto, para que pueda retirarla si decide que no corresponde.
+**Contradicción declarada `C-UX-03`.** Ninguna fuente de este producto declara asistencia de un modelo de lenguaje, y el alcance del intake no la enumera ni entre lo pospuesto. Se aplica la regla de la categoría por ser normativa y explícita, y se declara la tensión como brecha `B-UX-09`, con destinatario en el agente humano del proyecto, para que pueda retirarla si decide que no corresponde.
+
+### 3.4 Las dos clases de cambio de configuración, distinguidas
+
+El cajón declaraba que un cambio marca el servicio como pendiente de redespliegue, y **no distinguía cuáles además recrean el contenedor**. Es la distinción que importa, porque recrear es lo que hace perder el estado no persistido, y el cajón existe precisamente para poder revisar antes de provocar eso.
+
+| Clase | Ejemplos | Cómo se distingue en el listado |
+| --- | --- | --- |
+| De configuración, **sin** recrear | Política de reinicio, límites de recursos, verificación de salud, réplicas | Marca de redespliegue, sin marca de recreación |
+| De configuración, **recreando** | Variables, puertos, montajes, dispositivos, modo de red, dirección, comando de arranque | Marca de redespliegue **más marca de recreación**, con lo que implica dicho en el propio ítem del listado |
+| De identidad | Nombre del servicio | Marca de redespliegue, con la aclaración de que **ninguna referencia se rompe** y que el alias de resolución de nombres cambia |
+| Cosmético | Posición en el lienzo, notas | **No aparece.** Los cambios visuales no entran al conjunto de cambios pendientes |
+
+**Dos criterios de composición que esta distinción impone:**
+
+1. **La marca de recreación va en el ítem del cambio, no sólo en el resumen del lote.** Un resumen que dice «tres de cinco cambios recrean contenedores» no le dice al administrador **cuáles**, que es lo que necesita para decidir si descarta uno.
+2. **El resumen del lote agrega el conteo**, para que la decisión de aplicar ahora o más tarde se pueda tomar sin abrir cada ítem.
+
+**Por qué no se resuelve con la advertencia de ventana de indisponibilidad que §3.2 ya declara.** Esa advertencia es del lote y aparece al confirmar. Esto es **por cambio y aparece al revisar**, que es antes, y es lo que permite descartar el cambio individual en lugar de abandonar el lote entero.
+
+### 3.5 El servicio en borrador no aparece acá
+
+Un servicio en estado `borrador` **no entra al conjunto de cambios pendientes**, y el cajón no lo lista. Es lo que hace utilizable guardar a mitad de camino: sin esa exclusión, guardar un servicio incompleto metería algo inaplicable en el lote y **el lote entero dejaría de poder aplicarse**.
+
+La consecuencia para esta superficie es una ausencia y conviene declararla para que no se lea como olvido: **no hay estado del cajón que represente un servicio incompleto**. Si el administrador busca ahí un servicio que dejó a medias, no lo va a encontrar, y el lugar donde lo encuentra es el lienzo (`SUP-05` §3.3).
 
 ---
 
@@ -225,7 +252,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-22](../../02-Especificacion-Funcional/Casos-De-Uso/CU-22-Acumulacion-De-Cambios-Pendientes.md), [CU-23](../../02-Especificacion-Funcional/Casos-De-Uso/CU-23-Descarte-De-Un-Cambio-Individual.md), [CU-24](../../02-Especificacion-Funcional/Casos-De-Uso/CU-24-Aplicacion-En-Lote.md), [CU-25](../../02-Especificacion-Funcional/Casos-De-Uso/CU-25-Calculo-Del-Informe-De-Impacto.md) |
 | Reglas de negocio relevantes | RN-03, RN-04, RN-09, RN-12, RN-13, RN-17, RN-20, RN-21, RN-22, RN-24, RN-27, RN-31, RN-33 |
 | Insumo del intake | §4 capacidad F-07; §9 exclusión 2; §17.P.11 decisión DA-05; anexos E-5, E-13, E-18 |
@@ -244,5 +271,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | **Migración normativa 4.1 → 6.0**, corte 4 de la fase M4, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md). Clasificación **regenerar contenido**, por el salto de `Rules-UX-UI-DX` 2.0 → 4.0. **Fuente de contenido: documento de origen** —en su estado 1.1, que es el que dejó el fix de definiciones de servicio de la Fase B2—, más el [`PRODUCT-MANIFEST`](../../../Intake/PRODUCT-MANIFEST-SelfHosted-Service.md) §2 para el único campo de cabecera que se suma. Ni la frontera de propuesta, ni las dos clases de cambio de §3.4, ni la exclusión del borrador de §3.5, ni las doce interacciones, ni los dieciséis estados cambian de contenido: lo que cambia es la nomenclatura. Las nueve secciones obligatorias de `Rules-UX-UI-DX` 4.0 §4.2.1 ya estaban presentes y ninguna se agregó ni se reordenó. **Cabecera**: `**Proyecto:**` llevaba un valor del plano de negocio y pasa a `**Producto:**`, porque `Vocabulario-Rules.md` §3 prohíbe la etiqueta de un plano sobre el valor de otro; se suma `**Proyecto de código:** SelfHosted-Service`, que §4.1 de la regla vigente exige y que este documento no declaraba, con el valor **leído del manifiesto y no inferido**. **Vocabulario (`[5.0]`)**: «solución» pasa a «producto» en **2 ocurrencias** del referente de nivel superior —«Ninguna fuente de esta solución» en §3.3 y «Administrador único de la solución» en §8—, las dos con la concordancia de género corregida. La **1 ocurrencia de «resolución»** —«alias de resolución de nombres» en la tabla de §3.4— **se contó antes y después y sigue siendo 1**: no se tocó. De las 9 ocurrencias de «proyecto», 1 era la etiqueta de cabecera, **5 llevan la forma calificada «proyecto SelfHosted»** y no se tocaron por designar la entidad del dominio, **2 son «agente humano del proyecto»** y quedan a secas por su referente de emprendimiento, y **1 se promovió a «proyecto de código»**: la de §3.3, «en todo proyecto que cargue la extensión de configuración por esquema», que parafrasea `Rules-UX-UI-DX.md` §1.4 —cuyo sujeto en la versión vigente es literalmente «el proyecto de código»— y cuyo referente es la unidad D8 que carga la extensión del catálogo de diseño, no la entidad del dominio: un proyecto SelfHosted no carga extensiones normativas. La sustitución se hizo por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y **nunca por reemplazo global de cadena**. Los dos bloques ASCII de §2 no contienen ninguna palabra a migrar y **conservan su ancho intacto**. Los nombres canónicos de superficie —`SUP-07` y `Cajón de cambios pendientes`, y la referencia a `SUP-05`— se conservan textualmente, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **Glosario (`[5.1]`)**: `Glosario-UX.md` pasa de recomendado a obligatorio para los ocho tipos D8 y §6 verifica ahora su existencia y su completitud además de la no duplicación; lo emite un lote posterior de esta migración, y los términos que este wireframe acuña —cajón, fila de cambio, ranura del asistente, marca de recreación, resumen en palabras, frontera de propuesta— se devolvieron para que ese lote los consuma sin redefinir los que ya están en `Glosario-Funcional.md` de 02. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) y el bloque de procedencia del destino no se tocó: sigue declarando 4.1, y cerrarlo es trabajo de M5 |
+| 1.1 | 2026-07-29 | **Se amplía para distinguir las dos clases de cambio de configuración.** §3.4 declara cuáles cambios **recrean el contenedor** y cuáles no, con los dos criterios de composición que la distinción impone —la marca va en el ítem del cambio y no sólo en el resumen del lote— y con el argumento de por qué la advertencia de ventana de indisponibilidad de §3.2 no la reemplaza: ésa es del lote y al confirmar, ésta es por cambio y al revisar. §3.5 declara que **un servicio en borrador no aparece en el cajón**, con el motivo —si apareciera, el lote entero dejaría de poder aplicarse— y con la remisión al lienzo, que es donde el administrador lo encuentra. La versión 1.0 queda archivada en `_legacy/2026-07-29/`. Origen: §22.5 del documento de trabajo `SDD/Estado/Redefinicion-Servicio.md` v2.0 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica el cajón en dos vistas —lista de cambios e informe de impacto— con la separación que hace que el informe se presente antes de ejecutar nada; declara requisito por requisito qué parte de la frontera de propuesta de `Design-Rules-Config-Esquema.md` §6 se cumple y cuál no, con la contradicción `C-UX-02`; ubica la ranura del asistente en esta superficie con su justificación y declara la contradicción `C-UX-03` con el alcance del intake; declara dieciséis estados, incluidos los tres de resultado por contenedor y el de recuperación tras caída del canal; declara la brecha `B-UX-18` sobre la dependencia entre cambios |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

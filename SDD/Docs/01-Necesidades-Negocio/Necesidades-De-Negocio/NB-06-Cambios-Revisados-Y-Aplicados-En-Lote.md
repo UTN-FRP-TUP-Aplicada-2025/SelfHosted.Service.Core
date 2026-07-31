@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | NB-06-Cambios-Revisados-Y-Aplicados-En-Lote.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §3 (diferenciador 3), §4 (F-07, F-09), §5 (historia 5), §7 (CL-06), §9 (exclusión 2), §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §3.2 (DV-03), §4.2; Alcance-Proyecto.md §4.1, §5.1; Roadmap-Producto.md §2.3 (EP-07, EP-09), §3 |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §3 (diferenciador 3), §4 (F-07, F-09), §5 (historia 5), §7 (CL-06), §9 (exclusión 2), §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §3.2 (DV-03), §4.2; Alcance-Producto.md §4.1, §5.1; Roadmap-Producto.md §2.3 (EP-07, EP-09), §3 |
 | Trazabilidad downstream | CU-22, CU-23, CU-24, CU-25 (previstas en 02-Especificacion-Funcional) |
 
 ---
@@ -81,7 +81,7 @@ El cuarto criterio recoge la restricción declarada del producto: no hay solapam
 | Analista de Negocio Senior (AG-01) | Propietario del contenido | Mantiene la necesidad, sus criterios y su trazabilidad, y declara las brechas en lugar de resolverlas |
 | Equipo de desarrollo, dos desarrolladores | Implementador | Construye la acumulación de cambios pendientes, el cálculo del informe de impacto y la aplicación en lote |
 | Agente IA de codificación | Implementador | Genera la especificación y, en etapas posteriores, el código de los cortes verticales de cambios y de escalado |
-| Usuario final: administrador de la solución | Beneficiario | Valida que pueda revisar el impacto antes de provocar una ventana de indisponibilidad |
+| Usuario final: administrador del producto | Beneficiario | Valida que pueda revisar el impacto antes de provocar una ventana de indisponibilidad |
 | Product Manager (AG-00) | Consultado | Verifica la alineación con la visión y con el alcance declarados |
 | Analista Funcional (AG-02) | Consultado | Desarrolla los casos de uso que esta necesidad declara previstos |
 
@@ -107,5 +107,6 @@ Must Have. Las dos capacidades que agrupa son del Alcance 1 y sostienen el difer
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3 y §4 R3; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado y al artefacto hermano `Alcance-Producto.md`, antes `Alcance-Proyecto.md`. **La fila 1.0 de esta misma tabla nombra `Alcance-Proyecto.md` y no se reescribió**, por `SDD-Development-Guide.md` §VI.2: una fila histórica registra lo que se hizo cuando se hizo, y el nombre legado ahí es dato del registro y no una referencia a resolver; no es un enlace y por lo tanto no rompe ninguna navegación. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: una ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia —«administrador de la solución» a «administrador del producto» en §6—; no hay ninguna «solución de código» ni ninguna «resolución» en este documento. Las cuatro ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: ninguna designa la entidad del dominio en el cuerpo, una es el emprendimiento —«el agente humano del proyecto» en §6—, dos son el nombre del artefacto hermano y una la etiqueta de cabecera, según el intake §12. Ninguna necesidad, criterio de éxito, dependencia, prioridad ni CU prevista cambió: la migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar el estado anterior, por la política de versionado de `Master-Prompt.md` §5. Se completa el campo `Trazabilidad upstream` de la cabecera con `Roadmap-Producto.md` §3, que el §5 cita como origen de los hitos de anclaje, y con `Alcance-Proyecto.md` §5.1, de donde proviene la exclusión de enrutamiento de entrada que sostiene el cuarto criterio y la advertencia de la ventana de indisponibilidad. Origen: hallazgo H-02 del informe [Audit/A-00-01-r1.md](../../Audit/A-00-01-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir del consolidado de la Fase A previa transcripto en el intake §23, y de los documentos de 00-Contexto. Conserva el identificador NB-06, sus cinco criterios de éxito y la decisión de recorte que ubica F-09 acá y no en NB-07 |

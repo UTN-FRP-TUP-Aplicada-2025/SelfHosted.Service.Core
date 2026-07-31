@@ -2,15 +2,15 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | Necesidades-Negocio.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
 | Cantidad de NB | 8 |
-| Versión del catálogo de NB | 1.0 |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §1, §3, §4, §8, §11, §12, §17.P.10, §23.1 a §23.5; Vision-Producto.md §1, §3.2 (DV-01 a DV-05), §5 (OBJ-01 a OBJ-05), §6, §7.1 (RE-01 a RE-12), §8.1; Alcance-Proyecto.md §4.1, §5.1, §5.2, §6.3, §8 (CA-01 a CA-10); Roadmap-Producto.md §2.2, §2.3, §2.5, §2.6, §3 |
+| Versión del catálogo de NB | 2.0 |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §1, §3, §4, §8, §11, §12, §17.P.10, §23.1 a §23.5; Vision-Producto.md §1, §3.2 (DV-01 a DV-05), §5 (OBJ-01 a OBJ-05), §6, §7.1 (RE-01 a RE-12), §8.1, §9; Alcance-Producto.md §4.1, §5.1, §5.2, §6.3, §8 (CA-01 a CA-10); Roadmap-Producto.md §2.2, §2.3, §2.5, §2.6, §3 |
 | Trazabilidad downstream | 02-Especificacion-Funcional (CU-01 a CU-36), 03-UX-UI-DX, 06-Backlog-Tecnico, 07-Plan-Sprint, 08-Calidad-Y-Pruebas |
 
 ---
@@ -38,11 +38,11 @@
 
 ## §1. Qué contiene este catálogo
 
-Ocho necesidades de negocio, una por archivo, bajo [Necesidades-De-Negocio/](Necesidades-De-Negocio/). Cada una articula un dolor concreto del propietario del servidor de referencia, a quién le duele, con qué criterios numéricos se verifica que quedó resuelto y con qué prioridad relativa. Ninguna define flujos funcionales: las CU que las implementarán se declaran previstas y las desarrolla la categoría 02-Especificacion-Funcional.
+Ocho necesidades de negocio, una por archivo, bajo [Necesidades-De-Negocio/](Necesidades-De-Negocio/). Cada una articula un dolor concreto del propietario del servidor de referencia, a quién le duele, con qué criterios numéricos se verifica que quedó resuelto y con qué prioridad relativa. Ninguna define flujos funcionales: las CU que las implementarán se declaran previstas y las desarrolla la categoría 02-Especificacion-Funcional. Las ocho están en versión 2.0, igual que este índice y que el README de la sección: la migración normativa del conjunto 4.1 al 6.0 las alcanzó a todas por el mismo salto major de la regla que las gobierna.
 
 Las ocho provienen del consolidado de la Fase A previa transcripto en la Parte E del intake, §23, y se conservan con su numeración, sus criterios y su grafo de dependencias. Ese material está marcado [FA] y se consume como propuesta sólida y no como requisito cerrado del cliente: las ocho necesidades están en estado `Propuesto` y ninguna se declara aprobada. Lo que sí es dato cerrado son las cuatro métricas de negocio que tres de ellas adoptan como primer criterio, confirmadas por el agente humano del proyecto el 2026-07-27.
 
-Convenciones que esta categoría aplica, heredadas de 00-Contexto: «proyecto SelfHosted» designa el objeto del producto —la arquitectura de servicios contenedorizados con su red y su lienzo, que el usuario crea desde el portal—; «proyecto de código» designa la unidad de compilación y se escribe siempre completo; «proyecto» a secas designa el emprendimiento. En esta categoría el sentido predominante es el del producto.
+Convenciones que esta categoría aplica, heredadas de 00-Contexto: «proyecto SelfHosted» designa el objeto del producto —la arquitectura de servicios contenedorizados con su red y su lienzo, que el usuario crea desde el portal—; «proyecto de código» designa la unidad de compilación y se escribe siempre completo; «proyecto» a secas designa el emprendimiento. En esta categoría el sentido predominante es el del producto. Los tres referentes están declarados en el glosario del dominio de [Vision-Producto.md](../00-Contexto/Vision-Producto.md) §9, que es el glosario raíz de la cadena: esta categoría lo referencia y no lo redefine, y no mantiene glosario propio. Todo término que esta categoría acuñe o precise y que aparezca en más de uno de sus artefactos se da de alta allá, no acá.
 
 ---
 
@@ -59,7 +59,7 @@ Convenciones que esta categoría aplica, heredadas de 00-Contexto: «proyecto Se
 | NB-07 | Atribución del consumo del servidor a un servicio concreto | Should Have | CU-26, CU-27, CU-28 | Propuesto | [NB-07](Necesidades-De-Negocio/NB-07-Atribucion-Del-Consumo-Del-Servidor.md) |
 | NB-08 | Control de acceso al panel que gobierna el host y credenciales de máquina acotadas | Must Have | CU-29, CU-30, CU-31, CU-32, CU-33 | Propuesto | [NB-08](Necesidades-De-Negocio/NB-08-Control-De-Acceso-Y-Credenciales-De-Maquina.md) |
 
-Seis necesidades son Must Have y dos Should Have. Ninguna es Could Have ni Won't Have v1: las cinco capacidades F-18 a F-22 no generan necesidad de negocio y no deben aparecer como caso de uso en la categoría 02. Su exclusión es dato cerrado del cliente y no derivación de esta cadena: el intake §4 las declara `Won't Have v1` y su §9 trae las siete exclusiones correspondientes marcadas [E]. [Alcance-Proyecto.md](../00-Contexto/Alcance-Proyecto.md) §5.2 las cataloga con su identificador para que un pedido futuro lo reutilice en lugar de emitir uno nuevo.
+Seis necesidades son Must Have y dos Should Have. Ninguna es Could Have ni Won't Have v1: las cinco capacidades F-18 a F-22 no generan necesidad de negocio y no deben aparecer como caso de uso en la categoría 02. Su exclusión es dato cerrado del cliente y no derivación de esta cadena: el intake §4 las declara `Won't Have v1` y su §9 trae las siete exclusiones correspondientes marcadas [E]. [Alcance-Producto.md](../00-Contexto/Alcance-Producto.md) §5.2 las cataloga con su identificador para que un pedido futuro lo reutilice en lugar de emitir uno nuevo.
 
 ### §2.1 Procedencia de la prioridad MoSCoW
 
@@ -187,7 +187,7 @@ El grafo es acíclico: cada necesidad depende únicamente de necesidades que la 
 
 ### §4.1 De capacidad a necesidad
 
-Cada capacidad incluida en el alcance tiene exactamente una necesidad responsable. Los identificadores `F-XX` son los del intake y de [Alcance-Proyecto.md](../00-Contexto/Alcance-Proyecto.md) §4.1, y no se renumeran.
+Cada capacidad incluida en el alcance tiene exactamente una necesidad responsable. Los identificadores `F-XX` son los del intake y de [Alcance-Producto.md](../00-Contexto/Alcance-Producto.md) §4.1, y no se renumeran.
 
 | Capacidad | NB responsable | Capacidad | NB responsable |
 | --- | --- | --- | --- |
@@ -206,7 +206,7 @@ Las veinte capacidades del alcance están cubiertas y ninguna queda huérfana. L
 
 ### §4.2 De necesidad a caso de uso
 
-Treinta y seis casos de uso previstos, con numeración única en toda la solución y sin colisión entre necesidades. Todos en estado `a generar`.
+Treinta y seis casos de uso previstos, con numeración única en todo el producto y sin colisión entre necesidades. Todos en estado `a generar`.
 
 | NB | CU previstas | Cantidad |
 | --- | --- | --- |
@@ -241,13 +241,14 @@ El objetivo OBJ-05, de escala operable sin degradación, sigue pendiente de conf
 
 | Documento upstream | Qué aporta a esta categoría |
 | --- | --- |
-| SOLUTION-INTAKE §1, §3 | El dolor central y los cinco diferenciadores, que fijan el problema de cada necesidad |
-| SOLUTION-INTAKE §4 | Las veinte capacidades incluidas y las cinco excluidas, que fijan qué agrupa cada necesidad |
-| SOLUTION-INTAKE §8 | Las cuatro métricas de negocio, que tres necesidades adoptan como primer criterio |
-| SOLUTION-INTAKE §11, §17.P.10 | Los riesgos y los umbrales no funcionales que sostienen criterios de NB-05, NB-07 y NB-08 |
-| SOLUTION-INTAKE §23.1 a §23.5 | El catálogo consolidado de la Fase A previa: identificadores, grafo, 44 criterios, 36 CU, 7 decisiones de recorte y dolores por necesidad [FA] |
+| PRODUCT-INTAKE §1, §3 | El dolor central y los cinco diferenciadores, que fijan el problema de cada necesidad |
+| PRODUCT-INTAKE §4 | Las veinte capacidades incluidas y las cinco excluidas, que fijan qué agrupa cada necesidad |
+| PRODUCT-INTAKE §8 | Las cuatro métricas de negocio, que tres necesidades adoptan como primer criterio |
+| PRODUCT-INTAKE §11, §17.P.10 | Los riesgos y los umbrales no funcionales que sostienen criterios de NB-05, NB-07 y NB-08 |
+| PRODUCT-INTAKE §12 | La convención de vocabulario del producto: los tres referentes de «proyecto» y la prohibición de fusionar los términos |
+| PRODUCT-INTAKE §23.1 a §23.5 | El catálogo consolidado de la Fase A previa: identificadores, grafo, 44 criterios, 36 CU, 7 decisiones de recorte y dolores por necesidad [FA] |
 | [Vision-Producto.md](../00-Contexto/Vision-Producto.md) | Problema, diferenciadores DV-01 a DV-05, objetivos OBJ-01 a OBJ-05, restricciones RE-01 a RE-12 y riesgos |
-| [Alcance-Proyecto.md](../00-Contexto/Alcance-Proyecto.md) | Capacidades incluidas con su MoSCoW y su alcance, exclusiones, criterios de aceptación CA-01 a CA-10 y brechas abiertas |
+| [Alcance-Producto.md](../00-Contexto/Alcance-Producto.md) | Capacidades incluidas con su MoSCoW y su alcance, exclusiones, criterios de aceptación CA-01 a CA-10 y brechas abiertas |
 | [Roadmap-Producto.md](../00-Contexto/Roadmap-Producto.md) | Fases, épicas EPC-01, EPC-02, EP-01 a EP-17 y EP-23 a EP-25, y secuencia de etapas, que son los hitos a los que se anclan los plazos de los criterios. EP-18 a EP-22 no están emitidas, y el motivo del hueco es dato cerrado: corresponderían a F-18 a F-22, que el intake §4 declara `Won't Have v1` y cuyas exclusiones §9 trae marcadas [E]. Una capacidad que el cliente dejó fuera de la primera versión no abre épica, de modo que el hueco de numeración es consecuencia de una decisión declarada y no de una omisión del roadmap |
 
 | Categoría downstream | Qué consume de esta categoría |
@@ -318,7 +319,7 @@ Ninguna de estas brechas se resuelve acá. Se declaran con su destinatario, porq
 | El plazo del criterio de higiene de NB-01 y el del valor compartido de NB-04 dependen de la asignación de EP-23, EP-24 y EP-25 a una fase | [NB-01](Necesidades-De-Negocio/NB-01-Visibilidad-Unificada-De-La-Arquitectura.md) §5 nota 3; [NB-04](Necesidades-De-Negocio/NB-04-Alta-De-Servicio-Sin-Copiar-Y-Adaptar.md) §5 nota 2; Roadmap §2.6 | 07-Plan-Sprint, con decisión del agente humano del proyecto |
 | Los plazos de tres criterios de NB-03 se anclan a una etapa de la Fase 3 cuyo orden todavía no está declarado | [NB-03](Necesidades-De-Negocio/NB-03-Reproducibilidad-De-La-Arquitectura.md) §5; Roadmap §2.6 | Agente humano del proyecto |
 | El plazo del acotamiento de credenciales de NB-08 depende del adelanto no decidido de EP-15 a la Fase 1 | [NB-08](Necesidades-De-Negocio/NB-08-Control-De-Acceso-Y-Credenciales-De-Maquina.md) §5; Roadmap §2.6 | Agente humano del proyecto |
-| La confirmación de OBJ-05, que sostiene el criterio de escala de NB-01 | [Vision-Producto.md](../00-Contexto/Vision-Producto.md) §5; [Alcance-Proyecto.md](../00-Contexto/Alcance-Proyecto.md) §6.3 | Agente humano del proyecto |
+| La confirmación de OBJ-05, que sostiene el criterio de escala de NB-01 | [Vision-Producto.md](../00-Contexto/Vision-Producto.md) §5; [Alcance-Producto.md](../00-Contexto/Alcance-Producto.md) §6.3 | Agente humano del proyecto |
 | La imprecisión del argumento de recorte de F-06, heredada del intake §23.4 | Este documento §5, nota sobre la primera fila | Agente humano del proyecto, como observación sobre el intake en el próximo punto de control. No se corrige la transcripción |
 | La forma del plazo —puntual o continuo— de los 38 criterios que anclan a una etapa o a una fase por composición. El intake §23.3 declara las tres formas admisibles pero no cuál corresponde a cada criterio, de modo que la elección la emitió esta categoría | Este documento §2.2 | 08-Calidad-Y-Pruebas, que convierte los 44 criterios en verificaciones ejecutables y es quien necesita saber si un criterio se verifica una vez o de forma sostenida. Ningún valor cambia mientras tanto |
 
@@ -328,6 +329,7 @@ Ninguna de estas brechas se resuelve acá. Se declaran con su destinatario, porq
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/Necesidades-Negocio-v1.0.md`, más los documentos hermanos de 00-Contexto y el PRODUCT-INTAKE para los nombres de artefacto y la convención de vocabulario. Sube **major** porque la nomenclatura anterior deja de cumplir. La cabecera pasa de la etiqueta `Proyecto` a `Producto` —una etiqueta del plano de proceso sobre un valor de plano producto, que `Vocabulario-Rules` §3 prohíbe— y su trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` y a `Alcance-Producto.md` renombrados. **Se cierra el hallazgo H-02 del informe [Audit/M4-00-Contexto-r1.md](../Audit/M4-00-Contexto-r1.md)**: los cuatro enlaces de este documento a `Alcance-Proyecto.md` —§2, §4.1, §4.4 y §7— pasan a `Alcance-Producto.md` y resuelven en disco; el renombre se leyó de la entrada `[5.0]` del `CHANGELOG.md` del framework y no se infirió. Las cinco filas de §4.4 que nombraban el `SOLUTION-INTAKE` pasan al `PRODUCT-INTAKE`, y la tabla suma la fila de §12, que es la sección de la que esta categoría toma su convención de vocabulario. §1 declara que el glosario del dominio de `Vision-Producto.md` §9 es el glosario raíz de la cadena y que esta categoría no mantiene glosario propio, según el criterio de gobierno del glosario que `Rules-Necesidades-Negocio` 3.1 §6 incorpora. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan §3.5, con el registro que esa regla exige: se revisaron las dos ocurrencias de la cadena `soluci`, **una** designaba el nivel superior y pasó a «producto» con su concordancia —«en toda la solución» a «en todo el producto», en §4.2— y la otra es «Resoluciones ofrecidas», criterio de NB-05 en §2.2, que se conserva intacta. De las ocurrencias de «proyecto», **ninguna pasó a «proyecto de código»** que no lo fuera ya: las de «agente humano del proyecto» son el emprendimiento y se preservan a secas, las de §1 y §5 son menciones del término y no usos, y las seis que ya decían «proyecto de código» —cinco en singular en §1, §4.2 y §5, y una en plural en §4.2— quedaron como estaban. **Ningún valor de contenido cambia**: los ocho identificadores NB, las ocho prioridades MoSCoW, los 44 criterios de éxito con sus 132 componentes, los 36 casos de uso previstos, el grafo acíclico, las siete decisiones de recorte y las nueve brechas de §7 quedan exactamente como estaban. La versión del catálogo de NB pasa a 2.0 porque las ocho necesidades suben a 2.0 por esta misma migración. El bloque de procedencia del destino no se toca: es trabajo de la fase M5 |
 | 1.0 | 2026-07-29 | Adecuación al conjunto normativo 4.1, absorbida dentro de la versión 1.0 igual que las anteriores. §2.2 es nueva y emite el inventario de procedencia de los 44 criterios de éxito, componente por componente: métrica, target y plazo, 132 en total, clasificados en derivado con su sección, material [FA] de la Fase A previa, u originado en esta categoría. Resultado: 120 derivados, 12 [FA] y ninguno originado. Se verificaron contra la fuente los tres denominadores que podían estar sin respaldo —las cinco salvaguardas de aislamiento, la retención de 90 días y las ocho dimensiones del alta— y los tres resultaron declarados [E] en el intake §17.P.5, §17.P.11 DA-07 y los anexos E-19 y E-2. Lo único que esta categoría elige es la forma del plazo, puntual o continuo, dentro de las tres que el intake §23.3 admite, y queda registrado como brecha en §7 con 08-Calidad-Y-Pruebas como destinataria. Ningún valor cambia: `Rules-Necesidades-Negocio.md` sigue en 2.0 y el catálogo de ambigüedades que motiva el inventario es de la categoría 00. Origen: adecuación al conjunto normativo 4.1, que declara al Product Owner dueño de la priorización y de las exclusiones y exige que ninguna fecha objetivo ni target de métrica se origine en la cadena de especificación |
 | 1.0 | 2026-07-29 | Reversión de la salvedad sobre F-18 a F-22, absorbida dentro de la versión 1.0. La revisión de ambigüedades de 00-Contexto determinó que las cinco exclusiones son derivables y no originadas: el intake §4 las declara `Won't Have v1` y su §9 trae las exclusiones correspondientes marcadas [E]. En consecuencia §2, §4.1 y §4.4 vuelven a declarar el motivo del hueco EP-18 a EP-22 como dato cerrado, con traza a esas dos secciones, en lugar de dejarlo dependiendo de una revisión aguas arriba que no está abierta; y la brecha que §7 había registrado por ese motivo se cierra y se retira. La salvedad anterior se había introducido sobre un supuesto de revisión en curso que resultó no existir |
 | 1.0 | 2026-07-29 | Tres correcciones más, absorbidas dentro de la versión 1.0 igual que las anteriores. Primera: §5 suma una nota sobre la primera fila de la tabla de decisiones de recorte, que señala que su argumento heredado invoca una dependencia mutua entre NB-01 y NB-04 cuando el recorte que la fila decide es entre NB-05 y NB-01. La transcripción no se toca: es literal del intake §23.4, que es de solo lectura, y §5.2 de las reglas de la categoría pide conservar o refutar las decisiones de recorte de la Fase A, no reescribirlas. La imprecisión se eleva como observación sobre el intake en el próximo punto de control y queda registrada en §7. Origen: hallazgo H-05 del informe [Audit/A-00-01-r1.md](../Audit/A-00-01-r1.md), con la instrucción de §7 H-05 y de §9 condición 3 de ese informe. Segunda: §2, §4.1 y §4.4 dejan de afirmar como cerrado el estado de F-18 a F-22 fuera de la primera versión, que 00-Contexto tiene en revisión bajo el conjunto normativo 4.1, que retiró a esa categoría la autoridad de originar exclusiones. El hueco EP-18 a EP-22 se conserva como hecho verificable sobre el roadmap vigente y su motivo se declara dependiente de esa revisión; §7 suma la brecha con su destinatario. Esta categoría no se adelanta a lo que 00-Contexto resuelva. Tercera: §2.1 es nueva y registra la traza de las ocho prioridades MoSCoW al intake §4, capacidad por capacidad, con la regla de agregación declarada en el intake §23.4. Ningún valor cambia: el inventario se emite porque el conjunto 4.1 declara al Product Owner dueño de la priorización y conviene que quede verificable que ninguna de las ocho se originó en esta categoría |

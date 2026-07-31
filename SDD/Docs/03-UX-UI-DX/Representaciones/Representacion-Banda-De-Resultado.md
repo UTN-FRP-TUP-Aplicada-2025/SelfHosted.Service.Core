@@ -1,10 +1,11 @@
 # Representación — Banda de resultado por código
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Representacion-Banda-De-Resultado.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -147,4 +148,5 @@ Piso WCAG 2.2 nivel AA.
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 4, bajo `Rules-UX-UI-DX` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major 2.0 → 4.0 de la regla que gobierna la categoría; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/Representacion-Banda-De-Resultado-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (`Vocabulario-Rules` §4 R3), y la etiqueta `Proyecto` pasa a `Producto` sobre su valor de origen `SelfHosted Service`, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; los dos conviven porque §4.1 exige el primero y `Migracion-Rules` §4.2 prohíbe perder el segundo. Se conserva el campo `Variante`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: **cero** ocurrencias de «solución» con el referente de nivel superior y **cero** de la cadena `resoluci`, verificado por barrido; las cinco ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»** —cuatro designan la entidad del dominio, el agrupador de servicios contenedorizados que el usuario crea desde el portal, en la forma corta que el PRODUCT-INTAKE §12 admite donde el contexto ya fijó el sentido, y una es el nombre del archivo de un wireframe del dominio, que no se renombra—. **Glosario:** desde la 4.0 `Glosario-UX.md` es artefacto obligatorio para los ocho tipos D8 y §6 verifica su existencia y su completitud; los términos que esta representación acuña —banda de resultado, variante de error, variante de confirmación, variante genérica, catálogo de códigos de resultado, rechazo indiferenciado, requisito declarado, regla de continuidad del lazo— se devolvieron al lote que emite ese glosario y acá no se redefinen, y los que ya declaran [`Vision-Producto`](../../00-Contexto/Vision-Producto.md) §9 y [`Glosario-Funcional`](../../02-Especificacion-Funcional/Glosario-Funcional.md) se referencian sin duplicarse. **Ningún concepto, variante, restricción de contenido, entrada del catálogo, dato consumido, restricción de accesibilidad ni superficie de reutilización cambió de contenido**: la migración es léxica y de forma de cabecera. El bloque ASCII de §2 no contenía ninguna palabra a migrar y quedó intacto, con su ancho de caja preservado. Las filas anteriores de este control de cambios no se reescribieron. El bloque de procedencia del destino sigue declarando la 4.1 y no se toca: es trabajo de M5. Origen: [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Versión inicial. Materializa el patrón de banda de mensaje de `Design-Rules-Primer-Arranque.md` §4.4 y de banda de resultado por código de `Design-Rules-Acceso-Monousuario.md` §4.2; declara las dos variantes y la de agotamiento del catálogo; transcribe las cuatro restricciones de contenido del perfil de operador único; declara las nueve entradas del catálogo con la superficie que las produce y la que las exhibe, y la regla de continuidad que las separa; declara los dos datos que la banda no consume y las brechas `B-UX-10` y `B-UX-11` que dejan sin resolver el texto de dos entradas y el destino de una tercera; delimita el alcance respecto de los mensajes de dominio con estructura propia |

@@ -1,13 +1,14 @@
 # RN-21 — Validez del ámbito de una referencia de variable
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** RN-21-Validez-Del-Ambito-De-Una-Referencia.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service anexo E-16, fila RN-21. **Autoría declarada en la fuente:** Enunciado **[D]**, decisión D-6. Exigibilidad **[D-i]**, sin revisar: momento de validación y códigos de respuesta se consumen declarándolos revisables.
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service anexo E-16, fila RN-21. **Autoría declarada en la fuente:** Enunciado **[D]**, decisión D-6. Exigibilidad **[D-i]**, sin revisar: momento de validación y códigos de respuesta se consumen declarándolos revisables.
 
 ---
 
@@ -56,4 +57,5 @@ Las pruebas se realizan en 08-Calidad-Y-Pruebas. El anexo E-22 declara los casos
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major 2.0 → 4.0 de la regla que gobierna la categoría; fuente de contenido: el **documento de origen**, archivado sin modificación en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. **El enunciado de la invariante no cambió de contenido normativo**: los tres ámbitos válidos, la invalidez de la referencia que cruza el límite y la exigencia de existencia al validar quedan exactamente como estaban, con sus marcadores de autoría **[D]** y **[D-i]** intactos. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor de plano producto —`SelfHosted Service`, que es el `Nombre-Producto`—, según `Vocabulario-Rules` §3 y §4 R3 y el referente R4 del plan de migración §3.5; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5, con censo declarado: **10 ocurrencias de «proyecto»**, de las cuales 1 era la etiqueta de cabecera y se sustituyó; las 9 restantes —3 en el enunciado de §1, 2 en §2, 1 en §4 y 3 en los casos T-34 y T-35 de §6— designan la **entidad del dominio**, que es el ámbito mismo que esta invariante delimita, y quedaron intactas. **Este documento es el más expuesto del lote al daño de sustituir «proyecto»**: convertir cualquiera de esas nueve a «proyecto de código» cambiaría el alcance de la regla. Ninguna designa el emprendimiento y **ninguna se promovió a «proyecto de código»**. **Cero** ocurrencias de «solución» y **cero** de la cadena `resoluci`; los verbos «resolver» y «resoluble» no la contienen. **Glosario:** desde la 4.0 el vocabulario de la categoría vive en `Glosario-Funcional.md`, artefacto propio y obligatorio para los ocho tipos D8 (§2.1 y §4.2.4), y ya no en el punto 6 de `Modelo-Conceptual.md`; los términos que esta regla acuña o precisa —«ámbito de una referencia» y sus tres valores— se devolvieron al lote que emite ese glosario y acá no se redefinen, y los que ya declara `Vision-Producto.md` §9 se referencian sin duplicarse |
 | 1.0 | 2026-07-29 | Versión inicial. Transcripción del enunciado, del momento de validación y de la respuesta ante incumplimiento que declara el anexo E-16 del intake. No se reinterpreta ninguno de los tres |

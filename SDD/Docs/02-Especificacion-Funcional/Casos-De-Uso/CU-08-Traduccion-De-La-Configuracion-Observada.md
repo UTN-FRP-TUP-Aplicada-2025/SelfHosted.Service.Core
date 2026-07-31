@@ -1,14 +1,15 @@
 # CU-08 — Traducción de la configuración observada al modelo de servicio
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-08-Traduccion-De-La-Configuracion-Observada.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-02](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-02-Adoptabilidad-Del-Parque-Existente.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §6 flujo 2, las seis dimensiones; anexo E-11 (el servicio resultante de la importación); anexo E-20 (las seis configuraciones reales ofuscadas); anexo E-21 (la correspondencia campo por campo y sus reglas de traducción); anexo E-19 (los patrones del parque real); E-16 RN-01, RN-07, RN-15, RN-26, RN-29
+**Trazabilidad upstream:** PRODUCT-INTAKE §6 flujo 2, las seis dimensiones; anexo E-11 (el servicio resultante de la importación); anexo E-7, el campo de puertos publicados del candidato y la regla RA-07; anexo E-2 §20.2.3, las cinco variantes discriminadas de origen; anexo E-20 (las seis configuraciones reales ofuscadas); anexo E-21 (la correspondencia campo por campo y sus reglas de traducción); anexo E-19 (los patrones del parque real); E-16 RN-01, RN-07, RN-15, RN-26, RN-29
 
 ---
 
@@ -38,7 +39,7 @@ Traducir la configuración que el motor de contenedores reporta de un contenedor
 | --- | --- | --- |
 | Módulo de traducción | Primario | Aplica las reglas de correspondencia sobre la configuración observada y produce el servicio equivalente |
 | Motor de contenedores | Sistema | Aporta la configuración observada del contenedor |
-| Administrador de la solución | Secundario | Recibe el resultado de la traducción y clasifica sus variables (CU-07) |
+| Administrador del producto | Secundario | Recibe el resultado de la traducción y clasifica sus variables (CU-07) |
 
 Los nombres de los actores no humanos son **denominaciones acuñadas por esta categoría**, salvo los seis que trazan a una fuente: `Motor de contenedores`, `Destino externo`, `Automatismo de integración continua`, `Sincronizador de estado`, `Módulo de descubrimiento` y `Resolutor de referencias`. Los acuñados no son componentes declarados y no condicionan la descomposición: su correspondencia con los módulos que el intake §17.P.2 sí declara la fija 05-Arquitectura-Tecnica. La convención completa, nombre por nombre, está en [Especificacion-Funcional.md](../Especificacion-Funcional.md) §8.
 
@@ -51,9 +52,9 @@ Los nombres de los actores no humanos son **denominaciones acuñadas por esta ca
 
 1. El módulo de traducción recibe la configuración observada del contenedor.
 2. Deriva el nombre del servicio, verificando el formato y la unicidad dentro del proyecto SelfHosted (RN-01).
-3. Deriva el origen: imagen de registro con su etiqueta y su política de actualización, que se deduce de si la etiqueta es explícita o flotante; o construcción desde un archivo local con su contexto y sus argumentos.
+3. Deriva el origen **como una de las cinco variantes discriminadas** que el anexo E-2 §20.2.3 declara: imagen de registro público, o imagen de registro privado cuando el registro observado exige credenciales, con su etiqueta y su política de actualización, que se deduce de si la etiqueta es explícita o flotante; o archivo de construcción, con su contexto y sus argumentos. La variante elegida determina qué campos se derivan y qué campos **no deben aparecer** (RN-08).
 4. Deriva la red: modo, alias, dirección fija, interfaz padre, subred y pasarela, distinguiendo el caso en que el proyecto crea la red del caso en que la consume como externa.
-5. Deriva los puertos, respetando que un servicio en macvlan no publica puertos en el host (RN-07).
+5. Deriva los puertos, **incluidos los puertos publicados en el host que el descubrimiento observó** (regla RA-07), respetando que un servicio en macvlan no publica puertos (RN-07). Un contenedor incorporado con puertos publicados **los conserva**: no perderlos es la razón por la que el descubrimiento los trae.
 6. Deriva los montajes, los dispositivos, las capacidades, los límites de recursos, las réplicas, la política de reinicio, la marca de efímero y la verificación de salud.
 7. Deriva las variables, sin crear ninguna referencia a partir de la interpolación propia del formato de composición (RN-26), y las entrega al paso de clasificación (RN-29).
 8. Declara en el informe de traducción todo elemento que no se pudo representar en el modelo.
@@ -103,8 +104,8 @@ Punto de retorno: paso 8.
 | Dimensión | Referencia |
 | --- | --- |
 | Necesidad de negocio | [NB-02](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-02-Adoptabilidad-Del-Parque-Existente.md) |
-| Reglas de negocio aplicables | RN-01, RN-07, RN-15, RN-26, RN-29, RN-34. Reglas conceptuales: RC-02, RC-07, RC-08, RC-16 |
-| Historias de usuario a generar en 06 | US-CU-08-1 (traducir la configuración observada a las dimensiones del servicio), US-CU-08-2 (traducir la dependencia explícita sin pérdida), US-CU-08-3 (recibir el informe de lo que no se pudo representar) |
+| Reglas de negocio aplicables | RN-01, RN-07, RN-08, RN-15, RN-26, RN-29, RN-34, RN-38. Reglas conceptuales: RC-02, RC-07, RC-08, RC-16, RC-19 |
+| Historias de usuario a generar en 06 | US-CU-08-1 (traducir la configuración observada a las dimensiones del servicio), US-CU-08-2 (traducir la dependencia explícita sin pérdida), US-CU-08-3 (recibir el informe de lo que no se pudo representar), US-CU-08-4 (conservar los puertos publicados del contenedor incorporado) |
 | Componentes esperados en 05 | Capa `Infrastructure`, `Contenedores` y `Exportacion`, donde viven las reglas de correspondencia; capa `Application`, módulo de descubrimiento y adopción; capa `Domain`, agregado `Servicios`. Referencia tentativa. La NB-02 asigna este caso de uso a la capa de infraestructura |
 | Tests previstos en 08 | T-30 (ida y vuelta del caso C-3); T-40 (interpolación e importación de dependencia explícita); T-48 (signo de expansión escapado); T-54 (dependencia explícita sin variable que la mencione) |
 
@@ -116,11 +117,15 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 - RN-26 lleva marcador `[D-i]` completo y sigue sin revisar; se consume declarándola revisable.
 - Las seis dimensiones que NB-02 exige verificar en la fidelidad de lo importado son las del intake §6 flujo 2 y no se amplían acá.
 - La correspondencia campo por campo vive en el anexo E-21 y no se transcribe: este caso de uso declara qué debe traducirse y con qué garantía, no cómo se implementa.
+- **Defecto corregido en la versión 1.1.** Hasta la versión 1.0 el modelo del candidato del anexo E-7 **no traía los puertos publicados** —sus campos eran imagen, estado, redes, montajes, variables detectadas y etiquetas de composición—, de modo que un contenedor incorporado con puertos publicados **los perdía en la traducción** y el redespliegue posterior no los reponía. El intake v2.4 agrega el campo y la regla RA-07, y este paso 5 los deriva. Es la especificación de integración `DI-23`, **sin revisar**.
+- **La traducción produce una variante discriminada y no un objeto con campos opcionales.** Derivar un origen que declare a la vez una rama y un contenido de archivo de construcción es un estado sin significado, y RN-08 lo rechaza.
 
 ## 11. Control de cambios
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/CU-08-Traduccion-De-La-Configuracion-Observada-v1.1.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (§4 R3) y que el PRODUCT-INTAKE §13 declara como `Nombre-Proyecto-Codigo`; la trazabilidad upstream cita el `PRODUCT-INTAKE` renombrado, antes `SOLUTION-INTAKE`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: la única ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia de género —«Administrador de la solución» a «Administrador del producto»—; no hay ninguna «solución de código» ni ninguna ocurrencia de la cadena `resoluci` en este documento, verificado por barrido. Las cinco ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: tres llevan la forma calificada «proyecto SelfHosted»; una es la misma entidad del dominio en forma corta, admitida por el PRODUCT-INTAKE §12 donde el contexto ya fijó el sentido, y una era la etiqueta de cabecera. **Ningún propósito, actor, precondición, paso de flujo, flujo alternativo, excepción, postcondición, criterio de aceptación, referencia de trazabilidad, nota ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [Plan-Migracion-4.1-a-6.0.md](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
+| 1.1 | 2026-07-29 | **Se corrige la pérdida de los puertos publicados y se alinea el origen derivado con las cinco variantes.** El paso 3 pasa a derivar el origen como **una de las cinco variantes discriminadas** y no como uno de tres valores planos, con la consecuencia de que la variante elegida determina qué campos se derivan y **qué campos no deben aparecer** (RN-08). El paso 5 pasa a derivar los **puertos publicados en el host**, que el descubrimiento ya trae desde CU-06 v1.1: un contenedor incorporado con puertos publicados los conserva. §9 suma RN-08, RN-38, RC-19 y una historia de usuario. §10 declara el defecto corregido con su evidencia, y que la traducción produce una variante discriminada y no un objeto con campos opcionales. La versión 1.0 queda archivada en `_legacy/2026-07-29/`. Origen: §22.2 quinta fila y §18.6 `S-4` del documento de trabajo `SDD/Estado/Redefinicion-Servicio.md` v2.0 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |
 

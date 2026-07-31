@@ -1,14 +1,15 @@
 # CU-07 — Incorporación de un contenedor existente con confirmación explícita
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-07-Incorporacion-Con-Confirmacion-Explicita.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-02](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-02-Adoptabilidad-Del-Parque-Existente.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §4 capacidad F-11; §6 flujo 2; anexo E-11 (los cuatro pasos del flujo y la carga útil de la clasificación); anexo E-15, endpoint de incorporación y su nota; §7 CL-08 y CL-15; §17.P.5; E-16 RN-02, RN-11, RN-15, RN-29
+**Trazabilidad upstream:** PRODUCT-INTAKE §4 capacidad F-11; §6 flujo 2; anexo E-11 (los cuatro pasos del flujo y la carga útil de la clasificación); anexo E-15, endpoint de incorporación y su nota; §7 CL-08 y CL-15; §17.P.5; E-16 RN-02, RN-11, RN-15, RN-29
 
 ---
 
@@ -25,6 +26,7 @@
 - [9. Trazabilidad](#9-trazabilidad)
 - [10. Notas y supuestos](#10-notas-y-supuestos)
 - [11. Control de cambios](#11-control-de-cambios)
+- [13. Interacción multiusuario y concurrencia](#13-interacción-multiusuario-y-concurrencia)
 
 ---
 
@@ -36,7 +38,7 @@ Permitir que el administrador incorpore a un proyecto SelfHosted un contenedor q
 
 | Actor | Tipo | Rol |
 | --- | --- | --- |
-| Administrador de la solución | Primario | Elige el candidato, clasifica sus variables y confirma la incorporación |
+| Administrador del producto | Primario | Elige el candidato, clasifica sus variables y confirma la incorporación |
 | Módulo de incorporación | Sistema | Importa la configuración observada, exige la clasificación y crea el servicio vinculado al contenedor existente |
 | Motor de contenedores | Sistema | Es la fuente de la configuración observada; el contenedor no se recrea |
 
@@ -125,6 +127,7 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/CU-07-Incorporacion-Con-Confirmacion-Explicita-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (§4 R3) y que el PRODUCT-INTAKE §13 declara como `Nombre-Proyecto-Codigo`; la trazabilidad upstream cita el `PRODUCT-INTAKE` renombrado, antes `SOLUTION-INTAKE`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: la única ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia de género —«Administrador de la solución» a «Administrador del producto»—; no hay ninguna «solución de código» ni ninguna ocurrencia de la cadena `resoluci` en este documento, verificado por barrido. Las ocho ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: cinco llevan la forma calificada «proyecto SelfHosted»; dos son la misma entidad del dominio en forma corta, admitida por el PRODUCT-INTAKE §12 donde el contexto ya fijó el sentido, y una era la etiqueta de cabecera. **Tabla de contenido:** suma la entrada de §13, que la sección tenía sin figurar. **Ningún propósito, actor, precondición, paso de flujo, flujo alternativo, excepción, postcondición, criterio de aceptación, referencia de trazabilidad, nota ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [Plan-Migracion-4.1-a-6.0.md](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |
 

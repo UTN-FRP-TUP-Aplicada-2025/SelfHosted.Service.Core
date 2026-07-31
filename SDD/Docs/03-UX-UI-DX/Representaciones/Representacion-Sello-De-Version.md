@@ -1,10 +1,11 @@
 # Representación — Sello de versión y detalle de diagnóstico
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Representacion-Sello-De-Version.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -76,9 +77,9 @@ El sello es información, no acción, y no compite visualmente con nada. Se dibu
 
 ## 4. Datos que consume
 
-El contrato de identidad de versión de `Design-Rules-Identidad-De-Version.md` §2, con el estado real de cada campo en esta solución.
+El contrato de identidad de versión de `Design-Rules-Identidad-De-Version.md` §2, con el estado real de cada campo en este producto.
 
-| Campo del contrato | Qué hace en la interfaz | Estado en las fuentes de esta solución |
+| Campo del contrato | Qué hace en la interfaz | Estado en las fuentes de este producto |
 | --- | --- | --- |
 | Cadena legible de la versión | Es el dato principal y el único obligatorio. Se muestra tal como llega | El intake §17.P.7 declara versionado semántico con la versión derivada de los mensajes de confirmación desde la etiqueta anterior, calculada en el pipeline, y declara que permanece en la serie inicial hasta la primera entrega completa. **No declara cómo llega esa cadena al punto de composición del sistema** |
 | Identificador de construcción | Amplía el diagnóstico cuando dos instancias comparten cadena legible | **Sin declarar** |
@@ -90,7 +91,7 @@ Las cuatro ausencias se consolidan en la brecha `B-UX-07`, con destinatario en `
 **Cuatro reglas de la frontera que sí son de diseño y que se declaran acá.**
 
 1. La superficie **no participa del cálculo**. Recibe el contrato ya resuelto y no compone, no transcribe y no reformatea la cadena.
-2. La superficie **no distingue entornos por su cuenta**. Si un entorno debe mostrarse distinto, esa distinción llega como campo del contrato y no como condicional en la vista. En esta solución hay dos entornos declarados —desarrollo dentro del entorno contenedorizado y producción como contenedor en el servidor, sin ambientes intermedios— y ninguna superficie los infiere.
+2. La superficie **no distingue entornos por su cuenta**. Si un entorno debe mostrarse distinto, esa distinción llega como campo del contrato y no como condicional en la vista. En este producto hay dos entornos declarados —desarrollo dentro del entorno contenedorizado y producción como contenedor en el servidor, sin ambientes intermedios— y ninguna superficie los infiere.
 3. **La cadena que se muestra al administrador y la que se copia en el diagnóstico son la misma.** Dos representaciones del mismo artefacto obligan a traducir en el peor momento.
 4. **No existe superficie que permita fijar la versión a mano.** El contrato es de sólo lectura para la interfaz.
 
@@ -126,4 +127,5 @@ La superficie de aprovisionamiento inicial comparte composición con la de acces
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 4, bajo `Rules-UX-UI-DX` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major 2.0 → 4.0 de la regla que gobierna la categoría; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/Representacion-Sello-De-Version-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (`Vocabulario-Rules` §4 R3), y la etiqueta `Proyecto` pasa a `Producto` sobre su valor de origen `SelfHosted Service`, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; los dos conviven porque §4.1 exige el primero y `Migracion-Rules` §4.2 prohíbe perder el segundo. Se conserva el campo `Variante`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: las cuatro ocurrencias de «solución» designaban el nivel superior; **tres se sustituyeron por «producto» con su concordancia de género** —«en esta solución» a «en este producto» en la entrada de §4, «Estado en las fuentes de esta solución» a «de este producto» en la cabecera de su tabla, y «En esta solución hay dos entornos declarados» a «En este producto» en la regla de frontera 2—, y **la cuarta se preservó** porque vive en la fila del 2026-07-29 de este mismo control de cambios, que `SDD-Development-Guide` §VI.2 prohíbe reescribir. **Cero** ocurrencias de la cadena `resoluci`, verificado por barrido. La única ocurrencia de «proyecto» era la etiqueta de cabecera; **ninguna pasó a «proyecto de código»** dentro del cuerpo. **Glosario:** desde la 4.0 `Glosario-UX.md` es artefacto obligatorio para los ocho tipos D8 y §6 verifica su existencia y su completitud; los términos que esta representación acuña —sello de versión, detalle de diagnóstico, distintivo de artefacto preliminar, marcador de origen indeterminado, ubicación obligatoria del sello— se devolvieron al lote que emite ese glosario y acá no se redefinen, y los que ya declaran [`Vision-Producto`](../../00-Contexto/Vision-Producto.md) §9 y [`Glosario-Funcional`](../../02-Especificacion-Funcional/Glosario-Funcional.md) se referencian sin duplicarse. **Ningún concepto, variante, campo del contrato, regla de frontera, restricción de accesibilidad ni ubicación obligatoria cambió de contenido**: la migración es léxica y de forma de cabecera. Los dos bloques ASCII de §2 no contenían ninguna palabra a migrar y quedaron intactos, con su ancho de caja preservado. Las filas anteriores de este control de cambios no se reescribieron. El bloque de procedencia del destino sigue declarando la 4.1 y no se toca: es trabajo de M5. Origen: [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Versión inicial. Materializa los patrones §4.1 a §4.5 de `Design-Rules-Identidad-De-Version.md`: sello, ubicación obligatoria, distintivo de artefacto preliminar, detalle de diagnóstico con copiado en un solo gesto y marcador de origen indeterminado. Declara los cuatro campos del contrato con su estado real en las fuentes de esta solución, que no declaran ninguno de los cuatro más allá del esquema de versionado del pipeline, y consolida las ausencias en la brecha `B-UX-07`. Declara las cuatro reglas de frontera que sí son de diseño y las dos ubicaciones obligatorias, con la exclusión explícita de la superficie de aprovisionamiento inicial |

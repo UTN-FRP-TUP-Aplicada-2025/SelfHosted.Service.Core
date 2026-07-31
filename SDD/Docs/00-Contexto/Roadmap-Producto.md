@@ -1,12 +1,12 @@
 # Roadmap de Producto
 
-**Proyecto:** SelfHosted Service (`Nombre-Solucion`: `SelfHosted-Service`)
+**Producto:** SelfHosted Service (`Slug-Producto`: `SelfHosted-Service`)
 **Documento:** Roadmap-Producto.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Product Manager Senior (AG-00)
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service §4, §10, §15, §19, §22.2, §22.4, §22.6
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service §4, §10, §15, §19, §22.2, §22.4, §22.6
 **Trazabilidad downstream:** 06-Backlog-Tecnico, 07-Plan-Sprint, 08-Calidad-Y-Pruebas, 09-Devops
 
 ---
@@ -38,9 +38,9 @@
 
 ## §1. Propósito
 
-Este documento ordena en el tiempo las capacidades que el [Alcance del Proyecto](Alcance-Proyecto.md) declara incluidas, y fija con qué criterios verificables se cierra cada fase y se habilita la siguiente. Es el insumo con el que la categoría 06-Backlog-Tecnico arma las épicas y la categoría 07-Plan-Sprint arma la secuencia de etapas.
+Este documento ordena en el tiempo las capacidades que el [Alcance del Producto](Alcance-Producto.md) declara incluidas, y fija con qué criterios verificables se cierra cada fase y se habilita la siguiente. Es el insumo con el que la categoría 06-Backlog-Tecnico arma las épicas y la categoría 07-Plan-Sprint arma la secuencia de etapas.
 
-Lo que este documento no hace: no decide qué capacidades entran, que es materia del Alcance del Proyecto; y no compromete fechas, por la razón que fija §2.1.
+Lo que este documento no hace: no decide qué capacidades entran, que es materia del Alcance del Producto; y no compromete fechas, por la razón que fija §2.1.
 
 ---
 
@@ -62,8 +62,8 @@ Cinco fases, con correspondencia uno a uno entre alcance incremental y fase, sal
 
 | Fase | Objetivo | Épicas asociadas | Etapas estimadas | Entregable | Entrega objetivo |
 | --- | --- | --- | --- | --- | --- |
-| Fase 0 — Cimientos | Solución compilando, ejecutándose y navegable, con PT-02 verificada antes de que ninguna capacidad dependa del motor de contenedores | EPC-01, EPC-02 | 2 etapas declaradas: `a` esqueleto ejecutable, `b` panel navegable | Aplicación que arranca desde los guiones y presenta todas las rutas del mapa de navegación, validadas contra la maqueta | Etiqueta de la etapa `b`, en la serie de versión 0.x |
-| Fase 1 — Alcance 1: núcleo operable | Entregar el mínimo sin el cual la solución no resuelve el problema | EP-01 a EP-11 | 11 etapas declaradas: `c` y `01` a `10` | Las once capacidades Must Have F-01 a F-11 operativas sobre el servidor de referencia | Etiqueta de la etapa `10`, en la serie de versión 0.x |
+| Fase 0 — Cimientos | Producto compilando, ejecutándose y navegable, con PT-02 verificada antes de que ninguna capacidad dependa del motor de contenedores | EPC-01, EPC-02 | 2 etapas declaradas: `a` esqueleto ejecutable, `b` panel navegable | Aplicación que arranca desde los guiones y presenta todas las rutas del mapa de navegación, validadas contra la maqueta | Etiqueta de la etapa `b`, en la serie de versión 0.x |
+| Fase 1 — Alcance 1: núcleo operable | Entregar el mínimo sin el cual el producto no resuelve el problema | EP-01 a EP-11 | 11 etapas declaradas: `c` y `01` a `10` | Las once capacidades Must Have F-01 a F-11 operativas sobre el servidor de referencia | Etiqueta de la etapa `10`, en la serie de versión 0.x |
 | Fase 2 — Alcance 2: observabilidad | Estado del servidor, del proyecto SelfHosted y del contenedor en un único tablero | EP-12 | 1 etapa estimada | Tablero en tres capas, con la presión de memoria atribuible a un servicio concreto | Etiqueta de la etapa que cierre la fase, en la serie de versión 0.x |
 | Fase 3 — Alcance 3: portabilidad y reutilización | Arquitectura reproducible fuera del servidor y alta de servicio reutilizable | EP-13, EP-14, EP-17 | 3 etapas estimadas | Exportación e importación de la arquitectura, catálogo de plantillas y exportación programada a un destino externo | Etiqueta de la etapa que cierre la fase, en la serie de versión 0.x |
 | Fase 4 — Alcance 4: automatización | Un automatismo dispara un despliegue sin conocer la contraseña del administrador | EP-15, EP-16 | 2 etapas estimadas, o 1 si EP-15 se adelanta a la Fase 1 | Emisión de credenciales de máquina con ámbitos y disparo de despliegue desde un automatismo | Cierre de la primera entrega completa, que es lo que habilita salir de la serie de versión 0.x |
@@ -209,12 +209,12 @@ Los veintinueve criterios se transcriben de la tabla de criterios de transición
 
 ### §5.1 Inicio a Fase 0
 
-- [ ] El intake está aprobado y el manifiesto de la solución está derivado de él y confirmado.
+- [ ] El intake está aprobado y el manifiesto del producto está derivado de él y confirmado.
 - [ ] Las decisiones de producto pendientes están registradas y asignadas al agente humano del proyecto, y ninguna alcanza a una etapa de esta fase.
 
 ### §5.2 Fase 0 a Fase 1
 
-- [ ] La solución compila y arranca desde los guiones, dentro del entorno de desarrollo, sin pasos manuales de preparación.
+- [ ] El producto compila y arranca desde los guiones, dentro del entorno de desarrollo, sin pasos manuales de preparación.
 - [ ] La página de salud responde en el navegador del equipo del desarrollador.
 - [ ] La puerta técnica PT-02 está verificada y su materialización corre como prueba automatizada.
 - [ ] Todas las rutas del mapa de navegación son navegables y están validadas contra la maqueta.
@@ -271,7 +271,7 @@ Ninguna etapa se considera terminada sin su informe de cierre publicado antes de
 
 Trazabilidad upstream, enumerada acá con el mismo alcance que declara la cabecera de este documento:
 
-| Sección de este documento | Origen en el SOLUTION-INTAKE |
+| Sección de este documento | Origen en el PRODUCT-INTAKE |
 | --- | --- |
 | §2.1 Unidad de gestión y criterio de expresión | §10 Restricciones del cliente (RE-02, RE-04, RE-12); §22.2 [FA], de donde vienen los identificadores `RE-XX`; §22.6 [FA], que declara que el modelo de gestión adoptado no es Scrum |
 | §2.2 Tabla maestra de fases y §2.3 Épicas | §4 Alcance funcional pretendido, de donde vienen las capacidades `F-XX`; §15 Esquema de descomposición y delivery, que declara los cortes verticales; §22.4 [FA], de donde vienen los identificadores `EPC-XX` y `EP-XX` |
@@ -281,7 +281,7 @@ Trazabilidad upstream, enumerada acá con el mismo alcance que declara la cabece
 | §4 Dependencias entre fases | §22.4 [FA], dependencias funcionales entre épicas |
 | §5 Criterios de transición | §22.4 [FA], criterios de transición entre fases |
 
-Este documento deriva además del [Alcance del Proyecto](Alcance-Proyecto.md) §4.1, que es quien declara qué capacidades entran.
+Este documento deriva además del [Alcance del Producto](Alcance-Producto.md) §4.1, que es quien declara qué capacidades entran.
 
 ---
 
@@ -292,3 +292,4 @@ Este documento deriva además del [Alcance del Proyecto](Alcance-Proyecto.md) §
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir de `SOLUTION-INTAKE-SelfHosted-Service` versión 2.2. Conserva los identificadores `EPC-XX` y `EP-XX` emitidos por la Fase A previa, incluidas las tres épicas sin fase asignada. Declara tres brechas en §2.6 y no resuelve ninguna: la asignación de EP-23 a EP-25, el reparto de EP-12, EP-14 y EP-17 entre las fases 2 y 3, y el adelanto de EP-15 a la Fase 1 | Product Manager Senior (AG-00) |
 | 1.0 | 2026-07-29 | Corrección de la cabecera y de §6 absorbida dentro de la versión de emisión, sin subir versión, por la política de versionado de `Master-Prompt.md` §5: el documento estaba en estado `Propuesto` y la corrección proviene del audit de su propia fase. El campo `Trazabilidad upstream` pasa a enumerar §4, §10, §15, §19, §22.2, §22.4 y §22.6, y §6 sustituye su enunciado en prosa —que omitía §19, presente en la cabecera— por una tabla de trazabilidad upstream sección por sección, con el mismo alcance que la cabecera. Se agregan §22.2 y §22.6, que el cuerpo consumía para los identificadores `RE-XX` y para el etiquetado por etapa cerrada sin declararlos en ningún lado. Origen: hallazgo H-02, P2, del informe [`Audit/A-00-01-r1.md`](../Audit/A-00-01-r1.md) | Product Manager Senior (AG-00) |
 | 1.0 | 2026-07-29 | Adecuación a `Rules-Contexto` 2.1, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5. Se corrió el catálogo de ambigüedades de §6.1 sobre el documento, con foco en D1 a D3, sin ítems nuevos que escalar: D1 no aplica porque el cliente declaró que no hay fecha objetivo (RE-02), D2 está cubierto por las seis transiciones con criterios, y el caso D3 —las tres épicas sin fase— ya estaba escalado como brecha en §2.6. §5: se declara que los veintinueve criterios de transición se transcriben de §22.4 del intake sin agregados y que ninguno se origina acá, y lo mismo para la columna de entrega objetivo de §2.2 y §3, derivada de §22.6, y para la cantidad de etapas estimadas de las fases 2 a 4, que §22.4 declara como estimación de piso | Product Manager Senior (AG-00) |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4, bajo `Rules-Contexto` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. La cabecera pasa de la etiqueta `Proyecto` a `Producto` y el identificador `Nombre-Solucion` a `Slug-Producto`, según `Vocabulario-Rules` §3 y §4 R3, que fija esta categoría a nivel producto y le prohíbe declarar un proyecto de código; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado, y la tabla de §6 a `PRODUCT-INTAKE`; el artefacto hermano `Alcance-Proyecto.md` pasa a `Alcance-Producto.md` en las tres referencias cruzadas de §1 y §6. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: de las seis ocurrencias de la cadena `soluci`, una era el identificador de cabecera, cuatro designaban el nivel superior y pasan a «producto» con su concordancia de género —el objetivo de la Fase 0 y el de la Fase 1 en §2.2, el manifiesto del producto en §5.1 y el criterio de compilación y arranque en §5.2, las cuatro con la misma redacción que §22.4 del intake migrado—, y una es «resoluciones» en la fila EP-08 de §2.3, que no se toca. Las diecinueve ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**, porque ninguna designaba una unidad de compilación: las de «proyecto SelfHosted» son la entidad del dominio y las de «agente humano del proyecto» y «el proyecto» son el emprendimiento, y las dos clases quedan intactas según §12 del intake. Ninguna capacidad, fase, épica, etapa, dependencia, puerta técnica, criterio de transición ni brecha cambió: la migración es léxica y de forma de cabecera | Product Manager Senior (AG-00) |

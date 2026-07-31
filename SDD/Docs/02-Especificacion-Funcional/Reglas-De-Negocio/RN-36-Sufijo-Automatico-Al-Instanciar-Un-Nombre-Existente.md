@@ -1,13 +1,14 @@
 # RN-36 — Sufijo automático al instanciar un nombre existente
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** RN-36-Sufijo-Automatico-Al-Instanciar-Un-Nombre-Existente.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service anexo E-16, fila RN-36. **Autoría declarada en la fuente:** **[D]** completa, decisión D-13.
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service anexo E-16, fila RN-36. **Autoría declarada en la fuente:** **[D]** completa, decisión D-13.
 
 ---
 
@@ -55,4 +56,5 @@ Las pruebas se realizan en 08-Calidad-Y-Pruebas. El anexo E-22 declara los casos
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que la gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3, y la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: **cero ocurrencias de «solución»** y por lo tanto cero sustituciones; tampoco hay «resolución». Las cuatro ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: tres son la entidad del dominio —«el proyecto SelfHosted destino» en §1, «un proyecto SelfHosted que ya tiene un servicio» en §3 y «un proyecto que ya tiene un servicio con el nombre resultante» en §6— y quedan intactas según el PRODUCT-INTAKE §12 y el glosario raíz de `Vision-Producto.md` §9; la restante era la etiqueta de cabecera. Cero ocurrencias del emprendimiento. **El enunciado de la invariante no cambió**: el sistema sigue sufijando e informando, sigue sin rechazar y sin preguntar, y la clave de variable repetida sigue no siendo conflicto. La migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Versión inicial. Transcripción del enunciado, del momento de validación y de la respuesta ante incumplimiento que declara el anexo E-16 del intake. No se reinterpreta ninguno de los tres |

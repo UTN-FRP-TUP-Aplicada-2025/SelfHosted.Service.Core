@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | NB-05-Arranque-Previsible-Y-Conflictos-Anticipados.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §1, §3 (diferenciador 4), §4 (F-06, F-08), §6 (flujo 3), §7 (CL-01), §17.P.10, §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §3.2 (DV-04); Alcance-Proyecto.md §4.1; Roadmap-Producto.md §2.3 (EP-06, EP-08), §3 |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §1, §3 (diferenciador 4), §4 (F-06, F-08), §6 (flujo 3), §7 (CL-01), §17.P.10, §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §3.2 (DV-04); Alcance-Producto.md §4.1; Roadmap-Producto.md §2.3 (EP-06, EP-08), §3 |
 | Trazabilidad downstream | CU-18, CU-19, CU-20, CU-21 (previstas en 02-Especificacion-Funcional) |
 
 ---
@@ -80,7 +80,7 @@ El umbral de 50 ms del segundo criterio es requerimiento no funcional declarado 
 | Analista de Negocio Senior (AG-01) | Propietario del contenido | Mantiene la necesidad, sus criterios y su trazabilidad, y declara las brechas en lugar de resolverlas |
 | Equipo de desarrollo, dos desarrolladores | Implementador | Construye el validador de conflictos, el registro de reservas y el arranque ordenado, con sus pruebas de regla |
 | Agente IA de codificación | Implementador | Genera la especificación y, en etapas posteriores, el código de los cortes verticales de arranque y de direcciones |
-| Usuario final: administrador de la solución | Beneficiario | Valida que un conflicto se informe antes de romper algo que está funcionando |
+| Usuario final: administrador del producto | Beneficiario | Valida que un conflicto se informe antes de romper algo que está funcionando |
 | Product Manager (AG-00) | Consultado | Verifica la alineación con la visión y con el alcance declarados |
 | Analista Funcional (AG-02) | Consultado | Desarrolla los casos de uso que esta necesidad declara previstos |
 
@@ -106,5 +106,6 @@ Must Have. Las dos capacidades que agrupa son del Alcance 1 y sostienen uno de l
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3 y §4 R3; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado y al artefacto hermano `Alcance-Producto.md`, antes `Alcance-Proyecto.md`. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: una ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia —«administrador de la solución» a «administrador del producto» en §6—. **Este documento es el que concentra la trampa de la cadena `soluci`**: sus seis ocurrencias de «resolución» y «resoluciones» —§3, el tercer criterio de §5 con su métrica y su target, el párrafo de cierre de §5 y CU-21 en §7— **no son la palabra «solución» y quedaron intactas**, verificado por barrido negativo; sustituirlas habría producido las treinta ocurrencias de una palabra inexistente que la `[5.1]` del framework documenta sobre sí mismo. Las cinco ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: una es «proyecto SelfHosted», la entidad del dominio, y dos son el emprendimiento —«el agente humano del proyecto» en §5 y en §6—, y las dos clases quedan intactas según el intake §12; las restantes eran la etiqueta de cabecera y el nombre del artefacto hermano. Ninguna necesidad, criterio de éxito, dependencia, prioridad ni CU prevista cambió: la migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar el estado anterior, por la política de versionado de `Master-Prompt.md` §5. Se completa el campo `Trazabilidad upstream` de la cabecera con `Roadmap-Producto.md` §3, que el §5 cita como origen de la secuencia de etapas a la que anclan sus plazos. Origen: hallazgo H-02 del informe [Audit/A-00-01-r1.md](../../Audit/A-00-01-r1.md), aplicado a la propiedad que el hallazgo describe y no sólo a los tres archivos que nombra |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir del consolidado de la Fase A previa transcripto en el intake §23, y de los documentos de 00-Contexto. Conserva el identificador NB-05, sus cinco criterios de éxito y la decisión de recorte que ubica F-06 acá y no en NB-01 |

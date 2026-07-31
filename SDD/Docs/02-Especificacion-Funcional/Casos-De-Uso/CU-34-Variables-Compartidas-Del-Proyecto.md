@@ -1,14 +1,15 @@
 # CU-34 — Variables compartidas del proyecto SelfHosted
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-34-Variables-Compartidas-Del-Proyecto.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-04](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-04-Alta-De-Servicio-Sin-Copiar-Y-Adaptar.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §4 capacidad F-23 y su nota (decisión D-5); anexo E-1 (las variables compartidas del proyecto 12); anexo E-5, cambio 4 y campo de referencias; anexo E-15, endpoints de lectura y escritura de variables compartidas; anexo E-9, tabla de variables compartidas; E-16 RN-15, RN-22, RN-23, RN-27, RN-28, RN-37
+**Trazabilidad upstream:** PRODUCT-INTAKE §4 capacidad F-23 y su nota (decisión D-5); anexo E-1 (las variables compartidas del proyecto 12); anexo E-5, cambio 4 y campo de referencias; anexo E-15, endpoints de lectura y escritura de variables compartidas; anexo E-9, tabla de variables compartidas; E-16 RN-15, RN-22, RN-23, RN-27, RN-28, RN-37
 
 ---
 
@@ -36,8 +37,8 @@ Permitir que el administrador declare a nivel proyecto SelfHosted los valores qu
 
 | Actor | Tipo | Rol |
 | --- | --- | --- |
-| Administrador de la solución | Primario | Declara, edita y elimina las variables compartidas del proyecto SelfHosted |
-| Registro de la solución | Sistema | Valida el formato, protege las referenciadas, propaga el marcado de redespliegue y enmascara los secretos |
+| Administrador del producto | Primario | Declara, edita y elimina las variables compartidas del proyecto SelfHosted |
+| Registro del producto | Sistema | Valida el formato, protege las referenciadas, propaga el marcado de redespliegue y enmascara los secretos |
 
 Los nombres de los actores no humanos son **denominaciones acuñadas por esta categoría**, salvo los seis que trazan a una fuente: `Motor de contenedores`, `Destino externo`, `Automatismo de integración continua`, `Sincronizador de estado`, `Módulo de descubrimiento` y `Resolutor de referencias`. Los acuñados no son componentes declarados y no condicionan la descomposición: su correspondencia con los módulos que el intake §17.P.2 sí declara la fija 05-Arquitectura-Tecnica. La convención completa, nombre por nombre, está en [Especificacion-Funcional.md](../Especificacion-Funcional.md) §8.
 
@@ -123,6 +124,7 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | **Migración normativa 4.1 → 6.0**, corte 3 de la fase M4, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md). Clasificación **regenerar contenido**, por el salto de `Rules-Especificacion-Funcional` 2.0 → 4.0. **Fuente de contenido: documento de origen**, más el [PRODUCT-MANIFEST](../../../Intake/PRODUCT-MANIFEST-SelfHosted-Service.md) §1.3 para el único campo de cabecera que se suma. Ningún flujo, actor, criterio de aceptación, excepción, brecha ni referencia cambia de contenido: lo que cambia es la nomenclatura. **Vocabulario (`[5.0]`)**: la etiqueta de cabecera `**Proyecto:**` llevaba un valor del plano de negocio y pasa a `**Producto:**`, porque `Vocabulario-Rules.md` §3 prohíbe la etiqueta de un plano sobre el valor de otro; se suma `**Proyecto de código:**` con el `Nombre-Proyecto-Codigo` declarado, que §4.1 de la regla vigente exige y que este documento no declaraba; `SOLUTION-INTAKE` pasa a `PRODUCT-INTAKE`; y «solución» pasa a «producto» en **2 ocurrencias**, las de los dos nombres de actor, las dos del referente de nivel superior. **Las 20 ocurrencias de «proyecto» del dominio no se tocaron, y son el caso más sensible del corte**: este caso de uso es el de la variable compartida **del proyecto SelfHosted**, de modo que la palabra designa la entidad del producto en su título, en su propósito, en cada paso del flujo, en los cuatro criterios de aceptación y en el nombre del agregado `Proyectos` de §9. Convertirla a «proyecto de código» corrompería la especificación y es el peor daño posible de esta migración según §3.3 del plan. **El nombre del archivo tampoco se tocó**, por la misma razón. La sustitución se hizo por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y **nunca por reemplazo global de cadena**. **Glosario (`[5.1]`)**: por §2.1 y §4.2.4 de la regla vigente, `Glosario-Funcional.md` pasa a ser artefacto propio y obligatorio y deja de ser el punto 6 de `Modelo-Conceptual.md`; lo emite un lote posterior de esta migración, y los términos que este caso de uso acuña o precisa —«variable compartida del proyecto», «higiene» y «huérfana» en el sentido de la variable sin referencias— se devolvieron para que ese lote los consuma sin redefinirlos. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) y el bloque de procedencia del destino no se tocó: sigue declarando 4.1, y cerrarlo es trabajo de M5 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |
 

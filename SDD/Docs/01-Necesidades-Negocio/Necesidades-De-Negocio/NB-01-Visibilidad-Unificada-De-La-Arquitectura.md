@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | NB-01-Visibilidad-Unificada-De-La-Arquitectura.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §1, §3, §4 (F-02, F-03, F-04, F-25), §12, §23.1, §23.3, §23.5; Vision-Producto.md §1, §3.2 (DV-02, DV-05), §5 (OBJ-05), §6; Alcance-Proyecto.md §4.1; Roadmap-Producto.md §2.3 (EP-02, EP-03, EP-04, EP-25), §2.4 (PT-01), §2.6, §3 |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §1, §3, §4 (F-02, F-03, F-04, F-25), §12, §23.1, §23.3, §23.5; Vision-Producto.md §1, §3.2 (DV-02, DV-05), §5 (OBJ-05), §6; Alcance-Producto.md §4.1; Roadmap-Producto.md §2.3 (EP-02, EP-03, EP-04, EP-25), §2.4 (PT-01), §2.6, §3 |
 | Trazabilidad downstream | CU-01, CU-02, CU-03, CU-04, CU-05, CU-36 (previstas en 02-Especificacion-Funcional) |
 
 ---
@@ -91,7 +91,7 @@ Tres precisiones sobre estos ocho criterios, que se declaran en lugar de resolve
 | Analista de Negocio Senior (AG-01) | Propietario del contenido | Mantiene la necesidad, sus criterios y su trazabilidad, y declara las brechas en lugar de resolverlas |
 | Equipo de desarrollo, dos desarrolladores | Implementador | Construye el registro, el lienzo y la persistencia de la disposición, y escribe las pruebas de las reglas que introduce |
 | Agente IA de codificación | Implementador | Genera la especificación y, en etapas posteriores, el código de cada corte vertical |
-| Usuario final: administrador de la solución | Beneficiario | Valida que la arquitectura se lea completa en una pantalla y que la consulta no exija abrir archivos externos |
+| Usuario final: administrador del producto | Beneficiario | Valida que la arquitectura se lea completa en una pantalla y que la consulta no exija abrir archivos externos |
 | Product Manager (AG-00) | Consultado | Verifica la alineación con la visión y con el alcance declarados |
 | Analista Funcional (AG-02) | Consultado | Desarrolla los casos de uso que esta necesidad declara previstos |
 
@@ -106,7 +106,7 @@ Tres precisiones sobre estos ocho criterios, que se declaran en lugar de resolve
 | NB-01 | CU-05 persistencia y recuperación de la disposición (capa de presentación) | a generar |
 | NB-01 | CU-36 revisión de higiene del registro (capa de presentación) | a generar |
 
-Los identificadores CU son únicos en toda la solución y no se reutilizan. La categoría 02-Especificacion-Funcional puede desdoblar o reagrupar estas seis CU siempre que conserve la trazabilidad a esta necesidad y no reasigne un identificador ya emitido.
+Los identificadores CU son únicos en todo el producto y no se reutilizan. La categoría 02-Especificacion-Funcional puede desdoblar o reagrupar estas seis CU siempre que conserve la trazabilidad a esta necesidad y no reasigne un identificador ya emitido.
 
 ## 8. Dependencias con otras NB
 
@@ -121,5 +121,6 @@ Must Have. Es el dolor central que el intake §1 declara y el sustrato sobre el 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3 y §4 R3, que fija esta categoría a nivel producto; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado y al artefacto hermano `Alcance-Producto.md`, antes `Alcance-Proyecto.md`. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: dos ocurrencias de «solución» designaban el nivel superior y pasan a «producto» con su concordancia —«administrador de la solución» a «administrador del producto» en §6 y «únicos en toda la solución» a «únicos en todo el producto» en §7—; no hay ninguna «solución de código» ni ninguna «resolución» en este documento. Las diez ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: cinco son «proyecto SelfHosted», la entidad del dominio, y cuatro son el emprendimiento —«agente humano del proyecto» y «la categoría 07-Plan-Sprint»—, y las dos clases quedan intactas según el intake §12; la restante era la etiqueta de cabecera. Ninguna necesidad, criterio de éxito, dependencia, prioridad, CU prevista ni brecha cambió: la migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar el estado anterior, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. Se completa el campo `Trazabilidad upstream` de la cabecera con las secciones que el cuerpo cita y que faltaban: `Roadmap-Producto.md` §2.4, que declara la puerta técnica PT-01 a la que ancla el tercer criterio; §2.6, que el §5 nota 3 cita como origen de la brecha del octavo criterio; §3, que el §5 cita como origen de los hitos de anclaje; y `Vision-Producto.md` §6, de donde proviene el umbral de escala. Origen: hallazgo H-02 del informe [Audit/A-00-01-r1.md](../../Audit/A-00-01-r1.md). El hallazgo H-04 del mismo informe, sobre el target no numérico del criterio de estabilidad de la sesión, no produce cambio: el umbral es cualitativo en la fuente y lo fija PT-01 al medir, y el propio informe lo declara sin acción sobre el entregable |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir del consolidado de la Fase A previa transcripto en el intake §23, y de los documentos de 00-Contexto. Conserva el identificador NB-01 y sus ocho criterios de éxito. Declara como brecha los dos targets derivados pendientes de confirmación, el umbral que fija PT-01 al medir y el plazo dependiente de la asignación de EP-25 |

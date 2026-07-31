@@ -1,14 +1,15 @@
 # CU-33 — Disparo de despliegue con credencial de ámbito mínimo
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-33-Disparo-De-Despliegue-Con-Credencial-De-Ambito-Minimo.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-08](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-08-Control-De-Acceso-Y-Credenciales-De-Maquina.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §4 capacidad F-16; §5 historia 10; anexo E-13 (el contrato del endpoint de despliegue y su tabla de comportamiento por situación); anexo E-12; anexo E-15, endpoints con su ámbito declarado; §11 riesgo RG-02 y RG-03; E-16 RN-13, RN-16, RN-17, RN-24, RN-31
+**Trazabilidad upstream:** PRODUCT-INTAKE §4 capacidad F-16; §5 historia 10; anexo E-13 (el contrato del endpoint de despliegue y su tabla de comportamiento por situación); anexo E-12; anexo E-15, endpoints con su ámbito declarado; §11 riesgo RG-02 y RG-03; E-16 RN-13, RN-16, RN-17, RN-24, RN-31
 
 ---
 
@@ -25,6 +26,7 @@
 - [9. Trazabilidad](#9-trazabilidad)
 - [10. Notas y supuestos](#10-notas-y-supuestos)
 - [11. Control de cambios](#11-control-de-cambios)
+- [13. Interacción multiusuario y concurrencia](#13-interacción-multiusuario-y-concurrencia)
 
 ---
 
@@ -38,7 +40,7 @@ Permitir que un automatismo de integración continua dispare el despliegue de un
 | --- | --- | --- |
 | Automatismo de integración continua | Primario | Invoca el despliegue con su token de ámbito mínimo |
 | Módulo de despliegue | Sistema | Verifica el ámbito, ejecuta el despliegue y devuelve el resultado por contenedor |
-| Administrador de la solución | Secundario | Emitió el token y consulta la auditoría de lo que el automatismo hizo |
+| Administrador del producto | Secundario | Emitió el token y consulta la auditoría de lo que el automatismo hizo |
 
 Los nombres de los actores no humanos son **denominaciones acuñadas por esta categoría**, salvo los seis que trazan a una fuente: `Motor de contenedores`, `Destino externo`, `Automatismo de integración continua`, `Sincronizador de estado`, `Módulo de descubrimiento` y `Resolutor de referencias`. Los acuñados no son componentes declarados y no condicionan la descomposición: su correspondencia con los módulos que el intake §17.P.2 sí declara la fija 05-Arquitectura-Tecnica. La convención completa, nombre por nombre, está en [Especificacion-Funcional.md](../Especificacion-Funcional.md) §8.
 
@@ -46,7 +48,7 @@ Los nombres de los actores no humanos son **denominaciones acuñadas por esta ca
 
 - Existe un token de API vigente con el ámbito de ejecución de despliegues (CU-32).
 - El servicio o el proyecto SelfHosted a desplegar está declarado (CU-03).
-- La solución es alcanzable desde el automatismo dentro de la red local.
+- El producto es alcanzable desde el automatismo dentro de la red local.
 
 ## 4. Flujo principal
 
@@ -124,6 +126,7 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | **Migración normativa 4.1 → 6.0**, corte 3 de la fase M4, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md). Clasificación **regenerar contenido**, por el salto de `Rules-Especificacion-Funcional` 2.0 → 4.0. **Fuente de contenido: documento de origen**, más el [PRODUCT-MANIFEST](../../../Intake/PRODUCT-MANIFEST-SelfHosted-Service.md) §1.3 para el único campo de cabecera que se suma. Ningún flujo, actor, criterio de aceptación, excepción, brecha ni referencia cambia de contenido: lo que cambia es la nomenclatura. **Vocabulario (`[5.0]`)**: la etiqueta de cabecera `**Proyecto:**` llevaba un valor del plano de negocio y pasa a `**Producto:**`, porque `Vocabulario-Rules.md` §3 prohíbe la etiqueta de un plano sobre el valor de otro; se suma `**Proyecto de código:**` con el `Nombre-Proyecto-Codigo` declarado, que §4.1 de la regla vigente exige y que este documento no declaraba; `SOLUTION-INTAKE` pasa a `PRODUCT-INTAKE`; y «solución» pasa a «producto» en **2 ocurrencias** —el nombre del actor secundario y la precondición «la solución es alcanzable», que pasa a «el producto es alcanzable» con su concordancia de género corregida—, las dos del referente de nivel superior. **Las 4 ocurrencias de «proyecto» del dominio no se tocaron**: designan la entidad `Proyecto` del producto, incluida la serialización por proyecto SelfHosted de §13 y el conflicto de dirección con otro proyecto SelfHosted de §6. La sustitución se hizo por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y **nunca por reemplazo global de cadena**. **Glosario (`[5.1]`)**: por §2.1 y §4.2.4 de la regla vigente, `Glosario-Funcional.md` pasa a ser artefacto propio y obligatorio y deja de ser el punto 6 de `Modelo-Conceptual.md`; lo emite un lote posterior de esta migración, y los términos que este caso de uso acuña o precisa se devolvieron para que ese lote los consuma sin redefinirlos. **Navegabilidad**: la tabla de contenido suma la sección 13, que §4.3 de la regla admite para `web-monolith` y que la tabla omitía. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) y el bloque de procedencia del destino no se tocó: sigue declarando 4.1, y cerrarlo es trabajo de M5 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |
 

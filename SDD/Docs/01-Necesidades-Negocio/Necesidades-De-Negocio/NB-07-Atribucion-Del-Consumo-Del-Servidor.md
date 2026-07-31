@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | NB-07-Atribucion-Del-Consumo-Del-Servidor.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §4 (F-12), §5 (historia 8), §7 (CL-02, CL-03), §9 (exclusión 6), §10, §11 (RG-04, RG-08), §17.P.10, §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §7.1 (RE-06), §8.1 (RG-04, RG-08); Alcance-Proyecto.md §4.1, §5.1; Roadmap-Producto.md §2.2 (Fase 2), §2.3 (EP-12) |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §4 (F-12), §5 (historia 8), §7 (CL-02, CL-03), §9 (exclusión 6), §10, §11 (RG-04, RG-08), §17.P.10, §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §7.1 (RE-06), §8.1 (RG-04, RG-08); Alcance-Producto.md §4.1, §5.1; Roadmap-Producto.md §2.2 (Fase 2), §2.3 (EP-12) |
 | Trazabilidad downstream | CU-26, CU-27, CU-28 (previstas en 02-Especificacion-Funcional) |
 
 ---
@@ -68,9 +68,9 @@ Ningún criterio usa fecha de calendario. Los plazos se anclan al cierre de la f
 | Niveles de lectura disponibles | Capas presentes en la vista: servidor, proyecto SelfHosted y contenedor | 3 de 3 capas | Cierre de la Fase 2 |
 | Costo de observar con las pantallas cerradas | Recolecciones de métricas ejecutadas sin ninguna vista abierta | 0 recolecciones | Continuo, desde el cierre de la Fase 2 |
 | Frescura del estado mostrado | Antigüedad del estado presentado, con la vista abierta y por reconciliación con el motor de contenedores | ≤ 5 s con la vista abierta y ≤ 30 s por reconciliación | Cierre de la Fase 2 |
-| Huella del propio administrador | Memoria residente del proceso de la solución en régimen | Menor a 1 GB, en el orden de cientos de MB | Continuo, desde el cierre de la Fase 0 |
+| Huella del propio administrador | Memoria residente del proceso del producto en régimen | Menor a 1 GB, en el orden de cientos de MB | Continuo, desde el cierre de la Fase 0 |
 
-Los umbrales del cuarto y del quinto criterio son requerimientos no funcionales declarados en el intake §17.P.10 y responden a la restricción RE-06: la solución corre en el mismo servidor que observa y no puede competir con él por recursos.
+Los umbrales del cuarto y del quinto criterio son requerimientos no funcionales declarados en el intake §17.P.10 y responden a la restricción RE-06: el producto corre en el mismo servidor que observa y no puede competir con él por recursos.
 
 ## 6. Stakeholders involucrados
 
@@ -101,10 +101,11 @@ El beneficiario que valida es el propietario del servidor, porque lo que está e
 
 ## 9. Prioridad MoSCoW
 
-Should Have. Es una necesidad legítimamente acotada a una sola capacidad, con público y métrica propios: sin ella el producto sigue resolviendo el problema central, pero el propietario sigue diagnosticando la presión de su servidor por fuera de la solución.
+Should Have. Es una necesidad legítimamente acotada a una sola capacidad, con público y métrica propios: sin ella el producto sigue resolviendo el problema central, pero el propietario sigue diagnosticando la presión de su servidor por fuera del producto.
 
 ## 10. Control de cambios
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3 y §4 R3; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado y al artefacto hermano `Alcance-Producto.md`, antes `Alcance-Proyecto.md`. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: tres ocurrencias de «solución» designaban el nivel superior y pasan a «producto» con su concordancia —«el proceso de la solución» a «el proceso del producto» en el quinto criterio de §5, «la solución corre en el mismo servidor» a «el producto corre en el mismo servidor» en el párrafo de cierre de §5 y «por fuera de la solución» a «por fuera del producto» en §9—; no hay ninguna «solución de código» ni ninguna «resolución» en este documento. Las cinco ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: dos son «proyecto SelfHosted», la entidad del dominio, y una es el emprendimiento —«el agente humano del proyecto» en §6—, y las dos clases quedan intactas según el intake §12; las restantes eran la etiqueta de cabecera y el nombre del artefacto hermano. Ninguna necesidad, criterio de éxito, dependencia, prioridad ni CU prevista cambió: la migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir del consolidado de la Fase A previa transcripto en el intake §23, y de los documentos de 00-Contexto. Conserva el identificador NB-07, sus cinco criterios de éxito y la decisión de recorte que la deja con una sola capacidad en lugar de fusionarla |

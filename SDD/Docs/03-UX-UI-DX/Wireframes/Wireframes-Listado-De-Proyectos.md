@@ -1,10 +1,11 @@
 # Wireframes — Listado de proyectos
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Listado-De-Proyectos.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -86,7 +87,7 @@ La barra lateral realiza el patrón §4.1 del documento base y sus destinos son 
 
 `Design-Rules-Primer-Arranque.md` §4.6 exige una superficie de destino con una grilla de tarjetas de acceso, una por cada paso recomendado, que **oriente sin bloquear**: el sistema ya es operable, y estas tarjetas son el camino sugerido, no un asistente obligatorio ni una lista de tareas con progreso.
 
-Ninguna fuente declara cuáles son esos pasos en esta solución. Los tres que la grilla propone se **derivan** de las capacidades que el intake declara para el primer alcance, y la derivación se declara como supuesto `S-UX-01` en [`Experiencia-De-Uso.md`](../Experiencia-De-Uso.md) §10.3:
+Ninguna fuente declara cuáles son esos pasos en este producto. Los tres que la grilla propone se **derivan** de las capacidades que el intake declara para el primer alcance, y la derivación se declara como supuesto `S-UX-01` en [`Experiencia-De-Uso.md`](../Experiencia-De-Uso.md) §10.3:
 
 | Tarjeta | Destino | Por qué se deriva |
 | --- | --- | --- |
@@ -178,7 +179,7 @@ Lo que rige por accesibilidad y por el patrón §8 del documento base:
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-01](../../02-Especificacion-Funcional/Casos-De-Uso/CU-01-Alta-De-Proyecto.md), [CU-02](../../02-Especificacion-Funcional/Casos-De-Uso/CU-02-Listado-Renombrado-Y-Eliminacion-De-Proyectos.md), [CU-11](../../02-Especificacion-Funcional/Casos-De-Uso/CU-11-Importacion-Como-Proyecto-Nuevo.md) como punto de entrada |
 | Reglas de negocio relevantes | RN-10, RN-17, RN-20, RN-31, RN-33, RN-35 |
 | Insumo del intake | §4 capacidad F-02; §17.P.11 decisiones DA-03 y DA-04; anexos E-1 y E-18 |
@@ -197,5 +198,6 @@ Lo que rige por accesibilidad y por el patrón §8 del documento base:
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 4, bajo `Rules-UX-UI-DX` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/Wireframes-Listado-De-Proyectos-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **El nombre del archivo no cambia**: `Wireframes-Listado-De-Proyectos.md` nombra la **entidad del dominio** —el agrupador de servicios que el usuario crea desde el portal—, no la unidad de compilación, y por eso el renombre `Alcance-Proyecto` → `Alcance-Producto` de §3.1 del plan no lo alcanza; es el referente R6 de §3.5 paso 2 del plan, que declara textualmente que estos nombres no se tocan. **Cabecera:** se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige como primer campo por ser ésta una categoría de nivel proyecto de código (`Vocabulario-Rules` §4 R3) y que el `PRODUCT-MANIFEST` §2 declara como `Nombre-Proyecto-Codigo`; la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor `SelfHosted Service`, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro. Los dos campos conviven: el primero lo exige §4.1 y el segundo lo preserva `Migracion-Rules` §4.2. Los dos valores **difieren sólo por el guion** y no son intercambiables. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: las **dos** ocurrencias de «solución» designaban el nivel superior y pasan a «producto» con su concordancia de género —«Administrador único de la solución» a «Administrador único **del** producto», y «cuáles son esos pasos en esta solución» a «en **este** producto» en §3.1—; no hay ninguna «solución de código», y el cuerpo de este documento no contiene la cadena `soluci` dentro de ninguna otra palabra, de modo que el riesgo de superposición de cadenas que el plan §3.5 declara no se materializa acá. Las treinta y ocho ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: quince llevan la forma calificada «proyecto SelfHosted»; trece son la misma entidad del dominio en forma corta, admitida por el `PRODUCT-INTAKE` §12 y por el glosario raíz de `Vision-Producto.md` §9 donde el contexto ya fijó el sentido —entre ellas las etiquetas «Proyectos» y «+ Nuevo proyecto» del bloque ASCII de §2, que son cadenas de la pantalla—; tres son el **nombre canónico de la superficie** `Listado de proyectos`, que se conserva textualmente; cuatro nombran artefactos del dominio en sus enlaces a `CU-01-Alta-De-Proyecto.md`, `CU-02-Listado-Renombrado-Y-Eliminacion-De-Proyectos.md` y `CU-11-Importacion-Como-Proyecto-Nuevo.md`, que no se renombran; una es el segmento `/proyectos` de la ruta del anexo E-18; una es el emprendimiento —«agente humano del proyecto» como destinatario de `B-UX-14`—, que `Vocabulario-Rules` §4 R1 deja sin calificar; y una era la etiqueta de cabecera. **El nombre canónico de la superficie `Listado de proyectos` y su identificador `SUP-04` se conservan textualmente**, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **El bloque ASCII de §2 no se tocó** y conserva su ancho. **Ningún componente, interacción, estado, tarjeta de orientación posterior, nota, referencia de trazabilidad ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica la portada del shell de trabajo con su grilla de tarjetas, su encabezado con acción primaria única y su barra de filtros; especifica el estado vacío del primer uso como sede de la orientación posterior que exige `Design-Rules-Primer-Arranque.md` §4.6, con las tres tarjetas derivadas y su derivación declarada como supuesto `S-UX-01`; declara doce estados, con dos estados vacíos distintos; declara la confirmación de eliminación de un proyecto SelfHosted sin inventar su forma, por la brecha `B-UX-14` |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

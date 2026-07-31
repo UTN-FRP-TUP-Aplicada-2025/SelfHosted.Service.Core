@@ -2,8 +2,8 @@
 
 **Solución:** SelfHosted Service (identidad de código `SelfHosted.Service.Core`)
 **Documento:** `Informe-Avance.md`
-**Versión:** 2.8
-**Estado:** Vigente — Fases A y B cerradas y aprobadas. Fase B2 en ejecución
+**Versión:** 2.9
+**Estado:** Vigente — Fases A y B cerradas y aprobadas. Fase B2 en ejecución, con la especificación corregida y la maqueta pendiente de rehacer
 **Fecha:** 2026-07-29
 **Autor:** Orquestador SDD
 **Naturaleza:** Documento de trabajo del proceso, fuera de `SDD/Docs/`. No es artefacto de ninguna de las doce categorías y ningún subagente lo consume como insumo. Existe para llevar el registro de las decisiones del agente humano del proyecto y de los hallazgos que la corrida produce sobre el framework.
@@ -17,6 +17,7 @@
 - [3. Lo ejecutado, con su evidencia](#3-lo-ejecutado-con-su-evidencia)
 - [4. Puntos abiertos](#4-puntos-abiertos)
 - [5. Qué sigue](#5-qué-sigue)
+- [6. Fix de las definiciones de servicio · lo aplicado, lo declarado y lo que quedó fuera](#6-fix-de-las-definiciones-de-servicio--lo-aplicado-lo-declarado-y-lo-que-quedó-fuera)
 - [Anexo A · Hallazgos sobre el Framework SDD](#anexo-a--hallazgos-sobre-el-framework-sdd)
 - [Anexo B · Análisis de causa: la identidad de la solución en el SDD](#anexo-b--análisis-de-causa-la-identidad-de-la-solución-en-el-sdd)
 - [Control de cambios](#control-de-cambios)
@@ -41,7 +42,8 @@
 | Audit de la Fase B | **APROBADO CON OBSERVACIONES**, cero P0. Informe en `SDD/Docs/Audit/B-02-03-r1.md`, 511 líneas, con muestreo declarado. 6 P1, 5 P2 y 7 P3 sobre la solución; 2 P1, 3 P2 y 2 P3 sobre el repositorio fuente y el intake |
 | Corrección de los hallazgos de la Fase B | **Cerrada.** Los seis P1 corregidos y verificados por el orquestador sobre el árbol emitido |
 | Corte de la Fase B | **Aprobado** el 2026-07-29 |
-| Fase B2 · validación visual de maqueta | **En ejecución, paso 5.** Maqueta construida —16 superficies, `index.html`, tres assets, 352 KB— y servida en `http://127.0.0.1:8137/`. Ciclo de corrección abierto, con la primera observación del agente humano ya despachada |
+| Fase B2 · validación visual de maqueta | **En ejecución, paso 5, con un desvío mayor.** La maqueta está construida —16 superficies, `index.html`, tres assets, 352 KB— y servida en `http://127.0.0.1:8137/`. El ciclo de corrección destapó un **defecto de definición de producto y no de representación visual**, que obligó a corregir la especificación antes de poder rehacer la maqueta. Ver la fila siguiente |
+| Corrección de las definiciones de servicio (Fix SDD) | **Ejecutada el 2026-07-29.** El intake pasa a **2.4** y `02` y `03` incorporan las definiciones de alta y configuración de servicios y de ítems del catálogo. **La maqueta no se rehizo**: se rehace desde la especificación corregida, que es el orden que §21.4 del documento de entrada exige. Ver §6 |
 
 
 ---
@@ -107,17 +109,17 @@ La propuesta de la carpeta `Web/` fue del agente humano del proyecto. Es la que 
 | PA-1 | Confirmar quién es el **Product Owner**. El campo se incorporó en el intake 2.3 derivado de §2 —las tres figuras coinciden en una persona— y está marcado pendiente | Agente humano del proyecto | Nada hoy. Importa porque es a quien se elevan las exclusiones de PA-2 |
 | PA-2 | **Cerrado, y sin haber sido nunca un punto abierto.** El orquestador lo abrió por error: las cinco exclusiones `F-18` a `F-22` son derivables del intake §4 y §9, y AG-00 las había formalizado. No hubo nada que elevar | — | Nada |
 | PA-7 | Evaluación de los riesgos de plataforma **RP-01 a RP-03**: probabilidad, impacto y responsable. El intake enuncia los tres y asigna su medición a PT-01 y a 08, pero no los evalúa | Agente humano del proyecto, con la medición de PT-01 | No bloquea el corte de la Fase A |
-| PA-9 | **Diecinueve brechas declaradas por `02-Especificacion-Funcional`**, consolidadas en §9 de su índice. Diez son del agente humano del proyecto —entre ellas el código ante identificador de proyecto duplicado, el filtrado de secretos en el registro del contenedor, y las condiciones de validación de contraseña—; seis van a `05-Arquitectura-Tecnica`, una a `08`, una a `03`, una a `07` y una a `06` | Según cada brecha | No bloquean la Fase B |
+| PA-9 | **Veinticuatro brechas declaradas por `02-Especificacion-Funcional`** desde el 2026-07-29, consolidadas en §9 de su índice: eran diecinueve, se agregan `B-20` a `B-24` con el fix de las definiciones de servicio, y **`B-09` queda cerrada** con su fila conservada. Dos amplían su alcance, `B-01` y `B-05`. La categoría `03` declara además veinticinco brechas sobre veintisiete identificadores, con `B-UX-23` a `B-UX-27` nuevas. Detalle original: Diez son del agente humano del proyecto —entre ellas el código ante identificador de proyecto duplicado, el filtrado de secretos en el registro del contenedor, y las condiciones de validación de contraseña—; seis van a `05-Arquitectura-Tecnica`, una a `08`, una a `03`, una a `07` y una a `06` | Según cada brecha | No bloquean la Fase B |
 | PA-11 | **Confirmada por el audit de la Fase B** como defecto del intake, no de la especificación: E-17 exige distinguir «pausado» y «finalizado» y el contrato visual de E-18 tiene siete filas sin ninguna que corresponda. El auditor declara además que el tratamiento que le dio la categoría —etiqueta textual sobre el par neutro, sin inventar filas— es el correcto | Agente humano del proyecto | No bloquea |
-| PA-14 | **El anexo E-22 del intake incumple lo que E-16 declara exigible**: `RN-02`, `RN-08` y `RN-10` quedan sin caso de prueba ejecutable propio, cuando E-16 declara que cada regla se traduce en al menos una prueba | Agente humano del proyecto; lo consume `08-Calidad-Y-Pruebas` | No bloquea |
+| PA-14 | **Alcance ampliado el 2026-07-29. El anexo E-22 del intake incumple lo que E-16 declara exigible**: quedan sin caso de prueba ejecutable propio `RN-02`, `RN-08` y `RN-10`, más las **tres nuevas** `RN-38`, `RN-39` y `RN-40`, que el anexo no puede cubrir porque es anterior a ellas. **La brecha de `RN-08` pasa de un caso a seis**, uno por variante de origen más el de campo ajeno. Tampoco hay casos para las vías de alta, los dos informes de verificación, el estado borrador, el comando de arranque, la conversión de secretos ni la colisión de identificador al importar | Agente humano del proyecto; lo consume `08-Calidad-Y-Pruebas` | No bloquea |
 | PA-12 | **Cerrado por el audit de la Fase B.** La lectura de la categoría era correcta: `Rules-UX-UI-DX.md` §1.4 **no admite** no aplicarse cuando `usa_llm` es false, porque una ranura de compatibilidad hacia adelante tiene por caso de uso precisamente ése. El defecto es de la regla, que obliga a deducirlo, y quedó registrado contra el repositorio fuente como R-3 | — | Nada |
-| PA-15 | **El alta de servicio desde cero no tiene superficie especificada**, encontrado por el agente humano del proyecto al mirar el lienzo en la maqueta. `CU-03` §4 describe el alta en diez pasos, con los pasos 3 y 4 —nombre, que es también el alias de resolución de nombres, y elección entre los tres orígenes de E-2— sin superficie que los aloje: `SUP-06` los excluye por su regla estructural de existir sólo con un servicio seleccionado, y `SUP-05` tiene once estados y ninguno es el formulario de alta. **Decisión: estado nuevo en `SUP-06`**, descartando crear superficie propia. La maqueta se corrige en el paso 5; el wireframe y `Experiencia-De-Uso`, en el paso 6 | Decidido el 2026-07-29; ejecución en curso | El cierre de la Fase B2 |
+| PA-15 | **Reabierto el 2026-07-29 por conflicto con el fix de las definiciones de servicio.** El punto se había resuelto como «estado nuevo en `SUP-06`, descartando crear superficie propia», y el hallazgo que lo originó resultó ser mucho más grande que una superficie faltante: **el origen del servicio estaba mal definido como producto**. El documento de entrada del fix, posterior a esta decisión, trata el alta como superficie propia y manda rehacerla, y el fix se ejecutó así: `SUP-17` con wireframe propio. **El conflicto está declarado** en `Wireframes-Alta-De-Servicio.md` §1 y en §6.5 de este informe, con la operación mecánica que lo revierte si se sostiene la decisión original —el contenido no cambia, sólo dónde vive—. **Esta ejecución no revirtió la decisión: la dejó planteada** | Agente humano del proyecto | El cierre de la Fase B2 |
 | PA-13 | **Distinción visual de las aristas que declaran espera**, única de las tres pendencias de E-18 que quedó abierta: ninguna regla del catálogo de diseño cubre representación de aristas de lienzo, de modo que no había derivación posible. La categoría declaró las tres restricciones que cualquier resolución debe cumplir | Agente humano del proyecto | La Fase B2, si se ejecuta |
 | PA-10 | **Observación sobre el anexo E-16 del intake**: RN-21 declara «exactamente los tres ámbitos» y a la vez admite la variable provista por el sistema como apuntable. La categoría 02 declaró explícitamente la lectura que aplicó —la variable provista no es un cuarto ámbito— en lugar de elegirla en silencio | Agente humano del proyecto | No bloquea |
 | PA-8 | **Forma del plazo** de 38 de los 44 criterios de éxito: si el criterio se verifica una vez o de forma sostenida. El intake §23.3 declara las tres formas admisibles pero no cuál corresponde a cada criterio; la categoría eligió 24 puntuales y 14 continuos dentro de ese marco | `08-Calidad-Y-Pruebas`, que es quien necesita saberlo para escribir la verificación | No bloquea |
 | PA-3 | Confirmación de la asignación de responsable de los riesgos RG-01 a RG-10, que es material `[FA]` y no está declarada en el intake | Agente humano del proyecto | No bloquea |
-| PA-4 | Catorce de las dieciséis especificaciones `[D-i]` siguen sin revisar. DI-01 y DI-03 están aprobadas | Agente humano del proyecto | La Fase C |
-| PA-5 | Los tres objetos declarados y no diseñados: secreto, red del proyecto, y el volumen o directorio al que apunta un montaje | Trabajo propio de la Fase C | No bloquea |
+| PA-4 | **Alcance ampliado el 2026-07-29. Veintidós de las veinticuatro** especificaciones `[D-i]` siguen sin revisar: las catorce de la tanda original, más las **ocho** que el intake 2.4 agrega con el fix de las definiciones de servicio, `DI-17` a `DI-24`, que nacen sin revisar. `DI-01` y `DI-03` siguen siendo las dos aprobadas. **Tres de las ocho nuevas condicionan la forma de una pantalla** y por lo tanto bloquean la reconstrucción de la maqueta: `DI-17`, `DI-18` y `DI-19` | Agente humano del proyecto | La Fase C, y **la reconstrucción de la maqueta** para tres de ellas |
+| PA-5 | **Cuatro** objetos declarados y no diseñados desde el 2026-07-29: secreto, red del proyecto, el volumen o directorio al que apunta un montaje, y la **imagen**, que el anexo E-23 del intake 2.4 declara con su modelo conceptual y sin diseñar sus columnas | Trabajo propio de la Fase C | No bloquea |
 | PA-6 | Asignación de F-23, F-24 y F-25 a un alcance y a un corte vertical concreto | Se resuelve en `07-Plan-Sprint` | No bloquea |
 
 ---
@@ -129,6 +131,123 @@ La propuesta de la carpeta `Web/` fue del agente humano del proyecto. Es la que 
 3. Resolver PA-1 con el agente humano del proyecto.
 3. Corte de la Fase A y confirmación para arrancar la Fase B.
 4. Fases B a G **una sola vez**: con un único proyecto de código no hay bucle topológico que recorrer. El orden `Domain` → `Application` → `Infrastructure` → `Web` sobrevive como orden de construcción dentro de cada corte vertical del plan de sprint, no como orden de generación de la documentación.
+
+**Actualización del 2026-07-29, tras el fix de las definiciones de servicio.** Lo que sigue, en orden:
+
+1. **Resolver con el agente humano del proyecto las cuatro decisiones que condicionan la forma de una pantalla**, enumeradas en §6.7: confirmar `DI-17`, `DI-18` y `DI-19`, y decidir `Q-27`. Sin ellas, rehacer la maqueta produciría pantallas que hay que volver a rehacer.
+2. **Resolver `PA-15`**, que quedó reabierto por conflicto: si el alta de servicio es superficie propia `SUP-17` —como el fix la emitió— o estado de `SUP-06` —como la decisión anterior del mismo día había resuelto—. Ver §6.5.
+3. **Rehacer la maqueta desde la especificación corregida**, no desde el documento de trabajo. Alcanza a `SUP-05`, `SUP-06`, `SUP-07`, `SUP-10`, `SUP-11` y `SUP-17`; **`SUP-18` no se construye** hasta que `Q-15` y `Q-17` se cierren.
+4. **Auditar la especificación corregida**, que ya se hizo: informe en `SDD/Docs/Audit/B2-Fix-Definiciones-Servicio-r1.md`.
+5. Cerrar la Fase B2 y arrancar la Fase C con el intake 2.4 y las categorías `02` y `03` corregidas.
+
+---
+
+## 6. Fix de las definiciones de servicio · lo aplicado, lo declarado y lo que quedó fuera
+
+**Qué se ejecutó.** La parte normativa —§16 a §23— del documento de trabajo `SDD/Estado/Redefinicion-Servicio.md` v2.0 se incorporó a la especificación del producto. **Su parte de derivación, §1 a §15, no se usó**: es antecedente y contiene seis pasajes superados que su propio §0.1 enumera. Ningún pasaje de la derivación se usó para contradecir la normativa, que es la regla de precedencia que el documento declara.
+
+> **Dónde está la tabla de trazabilidad fila por fila de §22.** El objetivo 4 de la orden de trabajo pide que cada fila de §22 pueda responder **si se aplicó, dónde, y con qué versión del artefacto**. Esa tabla es **§3 del informe de auditoría** `SDD/Docs/Audit/B2-Fix-Definiciones-Servicio-r1.md`, que la emite completa para las cinco subsecciones de §22. Acá vive el contraste del **estado previo** —§6.1— y lo aplicado **por artefacto** —§6.2—, que son las otras dos mitades de la misma pregunta.
+
+### 6.1 Contraste fila por fila con §22, que es lo que la ejecución verificó antes de tocar nada
+
+§22 se trató como **punto de partida verificable y no como inventario cerrado**. Fila por fila, el estado previo del destino era:
+
+| Fila de §22 | Estado previo verificado |
+|---|---|
+| E-2, cinco variantes de origen | **No cubierto.** Tres valores planos: `imagen`, `repositorio`, `dockerfile` |
+| E-2, comando de arranque | **No cubierto, y más grande de lo que el documento declara.** Ver §6.4 |
+| E-2, Dockerfile como contenido | **No cubierto.** Era ruta absoluta del servidor |
+| E-2, credenciales de registro | **Parcial.** Existía `credencialId` indiferenciada para las dos entidades distintas |
+| E-2, digesto y procedencia de plantilla | **No cubierto.** Cero ocurrencias de digesto en el intake |
+| E-6, tipos cerrados y `porDefecto` prohibido | **Parcial.** `generar` ya existía en los ejemplos; los tipos se inferían y nada prohibía `porDefecto` sobre `secreto` |
+| E-7, puertos publicados | **No cubierto.** El candidato traía direcciones IP y ningún puerto |
+| Imagen como objeto con identidad | **No cubierto.** Ni anexo propio ni entrada en E-9 |
+| §4, vía de alta como eje propio | **Parcial.** El eje existía desde D-7, con cuatro vías sobre tres orígenes |
+| Los siete CU de §22.2 | **No cubiertos**, cada uno en lo que la fila pedía |
+| Los dos CU nuevos | **No existían** |
+| Las tres RN nuevas | **No existían.** Verificado: ninguna de las nueve reglas de puertos y direcciones cubría la colisión de puerto de host |
+| Modelo conceptual y restricciones | **No cubierto.** Quince entidades y ninguna era la imagen; RC-01 a RC-18 y ninguna era el puerto único por host; glosario sin las cinco entradas que §22.4 pide |
+| Capa de experiencia | **No cubierto, y con un hallazgo de más.** Ver §6.5 |
+
+### 6.2 Lo aplicado, por artefacto
+
+| Artefacto | De → a | Qué incorpora |
+|---|---|---|
+| `SOLUTION-INTAKE-SelfHosted-Service` | 2.3 → **2.4** | Sección de decisiones nueva con **D-14** a **D-17**; §4 con la nota de los dos ejes y las siete vías; **E-2** rehecho con las cinco variantes, seis campos nuevos y los dos informes de verificación; **E-6** con tipos cerrados, conversión de secretos, informes de instanciación e importación y las consecuencias del vínculo débil; **E-7** con los puertos publicados y RA-07; **E-23 nuevo**, la imagen como objeto con identidad; **E-16** con RN-38, RN-39 y RN-40 y con RN-08 y RN-15 reformuladas; §12 con siete entradas de glosario; §19 con `DI-17` a `DI-24` y las diecisiete pendientes |
+| `Especificacion-Funcional.md` | 1.0 → **1.1** | Catálogos a 38 CU, 40 RN y 19 RC; §7 con el desajuste de cobertura declarado; §9 de diecinueve a veinticuatro brechas, con **B-09 cerrada** |
+| `CU-03` | 1.0 → **2.0** | Flujo renumerado: elegir vía, cinco variantes, verificación de origen separada, comando de arranque, tres estados del servicio, guardado transversal. Seis flujos alternativos y catorce criterios de aceptación |
+| `CU-06`, `CU-08` | 1.0 → 1.1 | Puertos publicados del candidato, y su conservación en la traducción |
+| `CU-13`, `CU-15` | 1.0 → 1.1 | Las dos variantes de imagen, el archivo de construcción en línea, y el registro del digesto |
+| `CU-16`, `CU-17` | 1.0 → 1.1 | Desvinculación de la instancia; conversión de secretos, tipos cerrados y colisión de identificador al importar |
+| `CU-37`, `CU-38` | **nuevos**, 1.0 | Higiene de imágenes; vuelta a un despliegue anterior |
+| `RN-08`, `RN-15` | 1.0 → 1.1 | Datos obligatorios por variante; alcance a la plantilla del catálogo |
+| `RN-38`, `RN-39`, `RN-40` | **nuevas**, 1.0 | Puerto único publicado por host; desvinculación de la plantilla; protección de la imagen conservada y de la ajena |
+| `Modelo-Conceptual.md` | 1.0 → 1.1 | Entidad **Imagen** con la prueba de D-12 aplicada condición por condición; cinco atributos nuevos del servicio; ocho entradas de glosario; cuatro brechas |
+| `RC-19` | **nueva**, 1.0 | Unicidad del puerto publicado por host, con su procedencia distinta declarada |
+| `Experiencia-De-Uso.md`, `README.md` de 03 | 1.0 → 1.1 | Dieciocho superficies; cinco brechas nuevas |
+| Cinco wireframes | 1.0 → 1.1 | Catálogo rehecho; lienzo, panel lateral, cajón de cambios y descubrimiento ampliados |
+| `Wireframes-Alta-De-Servicio.md`, `Wireframes-Imagenes.md` | **nuevos**, 1.0 | `SUP-17` y `SUP-18` |
+
+**Archivado.** Los diecinueve artefactos vigentes que se editaron quedaron archivados en el `_legacy/2026-07-29/` de su propia carpeta, con bloque de archivado antepuesto, por `Master-Prompt.md` §5.1. **Ningún desvío de archivado en esta ejecución.**
+
+### 6.3 Lo declarado como brecha, que es lo que no se decidió
+
+**Cuatro decisiones cerradas** se aplicaron como dato: `Q-4a` y `Q-4b` —no hay ítems de fábrica, y las dos versiones ya estaban especificadas—, `Q-9` —se conservan las dos modalidades de despliegue— y `Q-23` —la instancia queda desvinculada—. Entraron como **D-14 a D-17** del intake, marcadas `[D]` con su fecha, y ninguna como `[S]`.
+
+**Ocho con propuesta escrita y sin confirmar** entraron como especificaciones de integración `[D-i]`, `DI-17` a `DI-24`, **aplicadas y revisables**, en correspondencia uno a uno con `Q-1`, `Q-2`, `Q-3`, `Q-14`, `Q-22`, `Q-24`, `Q-25` y `Q-26`. **Ninguna se presenta como requisito cerrado del cliente.**
+
+**Diecisiete abiertas** entraron como pendientes de decisión de §19 del intake, **sin ningún valor supuesto**, y se replicaron como brechas en los artefactos que las consumen. Las que más pesan:
+
+| Pendiente | Por qué pesa |
+|---|---|
+| `Q-15` · digesto por despliegue | **Es la de mayor palanca.** Las siete de imágenes se cierran con ella, y sin ella `CU-37` y `CU-38` **no son implementables** y la entidad Imagen existiría en el modelo sin nadie que la escriba |
+| `Q-27` · exploración de registro de imágenes | **Es el primer minuto de uso.** Sin catálogo de fábrica y sin exploración, quien no sabe la dirección de la imagen no tiene camino. Decide si hay una superficie nueva o una línea de ayuda |
+| `Q-28` · origen editable después del alta | **Corregir una etiqueta mal escrita no tiene camino** en ninguna superficie |
+| `Q-8` y `Q-12` · qué repositorio y qué archivo de construcción son admisibles | Son de **seguridad**: construir ejecuta código en el mismo servidor que administra el motor de contenedores, y ninguna regla lo acota |
+
+**Brechas nuevas emitidas:** `B-20` a `B-24` en `02`, y `B-UX-23` a `B-UX-27` en `03`. **Brecha cerrada:** `B-09`, el tratamiento del material secreto dentro de una plantilla, por la ampliación de RN-15.
+
+### 6.4 Tres correcciones a afirmaciones del propio documento de entrada
+
+La regla de ejecución advertía que un hallazgo de auditoría es un piso y no una medida. Se verificó el alcance real de tres, y en los tres el documento de entrada estaba corto o equivocado:
+
+| Qué afirma el documento de entrada | Qué se verificó |
+|---|---|
+| Su §6 `H-B` y su §17.1 dicen que el campo de comando de arranque «existe en E-2» y que el hueco está sólo del lado de la especificación funcional | **Falso.** El único `"comando"` de E-2 vivía dentro del objeto `healthcheck`; no había campo de primer nivel. El hueco estaba en **las dos puntas**. Su §22.1, en cambio, acierta al clasificarlo como hueco puro, y es la clasificación que se aplicó |
+| Su §23 dice «veintiocho decisiones» | Sus tres tablas suman **veintinueve filas**, porque `Q-4` está partida en `Q-4a` y `Q-4b`. Veintinueve filas sobre veintiocho identificadores |
+| Su §23.3 se lee como dieciséis abiertas en el prompt de ejecución | La tabla enumera **diecisiete**. Se tomaron las diecisiete, porque contar filas es verificable y la cifra en prosa no lo es |
+
+**Y una discrepancia interna del documento de entrada que se declaró en lugar de resolverse en silencio:** su §18.7 clasifica `Q-24`, `Q-25` y `Q-26` como **abiertas** y su §23.2 como **con propuesta escrita**. Se aplicó §23, que es la sección consolidada y la última, y las tres entraron como `[D-i]`. Está registrado en §19 del intake, con la operación exacta para revertirlo si el agente humano prefiere la otra clasificación.
+
+### 6.5 Un hallazgo de más, y un conflicto con una decisión anterior
+
+**`SUP-17` no existía en ninguna parte.** §21.1 y §22.5 del documento de entrada nombran la superficie `Alta-De-Servicio · SUP-17`. Verificado: `03-UX-UI-DX` declaraba **dieciséis** superficies, `SUP-01` a `SUP-16`, y **ninguna era el alta de servicio**; el alta vivía repartida entre `SUP-05` y `SUP-06`. La maqueta tiene `Alta-De-Servicio.html` y su propio README lo documenta como **§5.1, estados de `SUP-06`**. El número coincide con el siguiente libre, no con una asignación previa.
+
+**El conflicto con `PA-15`, declarado.** El punto abierto `PA-15` de este informe registra, del mismo 2026-07-29, la decisión de resolver el alta como **estado nuevo de `SUP-06`, descartando explícitamente crear superficie propia**. El documento de entrada, posterior, la trata como superficie y manda rehacerla. **Se aplicó la parte normativa del documento de entrada** —que es la fuente de esta ejecución— y se le dio superficie propia `SUP-17`, **declarando el conflicto** en el propio wireframe §1, con el argumento a favor y con la operación mecánica que lo revierte si el agente humano sostiene `PA-15`: el contenido no cambia, sólo cambia dónde vive. **Esta ejecución no tiene mandato para revertir una decisión del agente humano del proyecto, y por eso la deja planteada en lugar de darla por cambiada.**
+
+### 6.6 Lo que quedó fuera, con su motivo
+
+| Qué | Motivo |
+|---|---|
+| **La maqueta** | **Deliberadamente fuera**, por §21.4 del documento de entrada y por la regla de ejecución. La maqueta se rehace **desde la especificación corregida**, que es de donde `03-UX-UI-DX` la deriva; saltear el paso del medio produce una maqueta que no traza a ningún artefacto, que es el defecto que la Fase B2 existe para evitar. **Es lo que sigue.** |
+| `SDD/Estado/Fix-Ejecución-Glosario-Framework.md` | Es una orden de trabajo sobre el `Framework SDD` y se ejecuta en una sesión propia. Acá el framework no se tocó, y `/IA/IA.SDD` se leyó en sólo lectura |
+| Las categorías `05` a `11` | No están generadas todavía. Lo que esta corrección les deja es el intake 2.4 y las categorías `02` y `03` corregidas, más las brechas con destinatario |
+| `01-Necesidades-Negocio` | **Alcanzada y no tocada, con la brecha declarada.** `CU-37` y `CU-38` no están previstos en el §7 de ninguna necesidad de negocio. Corregirlo desde `02` invertiría la dirección de la cadena; queda como brecha `B-20` con `01` y el agente humano como destinatarios |
+| La construcción de `SUP-18` en la maqueta | **No debe construirse todavía**: depende de `Q-15` y `Q-17`, abiertas. Está declarado en su wireframe §5.1 |
+| Cerrar cualquiera de las veinticinco decisiones no cerradas | **Prohibido por la orden de trabajo.** Ninguna se presumió resuelta |
+
+### 6.7 Qué necesita el agente humano del proyecto para desbloquear la reconstrucción de la maqueta
+
+**Cuatro decisiones condicionan la forma de una pantalla** y hay que resolverlas antes de rehacer la maqueta. Tres de las cuatro **ya están aplicadas** como `[D-i]` y sólo esperan confirmación; una está abierta:
+
+| Decisión | Qué hace falta | Qué pantalla condiciona |
+|---|---|---|
+| `DI-17` · siete vías sobre cinco variantes | **Confirmar** | El alta entera, `SUP-17` |
+| `DI-18` · separar imagen pública de privada | **Confirmar** | Si no se separan, no hay paso de credencial |
+| `DI-19` · el servicio sin origen como nodo borrador | **Confirmar** | Si no existe, el lienzo no admite un servicio sin origen |
+| `Q-27` · exploración de registro de imágenes | **Decidir.** Está abierta | Si hay exploración es una pantalla nueva; si no, una línea de ayuda |
+
+Y **dos más** para que la maqueta pueda demostrar el ciclo de vida de las imágenes: `Q-15`, el digesto por despliegue, y `Q-17`, el modo de disparo de la limpieza. Sin las dos, `SUP-18` no se construye.
 
 ---
 
@@ -273,6 +392,7 @@ La línea repite **el mismo marcador dos veces** en dos posiciones que evidentem
 
 | Versión | Fecha | Cambios | Autor |
 | --- | --- | --- | --- |
+| 2.9 | 2026-07-29 | **Fix de las definiciones de servicio ejecutado sobre la especificación del producto.** Se incorporó la parte normativa —§16 a §23— de `SDD/Estado/Redefinicion-Servicio.md` v2.0; su parte de derivación no se usó. El intake pasa a **2.4** con el anexo **E-23** nuevo y tres reglas de negocio nuevas; `02` pasa a **38 CU, 40 RN y 19 RC**; `03` pasa a **dieciocho superficies**. Diecinueve artefactos archivados en su `_legacy/2026-07-29/`, sin desvíos. Sección **§6** nueva con el contraste fila por fila contra §22, lo aplicado por artefacto, lo declarado como brecha, **tres correcciones a afirmaciones del propio documento de entrada** —entre ellas que el campo de comando de arranque **no** existía en E-2, contra lo que su `H-B` y su §17.1 afirman—, el **hallazgo de que `SUP-17` no existía en ninguna parte**, el **conflicto declarado con `PA-15`**, lo que quedó fuera con su motivo, y las **seis decisiones que el agente humano necesita tomar** para desbloquear la reconstrucción de la maqueta. **La maqueta no se rehizo**, por §21.4 del documento de entrada: se rehace desde la especificación corregida. `PA-15` queda **reabierto**; `PA-4`, `PA-5`, `PA-9` y `PA-14` amplían su alcance. **Cuatro decisiones cerradas** entraron como dato `[D]`, **ocho** como `[D-i]` aplicadas y revisables, y **diecisiete** como pendientes sin valor supuesto: ninguna de las veinticinco no cerradas se presumió resuelta. | Orquestador SDD |
 | 2.8 | 2026-07-29 | **Maqueta construida, servida y en ciclo de corrección.** AG-03M fue interrumpido por un límite de gasto de la cuenta cuando le quedaban dos correcciones finales; la construcción estaba completa —16 superficies, `index.html`, tres assets, 352 KB— y el orquestador aplicó las dos correcciones pendientes verificándolas primero contra el catálogo, en lugar de aplicarlas a ciegas: el `box-shadow` ad hoc se retiró porque `Design-Rules-Web-Generico.md` §2 fija que la elevación se comunica con borde y superficie, y el `Incorporar` por fila perdió su énfasis primario porque §4.3 manda icon-buttons en las filas y reserva la primaria al encabezado. Se registra un falso positivo propio que vale como advertencia: el chequeo de integridad del JavaScript dio «desbalanceado» y era artefacto del analizador —dos expresiones regulares que contienen comillas, `/"/g` y `/'/g`—; confiar en ese resultado habría llevado a «arreglar» un archivo sano. La maqueta se sirve en el puerto 8137 porque el 8080 está ocupado por otro servicio del host, que no se tocó. **Primera observación del agente humano en el paso 5, y es el hallazgo más importante de la corrida hasta acá**: el alta de servicio desde cero no tiene superficie. Se registra como PA-15. Lo encontró mirando la maqueta en la primera pasada, después de que **el audit independiente de la Fase B y el auto-chequeo de AG-03 no lo levantaran**. Es la justificación empírica más fuerte de la Fase B2 que produjo esta corrida: el audit verifica que lo escrito cumpla las reglas, y la maqueta verifica que lo escrito alcance, que son dos propiedades distintas. | Orquestador SDD |
 | 2.7 | 2026-07-29 | **Seis P1 de la Fase B corregidos, corte aprobado y Fase B2 arrancada.** AG-02 cerró sus cuatro y AG-03 sus dos; el orquestador reverificó ambos sobre el árbol emitido. Dos resultados de la corrección que valen como registro. Primero, **AG-02 corrigió la contabilidad del propio hallazgo H-04**: el universo de actores no humanos son 19 y no 16, seis trazan y no tres, y tres de los trece acuñados son actor primario y no de sistema, de modo que la corrección hubo que redactarla sobre «actores no humanos» —acotarla a los de sistema habría dejado tres fuera y la afirmación del índice seguiría siendo falsa—. Es la **tercera vez en la corrida que un subagente corrige la extensión de un hallazgo del audit**, después de los cuatro estrechamientos de la columna `Responsable` en la Fase A y del dato de anchos de ventana que ya estaba aplicado en dieciséis archivos. El patrón es consistente y se registra como criterio operativo: **el audit localiza bien los defectos y subestima su extensión**, de modo que un hallazgo es un piso y no una medida. Segundo, **H-06 se resolvió de raíz**: la correspondencia superficie↔caso de uso se declaraba en cuatro vistas independientes que se contradecían en cinco superficies, y el defecto no era de transcripción sino de fuente única faltante; ahora `Experiencia-De-Uso` §9.2 es canónica por regla, §9.3 es su inversión mecánica declarada, el README dejó de repetir la columna y los wireframes reproducen su fila declarando el origen. Verificador programático: 0 discrepancias sobre 16 superficies y 36 casos de uso. **Fase B2**: oferta aceptada, plan de 16 superficies aprobado, modelo base —`Modelos-UX-UI/` no tiene modelos registrados—, y AG-03M despachado con la instrucción de resolver la brecha `B-UX-01` dibujando una distinción de aristas que cumpla sus tres restricciones y marcándola **como propuesta a validar y no como especificación**, que es la función propia de una maqueta. | Orquestador SDD |
 | 2.6 | 2026-07-29 | **Audit de la Fase B: APROBADO CON OBSERVACIONES, cero P0**, con 6 P1, 5 P2 y 7 P3 sobre la solución y 7 hallazgos sobre el repositorio fuente y el intake. Informe en `SDD/Docs/Audit/B-02-03-r1.md`, con su muestreo declarado. **Las dos instrucciones que el orquestador agregó al despacho del auditor dieron resultado, y conviene registrarlo porque corrige el modo de falla de la Fase A.** La primera, buscar datos completados sin fuente y no declarados: encontró **ocho**, cuatro de ellos P1 —una cita de caso de prueba reescrita, un conteo de reglas sin cobertura que era tres y decía dos, una cardinalidad del modelo conceptual que ninguna fuente declara, y trece de dieciséis nombres de actor sin traza bajo la afirmación explícita del índice de que todo dato traza—. En la Fase A ese mismo defecto se produjo tres veces y **el audit no lo encontró**. La segunda, evaluar las brechas en las dos direcciones: de las 39 declaradas, **27 confirmadas, 8 parciales, 3 con un componente falso y 1 íntegramente falsa**, ésta última porque el dato ya estaba en el catálogo de diseño que el subagente tenía como insumo. Una brecha falsa manda a alguien a decidir algo ya decidido, y es un defecto propio. Se registra también lo que el auditor **no** encontró, porque acota el problema: la caza dirigida sobre persona objetivo, umbrales, valores de criterios de aceptación y contrato visual dio negativo, y no hay ninguna columna de tabla rellenada completa sin fuente. PA-12 se cierra a favor de aplicar la regla y PA-11 queda confirmada; se abre PA-14 por el incumplimiento de E-22 respecto de E-16. | Orquestador SDD |

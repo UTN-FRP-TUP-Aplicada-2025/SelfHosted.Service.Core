@@ -297,7 +297,18 @@
     if (desc.unidad) { partes.push('en ' + desc.unidad); }
     if (desc.restriccion) { partes.push(desc.restriccion); }
     if (!partes.length) { partes.push('Sin valor por defecto ni límites declarados'); }
-    partes.push('leyenda y ejemplos sin declarar (B-UX-04)');
+    /* Un descriptor puede declarar su propia brecha en lugar de la de la
+       leyenda: es el caso de los dos parámetros del umbral de la sugerencia
+       de limpieza, cuyo valor por defecto y cuyos límites son B-UX-28 y no
+       B-UX-04. Sin este desvío el campo mentiría sobre qué falta. */
+    if (desc.brecha && desc.brecha.indexOf('B-UX-04') !== 0) {
+      if (desc.porDefecto === null || desc.porDefecto === undefined) {
+        partes.push('sin valor por defecto ni límites declarados');
+      }
+      partes.push(desc.brecha);
+    } else {
+      partes.push('leyenda y ejemplos sin declarar (B-UX-04)');
+    }
     html += '<span class="mq-hint" id="' + idHint + '">' + esc(partes.join(' · ')) + '</span>';
 
     if (o.deshabilitado && desc.motivoDeshabilitado) {
@@ -307,10 +318,16 @@
       html += '<span class="mq-error-inline" id="' + idErr + '">' + esc(o.error) + '</span>';
     }
     if (o.ayuda) {
-      html += '<div class="mq-ayuda"><strong>¿Qué es «' + esc(desc.etiqueta) + '»?</strong>' +
-        '<p style="margin:var(--space-4) 0 0">La leyenda y los ejemplos de valor con su consecuencia se derivan del descriptor. ' +
-        'Ninguna fuente los declara para este parámetro, de modo que la maqueta exhibe la ranura vacía en lugar de inventar el texto.</p>' +
-        '<p class="mq-hint" style="margin:var(--space-4) 0 0">' + esc(desc.brecha) + '</p></div>';
+      html += '<div class="mq-ayuda"><strong>¿Qué es «' + esc(desc.etiqueta) + '»?</strong>';
+      if (desc.gobierna) {
+        /* Lo que el parámetro gobierna SÍ está declarado por la fuente: se
+           muestra. Lo que falta es el valor, no el sentido. */
+        html += '<p style="margin:var(--space-4) 0 0">' + esc(desc.gobierna) + '</p>';
+      } else {
+        html += '<p style="margin:var(--space-4) 0 0">La leyenda y los ejemplos de valor con su consecuencia se derivan del descriptor. ' +
+          'Ninguna fuente los declara para este parámetro, de modo que la maqueta exhibe la ranura vacía en lugar de inventar el texto.</p>';
+      }
+      html += '<p class="mq-hint" style="margin:var(--space-4) 0 0">' + esc(desc.brecha) + '</p></div>';
     }
     html += '</div>';
     return html;
@@ -469,6 +486,441 @@
   /* ═══════════════════════════════════════════════════════════════════════
      6. Renderizadores por superficie
      ═══════════════════════════════════════════════════════════════════════ */
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     3 bis. Componentes del alta de servicio y del fix de definiciones
+            Fuente: Wireframes-Alta-De-Servicio.md 2.1 y el anexo E-2.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* Menú de las siete vías — SUP-17 §3.1 y SUP-05 §3.1.
+     Es el PRIMER PASO del flujo y no un campo: siete opciones que hay que
+     comparar antes de elegir necesitan verse juntas, y un desplegable las
+     esconde. Patrón §4.2 del catálogo base, tarjeta de acceso.
+     El nombre accesible incluye QUÉ RESUELVE, no sólo el nombre de la vía. */
+  function menuVias(opciones) {
+    var o = opciones || {};
+    var vias = D.VIAS_ALTA;
+    var seis = vias.filter(function (v) { return !v.separada; });
+    var aparte = vias.filter(function (v) { return v.separada; });
+
+    /* Las dos vías SIN ORIGEN PROPIO —adopción y catálogo— no siguen en el
+       alta: derivan a la superficie que produce el origen, y se vuelve con él
+       ya deducido. Es lo que declara SUP-17 §4 ("Nada acá: se llega con el
+       candidato ya elegido y confirmado desde SUP-10"), y por eso VIAS_ALTA
+       les declara `abre`. Las cinco con origen propio siguen en el tronco. */
+    function tarjeta(v) {
+      var destino = v.abre
+        ? v.abre
+        : (o.destino || 'Alta-De-Servicio.html') + '#estado=tronco-origen-sin-resolver&via=' + v.id;
+      var deriva = v.abre
+        ? '<span class="mq-hint">Deriva a la superficie que produce el origen; se vuelve con él ya deducido.</span>'
+        : '';
+      return '<a class="mq-via" href="' + esc(destino) + '">' +
+        '<span class="mq-tarjeta-icono" aria-hidden="true">' + icono(v.icono, 18) + '</span>' +
+        '<span class="mq-via-cuerpo">' +
+        '<span class="mq-via-titulo">' + esc(v.etiqueta) + '</span>' +
+        '<span class="mq-via-resuelve">«' + esc(v.resuelve) + '»</span>' +
+        '<span class="mq-hint">Origen resultante: ' + esc(v.origenResultante) + '</span>' +
+        deriva +
+        '</span></a>';
+    }
+
+    var html = '<div class="mq-grilla-vias" role="list" aria-label="Vías de alta de un servicio">' +
+      seis.map(function (v) { return '<div role="listitem">' + tarjeta(v) + '</div>'; }).join('') +
+      '</div>';
+
+    /* El servicio sin origen va SEPARADO de los seis: no es una vía con
+       mecánica propia, es el alta detenida en el paso del nombre. Ponerlo en
+       la grilla lo presentaría como alternativa equivalente, y no lo es. */
+    html += '<div class="mq-via-aparte">' +
+      aparte.map(function (v) { return tarjeta(v); }).join('') +
+      '<p class="mq-hint">Va separado de las seis a propósito: no es una vía con mecánica propia, es el alta detenida en el paso del nombre.</p>' +
+      '</div>';
+    return html;
+  }
+
+  /* Indicador de avance — SUP-17 §3 y §7. Hace visible qué falta.
+     NO bloquea el avance ni el guardado: informa. Se expone como lista de
+     pasos con su estado, no como decoración. Patrón §4.5 del catálogo. */
+  function indicadorAvance(pasoActual, pendientes) {
+    var faltan = pendientes || [];
+    var html = '<ol class="mq-avance" aria-label="Avance del alta. Informa qué falta y no bloquea">';
+    D.PASOS_TRONCO.forEach(function (p, i) {
+      var estado = 'completo';
+      if (p.id === pasoActual) { estado = 'actual'; }
+      else if (faltan.indexOf(p.id) >= 0) { estado = 'pendiente'; }
+      var texto = estado === 'actual' ? 'paso en curso' : (estado === 'pendiente' ? 'pendiente' : 'completo');
+      html += '<li class="mq-avance-paso" data-estado="' + estado + '">' +
+        '<span class="mq-avance-marca" aria-hidden="true">' +
+        (estado === 'completo' ? icono('check', 12) : String(i + 1)) + '</span>' +
+        '<span class="mq-avance-etiqueta">' + esc(p.etiqueta) +
+        '<span class="mq-sr-only"> — ' + esc(texto) + '</span></span></li>';
+    });
+    html += '</ol>';
+    html += '<p class="mq-hint">Paso ' + (D.PASOS_TRONCO.map(function (p) { return p.id; }).indexOf(pasoActual) + 1) +
+      ' de ' + D.PASOS_TRONCO.length + '. El indicador informa qué falta y no bloquea el avance ni el guardado.</p>';
+    return html;
+  }
+
+  /* Informe de verificación del ORIGEN — SUP-17 §3.2 y §3.3, E-2 §20.2.5.
+     Tres reglas de composición que este componente hace cumplir:
+       · declara su propio ALCANCE, porque un tilde sin decir qué se consultó
+         es una afirmación sin evidencia (criterio V-1);
+       · el resultado INDETERMINADO no usa el lenguaje visual de error,
+         porque nada está mal, y no se anuncia como alerta;
+       · la acción primaria es distinta en cada caso: corregir el dato con el
+         foco en el campo, o reintentar. Nunca un genérico. */
+  function informeOrigen(inf, opciones) {
+    var o = opciones || {};
+    var variante = inf.resultado === 'verificado' ? 'confirmacion'
+      : (inf.resultado === 'fallido' ? 'error' : 'info');
+    var rol = inf.resultado === 'fallido' ? 'alert' : 'status';
+    var titulo = inf.resultado === 'verificado' ? 'Origen verificado'
+      : (inf.resultado === 'fallido' ? 'Origen fallido · el dato declarado no existe'
+        : 'Origen indeterminado · no se pudo consultar');
+
+    var html = '<section class="mq-informe mq-informe--' + esc(variante) + '" role="' + rol +
+      '" aria-label="Informe de verificación del origen">';
+    html += '<header class="mq-informe-cabecera">' +
+      '<span class="mq-informe-marca" aria-hidden="true">' +
+      icono(inf.resultado === 'verificado' ? 'check' : (inf.resultado === 'fallido' ? 'alert' : 'info'), 16) + '</span>' +
+      '<h4>' + esc(titulo) + '</h4>' +
+      '<span class="mq-informe-momento mq-literal">' + esc(inf.en) + '</span></header>';
+    html += '<p class="mq-informe-alcance"><strong>Alcance:</strong> ' + esc(inf.alcance) + '</p>';
+    html += '<ul class="mq-lista-limpia mq-comprobaciones">';
+    inf.comprobaciones.forEach(function (c) {
+      var ok = c.resultado === 'si';
+      html += '<li class="mq-comprobacion" data-resultado="' + (ok ? 'si' : 'no') + '">' +
+        '<span class="mq-comprobacion-marca" aria-hidden="true">' + icono(ok ? 'check' : 'cerrar', 13) + '</span>' +
+        '<span><span class="mq-sr-only">' + (ok ? 'Comprobación cumplida: ' : 'Comprobación no cumplida: ') + '</span>' +
+        esc(c.que) + (c.detalle ? '<span class="mq-hint">' + esc(c.detalle) + '</span>' : '') + '</span></li>';
+    });
+    html += '</ul>';
+
+    if (inf.accionSugerida === 'corregir-el-dato') {
+      html += '<div class="mq-acciones"><button type="button" class="mq-btn mq-btn--primario" ' +
+        'aria-label="Corregir el dato. El foco va al campo de etiqueta, que produjo el fallo">' +
+        'Corregir el dato</button></div>';
+    } else if (inf.accionSugerida === 'reintentar') {
+      html += '<div class="mq-acciones"><button type="button" class="mq-btn mq-btn--primario">' +
+        icono('refresh') + ' Reintentar</button></div>';
+      html += '<p class="mq-hint">Ningún campo del formulario queda marcado: marcar uno afirmaría que ese dato es el problema, y no lo es. No hay nada que corregir.</p>';
+    }
+    if (o.notaDigesto) {
+      html += '<p class="mq-hint">' + esc(o.notaDigesto) + '</p>';
+    }
+    html += '</section>';
+    return html;
+  }
+
+  /* Informe de validación de la CONFIGURACIÓN — SUP-17 §3.2, E-2 §20.2.5.
+     Vive al pie del formulario completo y no junto al origen: son dos
+     operaciones con alcances distintos, y compartir zona sugeriría que son
+     una. Declara además CONTRA QUÉ NO VERIFICÓ. */
+  function informeConfiguracion(inf) {
+    var conHallazgos = inf.resultado === 'con-hallazgos';
+    var variante = conHallazgos ? 'error' : 'confirmacion';
+    var html = '<section class="mq-informe mq-informe--' + esc(variante) + '" role="' +
+      (conHallazgos ? 'alert' : 'status') + '" aria-label="Informe de validación de la configuración">';
+    html += '<header class="mq-informe-cabecera">' +
+      '<span class="mq-informe-marca" aria-hidden="true">' + icono(conHallazgos ? 'alert' : 'check', 16) + '</span>' +
+      '<h4>' + (conHallazgos ? 'Configuración con hallazgos bloqueantes' : 'Configuración validada') + '</h4>' +
+      '<span class="mq-informe-momento mq-literal">' + esc(inf.en) + '</span></header>';
+    html += '<p class="mq-informe-alcance"><strong>Alcance:</strong> ' + esc(inf.alcance) + '</p>';
+    html += '<ul class="mq-lista-limpia mq-comprobaciones">';
+    inf.comprobaciones.forEach(function (c) {
+      var ok = c.resultado === 'si';
+      html += '<li class="mq-comprobacion" data-resultado="' + (ok ? 'si' : 'no') +
+        '"' + (c.nivel ? ' data-nivel="' + esc(c.nivel) + '"' : '') + '>' +
+        '<span class="mq-comprobacion-marca" aria-hidden="true">' + icono(ok ? 'check' : 'alert', 13) + '</span>' +
+        '<span><span class="mq-sr-only">' + (ok ? 'Regla cumplida: ' : 'Regla no cumplida: ') + '</span>' +
+        esc(c.que) +
+        (c.nivel ? ' <span class="mq-par-estado mq-estado--fallido">' + esc(c.nivel) + '</span>' : '') +
+        (c.detalle ? '<span class="mq-hint">' + esc(c.detalle) + '</span>' : '') +
+        (c.sugerencia ? '<span class="mq-hint">' + esc(c.sugerencia) + '</span>' : '') +
+        '</span></li>';
+    });
+    html += '</ul>';
+    html += '<p class="mq-informe-limite">' + icono('info', 14) + ' ' +
+      esc(D.ALTA_SERVICIO.informesConfiguracion.limiteDelAlcance) + '</p>';
+    html += '</section>';
+    return html;
+  }
+
+  /* Campo del bloque de origen, derivado de la declaración de su variante.
+     Un campo sin ejemplo en la documentación se dibuja vacío y declara por
+     qué: no se inventa el valor. */
+  function campoOrigen(c, opciones) {
+    var o = opciones || {};
+    var idc = id('org');
+    var idHint = idc + '-hint';
+    var idErr = idc + '-err';
+    var describe = [idHint];
+    if (o.error) { describe.push(idErr); }
+    var valor = o.valor !== undefined ? o.valor : c.ejemplo;
+
+    var html = '<div class="mq-campo' + (c.tipo === 'codigo' ? ' mq-campo--ancho' : '') + '">';
+    if (c.tipo === 'lectura') {
+      /* No es un control: lleva rótulo, no `label for`, que no asociaría nada. */
+      html += '<span class="mq-campo-rotulo">' + esc(c.etiqueta) + '</span>';
+    } else if (c.tipo !== 'booleano') {
+      html += '<label for="' + idc + '">' + esc(c.etiqueta) +
+        (c.requerido ? ' <span class="mq-meta">(obligatorio)</span>' : '') + '</label>';
+    }
+
+    if (c.tipo === 'seleccion') {
+      if (c.enum && c.enum.length) {
+        html += '<select class="mq-select" id="' + idc + '" aria-describedby="' + describe.join(' ') + '"' +
+          (o.error ? ' aria-invalid="true"' : '') + (o.lectura ? ' disabled' : '') + '>';
+        c.enum.forEach(function (v) {
+          html += '<option' + (v === valor ? ' selected' : '') + '>' + esc(v) + '</option>';
+        });
+        html += '</select>';
+      } else {
+        html += '<select class="mq-select" id="' + idc + '" aria-describedby="' + describe.join(' ') + '" disabled>' +
+          '<option>Sin conjunto de valores declarado</option></select>';
+      }
+    } else if (c.tipo === 'booleano') {
+      html += '<label class="mq-toggle" for="' + idc + '"><input type="checkbox" id="' + idc + '"' +
+        (valor ? ' checked' : '') + (o.lectura ? ' disabled' : '') +
+        ' aria-describedby="' + describe.join(' ') + '"> <span>' + esc(c.etiqueta) + '</span></label>';
+    } else if (c.tipo === 'codigo') {
+      html += '<textarea class="mq-editor-construccion" id="' + idc + '" rows="6" spellcheck="false"' +
+        ' aria-describedby="' + describe.join(' ') + '"' + (o.lectura ? ' readonly' : '') + '>' +
+        esc(valor || '') + '</textarea>';
+    } else if (c.tipo === 'lectura') {
+      html += '<p class="mq-literal" id="' + idc + '">' + esc(valor || '—') + '</p>';
+    } else {
+      html += '<input class="mq-input" type="text" id="' + idc + '"' +
+        (o.error ? ' aria-invalid="true"' : '') + (o.lectura ? ' readonly' : '') +
+        ' value="' + esc(valor === null || valor === undefined ? '' : valor) + '"' +
+        ' aria-describedby="' + describe.join(' ') + '">';
+    }
+
+    var partes = [];
+    if (c.sinEjemplo) {
+      partes.push(c.sinEjemplo);
+    } else if (c.fuente) {
+      partes.push('Ejemplo tomado de ' + c.fuente + '.');
+    }
+    if (c.nota) { partes.push(c.nota); }
+    html += '<span class="mq-hint" id="' + idHint + '">' + esc(partes.join(' ')) + '</span>';
+    if (o.error) {
+      html += '<span class="mq-error-inline" id="' + idErr + '">' + esc(o.error) + '</span>';
+    }
+    return html + '</div>';
+  }
+
+  /* Bloque de origen de la vía elegida — SUP-17 §3.5.
+     Dos criterios que hace cumplir:
+       1. NUNCA muestra campos de otra variante, ni deshabilitados. La
+          variante determina qué campos existen (E-2 §20.2.3).
+       2. El límite del archivo de construcción en línea se declara ANTES de
+          escribir, no al fallar. */
+  function bloqueOrigen(tipoOrigen, opciones) {
+    var o = opciones || {};
+    var origen = D.origen(tipoOrigen);
+    var e = D.ALTA_SERVICIO.exploracion;
+
+    var html = '<section class="mq-bloque-origen" aria-label="Origen del servicio, variante ' + esc(origen.etiqueta) + '">';
+    html += '<h3 class="mq-titulo-seccion">Origen · ' + esc(origen.etiqueta) + '</h3>';
+    html += '<p class="mq-caption">' + esc(origen.descripcion) + '</p>';
+
+    if (origen.reglaPropia) {
+      html += '<p class="mq-hint">' + esc(origen.reglaPropia) + '</p>';
+    }
+    if (origen.limiteDeclarado) {
+      html += bandaAtencion(origen.limiteDeclarado);
+    }
+
+    if (o.lectura) {
+      html += bandaInfo(o.notaLectura || 'La vía elegida no tiene origen propio: lo que ves acá es lo que la vía dedujo o la plantilla declaró, en lectura. El tronco sigue desde la red.');
+    }
+
+    if (!origen.campos.length) {
+      html += '<p class="mq-caption">Esta variante no declara ningún campo de origen. El servicio queda con el origen sin resolver y la acción de resolverlo disponible.</p>';
+      html += '<p><button type="button" class="mq-btn">Resolver el origen</button></p>';
+    } else {
+      /* La acción de explorar convive con los campos y NO los reemplaza:
+         el que sabe la dirección la escribe, el que no la sabe explora. */
+      if (e.disponibleEn.indexOf(tipoOrigen) >= 0 && !o.lectura) {
+        html += '<div class="mq-fila mq-fila-explorar">' +
+          '<a class="mq-btn" href="' + esc(e.destino) + '" ' +
+          'aria-label="Explorar el registro de imágenes configurado y volver con registro, imagen y etiqueta declarados. Abre la superficie ' + esc(e.superficie) + '">' +
+          icono('search') + ' ' + esc(e.etiqueta) + '</a>' +
+          '<span class="mq-hint">Destino declarado: ' + esc(e.superficie) + ' · ' + esc(e.notaMaqueta) + '</span></div>';
+      }
+      html += '<div class="mq-grilla-campos">';
+      origen.campos.forEach(function (c) {
+        var op = { lectura: o.lectura };
+        if (o.valores && Object.prototype.hasOwnProperty.call(o.valores, c.clave)) { op.valor = o.valores[c.clave]; }
+        if (o.errores && o.errores[c.clave]) { op.error = o.errores[c.clave]; }
+        if (o.vacios && o.vacios.indexOf(c.clave) >= 0) { op.valor = ''; }
+        html += campoOrigen(c, op);
+      });
+      html += '</div>';
+    }
+    html += '</section>';
+    return html;
+  }
+
+  /* Par de estado del SERVICIO (no del despliegue). Los tres valores son
+     ortogonales al estado del despliegue — E-2 §20.2.1.
+     El borrador NO tiene fila en el contrato visual del anexo E-18 (brecha
+     B-UX-24): se aplica el tratamiento provisional que §3.3 de
+     Representacion-Lenguaje-Visual-De-Estados ya declara para «finalizado» y
+     «pausado» —par neutro con etiqueta textual propia—, que es derivación de
+     una regla vigente y no invención de color ni de insignia. */
+  function parEstadoServicio(clave) {
+    var c = D.ESTADOS_SERVICIO[clave];
+    if (!c) { return ''; }
+    if (clave === 'borrador') {
+      return '<span class="mq-par-estado mq-estado--detenido mq-estado--borrador">' +
+        '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 16 16">' +
+        INSIGNIAS.detenido + '</svg>' + esc(c.etiqueta) + '</span>';
+    }
+    if (clave === 'pendiente-de-aplicar') { return parEstado('pendiente'); }
+    return '<span class="mq-par-estado mq-estado--activo">' +
+      '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 16 16">' +
+      INSIGNIAS.activo + '</svg>' + esc(c.etiqueta) + '</span>';
+  }
+
+  /* Marca de recreación de contenedor — SUP-07 §3.4.
+     Va en el ÍTEM del cambio y no sólo en el resumen del lote: un resumen que
+     dice «tres de cinco recrean» no dice CUÁLES, que es lo que hace falta
+     para decidir si se descarta uno. */
+  function marcaClaseDeCambio(cambio) {
+    var cl = D.CLASES_DE_CAMBIO[cambio.clase];
+    if (!cl) { return ''; }
+    var html = '<span class="mq-marca-clase" data-clase="' + esc(cambio.clase) + '">' +
+      icono(cambio.recreaContenedor ? 'alert' : 'info', 12) + ' ' + esc(cl.etiqueta) + '</span>';
+    if (cambio.recreaContenedor) {
+      html += '<span class="mq-marca-recreacion">' + icono('refresh', 12) +
+        ' Recrea el contenedor: se pierde todo estado no persistido en un montaje</span>';
+    }
+    return html;
+  }
+
+  /* Origen en modo lectura del panel del servicio — SUP-06 §3.4.
+     El modo lectura NO se presenta como elección de diseño, porque no lo es:
+     no hay camino para cambiar el origen de un servicio existente (Q-28). */
+  function origenEnLectura(origen, opciones) {
+    var o = opciones || {};
+    var pares = [];
+    if (origen.tipo === 'imagen-publica') {
+      pares = [['Variante', 'Imagen de registro público'], ['Registro', origen.registro],
+        ['Imagen', origen.imagen], ['Etiqueta', origen.etiqueta],
+        ['Política de actualización', origen.politicaActualizacion]];
+    } else if (origen.tipo === 'imagen-privada') {
+      pares = [['Variante', 'Imagen de registro privado'], ['Dirección del registro', origen.registroUrl],
+        ['Imagen', origen.imagen], ['Etiqueta', origen.etiqueta],
+        ['Política de actualización', origen.politicaActualizacion],
+        ['Credencial de registro', 'Sin nombre visible declarado (identificador ' + origen.credencialRegistroId + ') · nunca su valor']];
+    } else if (origen.tipo === 'repositorio') {
+      pares = [['Variante', 'Repositorio remoto'], ['Dirección', origen.url], ['Rama', origen.rama],
+        ['Ruta del archivo de construcción', origen.rutaDockerfile], ['Contexto', origen.contextoBuild]];
+    } else if (origen.tipo === 'dockerfile') {
+      pares = [['Variante', 'Archivo de construcción en línea'], ['Modificado', origen.modificadoEn]];
+    } else {
+      pares = [['Variante', 'Sin origen']];
+    }
+
+    var html = '<section class="mq-origen-lectura" aria-label="Origen del servicio, en lectura">';
+    html += '<div class="mq-fila"><h3 class="mq-titulo-seccion" style="margin-right:auto">Origen</h3>' +
+      '<span class="mq-par-estado mq-estado--detenido">Sólo lectura</span></div>';
+    html += filasClaveValor(pares);
+
+    if (origen.tipo === 'dockerfile') {
+      html += '<pre class="mq-registro" tabindex="0" role="region" aria-label="Contenido del archivo de construcción, sólo lectura">' +
+        esc(origen.contenido) + '</pre>';
+    }
+    if (origen.tipo === 'ninguno') {
+      html += '<p class="mq-caption">Este servicio no tiene origen declarado. Se lo dice con esas palabras y se ofrece la acción de resolverlo.</p>' +
+        '<p><a class="mq-btn" href="Alta-De-Servicio.html#estado=servicio-sin-origen-guardado">Resolver el origen</a></p>';
+    }
+
+    /* Digesto — SUP-06 §3.5. La etiqueta es lo prominente porque es lo que el
+       administrador reconoce; el digesto es secundario y abreviado, con la
+       forma completa disponible. Lo que NO se admite es que el digesto no
+       esté: es el único dato que responde qué corre. */
+    if (origen.tipo === 'imagen-publica' || origen.tipo === 'imagen-privada') {
+      html += '<div class="mq-digesto">';
+      if (o.digestoContradictorio) {
+        /* Dos fuentes vigentes declaran digestos distintos para la misma
+           imagen. La maqueta NO elige: exhibe las dos con su fuente y lo
+           rotula como contradicción. Elegir una sería fabricar una decisión
+           que nadie tomó, y ocultar la otra sería peor. */
+        html += bloqueDigestoContradictorio(o.digestoContradictorio);
+      } else if (o.digesto) {
+        html += '<span class="mq-meta">Digesto en uso</span> ' +
+          '<span class="mq-literal">' + esc(o.digesto) + '</span>' +
+          '<span class="mq-hint">Se resuelve por el bloque de imagen del despliegue y nunca por la etiqueta. Con política flotante son dos datos distintos: la etiqueta dice qué se pidió y el digesto dice qué se obtuvo.</span>' +
+          (o.digestoCompleto === false
+            ? '<span class="mq-hint">Ninguna fuente declara un digesto completo: el anexo E-2 §20.2.5 lo trae abreviado. La maqueta no completa los caracteres que faltan, de modo que la acción de ver la forma completa que §3.5 pide no se puede demostrar acá.</span>'
+            : '');
+      } else {
+        html += '<span class="mq-meta">Digesto en uso</span> ' +
+          '<span class="mq-par-estado mq-estado--degradado">' + icono('info', 12) + ' No registrado</span>' +
+          '<span class="mq-hint">' + esc(o.motivoSinDigesto || 'Este despliegue es anterior a la decisión Q-15 y no registró el digesto. Se declara como no registrado y no se deja en blanco: un blanco se lee como falta de carga.') + '</span>';
+      }
+      html += '</div>';
+    }
+
+    html += '<p class="mq-hint">El origen no es editable desde ninguna superficie. No es una elección de diseño: no hay camino para cambiarlo en un servicio existente. Es la brecha B-UX-25, sobre la pendiente Q-28, abierta. Se declara en lugar de mostrar un control deshabilitado sin explicación.</p>';
+    html += '</section>';
+    return html;
+  }
+
+  /* Bloque del digesto en conflicto. Lo comparten SUP-06 y SUP-18, y los dos
+     lo leen del MISMO objeto de `Datos-Maqueta.js`: es lo que garantiza que
+     las dos superficies no puedan divergir sobre este dato. */
+  function bloqueDigestoContradictorio(dc) {
+    var html = '<div class="mq-digesto-conflicto" role="note"' +
+      ' aria-label="Digesto en conflicto entre dos fuentes. La maqueta no elige entre ellas.">' +
+      '<span class="mq-meta">Digesto en uso</span> ' +
+      '<span class="mq-par-estado mq-estado--degradado">' + icono('alert', 12) + ' Declarado distinto por dos fuentes</span>' +
+      '<ul class="mq-lista-limpia mq-conflicto-lista">';
+    dc.declaraciones.forEach(function (d) {
+      html += '<li><code class="mq-literal">' + esc(d.digesto) + '</code>' +
+        '<span class="mq-caption">' + esc(d.fuente) + '</span></li>';
+    });
+    html += '</ul>' +
+      '<span class="mq-hint">' + esc(dc.motivo) + '</span>' +
+      '<details class="mq-expander mq-expander--compacto"><summary>Ver el detalle de la contradicción</summary>' +
+      '<p class="mq-hint">' + esc(dc.agravante) + '</p>' +
+      '<p class="mq-hint">' + esc(dc.segundaContradiccion) + '</p>' +
+      '<p class="mq-hint">Destinatario: ' + esc(dc.destinatario) + '</p></details>' +
+      '</div>';
+    return html;
+  }
+
+  /* Procedencia — SUP-06 §3.6. Dato histórico, nunca vínculo vivo, y nunca
+     avisa que hay una versión más nueva del ítem: informar de algo que no se
+     puede hacer es peor que no informarlo (D-14). */
+  function procedenciaDe(pr) {
+    if (!pr) {
+      return '<p class="mq-caption">Sin procedencia: el servicio se declaró directamente, no por adopción ni desde el catálogo.</p>';
+    }
+    if (pr.via === 'catalogo') {
+      return '<section aria-label="Procedencia del servicio">' +
+        '<h3 class="mq-titulo-seccion">Procedencia</h3>' +
+        filasClaveValor([
+          ['Vía de alta', 'Desde el catálogo'],
+          ['Ítem', pr.itemNombre],
+          ['Versión de contenido', String(pr.versionContenido)],
+          ['Instanciado', pr.instanciadoEn]
+        ]) +
+        '<p class="mq-hint">Es un dato histórico y no un vínculo vivo: lo que se guardó es una copia y no una referencia. Sigue respondiendo de dónde salió aunque el ítem ya no exista. No se avisa que haya una versión más nueva, porque no hay acción de actualizar.</p></section>';
+    }
+    return '<section aria-label="Procedencia del servicio">' +
+      '<h3 class="mq-titulo-seccion">Procedencia</h3>' +
+      filasClaveValor([
+        ['Vía de alta', 'Adoptar un contenedor existente'],
+        ['Contenedor', pr.contenedorId],
+        ['Adoptado', pr.adoptadoEn]
+      ]) +
+      '<p class="mq-hint">La procedencia es auditoría de la vía de alta y no configuración: no vive en el origen. La vía de alta no se persiste; su huella, sí.</p></section>';
+  }
 
   var R = {};
 
@@ -731,29 +1183,55 @@
 
   var NODO_ANCHO = 260, NODO_ALTO = 132;
 
-  /* La acción de alta del lienzo lleva al estado de alta del panel lateral.
-     Hasta el paso 5 de esta fase no llevaba a ninguna parte: ninguna
-     superficie de 03-UX-UI-DX materializaba los pasos 3 y 4 de CU-03. */
+  /* Única acción primaria de la pantalla. Abre el MENÚ DE LAS SIETE VÍAS de
+     alta (SUP-05 §3.1), que es el primer paso del flujo de SUP-17 y no un
+     campo de origen: presentar sólo los valores técnicos de origen era el
+     defecto de la versión 1.0, porque obligaba al administrador a saber qué
+     es una dirección de imagen antes de que el producto le contara qué le
+     ofrece. */
   function enlaceNuevoServicio(primario) {
     return '<a class="mq-btn' + (primario ? ' mq-btn--primario' : '') +
-      '" href="Alta-De-Servicio.html">' +
+      '" href="Alta-De-Servicio.html#estado=eleccion-de-via" ' +
+      'aria-label="Nuevo servicio. Abre el menú de las siete vías de alta">' +
       icono('mas') + ' Nuevo servicio</a>';
   }
 
   function nodoServicio(s, opciones) {
     var o = opciones || {};
-    var estadoNodo = o.estado || s.estado;
-    var etiqueta = o.etiquetaEstado || ETIQUETAS_ESTADO[estadoNodo];
-    var nombreAccesible = s.nombre + ', ' + etiqueta;
+    /* El nodo BORRADOR: existe, está incompleto y no es aplicable. No puede
+       compartir representación con el modo pendiente, porque significan cosas
+       opuestas (SUP-05 §3.3). El anexo E-18 no declara su señal visual
+       —brecha B-UX-24— y la maqueta NO inventa color ni insignia: aplica el
+       tratamiento provisional que Representacion-Lenguaje-Visual-De-Estados
+       §3.3 ya declara para las variantes sin fila, que es par neutro con
+       etiqueta textual propia, más el trazo punteado que ya distingue a todo
+       estado no aplicado. */
+    var esBorrador = o.borrador || s.estadoServicio === 'borrador';
+    var estadoNodo = esBorrador ? 'borrador' : (o.estado || s.estado);
+    var etiqueta = esBorrador ? 'Borrador' : (o.etiquetaEstado || ETIQUETAS_ESTADO[estadoNodo]);
+    var nombreAccesible = s.nombre + ', ' + etiqueta +
+      (esBorrador ? ', incompleto y fuera del conjunto de cambios pendientes' : '');
     var html = '<div class="mq-nodo" data-estado="' + esc(estadoNodo) + '" style="left:' + s.posicion.x + 'px;top:' + s.posicion.y + 'px">';
     html += '<button type="button" class="mq-puerto mq-puerto--entrada" aria-label="Puerto de entrada de ' + esc(s.nombre) + '"><span></span></button>';
     html += '<button type="button" class="mq-puerto mq-puerto--salida" aria-label="Puerto de salida de ' + esc(s.nombre) + '"><span></span></button>';
     html += '<div class="mq-nodo-cabecera">' +
       '<span aria-hidden="true">' + icono(s.nombre === 'db' ? 'base' : 'caja', 18) + '</span>' +
       '<button type="button" class="mq-nodo-nombre" style="background:none;border:0;padding:0;text-align:left;cursor:pointer" ' +
-      'aria-label="' + esc(nombreAccesible) + '. Abrir el panel del servicio">' + esc(s.nombre) + '</button>' +
-      parEstado(estadoNodo, { etiqueta: etiqueta }) + '</div>';
-    html += '<div class="mq-nodo-sub mq-literal">' + esc(s.origen.imagen) + ':' + esc(s.origen.etiqueta) + '</div>';
+      'aria-label="' + esc(nombreAccesible) + '. ' +
+      (esBorrador ? 'Retomar el alta donde se dejó' : 'Abrir el panel del servicio') + '">' + esc(s.nombre) + '</button>' +
+      (esBorrador ? parEstadoServicio('borrador') : parEstado(estadoNodo, { etiqueta: etiqueta })) + '</div>';
+    html += '<div class="mq-nodo-sub mq-literal">' +
+      (s.origen.imagen ? esc(s.origen.imagen) + (s.origen.etiqueta ? ':' + esc(s.origen.etiqueta) : '')
+        : '<span class="mq-caption">Origen sin resolver</span>') + '</div>';
+    if (esBorrador) {
+      html += '<div class="mq-nodo-borrador">' + icono('info', 12) +
+        ' Incompleto: falta ' + esc((s.pasosPendientes || []).join(', ')) +
+        '. No entra al conjunto de cambios pendientes.</div>';
+      html += '<div class="mq-nodo-pie"><button type="button" class="mq-btn" ' +
+        'aria-label="Retomar el alta de ' + esc(s.nombre) + ' en el paso en el que se dejó">Retomar el alta</button></div>';
+      if (o.causa) { html += '<div class="mq-estado-causa">' + esc(o.causa) + '</div>'; }
+      return html + '</div>';
+    }
     if (s.metricas && !o.sinMetricas) {
       html += '<div class="mq-nodo-metricas">' +
         barraMagnitud(s.metricas.memoriaUsadaMb, s.metricas.memoriaLimiteMb, 'MB', 'Memoria de ' + s.nombre) +
@@ -886,6 +1364,45 @@
       '<button type="button" class="mq-btn">' + icono('play') + ' Arrancar</button>' +
       '<button type="button" class="mq-btn">' + icono('stop') + ' Detener</button></div>';
 
+    /* Menú de las siete vías — §3.1. Se abre desde la única acción primaria. */
+    if (estado === 'menu-vias') {
+      return html + '<div class="mq-superpuesta mq-superpuesta--ancha">' +
+        '<header><div><h2>Agregar un servicio a «' + esc(proyecto.nombre) + '»</h2>' +
+        '<p class="mq-caption" style="margin:var(--space-4) 0 0">Las siete se presentan al mismo nivel. Cada una dice qué resuelve.</p></div>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar el menú sin agregar ningún servicio">' + icono('cerrar', 14) + '</button></header>' +
+        menuVias() +
+        '<p class="mq-hint">Son dos ejes independientes: la vía es cómo llegás y no se persiste; el origen es qué queda declarado y sí se persiste, como variante discriminada de cinco valores. Presentar el catálogo o la adopción dentro de una variante de origen contradiría la separación.</p>' +
+        '</div>';
+    }
+
+    /* Instanciación de una plantilla — §3.2. Es lo propio de la vía del
+       catálogo y ninguna de las otras seis lo hace: una sola confirmación
+       puede producir dos o tres nodos con sus aristas ya trazadas. */
+    if (estado === 'instanciacion-plantilla') {
+      var it = D.ITEMS_CATALOGO[1];
+      html += bandaInfo('Se van a crear ' + it.servicios + ' servicios y ' + it.enlaces +
+        ' enlace a partir de «' + it.nombre + '». Nombres previstos: portal-api, portal-db. Variables compartidas a crear: DB_PASSWORD.');
+      html += '<p class="mq-hint">Se declara antes de crear: el administrador está por meter varios nodos con una sola acción y tiene que saber cuántos antes de darle.</p>';
+      html += bandaInfo('El nombre «portal-db» ya existía en el proyecto destino. Se creó como «portal-db-2».');
+      html += '<p class="mq-hint">El aviso de nombre sufijado se muestra como información y no como error: el sufijo automático es el comportamiento correcto y declarado. Presentarlo en rojo haría buscar un problema que no existe.</p>';
+      html += '<div class="mq-lienzo-layout"><div class="mq-lienzo-marco">';
+      html += '<div class="mq-lienzo"><div class="mq-lienzo-nodos">';
+      var nuevos = [
+        { id: 901, nombre: 'portal-api', origen: { imagen: 'imagen-oficial/postgres', etiqueta: '16-alpine' },
+          red: { modo: 'bridge', aliasDns: 'portal-api', ipFija: null }, replicas: 1,
+          politicaReinicio: 'unless-stopped', posicion: { x: 20, y: 20 }, estado: 'pendiente', metricas: null },
+        { id: 902, nombre: 'portal-db-2', origen: { imagen: 'imagen-oficial/postgres', etiqueta: '16.3' },
+          red: { modo: 'bridge', aliasDns: 'portal-db-2', ipFija: null }, replicas: 1,
+          politicaReinicio: 'unless-stopped', posicion: { x: 360, y: 20 }, estado: 'pendiente', metricas: null }
+      ];
+      html += svgAristas(nuevos, [{ origen: 901, destino: 902, espera: true }], {});
+      nuevos.forEach(function (nv) { html += nodoServicio(nv, { estado: 'pendiente' }); });
+      html += '</div></div>';
+      html += '<p class="mq-hint">Los nodos nuevos aparecen en modo pendiente, con sus aristas ya trazadas, y la vista los encuadra en lugar de dejarlos donde caigan: con dos o tres nodos apareciendo de golpe, no encuadrarlos obliga a buscarlos.</p>';
+      html += '</div>' + panelActividad(proyecto, false) + '</div>';
+      return html;
+    }
+
     if (estado === 'error') {
       return html + bandaError('No se pudo traer el proyecto. El estado que ves puede no ser el actual.') +
         '<p><button type="button" class="mq-btn">' + icono('refresh') + ' Reintentar</button></p>';
@@ -945,6 +1462,9 @@
     if (estado === 'nodo-huerfano') {
       servicios = servicios.concat([D.SERVICIO_INCORPORADO]);
     }
+    if (estado === 'nodo-borrador') {
+      servicios = servicios.concat(D.SERVICIOS_BORRADOR);
+    }
     if (estado === 'con-datos' || estado === 'con-cambios-pendientes' || estado === 'proyecto-parcial') {
       opcionesNodo[102] = { estado: 'fallido', causa: D.SERVICIOS[1].causa };
     }
@@ -963,6 +1483,13 @@
       '<button type="button" class="mq-btn">Minimapa</button></div>';
     html += '<p class="mq-hint" style="margin-top:var(--space-8)">Mover un nodo se guarda al instante, no entra al conjunto de cambios pendientes ' +
       'y no marca redespliegue. Alternativa por teclado: enfocá un nodo y usá las teclas de dirección.</p>';
+    if (estado === 'nodo-borrador') {
+      html += '<div class="mq-nota-propuesta"><strong>Brecha declarada B-UX-24 · señal visual del nodo borrador</strong>' +
+        '<p style="margin:var(--space-4) 0">El contrato visual del anexo E-18 no tiene fila para el estado borrador, porque el estado no existía cuando se declaró, y la representación del lenguaje visual de estados tampoco lo incorpora. Esta maqueta <strong>no elige color ni insignia</strong>: aplica el mismo tratamiento provisional que esa representación ya declara para «finalizado» y «pausado» —par neutro con etiqueta textual propia—, más el trazo punteado que ya distingue a todo estado no aplicado.</p>' +
+        '<ul class="mq-lista-puntos"><li>No usa el violeta que E-18 reserva en exclusiva a «pendiente de aplicar»: borrador y pendiente significan cosas opuestas y no pueden compartir representación.</li>' +
+        '<li>El color no es el único canal: la etiqueta textual «Borrador» y la línea de qué falta lo sostienen.</li>' +
+        '<li>La resolución la emite 03-UX-UI-DX en la revisión de la representación, no esta maqueta.</li></ul></div>';
+    }
     html += '</div>';
     html += panelActividad(proyecto, estado === 'proyecto-parcial');
     html += '</div>';
@@ -984,137 +1511,403 @@
   /* Campo del formulario de alta, derivado de su declaración en Datos-Maqueta.
      Un campo sin ejemplo en la documentación se dibuja vacío y declara por qué:
      no se inventa el valor. */
-  function campoAlta(c, opciones) {
-    var o = opciones || {};
-    var idc = id('alta');
-    var idHint = idc + '-hint';
-    var idErr = idc + '-err';
-    var describe = [idHint];
-    if (o.error) { describe.push(idErr); }
+  /* ── SUP-17 · Alta de servicio ─────────────────────────────────────────
+     Superficie propia. `Wireframes-Alta-De-Servicio.md` 2.1, §1 a §7.
+     `PA-15` quedó resuelto el 2026-07-30 a favor de la superficie propia:
+     no se reubica contenido y no se renumera ninguna superficie.
 
-    var html = '<div class="mq-campo">';
-    if (c.tipo !== 'booleano') {
-      html += '<label for="' + idc + '">' + esc(c.etiqueta) +
-        (c.requerido ? ' <span class="mq-meta">(obligatorio)</span>' : '') + '</label>';
-    }
+     Las dos decisiones de composición que el layout de §2 materializa:
+       · el paso 1 es una GRILLA DE TARJETAS y no un desplegable;
+       · los DOS INFORMES ocupan zonas distintas —el del origen contiguo a su
+         bloque, el de la configuración al pie del formulario completo—,
+         porque son dos operaciones con alcances distintos y compartir zona
+         sugeriría que son una. */
 
-    if (c.tipo === 'seleccion') {
-      if (c.enum && c.enum.length) {
-        html += '<select class="mq-select" id="' + idc + '" aria-describedby="' + describe.join(' ') + '"' +
-          (o.error ? ' aria-invalid="true"' : '') + '>';
-        c.enum.forEach(function (v) {
-          html += '<option' + (v === c.ejemplo ? ' selected' : '') + '>' + esc(v) + '</option>';
-        });
-        html += '</select>';
-      } else {
-        html += '<select class="mq-select" id="' + idc + '" aria-describedby="' + describe.join(' ') + '" disabled>' +
-          '<option>Sin conjunto de valores declarado</option></select>';
-      }
-    } else if (c.tipo === 'booleano') {
-      html += '<label class="mq-toggle" for="' + idc + '"><input type="checkbox" id="' + idc + '"' +
-        (c.ejemplo === 'true' ? ' checked' : '') + ' aria-describedby="' + describe.join(' ') + '"> ' +
-        '<span>' + esc(c.etiqueta) + '</span></label>';
-    } else {
-      html += '<input class="mq-input" type="text" id="' + idc + '"' +
-        (o.error ? ' aria-invalid="true"' : '') +
-        ' value="' + esc(o.valor !== undefined ? o.valor : (c.ejemplo || '')) + '"' +
-        ' aria-describedby="' + describe.join(' ') + '">';
-    }
+  var ESTADOS_ALTA_TRONCO = {
+    'tronco-origen-sin-resolver': { via: 'imagen-publica', paso: 'origen', pendientes: ['origen', 'red', 'puertos', 'dimensiones'], origenCompleto: false },
+    'origen-sin-verificar': { via: 'imagen-publica', paso: 'origen', pendientes: ['red', 'puertos', 'dimensiones'], origenCompleto: true },
+    'origen-de-exploracion': { via: 'imagen-publica', paso: 'origen', pendientes: ['red', 'puertos', 'dimensiones'], origenCompleto: true },
+    'origen-verificado': { via: 'imagen-publica', paso: 'origen', pendientes: ['red', 'puertos', 'dimensiones'], origenCompleto: true, informeOrigen: 'verificado' },
+    'origen-dato-incorrecto': { via: 'imagen-publica', paso: 'origen', pendientes: ['red', 'puertos', 'dimensiones'], origenCompleto: true, informeOrigen: 'datoIncorrecto' },
+    'origen-indeterminado': { via: 'imagen-publica', paso: 'origen', pendientes: ['red', 'puertos', 'dimensiones'], origenCompleto: true, informeOrigen: 'consultaImposible' },
+    'configuracion-sin-validar': { via: 'imagen-publica', paso: 'dimensiones', pendientes: [], origenCompleto: true, informeOrigen: 'verificado' },
+    'configuracion-validada': { via: 'imagen-publica', paso: 'dimensiones', pendientes: [], origenCompleto: true, informeOrigen: 'verificado', informeConfig: 'validado' },
+    'configuracion-con-hallazgos': { via: 'imagen-publica', paso: 'dimensiones', pendientes: [], origenCompleto: true, informeOrigen: 'verificado', informeConfig: 'conHallazgos' },
+    'colision-de-puerto': { via: 'imagen-publica', paso: 'puertos', pendientes: [], origenCompleto: true, informeOrigen: 'verificado', informeConfig: 'conHallazgos' },
+    'campo-ajeno-a-la-variante': { via: 'repositorio', paso: 'origen', pendientes: ['red', 'puertos', 'dimensiones'], origenCompleto: true },
+    'borrador-guardado': { via: 'imagen-privada', paso: 'origen', pendientes: ['red', 'puertos', 'dimensiones'], origenCompleto: false },
+    'pendiente-de-aplicar': { via: 'imagen-publica', paso: 'dimensiones', pendientes: [], origenCompleto: true, informeOrigen: 'verificado', informeConfig: 'validado' },
+    'puertos-deshabilitados': { via: 'imagen-privada', paso: 'puertos', pendientes: [], origenCompleto: true, informeOrigen: 'verificado', macvlan: true },
+    'via-sin-origen-propio': { via: 'adopcion', paso: 'red', pendientes: [], origenCompleto: true, lectura: true },
+    'servicio-sin-origen-guardado': { via: 'ninguno', paso: 'nombre', pendientes: ['origen', 'red', 'puertos', 'dimensiones'], origenCompleto: false },
+    'cargando': { via: 'imagen-publica', paso: 'origen', pendientes: ['red', 'puertos', 'dimensiones'], origenCompleto: true, cargando: true }
+  };
 
-    var hint = c.sinEjemplo
-      ? c.sinEjemplo
-      : 'Ejemplo tomado del anexo ' + (c.fuente || 'sin declarar') + '. Leyenda y ejemplos de consecuencia sin declarar (B-UX-04).';
-    html += '<span class="mq-hint" id="' + idHint + '">' + esc(hint) + '</span>';
-    if (o.error) {
-      html += '<span class="mq-error-inline" id="' + idErr + '">' + esc(o.error) + '</span>';
-    }
-    return html + '</div>';
+  function cabeceraAlta(cfg, estado) {
+    var via = D.via(cfg.via);
+    var proyecto = D.PROYECTOS[0];
+    var html = '<div class="mq-panel-cabecera">' +
+      '<div><h2>Agregar un servicio a «' + esc(proyecto.nombre) + '» · ' + esc(via.etiqueta) + '</h2>' +
+      '<p class="mq-caption" style="margin:var(--space-4) 0 0">' +
+      parEstadoServicio(estado === 'pendiente-de-aplicar' ? 'pendiente-de-aplicar' : 'borrador') +
+      ' El servicio existe desde que se eligió la vía, y es visible en el lienzo.</p></div>' +
+      '<button type="button" class="mq-btn-icono" aria-label="Abandonar el alta. Se pide confirmación si hay algo declarado y nada se persiste">' +
+      icono('cerrar', 14) + '</button></div>';
+    return html;
   }
 
-  /* Estado de alta de servicio — pasos 3 y 4 de CU-03. PROPUESTA A VALIDAR. */
-  function panelAltaDeServicio(estado) {
+  /* Pie con las DOS acciones de salida, que son cosas distintas y no un único
+     botón cuyo efecto depende del estado — §3.4.
+     Guardar NUNCA está deshabilitada, y es deliberado. Dejar pendiente lo
+     está mientras falte una verificación, y DECLARA POR QUÉ. */
+  function pieAlta(cfg) {
+    var b = D.ALTA_SERVICIO.borrador;
+    var origenOk = cfg.informeOrigen === 'verificado';
+    var configOk = cfg.informeConfig === 'validado';
+    var enVerde = origenOk && configOk;
+    /* La acción declara POR QUÉ está deshabilitada, y nombra exactamente cuál
+       de las dos verificaciones falta. Un motivo genérico obliga a adivinar. */
+    var faltan = [];
+    if (!origenOk) {
+      faltan.push(cfg.informeOrigen ? 'la verificación del origen no dio verificado' : 'falta verificar el origen');
+    }
+    if (!configOk) {
+      faltan.push(cfg.informeConfig ? 'la validación de la configuración tiene hallazgos bloqueantes' : 'falta validar la configuración');
+    }
+    var motivo = enVerde ? null : 'Deshabilitada porque ' + faltan.join(' y ') + '.';
+
+    var html = '<div class="mq-pie-alta">';
+    html += '<button type="button" class="mq-btn">Guardar como borrador</button>';
+    html += '<span class="mq-empuje">';
+    html += '<button type="button" class="mq-btn">Validar la configuración</button> ';
+    html += '<button type="button" class="mq-btn mq-btn--primario"' +
+      (enVerde ? '' : ' disabled aria-describedby="alta-motivo-pendiente"') +
+      ' aria-label="Dejar pendiente de aplicar. El servicio entra al conjunto de cambios pendientes' +
+      (enVerde ? '' : '. Deshabilitada: ' + esc(motivo)) + '">Dejar pendiente de aplicar</button>';
+    html += '</span></div>';
+    if (!enVerde) {
+      html += '<p class="mq-hint" id="alta-motivo-pendiente">' + esc(motivo) + '</p>';
+    }
+    html += '<p class="mq-hint">' + esc(b.porQueGuardarNuncaSeDeshabilita) + '</p>';
+    return html;
+  }
+
+  function dimensionesAlta(cfg) {
+    var d = D.ALTA_SERVICIO.dimensiones;
+    var red = cfg.macvlan ? d.redMacvlan : d.red;
+    var html = '<section aria-label="Dimensiones del servicio">';
+
+    html += '<h3 class="mq-titulo-seccion">Red</h3>';
+    html += '<div class="mq-grilla-campos">' +
+      '<div class="mq-campo"><label for="al-modo">Modo de red</label>' +
+      '<select class="mq-select" id="al-modo" aria-describedby="al-modo-hint">' +
+      '<option' + (red.modo === 'bridge' ? ' selected' : '') + '>bridge</option>' +
+      '<option' + (red.modo === 'macvlan' ? ' selected' : '') + '>macvlan</option></select>' +
+      '<span class="mq-hint" id="al-modo-hint">El modo por defecto es el de red virtual del motor (DA-03, a nivel de proyecto).</span></div>' +
+      '<div class="mq-campo"><label for="al-ip">Dirección fija</label>' +
+      '<input class="mq-input" id="al-ip" value="' + esc(red.ipFija || '') + '" aria-describedby="al-ip-hint">' +
+      '<span class="mq-hint" id="al-ip-hint">Debe pertenecer al rango gestionado y no estar excluida; el rechazo sugiere la siguiente libre (RN-06).</span></div>' +
+      (red.interfazPadre
+        ? '<div class="mq-campo"><label for="al-padre">Interfaz padre</label>' +
+          '<input class="mq-input" id="al-padre" value="' + esc(red.interfazPadre) + '" aria-describedby="al-padre-hint">' +
+          '<span class="mq-hint" id="al-padre-hint">Ejemplo tomado de E-2 §20.2.6.</span></div>'
+        : '') +
+      '</div>';
+
+    html += '<h3 class="mq-titulo-seccion" style="margin-top:var(--space-16)">Puertos publicados</h3>';
+    if (cfg.macvlan) {
+      /* Los puertos se gatean por el modo de red — §3, componente de
+         dimensiones. El bloque NO ESTÁ DISPONIBLE, con el motivo declarado. */
+      html += '<div class="mq-banda mq-banda--atencion" role="note">' + icono('info') +
+        '<div><span>El bloque de puertos publicados no está disponible.</span>' +
+        '<span class="mq-hint">' + esc(d.motivoPuertosDeshabilitados) + '</span></div></div>';
+    } else {
+      html += tabla(['Contenedor', 'Host', 'Protocolo', 'Publicar'],
+        d.puertos.map(function (p) {
+          return '<tr><th scope="row" class="mq-num">' + esc(p.contenedor) + '</th>' +
+            '<td class="mq-num">' + esc(p.host) + '</td><td>' + esc(p.protocolo) + '</td>' +
+            '<td>' + (p.publicar ? 'sí' : 'no') + '</td></tr>';
+        }), { caption: 'Puertos publicados del servicio' });
+      if (cfg.informeConfig === 'conHallazgos') {
+        html += '<p class="mq-error-inline">El puerto 6379 ya lo publica el servicio «cache» del proyecto «Portal Interno». El próximo puerto libre es 6380.</p>';
+      }
+    }
+
+    html += '<h3 class="mq-titulo-seccion" style="margin-top:var(--space-16)">Comando de arranque</h3>';
+    html += '<div class="mq-campo"><label for="al-cmd">Comando de arranque</label>' +
+      '<input class="mq-input mq-literal" id="al-cmd" value="" placeholder="' + esc(d.comando.ejemplo) + '" aria-describedby="al-cmd-hint">' +
+      '<span class="mq-hint" id="al-cmd-hint">' + esc(d.comando.nota) + ' Ejemplo tomado de ' + esc(d.comando.fuente) + '.</span></div>';
+
+    html += '<h3 class="mq-titulo-seccion" style="margin-top:var(--space-16)">Resto de las dimensiones</h3>';
+    html += filasClaveValor([
+      ['Montajes', d.montajes.map(function (m) { return m.tipo + ' ' + m.nombre + ' → ' + m.destino; }).join(', ')],
+      ['Límite de memoria', d.recursos.limiteMemoriaMb + ' MB'],
+      ['Reserva de memoria', d.recursos.reservaMemoriaMb + ' MB'],
+      ['Límite de procesador', d.recursos.limiteCpus + ' CPUs'],
+      ['Política de reinicio', d.politicaReinicio],
+      ['Autoarranque', d.autoArranque ? 'sí' : 'no'],
+      ['Efímero', d.efimero ? 'sí' : 'no'],
+      ['Verificación de salud', d.healthcheck.modo + ' · cada ' + d.healthcheck.intervaloSegundos + ' s'],
+      ['Dispositivos y capacidades', 'ninguno declarado en este ejemplo']
+    ]);
+    html += '<p class="mq-hint">Variables, montajes, dispositivos y capacidades reusan los controles ya especificados. Los valores salen de E-2 §20.2.4, servicio 401.</p>';
+    html += '</section>';
+    return html;
+  }
+
+  R['SUP-17'] = function (sup, estado) {
     var a = D.ALTA_SERVICIO;
-    var origenElegido = estado === 'alta-rechazo-repositorio' ? 'repositorio' : 'imagen';
-    var errNombre = estado === 'alta-rechazo-nombre';
 
-    var html = '<div class="mq-panel" style="max-width:560px">';
+    /* ── Paso 1 · elección de vía ──────────────────────────────────────── */
+    if (estado === 'eleccion-de-via') {
+      var h = '<div class="mq-superpuesta mq-superpuesta--ancha">';
+      h += '<header><div><h2>Agregar un servicio a «' + esc(D.PROYECTOS[0].nombre) + '»</h2>' +
+        '<p class="mq-caption" style="margin:var(--space-4) 0 0">Elegí por dónde empezar. Cada tarjeta dice qué resuelve, no cómo se llama la vía.</p></div>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar el alta sin crear ningún servicio">' + icono('cerrar', 14) + '</button></header>';
+      h += menuVias();
+      h += '<hr class="mq-separador">';
+      h += '<p class="mq-hint">La vía es cómo llegás y <strong>no se persiste</strong>. El origen es qué queda declarado y sí se persiste, como variante discriminada de cinco valores. Adopción y catálogo no tienen origen propio: producen uno de los otros y dejan huella en la procedencia, que es auditoría y no configuración.</p>';
+      h += '<p class="mq-hint">La adopción va primera porque es la que resuelve el primer uso sobre un servidor que ya está en producción, y la que no exige saber ninguna dirección de imagen.</p>';
+      return h + '</div>';
+    }
 
-    html += '<div class="mq-panel-cabecera"><div><h2>Nuevo servicio</h2>' +
-      '<p class="mq-caption" style="margin:var(--space-4) 0 0">En ' + esc(D.PROYECTOS[0].nombre) + '. ' +
-      'Todavía no hay servicio: el panel no exhibe estado de ejecución ni acciones de despliegue.</p></div>' +
-      '<button type="button" class="mq-btn-icono" aria-label="Cerrar el alta sin crear el servicio">' + icono('cerrar', 14) + '</button></div>';
+    if (estado === 'error') {
+      return '<div class="mq-superpuesta">' +
+        bandaError(a.rechazos.error) +
+        '<p><button type="button" class="mq-btn">' + icono('refresh') + ' Reintentar</button> ' +
+        '<a class="mq-btn" href="Lienzo-Del-Proyecto.html">Volver al lienzo</a></p></div>';
+    }
 
-    html += notaPropuesta(a.propuesta);
+    var cfg = ESTADOS_ALTA_TRONCO[estado] || ESTADOS_ALTA_TRONCO['tronco-origen-sin-resolver'];
+    /* La vía elegida en el menú manda sobre la que el estado declara por
+       defecto: es lo que hace que las cinco variantes de origen se puedan
+       demostrar. Los estados que son PROPIOS de una variante —los dos
+       informes de verificación, la colisión de puerto, el campo ajeno— no se
+       reinterpretan: ahí manda el estado, porque su dato de ejemplo es de esa
+       variante y mostrarlo bajo otra afirmaría algo que la fuente no declara. */
+    var via = D.via((viaElegida && cfg.admiteVia !== false) ? viaElegida : cfg.via);
 
-    if (errNombre) { html += bandaError(a.rechazoNombre); }
-    if (estado === 'alta-rechazo-repositorio') { html += bandaError(a.rechazoRepositorio); }
+    var html = '<div class="mq-superpuesta mq-superpuesta--ancha">';
+    html += cabeceraAlta(cfg, estado);
 
-    /* Paso 3 — nombre y su condición de alias */
-    html += '<h3 class="mq-titulo-seccion">Paso 3 · Nombre del servicio</h3>';
+    /* Acuses de los dos desenlaces del guardado */
+    if (estado === 'borrador-guardado') {
+      html += bandaOk(a.borrador.acuseGuardado);
+    }
+    if (estado === 'servicio-sin-origen-guardado') {
+      html += bandaOk('El servicio quedó en borrador con el origen declarado como no resuelto, y la acción de resolverlo disponible.');
+    }
+    if (estado === 'pendiente-de-aplicar') {
+      html += bandaOk(a.borrador.acusePendiente);
+    }
+    if (estado === 'campo-ajeno-a-la-variante') {
+      html += bandaError(a.rechazos.campoAjeno);
+    }
+
+    html += indicadorAvance(cfg.paso, cfg.pendientes);
+
+    /* ── Paso del nombre ───────────────────────────────────────────────── */
     var n3 = a.nombre;
-    html += campoAlta({
-      clave: n3.clave, etiqueta: n3.etiqueta, tipo: 'texto', requerido: true,
-      ejemplo: errNombre ? 'Portal API' : n3.ejemploDeLaFuente, fuente: 'E-2'
-    }, { error: errNombre ? n3.restriccion : null });
+    html += '<section aria-label="Nombre del servicio">';
+    html += '<h3 class="mq-titulo-seccion">Nombre del servicio</h3>';
+    html += '<div class="mq-campo"><label for="alta-nombre">' + esc(n3.etiqueta) +
+      ' <span class="mq-meta">(obligatorio)</span></label>' +
+      '<input class="mq-input" id="alta-nombre" value="' + esc(n3.ejemplo) + '" aria-describedby="alta-nombre-hint">' +
+      '<span class="mq-hint" id="alta-nombre-hint">' + esc(n3.restriccion) +
+      ' Ejemplo tomado de ' + esc(n3.fuente) + '.</span></div>';
     html += '<div class="mq-banda mq-banda--info" role="note">' + icono('info') +
       '<div><span>' + esc(n3.advertenciaAlias) + '</span></div></div>';
-    html += '<p class="mq-hint">Límites derivados de RN-01, que sí está declarada: ' + esc(n3.restriccion) + '</p>';
+    html += '</section>';
 
-    /* Paso 4 — elección del origen entre las tres variantes de E-2 */
-    html += '<hr class="mq-separador">';
-    html += '<h3 class="mq-titulo-seccion">Paso 4 · Origen del servicio</h3>';
-    html += '<p class="mq-caption">Las tres variantes que el anexo E-2 declara. El catálogo no es un cuarto origen: ' +
-      'es una cuarta vía de alta que resuelve a una de estas tres.</p>';
-    html += '<div class="mq-opciones" role="radiogroup" aria-label="Origen del servicio">';
-    a.origenes.forEach(function (o) {
-      var rid = id('org');
-      html += '<label class="mq-opcion" for="' + rid + '">' +
-        '<input type="radio" name="origen-servicio" id="' + rid + '"' + (o.id === origenElegido ? ' checked' : '') + '>' +
-        '<span><strong>' + esc(o.etiqueta) + '</strong><span class="mq-hint">' + esc(o.descripcion) +
-        (o.reglaPropia ? ' ' + esc(o.reglaPropia) : '') + '</span></span></label>';
-    });
-    html += '</div>';
-
-    /* Campos del origen elegido */
-    var origen = a.origenes[0];
-    a.origenes.forEach(function (o) { if (o.id === origenElegido) { origen = o; } });
-
-    html += '<h4 class="mq-titulo-seccion" style="margin-top:var(--space-16)">' + esc(origen.etiqueta) + '</h4>';
-    html += '<div class="mq-grilla-campos">';
-    origen.campos.forEach(function (c) {
-      var err = null;
-      if (estado === 'alta-rechazo-repositorio' && (c.clave === 'rama' || c.clave === 'rutaDockerfile')) {
-        err = 'Este dato es obligatorio para el origen repositorio (RN-08).';
+    /* ── Paso del origen, con su informe contiguo ──────────────────────── */
+    if (cfg.cargando) {
+      html += '<section aria-label="Origen del servicio">' +
+        '<h3 class="mq-titulo-seccion">Origen · ' + esc(via.etiqueta) + '</h3>' +
+        progresoLineal() +
+        '<p class="mq-caption" role="status">Consultando el registro de imágenes. La verificación cruza a un sistema externo y puede tardar: la acción queda deshabilitada mientras corre, y hay un límite tras el cual el resultado pasa a indeterminado en lugar de quedar colgado.</p>' +
+        '<p><button type="button" class="mq-btn" disabled>' + spinner() + ' Verificando el origen…</button></p>' +
+        '</section>';
+    } else if (cfg.lectura) {
+      /* Vía de adopción o de catálogo: no tienen origen propio. Se muestra lo
+         que la vía dedujo o la plantilla declaró, en lectura, y el tronco
+         sigue desde la red — §5. */
+      var ded = via.id === 'adopcion' ? a.origenDeducido.adopcion : a.origenDeducido.catalogo;
+      html += bloqueOrigen(ded.tipo, {
+        lectura: true,
+        notaLectura: ded.nota,
+        valores: ded
+      });
+      /* La vía sin origen propio TAMBIÉN verifica: la adopción comprueba que
+         el candidato siga existiendo y no haya sido incorporado entretanto;
+         el catálogo, lo que verifique la vía del origen que la plantilla
+         declara (§3.5). */
+      html += '<div class="mq-acciones-origen">' +
+        '<button type="button" class="mq-btn">Verificar el origen</button>' +
+        '<span class="mq-hint">' + esc(via.queVerifica) + '. No bloquea guardar; sí bloquea dejar pendiente de aplicar.</span></div>';
+      html += procedenciaDe(ded.procedencia);
+    } else {
+      var vacios = null, errores = null, valores = null;
+      if (!cfg.origenCompleto && via.origenPropio && via.id !== 'ninguno') {
+        vacios = ['etiqueta', 'imagen'];
       }
-      html += campoAlta(c, err ? { error: err, valor: '' } : {});
-    });
-    html += '</div>';
+      if (estado === 'origen-dato-incorrecto') {
+        valores = { etiqueta: a.informesOrigen.datoIncorrecto.valorDeclarado };
+        errores = { etiqueta: 'La etiqueta declarada no existe en el registro. Similares: 7.2-alpine.' };
+      }
+      if (estado === 'campo-ajeno-a-la-variante') {
+        errores = { proveedor: 'Rechazo por campo ajeno a la variante, distinto del de campo faltante. En la interfaz no es alcanzable: el campo de otra variante no existe.' };
+      }
+      html += bloqueOrigen(via.origenPropio ? via.id : 'imagen-publica',
+        { vacios: vacios, errores: errores, valores: valores });
 
-    /* Continuación: pasos 5 y 6 en las pestañas ya especificadas */
-    html += '<hr class="mq-separador">';
-    html += '<div class="mq-banda mq-banda--info" role="note">' + icono('info') +
-      '<div><span>' + esc(a.continuacion) + '</span></div></div>';
+      /* La acción de verificar, contigua a su bloque. */
+      if (via.id !== 'ninguno') {
+        html += '<div class="mq-acciones-origen">';
+        if (!cfg.origenCompleto) {
+          html += '<button type="button" class="mq-btn" disabled aria-describedby="alta-verif-motivo">Verificar el origen</button>' +
+            '<span class="mq-hint" id="alta-verif-motivo">Deshabilitada: el origen todavía no declara lo que su variante exige.</span>';
+        } else {
+          html += '<button type="button" class="mq-btn">Verificar el origen</button>' +
+            '<span class="mq-hint">' + esc(via.queVerifica) + '. No bloquea guardar; sí bloquea dejar pendiente de aplicar.</span>';
+        }
+        html += '</div>';
+      }
 
-    /* Una sola acción primaria en la superficie */
-    html += '<div class="mq-acciones"><button type="button" class="mq-btn">Cancelar</button>' +
-      '<button type="button" class="mq-btn mq-btn--primario" ' +
-      'aria-label="Guardar el alta y agregarla al conjunto pendiente, sin desplegar">Guardar cambio</button></div>';
-    html += '<p class="mq-hint">Guardar no despliega: el servicio entra al conjunto de cambios pendientes y su nodo aparece ' +
-      'en el lienzo en estado pendiente de aplicar.</p>';
+      /* El informe del origen vive CONTIGUO al bloque de origen. */
+      if (cfg.informeOrigen) {
+        html += informeOrigen(a.informesOrigen[cfg.informeOrigen], {
+          notaDigesto: cfg.informeOrigen === 'verificado'
+            ? 'El digesto es con lo que el despliegue va a trabajar. Se expone completo al texto accesible aunque se muestre abreviado.' : null
+        });
+      } else if (estado === 'origen-de-exploracion') {
+        /* Volver de la exploración NO saltea la verificación: el origen queda
+           completo y sin verificar, y la superficie NO lo distingue
+           visualmente de uno escrito a mano. Distinguirlo sugeriría que un
+           origen explorado vale más que uno escrito. */
+        html += '<p class="mq-hint">Los campos vinieron de la exploración del registro y el origen quedó <strong>completo y sin verificar</strong>. No aparece ningún tilde: el digesto que la exploración mostró no se presenta como verificado. Es el mismo estado «origen sin verificar» alcanzado por otro camino, y la superficie no lo distingue visualmente.</p>';
+      } else if (cfg.origenCompleto) {
+        html += '<p class="mq-hint">El origen está completo y no se verificó. La acción de dejar pendiente de aplicar queda deshabilitada declarando que falta verificar.</p>';
+      }
+    }
+
+    /* ── Resto del tronco ──────────────────────────────────────────────── */
+    if (!cfg.cargando) {
+      html += '<hr class="mq-separador">';
+      html += dimensionesAlta(cfg);
+    }
+
+    /* ── Informe de la configuración, al PIE del formulario completo ───── */
+    if (cfg.informeConfig) {
+      html += '<hr class="mq-separador">';
+      html += informeConfiguracion(a.informesConfiguracion[cfg.informeConfig]);
+    } else if (!cfg.cargando) {
+      html += '<hr class="mq-separador">';
+      html += '<p class="mq-hint">La configuración tiene datos y no se validó: el informe está ausente y la acción de validar, disponible.</p>';
+    }
+
+    html += pieAlta(cfg);
+
+    /* Las dos verificaciones, con sus cuatro criterios, para que el humano
+       pueda contrastar lo que ve contra lo que la fuente declara. */
+    html += '<details class="mq-expander"><summary>Los cuatro criterios que gobiernan las dos verificaciones</summary>' +
+      '<ul class="mq-lista-puntos mq-caption">' +
+      a.criteriosVerificacion.map(function (c) {
+        return '<li><strong>' + esc(c.id) + '</strong> — ' + esc(c.texto) + '</li>';
+      }).join('') + '</ul></details>';
+
     return html + '</div>';
-  }
-
-  /* ── SUP-17 · Alta de servicio ─────────────────────────────────────────
-     PROPUESTA A VALIDAR. Superficie propia, decidida por el agente humano en la
-     segunda iteracion del paso 5, tras ver que alojar el alta en el panel
-     contextual contradecia su regla de existir solo con un servicio
-     seleccionado. Todavia no tiene wireframe: lo emite AG-03 en el paso 6. */
-  R['SUP-17'] = function (sup, estado) {
-    return panelAltaDeServicio(estado === 'con-datos' ? 'alta-de-servicio' : estado);
+  };
+  /* Mapa de los estados suplementarios de SUP-06 a la variante de origen que
+     cada uno exhibe en lectura — §3.4. */
+  var ORIGEN_EN_LECTURA = {
+    'origen-imagen-publica': 'imagen-publica',
+    'origen-imagen-privada': 'imagen-privada',
+    'origen-repositorio': 'repositorio',
+    'origen-dockerfile': 'dockerfile',
+    'origen-ninguno': 'ninguno'
   };
 
   R['SUP-06'] = function (sup, estado) {
     var s = D.SERVICIOS[0];
+
+    /* §3.4 · el origen en modo lectura, una vista por variante. */
+    if (ORIGEN_EN_LECTURA[estado]) {
+      var tipo = ORIGEN_EN_LECTURA[estado];
+      var muestra;
+      if (tipo === 'imagen-privada') { muestra = D.SERVICIOS[0].origen; }
+      else if (tipo === 'imagen-publica') { muestra = D.SERVICIOS[2].origen; }
+      else if (tipo === 'dockerfile') { muestra = D.SERVICIOS_BORRADOR[0].origen; }
+      else if (tipo === 'ninguno') { muestra = D.SERVICIOS_BORRADOR[1].origen; }
+      else { muestra = D.ALTA_SERVICIO.origenDeducido.catalogo; }
+      if (tipo === 'repositorio') {
+        muestra = { tipo: 'repositorio', url: 'https://github.com/usuario/portal-informes', rama: 'main',
+          rutaDockerfile: 'src/Informes/Dockerfile', contextoBuild: '.' };
+      }
+      var hd = '<div class="mq-panel" style="max-width:560px">';
+      hd += '<div class="mq-panel-cabecera"><div><h2>' + esc(tipo === 'repositorio' ? 'informes' : s.nombre) + '</h2>' +
+        parEstadoServicio('aplicado') + '</div>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar el panel del servicio">' + icono('cerrar', 14) + '</button></div>';
+      /* El digesto sale del servicio que la variante exhibe, con lo que la
+         fuente declara para ÉL: el privado es el de `portal-api:1.4.2`, que
+         dos anexos declaran distinto, y el público es el de
+         `postgres:16-alpine`, para el que ninguna fuente declara ninguno. */
+      var srvMuestra = tipo === 'imagen-publica' ? D.SERVICIOS[2] : (tipo === 'imagen-privada' ? D.SERVICIOS[0] : null);
+      hd += origenEnLectura(muestra, {
+        digestoCompleto: false,
+        digesto: srvMuestra ? srvMuestra.digesto : null,
+        digestoContradictorio: srvMuestra ? srvMuestra.digestoContradictorio : null,
+        motivoSinDigesto: srvMuestra ? srvMuestra.digestoSinFuente : null
+      });
+      return hd + '</div>';
+    }
+
+    /* §3.5 · un despliegue anterior a Q-15 no registró el digesto. Se declara
+       como no registrado, con esas palabras, y no se deja en blanco: una
+       celda vacía se lee como falta de carga. */
+    if (estado === 'digesto-no-registrado') {
+      var c2 = D.SERVICIOS[1];
+      return '<div class="mq-panel" style="max-width:560px">' +
+        '<div class="mq-panel-cabecera"><div><h2>' + esc(c2.nombre) + '</h2>' +
+        parEstado('fallido', { causa: c2.causa }) + '</div>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar el panel del servicio">' + icono('cerrar', 14) + '</button></div>' +
+        origenEnLectura(c2.origen, { digesto: null, motivoSinDigesto: c2.digestoNoRegistrado }) +
+        '<p class="mq-hint">Q-15 rige hacia adelante: los despliegues que ya estaban en el historial cuando la decisión se aplicó no registraron el digesto. Cómo tratarlos al volver a un despliegue anterior es la brecha B-28 de 02-Especificacion-Funcional, que esta superficie recoge y no resuelve.</p>' +
+        '</div>';
+    }
+
+    /* §3.6 · la procedencia de plantilla, cuando existe. */
+    if (estado === 'procedencia-plantilla') {
+      var db = D.SERVICIOS[2];
+      return '<div class="mq-panel" style="max-width:560px">' +
+        '<div class="mq-panel-cabecera"><div><h2>' + esc(db.nombre) + '</h2>' +
+        parEstado('activo', { antiguedad: '2 d 4 h' }) + '</div>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar el panel del servicio">' + icono('cerrar', 14) + '</button></div>' +
+        procedenciaDe(db.procedencia) +
+        '<hr class="mq-separador">' +
+        procedenciaDe(D.SERVICIO_INCORPORADO.procedencia) +
+        '</div>';
+    }
+
+    /* §3.7 · qué cambio recrea el contenedor y qué cambio no. La distinción
+       es del PANEL y no sólo del cajón: en el cajón el administrador ya
+       decidió; en el panel todavía está decidiendo, y es ahí donde el dato
+       cambia una decisión. */
+    if (estado === 'clase-de-cambio') {
+      var filas = Object.keys(D.CLASES_DE_CAMBIO).map(function (k) {
+        var cl = D.CLASES_DE_CAMBIO[k];
+        return '<tr><th scope="row">' + esc(cl.etiqueta) + '</th>' +
+          '<td>' + esc(cl.ejemplos) + '</td><td>' + esc(cl.declara) + '</td></tr>';
+      });
+      return '<div class="mq-panel" style="max-width:620px">' +
+        '<div class="mq-panel-cabecera"><div><h2>' + esc(s.nombre) + '</h2>' +
+        parEstado('activo', { antiguedad: '1 h 12 min' }) + '</div></div>' +
+        bandaAtencion('Estás editando el modo de red. Este cambio <strong>recrea el contenedor</strong>: se pierde todo estado que no esté persistido en un montaje.') +
+        tabla(['Clase de cambio', 'Ejemplos', 'Qué declara el panel'], filas,
+          { caption: 'Clases de cambio y su consecuencia sobre el contenedor' }) +
+        '<p class="mq-hint">El cajón de cambios pendientes repite la marca en su listado, por cambio. Acá se declara en el momento de hacerlo, que es cuando todavía se puede decidir otra cosa.</p>' +
+        '</div>';
+    }
+
     var descs = D.DESCRIPTORES.servicio;
     function desc(clave) {
       for (var i = 0; i < descs.length; i++) { if (descs[i].clave === clave) { return descs[i]; } }
@@ -1170,7 +1963,7 @@
       html += bandaError('La expresión ${{ db.POSTGRES_USER }} forma un ciclo de valor: api · DB_USER → db · POSTGRES_USER → api · DB_USER.');
     }
     if (estado === 'cambio-guardado') {
-      html += bandaOk('El cambio quedó pendiente y no aplicado. El contador del banner del lienzo subió a 5.');
+      html += bandaOk('El cambio quedó pendiente y no aplicado. El contador del banner del lienzo subió a 6.');
     }
     if (estado === 'requiere-redespliegue') {
       html += bandaAtencion('Este servicio quedó marcado para redespliegue: cambió el valor de una variable que referencia.');
@@ -1185,14 +1978,18 @@
       html += campoDescriptor(desc('publicarPuertos'), { deshabilitado: true, valor: false });
       html += '<p class="mq-hint">El control se deshabilita y declara su motivo: no se oculta. El administrador tiene que entender por qué no puede.</p>';
     } else {
-      html += '<div class="mq-grilla-campos">';
-      html += campoDescriptor(desc('origenTipo'), { valor: 'Imagen de registro' });
-      html += campoDescriptor(desc('imagen'), { valor: s.origen.imagen });
-      html += campoDescriptor(desc('etiqueta'), {
-        valor: estado === 'campo-en-error' ? '' : s.origen.etiqueta,
-        error: estado === 'campo-en-error' ? 'La etiqueta es obligatoria cuando la política de actualización es «fijada».' : null
+      /* El origen va en MODO LECTURA y no como campo dirigido por descriptor
+         (§3.4): la reentrada de la configuración de CU-03 FA-05 arranca
+         después del origen y lo excluye. No es una decisión de esta
+         categoría, y por eso el panel lo declara en lugar de mostrar un
+         control deshabilitado sin explicación. */
+      html += origenEnLectura(s.origen, {
+        digesto: s.digesto, digestoCompleto: false,
+        digestoContradictorio: s.digestoContradictorio,
+        motivoSinDigesto: s.digestoSinFuente || s.digestoNoRegistrado
       });
-      html += campoDescriptor(desc('politicaActualizacion'), { valor: s.origen.politicaActualizacion });
+      html += '<hr class="mq-separador">';
+      html += '<div class="mq-grilla-campos">';
       html += campoDescriptor(desc('politicaReinicio'), { valor: s.politicaReinicio, ayuda: estado === 'ayuda-desplegada' });
       html += campoDescriptor(desc('autoArranque'), { valor: s.autoArranque });
       html += campoDescriptor(desc('replicas'), {
@@ -1212,6 +2009,10 @@
           campoDescriptor(desc('limiteCpus'), { valor: s.recursos.limiteCpus }) + '</div>';
       }
       html += '</div>';
+    }
+
+    if (estado === 'con-datos') {
+      html += '<hr class="mq-separador">' + procedenciaDe(s.procedencia);
     }
 
     if (estado === 'despliegue-fallido') {
@@ -1247,6 +2048,21 @@
           '<a class="mq-btn" href="Lienzo-Del-Proyecto.html">Volver al lienzo</a>') + '</div>';
     }
 
+    /* §3.5 · el servicio en borrador NO aparece acá. Es una ausencia y
+       conviene declararla para que no se lea como olvido. */
+    if (estado === 'borrador-ausente') {
+      return '<div class="mq-cajon">' +
+        '<div class="mq-panel-cabecera"><h2>Cambios pendientes (' + ch.cambios.length + ')</h2></div>' +
+        bandaInfo(ch.servicioEnBorradorNoAparece) +
+        '<p class="mq-caption">En el lienzo hay ' + D.SERVICIOS_BORRADOR.length +
+        ' servicios en borrador —' + D.SERVICIOS_BORRADOR.map(function (b) { return b.nombre; }).join(' y ') +
+        '— y ninguno de los dos figura en esta lista.</p>' +
+        '<p><a class="mq-btn" href="Lienzo-Del-Proyecto.html#estado=nodo-borrador">Ver los borradores en el lienzo</a></p>' +
+        '<hr class="mq-separador">' +
+        '<p class="mq-hint">Sin esa exclusión, guardar un servicio incompleto metería algo inaplicable en el lote y el lote entero dejaría de poder aplicarse.</p>' +
+        '</div>';
+    }
+
     var vistaInforme = ['con-datos-informe', 'informe-sin-redespliegues', 'informe-con-conflictos',
       'aplicando', 'aplicado-exito', 'aplicado-parcial', 'canal-caido', 'error-referencia', 'error-ambito'].indexOf(estado) >= 0;
 
@@ -1264,6 +2080,17 @@
 
       if (estado !== 'cargando') {
         var lista = estado === 'cambio-entidad-proyecto' ? [ch.cambios[3]] : ch.cambios;
+        if (estado === 'cambio-que-recrea') {
+          lista = ch.cambios.filter(function (c) { return c.clase !== 'cosmetico'; });
+        }
+        /* El resumen del lote agrega el conteo, para que la decisión de
+           aplicar ahora o más tarde se pueda tomar sin abrir cada ítem
+           (§3.4 criterio 2). */
+        var recrean = ch.cambios.filter(function (c) { return c.recreaContenedor; }).length;
+        var deConfig = ch.cambios.filter(function (c) { return c.clase !== 'cosmetico'; }).length;
+        html += '<p class="mq-resumen-lote">' + icono('info', 14) + ' ' +
+          '<strong>' + recrean + ' de ' + deConfig + '</strong> cambios de configuración recrean el contenedor. ' +
+          'El cambio cosmético no cuenta: no entra al conjunto y no sube el contador.</p>';
         lista.forEach(function (c) {
           html += '<div class="mq-fila-cambio">';
           html += '<div class="mq-fila"><span class="mq-clase">' + esc(c.tipo) + '</span>' +
@@ -1277,6 +2104,11 @@
           }
           html += '<span class="mq-caption">Redespliega: ' +
             (c.requiereRedespliegueDe.length ? esc(c.requiereRedespliegueDe.join(', ')) : 'ningún servicio') + '</span>';
+          /* La marca va en el ÍTEM del cambio y no sólo en el resumen del
+             lote: un resumen que dice «tres de cinco recrean» no dice CUÁLES,
+             que es lo que hace falta para decidir si se descarta uno. */
+          html += '<div class="mq-fila">' + marcaClaseDeCambio(c) + '</div>';
+          if (c.nota) { html += '<span class="mq-hint">' + esc(c.nota) + '</span>'; }
           if (c.visual) {
             html += '<span class="mq-hint">Un cambio puramente visual se guarda al instante y no sube el contador. Esta fila existe en el ejemplo del anexo E-5 y se muestra para que la distinción sea verificable.</span>';
           }
@@ -1441,6 +2273,17 @@
         '<div class="mq-fila"><span class="mq-caption" style="width:60px">Disco /</span>' + barraMagnitud(t.servidor.disco.usadoGb, t.servidor.disco.totalGb, 'GB', 'Disco raíz del servidor') + '</div>' +
         '</div><p class="mq-caption" style="margin-top:var(--space-8)">Contenedores ' +
         n(t.servidor.contenedoresActivos) + ' activos / ' + n(t.servidor.contenedoresTotales) + ' · ' + n(t.servidor.imagenes) + ' imágenes</p>';
+
+      /* Línea de sugerencia de limpieza — SUP-09 §3.2, decisión Q-17.
+         Vive DENTRO del bloque del servidor y contigua a la fila de disco de
+         la que es consecuencia: ponerla fuera la convertiría en notificación.
+         Región de estado y no alerta. Declara el espacio recuperable y
+         enlaza; NO lista, NO confirma y NO descarta.
+         Su ausencia NO se representa: cuando no hay sugerencia vigente el
+         bloque no muestra hueco, ni leyenda, ni espacio reservado. */
+      if (estado !== 'sin-sugerencia-limpieza' && estado !== 'lectura-servidor-no-disponible') {
+        html += lineaSugerenciaLimpieza(estado === 'sugerencia-limpieza-vigente');
+      }
     }
     html += '</section>';
 
@@ -1511,6 +2354,12 @@
 
     html += '<p class="mq-hint">Sin serie temporal por diseño: no hay sondeo con las vistas cerradas, de modo que una tendencia exigiría acumular ' +
       'datos que el producto declara que no acumula. Tampoco hay control de frecuencia ni comprobación de disponibilidad por red.</p>';
+
+    if (estado === 'sin-sugerencia-limpieza') {
+      html += '<p class="mq-hint"><strong>Nota de la maqueta, no del producto.</strong> En este estado la línea de sugerencia no está, y su ausencia ' +
+        'no se representa: el bloque del servidor no muestra ningún hueco, ninguna leyenda de «sin sugerencias» y ningún espacio reservado. ' +
+        'La ausencia de una oportunidad no es información.</p>';
+    }
     return html;
   };
 
@@ -1595,6 +2444,12 @@
     }
 
     var candidatos = D.CANDIDATOS;
+    if (estado === 'candidato-con-puertos') {
+      candidatos = D.CANDIDATOS.filter(function (c) { return c.puertosPublicados.length; });
+    }
+    if (estado === 'candidato-sin-puertos') {
+      candidatos = [D.CANDIDATOS[0]];
+    }
     if (estado === 'candidato-incorporable') { candidatos = [D.CANDIDATOS[0]]; }
     if (estado === 'candidato-no-incorporable') { candidatos = [D.CANDIDATOS[2]]; }
     if (estado === 'candidato-ya-incorporado') { candidatos = [D.CANDIDATOS[3]]; }
@@ -1616,6 +2471,22 @@
             : '<button type="button" class="mq-btn mq-btn--destructivo" aria-label="Forzar la incorporación de ' + esc(c.nombre) +
               ', que monta el punto de acceso del motor y crearía una dependencia circular de control">Forzar</button>')) +
         '</td></tr>');
+      /* Ficha del candidato con sus puertos publicados — §3.3. El servicio
+         incorporado los CONSERVA, y pueden colisionar con un servicio ya
+         declarado: por eso van a la vista ANTES de confirmar. La lista vacía
+         es dato válido y no ausencia de dato: se dice «no publica puertos» y
+         no se deja el campo en blanco, porque un blanco se lee como «no se
+         sabe» y acá se sabe. */
+      filas.push('<tr class="mq-fila-ficha"><td colspan="6">' +
+        '<span class="mq-meta">Puertos publicados en el host</span> ' +
+        (c.puertosPublicados.length
+          ? c.puertosPublicados.map(function (pt) {
+            return '<span class="mq-par-estado mq-estado--creando mq-literal">' +
+              esc(pt.host) + ':' + esc(pt.contenedor) + '/' + esc(pt.protocolo) + '</span>';
+          }).join(' ') + '<span class="mq-hint">El servicio incorporado los conserva. Revisá que ninguno colisione con un servicio ya declarado antes de incorporar.</span>'
+          : '<span class="mq-caption">No publica puertos.</span>' +
+            '<span class="mq-hint">Es un dato válido y no una ausencia de dato: en modo de red con dirección propia el contenedor no publica puertos en el host.</span>') +
+        '</td></tr>');
       if (c.motivoNoAdoptable) {
         filas.push('<tr class="mq-fila-motivo"><td colspan="6">' + icono('alert', 14) + ' ' + esc(c.motivoNoAdoptable) + '</td></tr>');
       }
@@ -1632,6 +2503,107 @@
 
   /* ── SUP-11 · Catálogo de plantillas ──────────────────────────────────── */
   R['SUP-11'] = function (sup, estado) {
+    var cat = D.CATALOGO;
+
+    /* §3.7 · la conversión de secretos al guardar como plantilla. Las cuatro
+       cosas que la superficie tiene que mostrar para que sea confiable. */
+    if (estado === 'secretos-convertidos') {
+      var ig = cat.informeDeGuardado;
+      return '<div class="mq-superpuesta"><header><h2>«' + esc(ig.servicioDeOrigen) + '» guardado como plantilla</h2>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar el informe">' + icono('cerrar', 14) + '</button></header>' +
+        bandaAtencion(ig.afirmacion) +
+        '<h3 class="mq-titulo-seccion">Variables secretas convertidas a parámetro</h3>' +
+        '<ul class="mq-lista-puntos">' + ig.variablesConvertidasAParametroSecreto.map(function (v) {
+          return '<li><span class="mq-literal">' + esc(v) + '</span> → parámetro de tipo <strong>secreto</strong> con generación automática, <strong>sin el valor</strong></li>';
+        }).join('') + '</ul>' +
+        '<h3 class="mq-titulo-seccion" style="margin-top:var(--space-14)">Parámetros propuestos</h3>' +
+        '<ul class="mq-lista-puntos">' + ig.parametrosPropuestos.map(function (v) {
+          return '<li><span class="mq-literal">' + esc(v) + '</span> — editable antes de guardar</li>';
+        }).join('') + '</ul>' +
+        '<p class="mq-caption" style="margin-top:var(--space-14)"><strong>Valores descartados: ' + n(ig.valoresDescartados) + '</strong>' +
+        '<span class="mq-hint">Es el contador que hace verificable la afirmación de arriba. Una plantilla cuyo segundo uso hereda la contraseña del primero no es reutilizable.</span></p>' +
+        '<div class="mq-acciones"><button type="button" class="mq-btn">Cancelar</button>' +
+        '<button type="button" class="mq-btn mq-btn--primario">Guardar la plantilla</button></div></div>';
+    }
+
+    /* §3.7 · un parámetro de tipo secreto NO tiene campo de valor por
+       defecto. No es un campo deshabilitado con una explicación: no está.
+       Un campo deshabilitado invita a preguntarse cómo habilitarlo. */
+    if (estado === 'parametro-secreto-editor') {
+      return '<div class="mq-superpuesta"><header><h2>Declarador de parámetros</h2>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar el editor">' + icono('cerrar', 14) + '</button></header>' +
+        tabla(['Tipo', 'Qué recibe', 'Valor por defecto'],
+          cat.tiposParametro.map(function (t) {
+            return '<tr><th scope="row" class="mq-literal">' + esc(t.tipo) + '</th>' +
+              '<td>' + esc(t.recibe) + '</td><td>' + esc(t.porDefecto) + '</td></tr>';
+          }), { caption: 'Los cuatro tipos de parámetro, conjunto cerrado' }) +
+        '<hr class="mq-separador">' +
+        '<div class="mq-grilla-campos">' +
+        '<div class="mq-campo"><label for="pt-clave">Clave</label>' +
+        '<input class="mq-input" id="pt-clave" value="password"></div>' +
+        '<div class="mq-campo"><label for="pt-tipo">Tipo</label>' +
+        '<select class="mq-select" id="pt-tipo"><option>texto</option><option selected>secreto</option>' +
+        '<option>imagen</option><option>volumen</option></select></div>' +
+        '<div class="mq-campo"><label class="mq-toggle" for="pt-gen"><input type="checkbox" id="pt-gen" checked> ' +
+        '<span>El sistema genera el valor</span></label>' +
+        '<span class="mq-hint">Es el único mecanismo admitido para un parámetro secreto.</span></div>' +
+        '</div>' +
+        '<p class="mq-hint">Donde los otros tres tipos tienen campo de valor por defecto, el de tipo secreto <strong>no lo tiene</strong>: no está, no está deshabilitado. Un valor por defecto secreto es un secreto escrito en un archivo distribuible, que RN-15 prohíbe.</p></div>';
+    }
+
+    if (estado === 'rechazo-defecto-sobre-secreto') {
+      return '<div class="mq-superpuesta"><header><h2>Rechazo del ítem importado</h2></header>' +
+        bandaError(cat.rechazoDefectoSobreSecreto) +
+        '<p class="mq-hint">Este rechazo sólo es alcanzable por la interfaz programática. En la pantalla el campo no existe, de modo que el estado no se puede producir.</p>' +
+        '<p><a class="mq-btn" href="Catalogo-De-Plantillas.html#estado=parametro-secreto-editor">Ver el declarador de parámetros</a></p></div>';
+    }
+
+    if (estado === 'rechazo-tipo-parametro') {
+      return '<div class="mq-superpuesta"><header><h2>Rechazo del ítem importado</h2></header>' +
+        bandaError(cat.rechazoTipoParametro) +
+        tabla(['Tipo admitido', 'Qué recibe'],
+          cat.tiposParametro.map(function (t) {
+            return '<tr><th scope="row" class="mq-literal">' + esc(t.tipo) + '</th><td>' + esc(t.recibe) + '</td></tr>';
+          }), { caption: 'Conjunto cerrado de tipos de parámetro' }) + '</div>';
+    }
+
+    if (estado === 'identificador-existente') {
+      var ie = cat.identificadorExistente;
+      return '<div class="mq-superpuesta"><header><h2>Catálogo importado</h2></header>' +
+        bandaInfo(ie.detalle) +
+        filasClaveValor([
+          ['Identificador del archivo', ie.itemId],
+          ['Acción', 'Importado como copia'],
+          ['Identificador asignado', ie.idAsignado],
+          ['Motivo', ie.motivo],
+          ['¿Bloquea?', ie.bloquea ? 'sí' : 'no']
+        ]) +
+        '<p class="mq-hint">' + esc(ie.nota) + '</p></div>';
+    }
+
+    if (estado === 'exportacion-material-sensible') {
+      var ex = cat.exportacion.conMaterialSensible;
+      return '<div class="mq-superpuesta"><header><h2>Exportar el catálogo</h2></header>' +
+        bandaError(ex.aviso) +
+        '<h3 class="mq-titulo-seccion">Ítems con material sensible</h3>' +
+        '<ul class="mq-lista-puntos">' + ex.items.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>' +
+        '<p class="mq-caption">Contador de ítems con material sensible: <strong>' + n(ex.itemsConMaterialSensible) + '</strong>. ' +
+        'Si la conversión de secretos al guardar como plantilla funciona, este contador es siempre cero y este estado no ocurre.</p>' +
+        '<div class="mq-acciones"><button type="button" class="mq-btn">Cancelar</button>' +
+        '<button type="button" class="mq-btn mq-btn--destructivo">Exportar de todas formas</button></div></div>';
+    }
+
+    if (estado === 'borrado-con-instancias') {
+      var bi = cat.borradoConInstancias;
+      return '<div class="mq-superpuesta" role="dialog" aria-labelledby="bi-titulo"><header>' +
+        '<h2 id="bi-titulo">' + esc(bi.texto) + '</h2>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar sin borrar">' + icono('cerrar', 14) + '</button></header>' +
+        '<p class="mq-caption">Se borra la definición del catálogo. Confirmación normal de borrado.</p>' +
+        '<div class="mq-acciones"><button type="button" class="mq-btn">Cancelar</button>' +
+        '<button type="button" class="mq-btn mq-btn--destructivo">Borrar la plantilla</button></div>' +
+        '<p class="mq-hint">' + esc(bi.porQueSinAdvertencia) + '</p></div>';
+    }
+
     var instanciando = ['instanciando', 'nombre-sufijado', 'clave-mismo-valor', 'clave-distinto-valor',
       'rechazo-nombre', 'rechazo-referencia', 'rechazo-ciclo'].indexOf(estado) >= 0;
 
@@ -1702,11 +2674,19 @@
       return html + '<div class="mq-grilla-tarjetas">' + esqueleto(1, 'tarjeta') + esqueleto(1, 'tarjeta') + '</div>';
     }
     if (estado === 'vacio') {
+      /* §3.8 · una pantalla vacía que no deriva es un callejón. Desde el
+         2026-07-30 el estado vacío declara CUATRO cosas y no tres. */
+      var v = D.CATALOGO.vacio;
       return html + vacio('El catálogo está vacío',
-        'Es el estado inicial de toda instalación nueva, no una anomalía: el producto no se distribuye con contenido precargado. ' +
-        'Se puebla guardando un servicio como plantilla o importando un catálogo exportado.',
+        v.afirmaciones[0] + ' ' + v.afirmaciones[1],
         '<button type="button" class="mq-btn">' + icono('mas') + ' Nueva plantilla</button> ' +
-        '<button type="button" class="mq-btn">Importar un catálogo</button>');
+        '<button type="button" class="mq-btn">Importar un catálogo</button> ' +
+        '<a class="mq-btn mq-btn--primario" href="Alta-De-Servicio.html#estado=eleccion-de-via" ' +
+        'aria-label="Ver las otras seis vías de alta. Abre el menú de vías del alta de servicio">Ver las otras seis vías de alta</a>') +
+        '<div class="mq-banda mq-banda--info" role="note" style="margin-top:var(--space-16)">' + icono('info') +
+        '<div><span>' + esc(v.afirmaciones[3]) + '</span>' +
+        '<span class="mq-hint">' + esc(v.notaAccesoDirecto) + '</span>' +
+        '<span class="mq-hint">Lo que queda abierto no es el camino sino su configuración: dónde se configura el conjunto de registros explorables es la brecha B-UX-29, que esta superficie recoge y no resuelve.</span></div></div>';
     }
     if (estado === 'vacio-por-filtro') {
       return html + vacio('Ninguna plantilla coincide con la búsqueda', 'Probá con otro texto o limpiá el filtro.',
@@ -1868,7 +2848,55 @@
       campoDescriptor(desc('diasAuditoria'), { valor: D.RETENCION.diasAuditoria }) + '</div>';
     html += '</section>';
 
-    /* Sección 5 — identidad de la instancia */
+    /* Sección 5 — umbral de la sugerencia de limpieza (SUP-12 §3.4).
+       Incorporada el 2026-07-30 por la decisión Q-17. Vive acá y no en el
+       inventario de imágenes porque el almacén es uno y compartido: su
+       umbral no es de ningún proyecto. Es vecina de la retención porque las
+       dos acotan cuánto historial ocupa el servidor. */
+    var u = D.EXPLICACION_UMBRAL;
+    var conValor = estado === 'umbral-declarado';
+
+    html += '<section class="mq-seccion" data-acento="c" aria-label="Umbral de la sugerencia de limpieza de imágenes">';
+    html += '<h2 class="mq-titulo-seccion">Umbral de la sugerencia de limpieza</h2>';
+    html += '<p class="mq-subtitulo">La limpieza de imágenes es sugerida: el sistema detecta espacio recuperable y lo propone, ' +
+      'y vos confirmás. Acá se configura desde cuándo tiene sentido proponerla.</p>';
+
+    html += '<div class="mq-grilla-campos">' +
+      campoDescriptor(desc('espacioRecuperableMinimo'), { valor: null, ayuda: conValor }) +
+      campoDescriptor(desc('ocupacionAlmacenSugerencia'), { valor: null }) + '</div>';
+
+    /* La explicación en palabras se GENERA por plantilla a partir de los dos
+       descriptores y de sus valores. Escrita a mano se desfasa del valor real
+       —anti-patrón explícito de Config-Esquema—, así que con los dos valores
+       sin declarar la plantilla declara el hueco en lugar de componer una
+       frase con un número que nadie decidió. */
+    var frase = u.componer(desc('espacioRecuperableMinimo').porDefecto, desc('ocupacionAlmacenSugerencia').porDefecto);
+    html += '<div class="mq-explicacion-umbral" role="note">' +
+      '<strong>Cuándo se sugiere</strong>';
+    if (frase) {
+      html += '<p>' + esc(frase) + '</p>';
+    } else {
+      html += '<p class="mq-literal">' + esc(u.plantilla) + '</p>' +
+        '<p class="mq-hint">' + esc(u.sinValor) + '</p>';
+    }
+    html += '<p class="mq-hint">' + esc(u.conjuncion) + '</p></div>';
+
+    if (estado === 'umbral-sin-valor' || estado === 'umbral-declarado') {
+      html += '<div class="mq-nota-propuesta" style="margin-top:var(--space-12)"><strong>' + esc(D.BRECHA_UMBRAL.titulo) + '</strong>' +
+        '<p style="margin:var(--space-4) 0">' + esc(D.BRECHA_UMBRAL.texto) + '</p>' +
+        '<ul class="mq-lista-puntos">' + D.BRECHA_UMBRAL.restricciones.map(function (r) {
+          return '<li>' + esc(r) + '</li>';
+        }).join('') + '</ul></div>';
+      html += '<details class="mq-expander"><summary>Qué hace y qué no hace esta sección</summary>' +
+        '<ul class="mq-lista-puntos mq-caption" style="margin-top:var(--space-8)">' +
+        u.noHace.map(function (p) { return '<li><strong>' + esc(p[0]) + '</strong> — ' + esc(p[1]) + '</li>'; }).join('') +
+        '</ul>' +
+        '<p class="mq-hint">' + esc(u.porQueAca) + '</p>' +
+        '<p class="mq-hint">' + esc(u.dondeSeVe) + '</p></details>';
+    }
+    html += '</section>';
+
+    /* Sección 6 — identidad de la instancia */
     var variante = 'publicada';
     if (estado === 'sello-preliminar') { variante = 'preliminar'; }
     if (estado === 'sello-indeterminado') { variante = 'indeterminado'; }
@@ -2209,6 +3237,672 @@
     return html;
   };
 
+  /* ═══════════════════════════════════════════════════════════════════════
+     6 bis. Componentes de las imágenes y de la exploración de registro
+            Fuente: Wireframes-Imagenes.md 2.1, Wireframes-Exploracion-De-
+            Registro-De-Imagenes.md 1.0, y el anexo E-23 del intake v3.3.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* Celda del digesto — SUP-18 §3.2 y SUP-19 §3.2.
+     La etiqueta es lo que se reconoce; el digesto es lo que identifica.
+     El digesto va secundario, abreviado, con «la forma completa disponible
+     al pedirla». Acá esa promesa NO se puede cumplir y la maqueta lo dice
+     en lugar de fabricar los caracteres: ninguna fuente del corpus declara
+     un digesto completo, y los dos que declara vienen abreviados en su
+     propio anexo. Cuando ni siquiera hay abreviado, la celda declara la
+     ausencia; una celda vacía se leería como falta de carga. */
+  function celdaDigesto(dig, nota, contradictorio) {
+    /* Contenedor de flujo y no de frase: adentro va un `details`, que es
+       contenido interactivo y no puede vivir dentro de un `span` de una
+       etiqueta ni de un rótulo. */
+    if (contradictorio) {
+      /* Mismo objeto de datos que exhibe SUP-06: las dos superficies no
+         pueden divergir sobre este dato porque leen la misma constante. */
+      return '<div class="mq-digesto-celda">' + bloqueDigestoContradictorio(contradictorio) + '</div>';
+    }
+    if (!dig) {
+      return '<div class="mq-digesto-celda mq-digesto-celda--ausente">' +
+        '<span class="mq-caption">Digesto sin declarar</span>' +
+        '<details class="mq-expander mq-expander--compacto"><summary>Por qué</summary>' +
+        '<p class="mq-hint">' + esc(nota) + '</p></details></div>';
+    }
+    return '<div class="mq-digesto-celda">' +
+      '<code class="mq-literal">' + esc(dig) + '</code>' +
+      '<details class="mq-expander mq-expander--compacto"><summary>Ver el digesto completo</summary>' +
+      '<p class="mq-hint">' + esc(nota) + '</p>' +
+      '<p><code class="mq-literal">' + esc(dig) + '</code> ' +
+      '<button type="button" class="mq-btn" aria-label="Copiar el digesto tal como la fuente lo declara">' +
+      icono('copiar', 14) + ' Copiar</button></p></details></div>';
+  }
+
+  /* Indicador de uso — SUP-18 §3.4. Resuelve POR DIGESTO y nunca por
+     etiqueta: con etiqueta flotante, dos despliegues con la misma etiqueta
+     pueden haber usado imágenes distintas, y atribuirles la misma contaría
+     como «en uso» algo que nadie usa.
+     El detalle SE ABRE y no se lista: con cincuenta despliegues retenidos
+     por servicio, listar cada referencia en la fila haría ilegible el
+     inventario, que es lo que la superficie viene a resolver. */
+  function celdaUso(img) {
+    if (!img.uso) { return ''; }
+    var L = D.IMAGENES.lecturas[img.uso.lectura];
+    var cuenta = '';
+    if (img.uso.lectura === 'en-uso') {
+      cuenta = img.uso.activos + (img.uso.activos === 1 ? ' despliegue activo' : ' despliegues activos');
+    } else if (img.uso.lectura === 'solo-historial') {
+      cuenta = img.uso.historial + (img.uso.historial === 1 ? ' despliegue del historial' : ' despliegues del historial');
+    } else if (img.uso.lectura === 'no-atribuible') {
+      cuenta = img.uso.sinDigesto + (img.uso.sinDigesto === 1 ? ' despliegue sin digesto registrado' : ' despliegues sin digesto registrado');
+    }
+
+    var html = '<div class="mq-uso mq-uso--' + esc(img.uso.lectura) + '">' +
+      '<span class="mq-uso-lectura">' + esc(L.etiqueta) + '</span>' +
+      (cuenta ? '<span class="mq-caption">' + esc(cuenta) + '</span>' : '');
+
+    /* El detalle SE ABRE y no se lista: con cincuenta despliegues retenidos
+       por servicio, listarlos en la fila haría ilegible el inventario. La
+       nota de la lectura va adentro del mismo disclosure, por el mismo
+       motivo de densidad: en la celda repetiría el mismo párrafo en cada
+       fila de la misma lectura. */
+    if ((img.uso.detalle && img.uso.detalle.length) || L.nota) {
+      html += '<details class="mq-expander mq-expander--compacto"><summary>Ver el detalle del uso</summary>';
+      if (img.uso.detalle && img.uso.detalle.length) {
+        html += '<ul class="mq-lista-limpia mq-caption" style="margin-top:var(--space-8)">' +
+          img.uso.detalle.map(function (r) {
+            return '<li>' + esc(r.proyecto) + ' · ' + esc(r.servicio) +
+              (r.despliegue ? ' · despliegue ' + esc(r.despliegue) : ' · despliegue sin identificador declarado') +
+              ' <span class="mq-meta">' + esc(r.estado) + '</span></li>';
+          }).join('') + '</ul>';
+      }
+      if (L.nota) { html += '<p class="mq-hint">' + esc(L.nota) + '</p>'; }
+      if (img.notaDeFuente) { html += '<p class="mq-hint">' + esc(img.notaDeFuente) + '</p>'; }
+      html += '</details>';
+    }
+    return html + '</div>';
+  }
+
+  function celdaTamano(img) {
+    if (img.tamanoMb === null || img.tamanoMb === undefined) {
+      return '<span class="mq-caption" title="' + esc(img.tamanoNota) + '">Sin declarar</span>';
+    }
+    return n(img.tamanoMb, 'MB');
+  }
+
+  /* Fila del inventario. El grupo ajeno NO lleva columna de acciones: no hay
+     control, ni siquiera deshabilitado. Un control deshabilitado invita a
+     buscar cómo habilitarlo, y acá no hay forma: no es una restricción de
+     permiso, es que no es del producto (SUP-18 §3.1 criterio 1). */
+  function filaImagen(img) {
+    var L = img.uso ? D.IMAGENES.lecturas[img.uso.lectura] : null;
+    var nombreAccesible = img.referencia + ', ' +
+      (img.tamanoMb ? img.tamanoMb + ' MB' : 'tamaño sin declarar') + ', ' +
+      (L ? L.etiqueta : 'imagen ajena, sin indicador de uso') +
+      (img.digestoContradictorio
+        ? ', digesto declarado distinto por dos fuentes'
+        : (img.digesto ? ', digesto ' + img.digesto : ', digesto sin declarar'));
+
+    var html = '<tr>';
+    html += '<th scope="row"><span class="mq-sr-only">' + esc(nombreAccesible) + '</span>' +
+      '<span aria-hidden="true" class="mq-img-etiqueta">' + esc(img.referencia) + '</span>' +
+      (img.masAntigua ? '<span class="mq-meta mq-img-antigua">contenido anterior de la misma etiqueta</span>' : '') +
+      (img.pertenencia && img.pertenencia.proyecto
+        ? '<span class="mq-meta">' + esc(img.pertenencia.proyecto) + ' / ' + esc(img.pertenencia.servicio) + '</span>'
+        : '') +
+      '</th>';
+    html += '<td>' + celdaDigesto(img.digesto, img.digestoNota, img.digestoContradictorio) + '</td>';
+    html += '<td>' + celdaTamano(img) + '</td>';
+
+    if (img.grupo === 'ajena') {
+      html += '<td>' + esc(img.procedenciaAjena || '') +
+        (img.limitacionDeclarada ? '<span class="mq-hint">' + esc(img.limitacionDeclarada) + '</span>' : '') + '</td>';
+      /* Sin celda de acciones: la ausencia del control es más clara que un
+         control deshabilitado. */
+    } else {
+      html += '<td>' + celdaUso(img) + '</td>';
+      html += '<td class="mq-celda-acciones mq-celda-acciones--imagenes">';
+      if (img.conservada) {
+        html += '<span class="mq-marca-conservada"><span class="mq-sr-only">Estado: </span>' +
+          icono('lock', 14) + ' Conservada</span>' +
+          '<button type="button" class="mq-btn" aria-label="Retirar la conservación de ' + esc(img.referencia) +
+          '. Vuelve a ser candidata a la limpieza">Retirar</button>';
+        if (img.conservadaSujetaA) {
+          html += '<span class="mq-hint">Alcance de la marca sujeto a ' + esc(img.conservadaSujetaA) + ', sin decidir.</span>';
+        }
+      } else if (L && L.permiteConservar) {
+        html += '<button type="button" class="mq-btn" aria-label="Marcar ' + esc(img.referencia) +
+          ' como conservada para protegerla de la limpieza">Conservar</button>';
+      } else if (L) {
+        html += '<span class="mq-hint">' + esc(L.motivoSinConservar) + '</span>';
+      }
+      if (img.pertenenciaSujetaA) {
+        html += '<span class="mq-hint">Pertenencia sujeta a ' + esc(img.pertenenciaSujetaA) + ', sin decidir.</span>';
+      }
+      html += '</td>';
+    }
+    return html + '</tr>';
+  }
+
+  function grupoImagenes(clave, filas) {
+    var g = D.IMAGENES.grupos[clave];
+    var columnas = clave === 'ajena'
+      ? ['Imagen', 'Digesto', 'Tamaño', 'Procedencia']
+      : ['Imagen', 'Digesto', 'Tamaño', 'Uso', 'Acciones'];
+
+    var html = '<section class="mq-seccion mq-grupo-imagenes" data-grupo="' + esc(clave) + '"' +
+      ' data-acento="' + (clave === 'ajena' ? 'b' : 'a') + '"' +
+      ' aria-label="' + esc(g.titulo + '. ' + g.descripcion) + '">';
+    html += '<h2 class="mq-titulo-seccion">' + esc(g.titulo) + '</h2>';
+    html += '<p class="mq-subtitulo">' + esc(g.descripcion) + '</p>';
+    if (!filas.length) {
+      html += '<p class="mq-caption">' + (clave === 'administrada'
+        ? esc(D.IMAGENES.soloAjenas.texto)
+        : 'No hay ninguna imagen ajena en el almacén.') + '</p>';
+    } else {
+      html += tabla(columnas, filas.map(filaImagen), {
+        caption: g.titulo + '. ' + g.descripcion
+      });
+    }
+    if (clave === 'administrada' && filas.length) {
+      html += '<p class="mq-hint">' + esc(D.IMAGENES.accionMasiva) + '</p>';
+    }
+    return html + '</section>';
+  }
+
+  /* Indicador de ocupación del almacén — SUP-18 §3. Atribuye el consumo.
+     Las dos cifras que alguna fuente sostiene se muestran; las que no, se
+     declaran. No se compone un total sumando tamaños que no existen. */
+  function indicadorOcupacion() {
+    var o = D.IMAGENES.ocupacion;
+    var html = '<section class="mq-seccion" data-acento="d" aria-label="Ocupación del almacén de imágenes">';
+    html += '<h2 class="mq-titulo-seccion">Ocupación del almacén</h2>';
+    html += filasClaveValor([
+      ['Imágenes en el host', n(o.imagenesEnElHost), true],
+      ['Ocupación total', '<span class="mq-caption">Sin declarar</span>', true],
+      ['Administradas por el panel', '<span class="mq-caption">Sin declarar en unidades de disco</span>', true],
+      ['Ajenas', '<span class="mq-caption">Sin declarar en unidades de disco</span>', true]
+    ]);
+    html += '<p class="mq-hint">' + esc(o.totalSinFuente) + '</p>';
+    html += '<p class="mq-hint">' + esc(o.repartoSinFuente) + ' El único tamaño de imagen que declara todo el corpus es ' +
+      esc(o.unicoTamanoDeclarado.tamanoMb) + ' MB, para ' + esc(o.unicoTamanoDeclarado.referencia) + ' (' + esc(o.unicoTamanoDeclarado.fuente) + ').</p>';
+    html += '<p class="mq-hint">' + esc(o.notaDeInventario) + '</p>';
+    return html + '</section>';
+  }
+
+  /* Banda de sugerencia — SUP-18 §3.5. Región de estado y NO alerta: no hay
+     nada mal, hay algo que conviene. No roba el foco. Vive entre el
+     indicador de ocupación y la barra de filtros, porque es consecuencia de
+     lo que la ocupación dice y porque filtrar no cambia la propuesta. */
+  function bandaSugerencia() {
+    var s = D.IMAGENES.sugerencia;
+    var html = '<div class="mq-sugerencia" role="status" aria-label="Sugerencia de limpieza de imágenes">' +
+      icono('info', 18) +
+      '<div class="mq-sugerencia-cuerpo">' +
+      '<strong>Se puede liberar espacio borrando imágenes</strong>' +
+      '<span class="mq-hint">' + esc(s.espacioSinFuente) + '</span>' +
+      '<span class="mq-hint">' + esc(s.cantidadSinFuente) + '</span>' +
+      '<span class="mq-hint">' + esc(s.calculadaSobre) + '</span>' +
+      '</div>' +
+      '<div class="mq-acciones">' +
+      '<button type="button" class="mq-btn mq-btn--primario">Revisar la propuesta</button>' +
+      '<button type="button" class="mq-btn" aria-label="Descartar la sugerencia. No borra nada y no deja evento de borrado">Descartar</button>' +
+      '</div></div>';
+    return html;
+  }
+
+  function sugerenciaDescartada() {
+    var s = D.IMAGENES.sugerencia;
+    return '<div class="mq-banda mq-banda--info" role="status">' + icono('info', 16) +
+      '<div><span>' + esc(s.descartada.texto) + '</span>' +
+      '<span class="mq-hint">' + esc(s.descartada.reaparicion) + '</span></div></div>';
+  }
+
+  /* Línea de la sugerencia en el tablero de estado — SUP-09 §3.2.
+     Mismo hecho, otra forma: declara el espacio recuperable y enlaza. No
+     lista, no confirma, no descarta y no interrumpe. */
+  function lineaSugerenciaLimpieza(destacada) {
+    var l = D.IMAGENES.sugerencia.lineaDelTablero;
+    var html = '<div class="mq-linea-sugerencia" role="status" aria-label="Sugerencia de limpieza de imágenes">' +
+      icono('info', 16) +
+      '<span>' + esc(l.texto) + '</span>' +
+      '<a class="mq-btn mq-empuje" href="' + esc(l.enlace) + '#estado=sugerencia-vigente"' +
+      ' aria-label="Abrir el inventario de imágenes con la propuesta vigente. Acá no se confirma nada">' +
+      esc(l.etiquetaEnlace) + '</a></div>';
+    if (destacada) {
+      html += '<p class="mq-hint">' + esc(D.IMAGENES.sugerencia.espacioSinFuente) + '</p>';
+      html += '<p class="mq-hint">' + esc(l.noHace) + '</p>';
+      html += '<p class="mq-hint">Es la misma sugerencia y no una segunda evaluación: si el umbral no se cumple, o si se descartó desde el inventario, acá tampoco está.</p>';
+    }
+    return html;
+  }
+
+  function listaExclusiones(items, tiempoVerbal) {
+    return '<ul class="mq-lista-limpia mq-exclusiones">' + items.map(function (x) {
+      return '<li class="mq-exclusion mq-exclusion--' + esc(x.clase) + '">' +
+        '<code class="mq-literal">' + esc(x.referencia) + '</code>' +
+        '<span class="mq-exclusion-motivo">' + esc(x.motivo) + '</span>' +
+        (x.queHacer ? '<span class="mq-hint">' + esc(x.queHacer) + '</span>' : '') + '</li>';
+    }).join('') + '</ul>' +
+      '<p class="mq-hint">Los tres motivos van por separado porque la acción es distinta en cada uno: retirar la conservación, nada, o esperar. ' +
+      esc(tiempoVerbal) + '</p>';
+  }
+
+  /* Propuesta de la limpieza — declara lo que HARÍA antes de hacerlo.
+     Es una superficie de confirmación distinta del informe: colapsarlas
+     produciría el defecto que Q-17 viene a evitar, una sugerencia que al
+     abrirse ya borró. Usa la MISMA estructura que el informe a propósito:
+     lo único que cambia es el tiempo verbal. */
+  function propuestaLimpieza(enCurso) {
+    var p = D.IMAGENES.limpieza.propuesta;
+    var html = '<div class="mq-superpuesta mq-superpuesta--ancha" role="dialog" aria-label="Lo que la limpieza haría" style="margin-bottom:var(--space-28)">' +
+      '<header><h2>Lo que la limpieza haría</h2>' +
+      '<button type="button" class="mq-btn-icono" aria-label="Cerrar la propuesta sin borrar nada">' + icono('cerrar', 16) + '</button></header>';
+    html += '<p class="mq-caption">Espacio que liberaría: <span class="mq-caption">sin declarar</span></p>';
+    html += '<p class="mq-hint">' + esc(p.espacioSinFuente) + '</p>';
+    html += bandaAtencion(p.advertencia);
+
+    html += '<h3 class="mq-titulo-seccion">Entran</h3>';
+    html += '<ul class="mq-lista-limpia mq-exclusiones">' + p.entran.map(function (x) {
+      return '<li class="mq-exclusion mq-exclusion--entra"><code class="mq-literal">' + esc(x.referencia) + '</code>' +
+        '<span class="mq-exclusion-motivo">' + esc(x.motivo) + '</span>' +
+        '<span class="mq-meta">' + esc(x.digesto || 'digesto sin declarar') + ' · tamaño sin declarar</span></li>';
+    }).join('') + '</ul>';
+    html += '<p class="mq-hint">' + esc(p.quePasaConLoQueEntra) + '</p>';
+
+    html += '<h3 class="mq-titulo-seccion">Quedan afuera, y por qué</h3>';
+    html += listaExclusiones(p.quedanAfuera, 'La propuesta usa la misma estructura que el informe: lo único que cambia es el tiempo verbal, de modo que al confirmar ya viste la forma exacta del resultado.');
+
+    html += '<div class="mq-pie-alta">';
+    if (enCurso) {
+      html += '<button type="button" class="mq-btn" disabled>Descartar</button>' +
+        botonEnviando('Borrando imágenes…') + progresoLineal() +
+        '<span class="mq-hint">Es una operación destructiva con progreso y sin resultado parcial silencioso: toda imagen que no se borre aparece en el informe.</span>';
+    } else {
+      html += '<button type="button" class="mq-btn">Descartar</button>' +
+        '<button type="button" class="mq-btn mq-btn--destructivo mq-btn--primario">Confirmar la limpieza</button>';
+    }
+    html += '</div></div>';
+    return html;
+  }
+
+  /* Informe de la limpieza — declara lo que HIZO, y la mitad que importa es
+     la que normalmente se omite: qué dejó, imagen por imagen, con el motivo
+     de cada exclusión. Con cero borrados NO usa lenguaje visual de error. */
+  function informeLimpieza(variante) {
+    var lp = D.IMAGENES.limpieza;
+    var esCero = variante === 'cero';
+    var esParcial = variante === 'parcial';
+    var clase = esCero ? 'mq-informe--info' : 'mq-informe--confirmacion';
+
+    var html = '<div class="mq-informe ' + clase + '" role="status" aria-label="Resultado de la limpieza de imágenes">' +
+      '<div class="mq-informe-cabecera">' + icono(esCero ? 'info' : 'check', 18) +
+      '<h4>Resultado de la limpieza</h4></div>';
+
+    if (esCero) {
+      html += '<p>' + esc(lp.sinNadaQueBorrar.texto) + '</p>';
+      html += '<h3 class="mq-titulo-seccion">Se dejaron todas, y por qué</h3>';
+      html += listaExclusiones(lp.sinNadaQueBorrar.dejadas, 'Cero borrados no es un fallo: el informe lo distingue declarando el motivo de cada exclusión.');
+    } else {
+      html += '<p>Se borró ' + n(lp.informe.borradas.length) + (lp.informe.borradas.length === 1 ? ' imagen.' : ' imágenes.') + '</p>';
+      html += '<p class="mq-hint">Espacio liberado: sin declarar. ' + esc(lp.informe.espacioSinFuente) + '</p>';
+      html += '<ul class="mq-lista-limpia mq-exclusiones">' + lp.informe.borradas.map(function (x) {
+        return '<li class="mq-exclusion mq-exclusion--entra"><code class="mq-literal">' + esc(x.referencia) + '</code>' +
+          '<span class="mq-meta">' + esc(x.digesto || 'digesto sin declarar') + '</span></li>';
+      }).join('') + '</ul>';
+
+      if (esParcial) {
+        html += bandaAtencion(lp.parcial.texto);
+        html += '<ul class="mq-lista-limpia mq-exclusiones">' + lp.parcial.noBorradas.map(function (x) {
+          return '<li class="mq-exclusion mq-exclusion--motor"><code class="mq-literal">' + esc(x.referencia) + '</code>' +
+            '<span class="mq-exclusion-motivo">' + esc(x.motivo) + '</span></li>';
+        }).join('') + '</ul>';
+        html += '<p class="mq-hint">' + esc(lp.parcial.notaMaqueta) + '</p>';
+      }
+
+      html += '<h3 class="mq-titulo-seccion">Se dejaron, y por qué</h3>';
+      html += listaExclusiones(lp.informe.dejadas, 'Sin esta mitad no se puede saber si la limpieza hizo lo esperado, ni por qué el espacio liberado fue menor de lo que se suponía.');
+    }
+
+    html += '<div class="mq-acciones"><button type="button" class="mq-btn mq-btn--primario">Entendido</button></div>';
+    return html + '</div>';
+  }
+
+  /* ── SUP-18 · Imágenes ────────────────────────────────────────────────── */
+  R['SUP-18'] = function (sup, estado) {
+    var I = D.IMAGENES;
+
+    if (estado === 'motor-inalcanzable') {
+      return bandaError(I.limpieza.motorInalcanzable) +
+        '<p><button type="button" class="mq-btn">' + icono('refresh') + ' Reintentar</button></p>';
+    }
+    if (estado === 'cargando') {
+      return '<div class="mq-pila">' + esqueleto(1, 'bloque') + esqueleto(6) + esqueleto(4) + '</div>' +
+        '<p class="mq-hint">El inventario consulta el almacén del motor de contenedores y puede tardar. La evaluación del umbral no bloquea la pintura: ' +
+        'la banda de sugerencia aparece cuando el dato está, y su ausencia mientras se resuelve no se representa con un esqueleto propio, ' +
+        'porque un hueco que después no se llena se lee como error.</p>';
+    }
+
+    /* Encabezado: las dos acciones. La de limpiar a pedido SIGUE existiendo:
+       la sugerencia agrega un camino y no reemplaza el otro (CU-37 FA-04). */
+    var html = '<div class="mq-encabezado"><div>' +
+      '<p class="mq-subtitulo">Qué imágenes ocupan el servidor, cuáles administra el panel y cuáles no, cuáles están en uso, y cómo liberar espacio sin destruir nada que haga falta.</p></div>' +
+      '<a class="mq-btn" href="Exploracion-De-Registro-De-Imagenes.html#estado=consultado-fuera-del-alta"' +
+      ' aria-label="Explorar un registro de imágenes. Devuelve la referencia completa con su digesto para consultarla; no crea ningún servicio">' +
+      icono('search') + ' Explorar registro</a>' +
+      '<button type="button" class="mq-btn mq-btn--primario"' +
+      ' aria-label="Limpiar imágenes. Abre la propuesta con lo que entra y lo que queda afuera; no borra nada todavía">' +
+      icono('descarga') + ' Limpiar</button></div>';
+
+    if (estado === 'almacen-vacio') {
+      return html + vacio(I.vacio.titulo, I.vacio.texto,
+        '<a class="mq-btn" href="Listado-De-Proyectos.html">Ir a los proyectos</a>');
+    }
+
+    html += indicadorOcupacion();
+
+    /* Banda de sugerencia: entre la ocupación y los filtros. */
+    if (estado === 'sugerencia-descartada') {
+      html += sugerenciaDescartada();
+    } else if (estado !== 'limpieza-sin-nada') {
+      html += bandaSugerencia();
+      if (estado === 'sugerencia-vigente') {
+        html += '<div class="mq-nota-propuesta"><strong>Dónde NO aparece esta sugerencia, y es parte de la especificación</strong>' +
+          '<ul class="mq-lista-puntos">' + I.sugerencia.dondeNoAparece.map(function (x) {
+            return '<li>' + esc(x) + '</li>';
+          }).join('') + '</ul></div>';
+        html += tabla(['Regla del umbral', 'Qué declara'],
+          I.sugerencia.reglas.map(function (r) {
+            return '<tr><th scope="row">' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td></tr>';
+          }), { caption: 'Reglas de comportamiento del umbral de la sugerencia' });
+        html += '<p class="mq-hint">' + esc(I.sugerencia.porQueSinCifra) + '</p>';
+      }
+    }
+
+    /* Propuesta e informe: dos cosas y no una. */
+    if (estado === 'propuesta-a-la-vista') { html += propuestaLimpieza(false); }
+    if (estado === 'limpieza-en-curso') { html += propuestaLimpieza(true); }
+    if (estado === 'limpieza-con-resultado') { html += informeLimpieza('normal'); }
+    if (estado === 'limpieza-parcial') { html += informeLimpieza('parcial'); }
+    if (estado === 'limpieza-sin-nada') { html += informeLimpieza('cero'); }
+
+    /* Barra de filtros. Acota el inventario y NO altera la propuesta. */
+    html += '<div class="mq-fila mq-filtros" role="search">' +
+      '<div class="mq-campo mq-campo--ancho"><label for="img-buscar">Buscar en el inventario</label>' +
+      '<input class="mq-input" id="img-buscar" type="search" placeholder="etiqueta o digesto"></div>' +
+      '<div class="mq-campo"><label for="img-proc">Procedencia</label>' +
+      '<select class="mq-select" id="img-proc">' +
+      I.filtros.procedencias.map(function (p) { return '<option>' + esc(p) + '</option>'; }).join('') +
+      '</select></div>' +
+      '<div class="mq-campo"><label class="mq-toggle" for="img-desc"><input type="checkbox" id="img-desc"> ' +
+      '<span>Sólo descartables</span></label></div>' +
+      '</div><p class="mq-hint">' + esc(I.filtros.nota) + '</p>';
+
+    /* Qué filas se muestran según el estado que se está demostrando. */
+    var admin = I.inventario.filter(function (i) { return i.grupo === 'administrada'; });
+    var ajenas = I.inventario.filter(function (i) { return i.grupo === 'ajena'; });
+    var nota = null;
+
+    function porLectura(l) { return admin.filter(function (i) { return i.uso && i.uso.lectura === l; }); }
+
+    if (estado === 'solo-ajenas') {
+      admin = [];
+      nota = I.soloAjenas.texto;
+    } else if (estado === 'imagen-en-uso') {
+      admin = porLectura('en-uso'); ajenas = [];
+      nota = 'La fila NO ofrece la acción de conservar: ya está protegida por su uso. Marcarla sería redundante y sugeriría que sin la marca se borraría.';
+    } else if (estado === 'imagen-solo-historial') {
+      admin = porLectura('solo-historial'); ajenas = [];
+      nota = 'Es exactamente la fila que la limpieza se llevaría, y por eso es la que ofrece la acción de conservar.';
+    } else if (estado === 'imagen-sin-referencia') {
+      admin = porLectura('sin-referencia'); ajenas = [];
+      nota = 'La ausencia se declara con esas palabras y no como celda vacía: una celda en blanco se lee como falta de dato, y acá el dato es que no hay ninguno. Es la candidata más clara de la limpieza.';
+    } else if (estado === 'uso-no-atribuible') {
+      admin = porLectura('no-atribuible'); ajenas = [];
+      nota = 'Q-15 rige hacia adelante: los despliegues que ya estaban en el historial cuando la decisión se aplicó no registraron el digesto. La fila NO se presenta como descartable, que es la lectura conservadora. Es la brecha B-28 de 02-Especificacion-Funcional, que esta superficie recoge y no resuelve.';
+    } else if (estado === 'imagen-conservada') {
+      admin = admin.filter(function (i) { return i.conservada; }); ajenas = [];
+      nota = 'La marca se expone como estado y no como decoración, y la fila no aparece como candidata en el filtro de descartables. Quién puede ponerla y con qué alcance sigue abierto: es Q-21.';
+    } else if (estado === 'imagen-ajena') {
+      admin = [];
+      nota = 'El grupo ajeno no tiene columna de acciones. No hay control, ni siquiera deshabilitado: no es una restricción de permiso, es que no es del producto.';
+    } else if (estado === 'etiqueta-repetida') {
+      admin = [];
+      ajenas = ajenas.filter(function (i) { return i.etiqueta === 'latest' && i.referencia.indexOf('panel-ce') >= 0; });
+      nota = 'Con política de actualización flotante la misma etiqueta designa cosas distintas en momentos distintos: son dos filas de este inventario y no una. Lo que las distingue es el digesto, y ninguna fuente declara ninguno de los dos.';
+    }
+
+    if (nota) { html += bandaInfo(nota); }
+
+    html += grupoImagenes('administrada', admin);
+    html += grupoImagenes('ajena', ajenas);
+
+    /* Tramos que siguen sin especificar. Se declaran en la superficie, no se
+       resuelven: el wireframe los enumera y la maqueta los exhibe. */
+    html += '<section class="mq-seccion" data-acento="b" aria-label="Tramos de esta superficie que siguen sin especificar">';
+    html += '<h2 class="mq-titulo-seccion">Lo que esta superficie deja abierto</h2>';
+    html += tabla(['Tramo', 'Qué falta decidir', 'Pendiente'],
+      D.IMAGENES.limpieza.tramosAbiertos.map(function (t) {
+        return '<tr><th scope="row">' + esc(t.tramo) + '</th><td>' + esc(t.falta) + '</td>' +
+          '<td class="mq-literal">' + esc(t.pendiente) + '</td></tr>';
+      }), { caption: 'Tramos sin especificar de la superficie de imágenes' });
+    html += tabla(['Hueco que las decisiones cerradas destaparon', 'Qué falta', 'Brecha'],
+      D.IMAGENES.limpieza.huecosDestapados.map(function (t) {
+        return '<tr><th scope="row">' + esc(t.hueco) + '</th><td>' + esc(t.falta) + '</td>' +
+          '<td class="mq-literal">' + esc(t.brecha) + '</td></tr>';
+      }), { caption: 'Huecos destapados por las decisiones del 2026-07-30' });
+    html += '<p class="mq-hint">' + esc(D.IMAGENES.digestoSinFuente) + '</p>';
+    html += '</section>';
+
+    return html;
+  };
+
+  /* ── SUP-19 · Exploración de registro de imágenes ─────────────────────── */
+  var IMG_ETIQUETAS = ['etiquetas-de-la-imagen', 'imagen-sin-etiquetas', 'etiqueta-elegida'];
+
+  function selectorRegistro(idRegistro) {
+    var E = D.EXPLORACION;
+    var r = null;
+    E.registros.forEach(function (x) { if (x.id === idRegistro) { r = x; } });
+    if (!r) { r = E.registros[0]; }
+
+    var html = '<div class="mq-campo mq-campo--ancho"><label for="ex-registro">Registro</label>' +
+      '<select class="mq-select" id="ex-registro" aria-describedby="ex-registro-id">';
+    E.registros.forEach(function (x) {
+      html += '<option' + (x.id === r.id ? ' selected' : '') + '>' + esc(x.nombre) + '</option>';
+    });
+    html += '</select>';
+    /* Declaración de la identidad de la consulta. NUNCA el valor de la
+       credencial: sólo su nombre, y acá ni siquiera el nombre está declarado
+       por ninguna fuente. */
+    html += '<span class="mq-hint" id="ex-registro-id">' + esc(r.identidad);
+    if (r.naturaleza === 'privado') {
+      html += ' <em>(nombre de la credencial sin declarar)</em>';
+    }
+    html += '</span>';
+    if (r.credencialSinNombre) {
+      html += '<span class="mq-hint">' + esc(r.credencialSinNombre) + '</span>';
+    }
+    html += '<span class="mq-hint">Cambiar de registro descarta los resultados en curso y no los mezcla con los del registro nuevo.</span>';
+    return html + '</div>';
+  }
+
+  R['SUP-19'] = function (sup, estado) {
+    var E = D.EXPLORACION;
+    var esPrivado = estado === 'credencial-rechazada' || estado === 'enumeracion-no-admitida';
+
+    /* Estado vacío sin ningún registro configurado: el vacío se declara con
+       su motivo, nunca una lista vacía sin explicación. La acción de salida
+       queda como arista declarada SIN DESTINO (brecha B-UX-29). */
+    if (estado === 'vacio-sin-registro') {
+      var sr = E.sinRegistroConfigurado;
+      var h0 = '<div class="mq-superpuesta" role="dialog" aria-label="Explorar un registro de imágenes">' +
+        '<header><h2>Explorar un registro de imágenes</h2>' +
+        '<button type="button" class="mq-btn-icono" aria-label="Cerrar sin devolver nada">' + icono('cerrar', 16) + '</button></header>' +
+        '<p><strong>' + esc(sr.titulo) + '</strong></p>' +
+        '<p class="mq-caption">' + esc(sr.texto) + '</p>' +
+        '<p><button type="button" class="mq-btn mq-btn--primario" aria-describedby="ex-destino">' + esc(sr.accion) + '</button></p>' +
+        '<p class="mq-hint" id="ex-destino">' + esc(sr.destinoSinDeclarar) + '</p>' +
+        '<hr class="mq-separador">' +
+        '<p class="mq-caption">Otras vías que no dependen de un registro:</p>' +
+        '<ul class="mq-lista-puntos mq-caption">' + sr.viasAlternativas.map(function (v) {
+          return '<li><a href="Alta-De-Servicio.html#estado=eleccion-de-via">' + esc(v.etiqueta) + '</a></li>';
+        }).join('') + '</ul>' +
+        '<p class="mq-hint">' + esc(sr.notaAlternativas) + '</p>' +
+        '<div class="mq-pie-alta"><button type="button" class="mq-btn">Cancelar</button></div></div>';
+      return h0;
+    }
+
+    var html = '<div class="mq-superpuesta mq-superpuesta--ancha" role="dialog" aria-label="Explorar un registro de imágenes">';
+    html += '<header><h2>Explorar un registro de imágenes</h2>' +
+      '<button type="button" class="mq-btn-icono" aria-label="Cerrar sin devolver nada. Lo declarado en el alta no se toca">' +
+      icono('cerrar', 16) + '</button></header>';
+
+    /* Vista de etiquetas: se vuelve a los resultados con una acción
+       declarada, no con el gesto de atrás del navegador. */
+    if (IMG_ETIQUETAS.indexOf(estado) >= 0) {
+      var nombreImg = E.imagenElegidaPorDefecto;
+      var lista = estado === 'imagen-sin-etiquetas' ? [] : E.etiquetas[nombreImg];
+
+      html += '<p><button type="button" class="mq-btn" aria-label="Volver a la lista de resultados, con el criterio de búsqueda conservado">' +
+        icono('chevron', 14) + ' Volver a los resultados</button></p>';
+      html += '<h3 class="mq-titulo-seccion mq-literal">imagen-oficial/' + esc(nombreImg) + '</h3>';
+      /* La nota va ANTES de elegir y no después: que la etiqueta sea
+         reasignable es una propiedad que cambia la elección. */
+      html += bandaInfo(E.notaEtiqueta);
+
+      if (!lista.length) {
+        html += '<p><strong>' + esc(E.imagenSinEtiquetas.titulo) + '</strong></p>' +
+          '<p class="mq-caption">' + esc(E.imagenSinEtiquetas.texto) + '</p>';
+      } else {
+        /* Grupo de selección única con nombre accesible propio. La nota sobre
+           la reasignabilidad de la etiqueta forma parte de la DESCRIPCIÓN DEL
+           GRUPO y no de una fila, y va ANTES de la lista.
+           El disclosure del digesto queda FUERA del `label`: es contenido
+           interactivo, y adentro de un rótulo robaría el clic del control. */
+        /* La nota ya se ve arriba, antes de la lista. Acá va sólo al texto
+           accesible, para que el grupo de selección la lleve en su nombre sin
+           repetirla dos veces en pantalla. */
+        html += '<fieldset class="mq-etiquetas"><legend class="mq-sr-only">Etiquetas · ' + esc(E.notaEtiqueta) + '</legend>';
+        html += '<div class="mq-opciones">';
+        lista.forEach(function (t, i) {
+          var idt = 'ex-tag-' + i;
+          var elegida = estado === 'etiqueta-elegida' && i === 0;
+          var nombreAcc = t.etiqueta + ', momento de publicación sin declarar, apunta hoy a ' +
+            (t.digesto ? t.digesto : 'un digesto que ninguna fuente declara');
+          html += '<div class="mq-opcion' + (elegida ? ' mq-opcion--elegida' : '') + '">' +
+            '<input type="radio" name="ex-tag" id="' + idt + '"' + (elegida ? ' checked' : '') +
+            ' aria-describedby="' + idt + '-d">' +
+            '<div class="mq-etiqueta-cuerpo">' +
+            '<span class="mq-etiqueta-linea">' +
+            '<label for="' + idt + '"><strong class="mq-literal">' + esc(t.etiqueta) + '</strong>' +
+            '<span class="mq-sr-only">, ' + esc(nombreAcc) + '</span></label>' +
+            '<span class="mq-caption">publicada: sin declarar</span></span>' +
+            '<div class="mq-caption" id="' + idt + '-d">apunta hoy a' + celdaDigesto(t.digesto, t.digestoNota) + '</div>' +
+            '<span class="mq-hint">' + esc(t.publicadaNota) + '</span>' +
+            '</div></div>';
+        });
+        html += '</div></fieldset>';
+      }
+
+      html += '<p class="mq-hint">' + esc(E.notaVerificacion) + '</p>';
+      html += '<div class="mq-pie-alta">' +
+        '<button type="button" class="mq-btn">Cancelar</button>' +
+        '<button type="button" class="mq-btn mq-btn--primario"' +
+        (estado === 'etiqueta-elegida' ? '' : ' disabled') + '>' +
+        esc(E.desenlaces['imagen-publica'].accion) + '</button>';
+      if (estado === 'etiqueta-elegida') {
+        html += '<span class="mq-hint">' + esc(E.desenlaces['imagen-publica'].queda) + '</span>';
+      }
+      html += '</div></div>';
+      return html;
+    }
+
+    /* Desenlaces: la superficie se cerró y se declara qué quedó. */
+    if (estado === 'devuelto-al-alta' || estado === 'consultado-fuera-del-alta') {
+      var d = estado === 'devuelto-al-alta' ? E.desenlaces['imagen-publica'] : E.desenlaces.consulta;
+      html += bandaOk(d.produce);
+      html += filasClaveValor([
+        ['Se abrió desde', d.origen],
+        ['Acción primaria', d.accion],
+        ['Qué queda después', d.queda]
+      ]);
+      var rd = E.referenciaDevuelta;
+      html += '<p class="mq-caption">Referencia devuelta:</p>';
+      html += '<p><code class="mq-literal">' + esc(rd.referencia) + '</code></p>';
+      html += celdaDigesto(rd.digesto, rd.digestoNota);
+      html += '<p class="mq-hint">' + esc(E.notaVerificacion) + '</p>';
+      html += '<p class="mq-hint">' + esc(E.noEscribe) + '</p>';
+      html += '<div class="mq-pie-alta"><a class="mq-btn mq-btn--primario" href="' + esc(d.volverA) + '">Ir a donde se abrió</a>';
+      if (estado === 'consultado-fuera-del-alta') {
+        html += '<button type="button" class="mq-btn">' + icono('copiar') + ' Copiar la referencia</button>';
+      }
+      html += '</div></div>';
+      return html;
+    }
+
+    /* Paso 1 y 2: registro persistente en la cabecera y búsqueda. */
+    html += '<div class="mq-fila">' + selectorRegistro(esPrivado ? 'privado' : 'publico') + '</div>';
+    html += '<hr class="mq-separador">';
+    html += '<div class="mq-fila"><div class="mq-campo mq-campo--ancho">' +
+      '<label for="ex-buscar">Buscar en el registro</label>' +
+      '<input class="mq-input" id="ex-buscar" type="search"' +
+      (estado === 'vacio-sin-criterio' ? '' : ' value="' + esc(E.criterioPorDefecto) + '"') + '></div>' +
+      '<button type="button" class="mq-btn mq-btn--primario"' + (estado === 'cargando' ? ' disabled' : '') + '>Buscar</button></div>';
+
+    html += '<div class="mq-zona-resultado" role="status" aria-label="Resultado de la consulta al registro">';
+
+    if (estado === 'cargando') {
+      html += progresoLineal() + esqueleto(4);
+      html += '<p class="mq-hint">La consulta cruza a un sistema externo por red y puede tardar. ' +
+        'Pasado un límite el resultado pasa a indeterminado en lugar de quedar colgado. ' +
+        esc(E.consultaImposible.notaMaqueta) + '</p>';
+    } else if (estado === 'vacio-sin-criterio') {
+      html += vacio(E.sinCriterio.titulo, E.sinCriterio.texto, null);
+    } else if (estado === 'sin-resultados') {
+      html += '<div class="mq-resultado mq-resultado--vacio"><strong>' + esc(E.sinResultados.titulo) + '</strong>' +
+        '<p class="mq-caption">' + esc(E.sinResultados.texto) + '</p>' +
+        '<div class="mq-acciones">' + E.sinResultados.acciones.map(function (a) {
+          return '<button type="button" class="mq-btn">' + esc(a) + '</button>';
+        }).join('') + '</div></div>';
+    } else if (estado === 'consulta-imposible') {
+      /* Resultado INDETERMINADO: sin lenguaje visual de error y sin ningún
+         campo marcado. No hay dato que corregir. */
+      html += '<div class="mq-resultado mq-resultado--indeterminado"><strong>' + esc(E.consultaImposible.titulo) + '</strong>' +
+        '<p class="mq-caption">' + esc(E.consultaImposible.texto) + '</p>' +
+        '<div class="mq-acciones"><button type="button" class="mq-btn">' + icono('refresh') + ' ' + esc(E.consultaImposible.accion) + '</button></div>' +
+        '<p class="mq-hint">Ningún campo queda marcado: el dato que se escribió puede estar bien.</p></div>';
+    } else if (estado === 'credencial-rechazada') {
+      html += '<div class="mq-resultado mq-resultado--fallido"><strong>' + esc(E.credencialRechazada.titulo) + '</strong>' +
+        '<p class="mq-caption">' + esc(E.credencialRechazada.texto) + '</p>' +
+        '<div class="mq-acciones"><button type="button" class="mq-btn">' + esc(E.credencialRechazada.accion) + '</button></div>' +
+        '<p class="mq-hint">Es una clase propia, visiblemente distinta de «consulta imposible» y de «sin resultados», porque la acción es otra.</p></div>';
+    } else if (estado === 'enumeracion-no-admitida') {
+      html += '<div class="mq-resultado mq-resultado--limitado"><strong>' + esc(E.enumeracionNoAdmitida.titulo) + '</strong>' +
+        '<p class="mq-caption">' + esc(E.enumeracionNoAdmitida.texto) + '</p>' +
+        '<div class="mq-acciones"><button type="button" class="mq-btn">' + esc(E.enumeracionNoAdmitida.accion) + '</button></div></div>';
+    } else {
+      html += '<h3 class="mq-titulo-seccion">Resultados</h3>';
+      html += '<ul class="mq-lista-limpia mq-resultados">' + E.resultados.map(function (r) {
+        return '<li class="mq-resultado-fila">' +
+          '<button type="button" class="mq-resultado-boton"' +
+          ' aria-label="' + esc(r.referenciaLegible) + '. Abre sus etiquetas">' +
+          '<span class="mq-literal"><strong>' + esc(r.repositorio) + '/' + esc(r.imagen) + '</strong></span>' +
+          '<span class="mq-meta mq-literal">' + esc(r.referenciaLegible) + '</span>' +
+          '</button></li>';
+      }).join('') + '</ul>';
+      html += '<p class="mq-hint">Elegir uno abre sus etiquetas. No despliega nada y no persiste nada.</p>';
+    }
+    html += '</div>';
+
+    html += '<details class="mq-expander"><summary>Por qué este recorrido no se dibuja como asistente</summary>' +
+      '<ul class="mq-lista-puntos mq-caption" style="margin-top:var(--space-8)">' +
+      E.porQueNoEsAsistente.map(function (p) { return '<li><strong>' + esc(p[0]) + '</strong> — ' + esc(p[1]) + '</li>'; }).join('') +
+      '</ul></details>';
+
+    html += '<div class="mq-pie-alta"><button type="button" class="mq-btn">Cancelar</button>' +
+      '<span class="mq-hint">' + esc(E.cancelar) + '</span></div>';
+    html += '</div>';
+    return html;
+  };
+
   /* ── Índice de la maqueta ─────────────────────────────────────────────── */
   function renderIndice() {
     var m = D.MAQUETA;
@@ -2225,7 +3919,7 @@
       '</ul></section>';
 
     html += '<section class="mq-seccion" data-acento="d" aria-label="Superficies de la maqueta">';
-    html += '<h2 class="mq-titulo-seccion">Las 16 superficies</h2>';
+    html += '<h2 class="mq-titulo-seccion">Las ' + D.SUPERFICIES.length + ' superficies</h2>';
     html += '<p class="mq-subtitulo">' + total + ' estados demostrables en total. La correspondencia superficie ↔ caso de uso ' +
       'es la de <code>Experiencia-De-Uso.md</code> §9.2, que es su fuente única.</p>';
     html += tabla(['#', 'Superficie', 'Propósito', 'CU', 'Estados'],
@@ -2253,14 +3947,27 @@
       }), { caption: 'Contrato de campos de la maqueta' });
     html += '</section>';
 
-    var alta = D.ALTA_SERVICIO.propuesta;
-    html += '<section class="mq-seccion" data-acento="b" aria-label="Propuesta abierta: alta de servicio">';
-    html += '<h2 class="mq-titulo-seccion">Propuesta abierta a validar · alta de servicio</h2>';
-    html += notaPropuesta(alta);
-    html += '<p class="mq-caption">Se ve en funcionamiento en ' +
-      '<a href="Alta-De-Servicio.html">Alta de servicio, superficie propia («alta de servicio»</a>, ' +
-      'y se alcanza desde el botón «Nuevo servicio» del ' +
-      '<a href="Lienzo-Del-Proyecto.html">lienzo</a>, que hasta el paso 5 de esta fase no llevaba a ninguna parte.</p>';
+    var br = D.BRECHA_REGISTROS;
+    html += '<section class="mq-seccion" data-acento="b" aria-label="Brecha abierta: configuración de los registros explorables">';
+    html += '<h2 class="mq-titulo-seccion">Brecha abierta declarada · ' + esc(br.brecha) + '</h2>';
+    html += notaPropuesta(br);
+    html += '<p class="mq-caption">Se ve en funcionamiento en el paso del origen de las vías de imagen de ' +
+      '<a href="Alta-De-Servicio.html#estado=origen-sin-verificar">Alta de servicio</a>, y en el estado vacío de ' +
+      '<a href="Exploracion-De-Registro-De-Imagenes.html#estado=vacio-sin-registro">Exploración de registro de imágenes</a>, ' +
+      'donde la acción de configurar un registro queda como arista declarada y sin destino.</p>';
+    html += '</section>';
+
+    var bu = D.BRECHA_UMBRAL;
+    html += '<section class="mq-seccion" data-acento="b" aria-label="Brecha abierta: los valores del umbral de la sugerencia de limpieza">';
+    html += '<h2 class="mq-titulo-seccion">Brecha abierta declarada · ' + esc(bu.brecha) + '</h2>';
+    html += '<div class="mq-nota-propuesta"><strong>' + esc(bu.titulo) + '</strong>' +
+      '<p style="margin:var(--space-4) 0">' + esc(bu.texto) + '</p>' +
+      '<ul class="mq-lista-puntos">' + bu.restricciones.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>';
+    html += '<p class="mq-hint">' + esc(bu.nota) + '</p>';
+    html += '<p class="mq-caption">Se ve en las tres superficies que la alcanzan: los dos descriptores sin valor en ' +
+      '<a href="Configuracion-Del-Sistema.html#estado=umbral-sin-valor">Configuración del sistema</a>, la banda en ' +
+      '<a href="Imagenes.html#estado=sugerencia-vigente">Imágenes</a>, y la línea del bloque del servidor en ' +
+      '<a href="Tablero-De-Estado.html#estado=sugerencia-limpieza-vigente">Tablero de estado</a>.</p>';
     html += '</section>';
 
     var p = D.PROPUESTA_ARISTAS;
@@ -2296,6 +4003,9 @@
 
   var estadoActual = null;
   var superficieActual = null;
+  /* Vía de alta elegida en el menú, tomada de `#…&via=<id>`. Vacía cuando se
+     llega al alta sin pasar por el menú: ahí manda la vía que el estado declara. */
+  var viaElegida = '';
 
   function estadoPorDefecto(sup) {
     for (var i = 0; i < sup.estados.length; i++) {
@@ -2387,6 +4097,31 @@
     }
   }
 
+  /* Lee `#estado=<id>&via=<id>` y devuelve el estado a pintar, dejando
+     `viaElegida` al día. Vive aparte del montaje porque hay que releerlo en
+     cada cambio de fragmento: un enlace de la misma página a la misma página
+     con otro hash NO recarga el documento, y sin releer, la maqueta se queda
+     mostrando lo anterior como si el click no hubiera pasado. */
+  function leerFragmento(sup) {
+    var inicial = estadoPorDefecto(sup);
+    var hash = (global.location.hash || '').replace(/^#/, '');
+    var frag = '', viaFrag = '';
+    hash.split('&').forEach(function (par) {
+      var ix = par.indexOf('=');
+      if (ix < 0) { return; }
+      var clave = par.slice(0, ix), valor = par.slice(ix + 1);
+      if (clave === 'estado') { frag = valor; }
+      if (clave === 'via') { viaFrag = valor; }
+    });
+    if (frag) {
+      for (var k = 0; k < sup.estados.length; k++) {
+        if (sup.estados[k].id === frag) { inicial = frag; break; }
+      }
+    }
+    viaElegida = (viaFrag && D.via(viaFrag)) ? viaFrag : '';
+    return inicial;
+  }
+
   function montar() {
     var body = document.body;
     var idSup = body.getAttribute('data-superficie');
@@ -2396,15 +4131,14 @@
     superficieActual = sup;
 
     /* Barra de validación. El estado inicial admite enlace directo por
-       fragmento (#estado=<id>) para poder compartir un estado concreto. */
+       fragmento (#estado=<id>) para poder compartir un estado concreto.
+       El fragmento admite además `&via=<id>`: las cinco vías con origen
+       propio comparten el mismo estado del tronco y se diferencian por la
+       VARIANTE DE ORIGEN que declaran, que es lo que DI-17 y DI-18 deciden.
+       Sin este parámetro las cinco caían en la variante de imagen pública y
+       la maqueta no podía demostrar la diferencia entre ellas. */
     var barra = document.getElementById('barra-validacion');
-    var inicial = estadoPorDefecto(sup);
-    var frag = (global.location.hash || '').replace(/^#estado=/, '');
-    if (frag) {
-      for (var k = 0; k < sup.estados.length; k++) {
-        if (sup.estados[k].id === frag) { inicial = frag; break; }
-      }
-    }
+    var inicial = leerFragmento(sup);
     if (barra) {
       barra.setAttribute('role', 'region');
       barra.setAttribute('aria-label', D.MAQUETA.rotuloBarra);
@@ -2431,9 +4165,22 @@
     if (selEstado) {
       selEstado.addEventListener('change', function () {
         pintarSuperficie(sup, this.value);
-        try { global.history.replaceState(null, '', '#estado=' + this.value); } catch (e) { /* sin historial */ }
+        /* Se conserva la vía en la URL: si se pierde al conmutar de estado,
+           recargar o compartir el enlace devuelve otra variante de origen. */
+        var frag = '#estado=' + this.value + (viaElegida ? '&via=' + viaElegida : '');
+        try { global.history.replaceState(null, '', frag); } catch (e) { /* sin historial */ }
       });
     }
+
+    /* Un enlace al mismo documento con otro fragmento no dispara recarga.
+       Sin esto, elegir otra vía desde el propio alta no repinta nada y la
+       maqueta parece rota justo en el paso que la fase viene a validar. */
+    global.addEventListener('hashchange', function () {
+      var nuevo = leerFragmento(sup);
+      pintarSuperficie(sup, nuevo);
+      var sel = document.getElementById('mq-sel-estado');
+      if (sel && sel.value !== nuevo) { sel.value = nuevo; }
+    });
 
     /* Navegación entre superficies y recarga automática (apagada por defecto,
        con su estado persistido en el navegador) */

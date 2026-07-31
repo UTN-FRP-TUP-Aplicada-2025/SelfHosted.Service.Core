@@ -1,12 +1,12 @@
 # Compatibilidad de Plataformas
 
-**Proyecto:** SelfHosted Service (`Nombre-Solucion`: `SelfHosted-Service`)
+**Producto:** SelfHosted Service (`Slug-Producto`: `SelfHosted-Service`)
 **Documento:** Compatibilidad-Plataformas.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Product Manager Senior (AG-00)
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service §10, §17.P.9, §17.P.10, §22.5, §24.2
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service §10, §17.P.9, §17.P.10, §22.5, §24.2
 **Trazabilidad downstream:** 03-UX-UI-DX, 05-Arquitectura-Tecnica, 08-Calidad-Y-Pruebas, 09-Devops
 
 ---
@@ -38,14 +38,14 @@ La consecuencia práctica de esa decisión es que no hay guiones alternativos po
 
 ### §1.1 Por qué este documento se genera
 
-Las reglas constructivas de la categoría marcan este documento como recomendado, y no obligatorio, para el tipo de proyecto de código de esta solución. Se genera igual, por decisión declarada, con dos motivos concretos:
+Las reglas constructivas de la categoría marcan este documento como recomendado, y no obligatorio, para el tipo de proyecto de código de este producto. Se genera igual, por decisión declarada, con dos motivos concretos:
 
 - El intake declara una matriz restrictiva con versiones mínimas concretas, incluida una familia única de navegador con piso de versión, y las categorías 08-Calidad-Y-Pruebas y 09-Devops necesitan esa matriz consolidada en un solo lugar para derivar sus verificaciones sin recorrer bloques técnicos.
 - La matriz no elimina tres componentes del riesgo del canal entre navegador y servidor, que quedan como riesgos abiertos con medición asignada. Sin un documento que los consolide, esos tres se pierden entre la puerta técnica y la categoría de calidad.
 
 ### §1.2 Los tres ejes de plataforma
 
-La solución tiene tres ejes de plataforma independientes, y confundirlos es el error más probable al leer esta matriz. Sólo uno de los tres es Windows.
+El producto tiene tres ejes de plataforma independientes, y confundirlos es el error más probable al leer esta matriz. Sólo uno de los tres es Windows.
 
 | Eje | Qué es | Plataforma |
 | --- | --- | --- |
@@ -115,7 +115,7 @@ Nueve restricciones con identificador emitido por la Fase A previa y conservado 
 | CP-04 | Los contenedores creados son hermanos del entorno de desarrollo, no hijos | Consecuencia del patrón de motor externo elegido | Para alcanzar por red un servicio recién desplegado hay que adjuntarse a su red o usar el puerto publicado |
 | CP-05 | Sin soporte para motores de contenedores distintos del declarado | Ningún otro motor está verificado, y verificar uno tiene costo sin beneficio para este caso | El punto de extensión existe detrás de una única abstracción, pero no es una compatibilidad ofrecida |
 | CP-06 | Sin soporte para almacenamientos distintos del declarado | El modelo de concurrencia y el esquema están atados al declarado | Dos instancias sobre el mismo archivo de datos no están soportadas |
-| CP-07 | El servicio no se publica a internet | El acceso al socket del motor de contenedores equivale a control total del host | Sin superficie pública ni certificado gestionado por la solución |
+| CP-07 | El servicio no se publica a internet | El acceso al socket del motor de contenedores equivale a control total del host | Sin superficie pública ni certificado gestionado por el producto |
 | CP-08 | Las capas `Domain` y `Application` no pueden tener superficie de plataforma | Las pruebas de dominio deben correr sin infraestructura, y la regla de aislamiento del cliente del motor es bloqueante | Control de arquitectura bloqueante en el pipeline, no una convención |
 | CP-09 | El entorno de desarrollo no define ni condiciona la imagen de producción | Son dos artefactos con propósitos distintos | La imagen de producción se construye con su propia definición multietapa |
 | CP-10 | Una única familia de navegador de escritorio, con piso de versión concreto y creciente | La interfaz vive en el servidor y el navegador es una pantalla conectada por un canal permanente: cada clic, cada arrastre de un nodo y cada tecla es un viaje de ida y vuelta. El navegador no afecta el aspecto, afecta si la aplicación funciona | Cada guion de demostración se ejecuta sobre la familia declarada, con versión igual o superior al piso, y el número de versión concreto se registra en el informe de cierre de esa etapa |
@@ -150,7 +150,7 @@ La decisión de matriz cerró la brecha, pero no elimina tres de los cinco compo
 | Otros motores de contenedores | El adaptador vive detrás de una única abstracción, de modo que sustituirlo es trabajo acotado a un componente, y la batería de pruebas de contrato diría si un reemplazo es equivalente. Es un punto de extensión declarado, no una compatibilidad ofrecida (CP-05) |
 | Otros almacenamientos | Ninguna. El modelo de concurrencia y el esquema están atados al declarado; cambiarlo es una decisión de arquitectura con registro propio (CP-06) |
 | Acceso desde fuera de la red local | Ninguna. Requeriría una capa de protección adicional, hoy excluida del alcance del proyecto |
-| Más de una instancia sobre el mismo almacenamiento | Ninguna. Es una carga que la solución declara no soportar (CP-06) |
+| Más de una instancia sobre el mismo almacenamiento | Ninguna. Es una carga que el producto declara no soportar (CP-06) |
 
 ---
 
@@ -190,3 +190,4 @@ Trazabilidad upstream: este documento consolida la sección de compatibilidad y 
 | --- | --- | --- | --- |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir de `SOLUTION-INTAKE-SelfHosted-Service` versión 2.2. Se genera por decisión declarada, y no por regla de la tabla de inclusión de la categoría, con el motivo registrado en §1.1. Conserva los identificadores `CP-01` a `CP-09` de la Fase A previa y emite `CP-10` para la decisión de navegador del 2026-07-28. Corrige la columna de componente de la matriz de la Fase A, que nombraba proyectos de código que dejaron de existir, y pasa a nombrar las capas equivalentes; ninguna plataforma, entorno de ejecución ni umbral cambió por esa corrección. Consolida en §3.2 los tres riesgos que la matriz no elimina, con su medición asignada | Product Manager Senior (AG-00) |
 | 1.0 | 2026-07-29 | Adecuación a `Rules-Contexto` 2.1, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5. Se corrió el catálogo de ambigüedades de §6.1 sobre el documento: E1 no aplica, porque la solución tiene un único proyecto de código y no hay plataformas que agregar entre proyectos; E2 está cubierto, porque las ocho filas de §2.1 llevan versión mínima. §3.1: se precisa que CP-10 no es una restricción originada en esta categoría sino el identificador emitido para la decisión que el agente humano del proyecto tomó el 2026-07-28 y que §17.P.9 del intake declara con su evidencia, de la que se transcriben tanto la matriz como el criterio verificable | Product Manager Senior (AG-00) |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4, bajo `Rules-Contexto` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. La cabecera pasa de la etiqueta `Proyecto` a `Producto` y el identificador `Nombre-Solucion` a `Slug-Producto`, según `Vocabulario-Rules` §3 y §4 R3, que fija esta categoría a nivel producto y le prohíbe declarar un proyecto de código; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: de las seis ocurrencias de la cadena `soluci`, una era el identificador de cabecera, cuatro designaban el nivel superior y pasan a «producto» con su concordancia de género —§1.1, §1.2, CP-07 en §3.1 y la última fila de §4— y una vive dentro de una fila ya escrita del control de cambios, que no se reescribe por `SDD-Development-Guide.md` §VI.2. No hay ninguna «resolución» en este documento. De las trece ocurrencias de «proyecto», **ninguna pasó a «proyecto de código»** que no lo fuera ya: las de §2.2 y §3.1 CP-08 designaban la unidad de compilación y ya estaban en la forma completa; «el proyecto no verifica» de §2.1 y de §4, «el alcance del proyecto» de §4 y «agente humano del proyecto» son el emprendimiento y quedan a secas, según §12 del intake. Ninguna plataforma, versión mínima, restricción `CP-XX`, riesgo `RP-XX` ni verificación prevista cambió: la migración es léxica y de forma de cabecera | Product Manager Senior (AG-00) |

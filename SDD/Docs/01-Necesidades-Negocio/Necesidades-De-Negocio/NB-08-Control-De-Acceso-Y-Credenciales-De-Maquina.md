@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | NB-08-Control-De-Acceso-Y-Credenciales-De-Maquina.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §2, §4 (F-01, F-15, F-16), §5 (historias 1 y 10), §6 (flujo 4), §9 (exclusiones 4, 5 y 7), §11 (RG-02, RG-03), §17.P.10, §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §4.1, §4.2, §8.1 (RG-02, RG-03); Alcance-Proyecto.md §4.1, §5.1, §5.2; Roadmap-Producto.md §2.2 (Fase 4), §2.3 (EP-01, EP-15, EP-16), §2.6, §3 |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §2, §4 (F-01, F-15, F-16), §5 (historias 1 y 10), §6 (flujo 4), §9 (exclusiones 4, 5 y 7), §11 (RG-02, RG-03), §17.P.10, §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §4.1, §4.2, §8.1 (RG-02, RG-03); Alcance-Producto.md §4.1, §5.1, §5.2; Roadmap-Producto.md §2.2 (Fase 4), §2.3 (EP-01, EP-15, EP-16), §2.6, §3 |
 | Trazabilidad downstream | CU-29, CU-30, CU-31, CU-32, CU-33 (previstas en 02-Especificacion-Funcional) |
 
 ---
@@ -38,7 +38,7 @@ El tercer componente es el registro. Con un panel que gobierna el host, no alcan
 
 ## 2. Ejemplo de uso desde la perspectiva del negocio
 
-El propietario instala la solución por primera vez. Si la aplicación arranca con el panel abierto y sin credencial hasta que él se acuerde de configurar una, hay una ventana en la que cualquiera de la red local controla su servidor. Necesita que el primer arranque le exija elegir usuario y contraseña antes de mostrarle nada.
+El propietario instala el producto por primera vez. Si la aplicación arranca con el panel abierto y sin credencial hasta que él se acuerde de configurar una, hay una ventana en la que cualquiera de la red local controla su servidor. Necesita que el primer arranque le exija elegir usuario y contraseña antes de mostrarle nada.
 
 Más adelante quiere que su automatismo publique la versión nueva de un servicio sin intervención suya. No está dispuesto a poner la contraseña de su administrador en un flujo de trabajo: necesita emitir una credencial que sólo sirva para disparar despliegues, con vigencia, y poder revocarla desde la interfaz el día que deje de confiar en ella, sin tocar su propia contraseña.
 
@@ -81,7 +81,7 @@ El plazo del tercer criterio depende de una brecha abierta que este documento no
 | Analista de Negocio Senior (AG-01) | Propietario del contenido | Mantiene la necesidad, sus criterios y su trazabilidad, y declara las brechas en lugar de resolverlas |
 | Equipo de desarrollo, dos desarrolladores | Implementador | Construye el alta del administrador, la sesión, la emisión y revocación de credenciales de máquina y el registro de auditoría |
 | Agente IA de codificación | Implementador | Genera la especificación y, en etapas posteriores, el código de los cortes verticales de acceso |
-| Usuario final: administrador de la solución | Beneficiario | Valida que nadie más pueda operar el panel que controla su servidor |
+| Usuario final: administrador del producto | Beneficiario | Valida que nadie más pueda operar el panel que controla su servidor |
 | Automatismo de integración continua | Beneficiario | Dispara despliegues con una credencial de ámbito mínimo, sin conocer la credencial humana |
 | Product Manager (AG-00) | Consultado | Verifica la alineación con la visión y con el alcance declarados |
 | Analista Funcional (AG-02) | Consultado | Desarrolla los casos de uso que esta necesidad declara previstos |
@@ -111,5 +111,6 @@ Must Have. Agrupa tres capacidades de prioridades distintas que responden al mis
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3 y §4 R3; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado y al artefacto hermano `Alcance-Producto.md`, antes `Alcance-Proyecto.md`. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: dos ocurrencias de «solución» designaban el nivel superior y pasan a «producto» con su concordancia —«instala la solución» a «instala el producto» en §2 y «administrador de la solución» a «administrador del producto» en §6—; no hay ninguna «solución de código» ni ninguna «resolución» en este documento. Las cinco ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: ninguna designa la entidad del dominio, y tres son el emprendimiento —«el riesgo más alto del proyecto» en §3 y «el agente humano del proyecto» en §5 y §6—, que quedan a secas y sin calificar según el intake §12, que declara que calificarlas produciría una afirmación falsa; las restantes eran la etiqueta de cabecera y el nombre del artefacto hermano. Ninguna necesidad, criterio de éxito, dependencia, prioridad, CU prevista ni brecha cambió: la migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar el estado anterior, por la política de versionado de `Master-Prompt.md` §5. Se completa el campo `Trazabilidad upstream` de la cabecera con `Roadmap-Producto.md` §2.6, que el §5 cita como origen de la brecha del tercer criterio —el adelanto no decidido de EP-15—, y §3, que el §5 cita como origen de los hitos de anclaje. Origen: hallazgo H-02 del informe [Audit/A-00-01-r1.md](../../Audit/A-00-01-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir del consolidado de la Fase A previa transcripto en el intake §23, y de los documentos de 00-Contexto. Conserva el identificador NB-08, sus cinco criterios de éxito y la decisión de recorte que agrupa F-01, F-15 y F-16 pese a sus prioridades distintas. Declara como brecha el plazo dependiente del adelanto no decidido de EP-15 |

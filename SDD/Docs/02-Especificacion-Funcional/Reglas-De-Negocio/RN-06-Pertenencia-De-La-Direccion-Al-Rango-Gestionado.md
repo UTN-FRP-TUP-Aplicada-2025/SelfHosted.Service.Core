@@ -1,13 +1,14 @@
 # RN-06 — Pertenencia de la dirección al rango gestionado
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** RN-06-Pertenencia-De-La-Direccion-Al-Rango-Gestionado.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service anexo E-16, fila RN-06. **Autoría declarada en la fuente:** **[E]** de la fuente base.
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service anexo E-16, fila RN-06. **Autoría declarada en la fuente:** **[E]** de la fuente base.
 
 ---
 
@@ -29,7 +30,7 @@ Toda dirección IP fija debe pertenecer al rango gestionado y no estar excluida.
 
 ## 2. Justificación
 
-El rango gestionado es un bloque fuera del rango que reparte el servidor de direcciones de la red (DA-04). Sin la regla, el sistema podría asignar una dirección que la red entrega a otro equipo, produciendo un conflicto que la solución no ve.
+El rango gestionado es un bloque fuera del rango que reparte el servidor de direcciones de la red (DA-04). Sin la regla, el sistema podría asignar una dirección que la red entrega a otro equipo, produciendo un conflicto que el producto no ve.
 
 ## 3. Ámbito de aplicación
 
@@ -56,4 +57,5 @@ Las pruebas se realizan en 08-Calidad-Y-Pruebas. El anexo E-22 declara los casos
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major 2.0 → 4.0 de la regla que gobierna la categoría; fuente de contenido: el **documento de origen**, archivado sin modificación en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. **El enunciado de la invariante no cambió de contenido normativo**: una regla de negocio es atemporal, y esta migración es únicamente léxica y de forma de cabecera; las siete secciones obligatorias de `Rules-Especificacion-Funcional` §4.2.1 conservan su texto y su orden. **Cabecera:** la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor de plano producto —`SelfHosted Service`, que es el `Nombre-Producto`—, según `Vocabulario-Rules` §3 y §4 R3 y el referente R4 del plan de migración §3.5; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5, con censo declarado: **2 ocurrencias de «proyecto»**; de las que **1 es la etiqueta de cabecera** y se sustituyó; **1 designa la entidad del dominio** —el agrupador de servicios contenedorizados que el usuario crea desde el portal, con su red y su lienzo— y se preserva tal cual; y **ninguna se promovió a «proyecto de código»**. **1 ocurrencia de «solución»** con el referente de nivel superior, sustituida por «producto» con la concordancia de género ajustada. **Cero** ocurrencias de la cadena `resoluci`. En §2, «un conflicto que la solución no ve» pasa a «un conflicto que **el producto** no ve»: «la solución» → «el producto», con el artículo corregido para no producir la concordancia rota que la entrada `[5.1]` del framework documenta.  **Glosario:** desde la 4.0 el vocabulario de la categoría vive en `Glosario-Funcional.md`, artefacto propio y obligatorio para los ocho tipos D8 (§2.1 y §4.2.4), y ya no en el punto 6 de `Modelo-Conceptual.md`; los términos que esta regla acuña o precisa se devolvieron al lote que emite ese glosario y acá no se redefinen, y los que ya declara [Vision-Producto](../../00-Contexto/Vision-Producto.md) §9 se referencian sin duplicarse. El bloque de procedencia del destino sigue declarando la 4.1 y no se toca: es trabajo de M5 |
 | 1.0 | 2026-07-29 | Versión inicial. Transcripción del enunciado, del momento de validación y de la respuesta ante incumplimiento que declara el anexo E-16 del intake. No se reinterpreta ninguno de los tres |

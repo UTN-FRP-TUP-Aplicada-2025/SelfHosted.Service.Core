@@ -1,14 +1,15 @@
 # CU-01 — Alta de proyecto SelfHosted con su modo de red y su persistencia
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-01-Alta-De-Proyecto.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-01](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-01-Visibilidad-Unificada-De-La-Arquitectura.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §4 capacidad F-02; §6 flujo 1; anexo E-1; anexo E-10; anexo E-15, endpoint de alta de proyecto; §17.P.11 DA-03 (modo de red por defecto) y DA-04 (rango gestionado fuera del rango del servidor de direcciones); anexo E-18, mapa de navegación
+**Trazabilidad upstream:** PRODUCT-INTAKE §4 capacidad F-02; §6 flujo 1; anexo E-1; anexo E-10; anexo E-15, endpoint de alta de proyecto; §17.P.11 DA-03 (modo de red por defecto) y DA-04 (rango gestionado fuera del rango del servidor de direcciones); anexo E-18, mapa de navegación
 
 ---
 
@@ -25,6 +26,7 @@
 - [9. Trazabilidad](#9-trazabilidad)
 - [10. Notas y supuestos](#10-notas-y-supuestos)
 - [11. Control de cambios](#11-control-de-cambios)
+- [13. Interacción multiusuario y concurrencia](#13-interacción-multiusuario-y-concurrencia)
 
 ---
 
@@ -36,8 +38,8 @@ Permitir que el administrador cree un proyecto SelfHosted —la unidad que agrup
 
 | Actor | Tipo | Rol |
 | --- | --- | --- |
-| Administrador de la solución | Primario | Declara el proyecto SelfHosted y elige su modo de red |
-| Registro de la solución | Sistema | Verifica la unicidad del identificador legible, persiste el proyecto y su red y emite el evento de auditoría |
+| Administrador del producto | Primario | Declara el proyecto SelfHosted y elige su modo de red |
+| Registro del producto | Sistema | Verifica la unicidad del identificador legible, persiste el proyecto y su red y emite el evento de auditoría |
 
 Los nombres de los actores no humanos son **denominaciones acuñadas por esta categoría**, salvo los seis que trazan a una fuente: `Motor de contenedores`, `Destino externo`, `Automatismo de integración continua`, `Sincronizador de estado`, `Módulo de descubrimiento` y `Resolutor de referencias`. Los acuñados no son componentes declarados y no condicionan la descomposición: su correspondencia con los módulos que el intake §17.P.2 sí declara la fija 05-Arquitectura-Tecnica. La convención completa, nombre por nombre, está en [Especificacion-Funcional.md](../Especificacion-Funcional.md) §8.
 
@@ -45,7 +47,7 @@ Los nombres de los actores no humanos son **denominaciones acuñadas por esta ca
 
 - Existe un administrador dado de alta (CU-29).
 - El administrador tiene sesión iniciada (CU-30).
-- La base de la solución está migrada: el intake declara que las migraciones se aplican solas sobre una base inexistente al arrancar.
+- La base del producto está migrada: el intake declara que las migraciones se aplican solas sobre una base inexistente al arrancar.
 
 ## 4. Flujo principal
 
@@ -118,6 +120,7 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/CU-01-Alta-De-Proyecto-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (§4 R3) y que el PRODUCT-INTAKE §13 declara como `Nombre-Proyecto-Codigo`; la trazabilidad upstream cita el `PRODUCT-INTAKE` renombrado, antes `SOLUTION-INTAKE`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: las tres ocurrencias de «solución» designaban el nivel superior y pasan a «producto» con su concordancia de género —«Administrador de la solución» a «Administrador del producto», «Registro de la solución» a «Registro del producto» y «la base de la solución está migrada» a «la base del producto está migrada»—; no hay ninguna «solución de código», y la única ocurrencia de la cadena `resoluci` —dentro de «resolución»— quedó **intacta**, verificada por el barrido negativo que el plan §3.5 paso 4 exige. Las cuarenta y cuatro ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: diecinueve llevan la forma calificada «proyecto SelfHosted»; veintiuna son la misma entidad del dominio en forma corta, admitida por el PRODUCT-INTAKE §12 donde el contexto ya fijó el sentido; una es el emprendimiento —«agente humano del proyecto»—, que `Vocabulario-Rules` §4 R1 y el PRODUCT-INTAKE §12 dejan sin calificar; una nombra el archivo de este artefacto del dominio, que no se renombra; una ya venía en la forma vigente «proyecto de código», y una era la etiqueta de cabecera. **Tabla de contenido:** suma la entrada de §13, que la sección tenía sin figurar. La entrada de glosario de los referentes de «el registro», que la fila del 2026-07-29 ubica en `Modelo-Datos/Modelo-Conceptual.md` §6, pasa al artefacto propio `Glosario-Funcional.md` que §2.1 y §4.2.4 de la regla 4.0 hacen obligatorio para los ocho tipos D8; lo emite un lote posterior de esta misma fase y esta fila no lo anticipa. **Ningún propósito, actor, precondición, paso de flujo, flujo alternativo, excepción, postcondición, criterio de aceptación, referencia de trazabilidad, nota ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [Plan-Migracion-4.1-a-6.0.md](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto`. Se califica la forma «el registro» a secas, que tenía tres referentes distintos en la categoría y no era resoluble leyendo esta sección por separado, que es como se generan los artefactos de las categorías siguientes. La entrada de glosario con los cuatro referentes vive en `Modelo-Datos/Modelo-Conceptual.md` §6. Las formas ya calificadas no se tocaron: no colisionan. |
 | 1.0 | 2026-07-29 | Segunda corrección absorbida dentro de la versión 1.0, del mismo audit y por la misma política. §10 declaraba como brecha si el nombre visible del proyecto SelfHosted exige unicidad, cuando la consecuencia 2 de D-12 lo resuelve cerrando la lista de nombres únicos del modelo en dos lugares, ninguno de los cuales es éste. Se retira la brecha y se reescribe la nota como dato declarado. Origen: §7.1 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md), veredicto de B-03 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |

@@ -1,10 +1,11 @@
 # Wireframes — Aprovisionamiento inicial
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Aprovisionamiento-Inicial.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -86,7 +87,7 @@ Tres ausencias deliberadas, que se declaran para que no se lean como omisión:
 | Campo de confirmación de la contraseña | Previene el error de tipeo en un secreto que no se puede recuperar | — | Su discrepancia se informa por banda, no de forma silenciosa |
 | Acción primaria | Concreta el acto | El verbo nombra la acción exacta: crear el administrador | Ancho completo. Se deshabilita mientras el envío está en curso, para prevenir el doble envío |
 
-**Sobre el requisito declarado y su brecha.** El patrón §4.5 de `Design-Rules-Primer-Arranque.md` exige que el contenido del requisito «se derive de la política del sistema, no se transcriba como literal en la vista». Ninguna fuente de esta solución declara las condiciones concretas de validación de la contraseña: CU-29 lo registra como brecha con destinatario en el agente humano del proyecto, y esta categoría la recoge como `B-UX-10`. **El wireframe declara la ranura y su regla de derivación, y no escribe el texto.**
+**Sobre el requisito declarado y su brecha.** El patrón §4.5 de `Design-Rules-Primer-Arranque.md` exige que el contenido del requisito «se derive de la política del sistema, no se transcriba como literal en la vista». Ninguna fuente de este producto declara las condiciones concretas de validación de la contraseña: CU-29 lo registra como brecha con destinatario en el agente humano del proyecto, y esta categoría la recoge como `B-UX-10`. **El wireframe declara la ranura y su regla de derivación, y no escribe el texto.**
 
 ---
 
@@ -165,7 +166,7 @@ Lo que sí rige, y rige por accesibilidad y no por matriz de plataforma:
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-29](../../02-Especificacion-Funcional/Casos-De-Uso/CU-29-Alta-Del-Administrador-En-El-Primer-Arranque.md) Alta del administrador en el primer arranque |
 | Reglas de negocio relevantes | RN-17, registro de auditoría de toda escritura |
 | Insumo del intake | §6 flujo 4; §4 capacidad F-01; §17.P.5; §9 exclusiones 5 y 7; anexo E-18 mapa de navegación |
@@ -184,5 +185,6 @@ Lo que sí rige, y rige por accesibilidad y no por matriz de plataforma:
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | **Migración normativa 4.1 → 6.0**, corte 4 de la fase M4, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md). Clasificación **regenerar contenido**, por el salto de `Rules-UX-UI-DX` 2.0 → 4.0. **Fuente de contenido: documento de origen**, más el [`PRODUCT-MANIFEST`](../../../Intake/PRODUCT-MANIFEST-SelfHosted-Service.md) §2 para el único campo de cabecera que se suma. Ni el corte en las tres capas, ni las tres ausencias deliberadas, ni las siete interacciones, ni los once estados cambian de contenido: lo que cambia es la nomenclatura. Las nueve secciones obligatorias de `Rules-UX-UI-DX` 4.0 §4.2.1 ya estaban presentes y ninguna se agregó ni se reordenó. **Cabecera**: `**Proyecto:**` llevaba un valor del plano de negocio y pasa a `**Producto:**`, porque `Vocabulario-Rules.md` §3 prohíbe la etiqueta de un plano sobre el valor de otro; se suma `**Proyecto de código:** SelfHosted-Service`, que §4.1 de la regla vigente exige y que este documento no declaraba, con el valor **leído del manifiesto y no inferido**. **Vocabulario (`[5.0]`)**: «solución» pasa a «producto» en **2 ocurrencias** del referente de nivel superior —«Ninguna fuente de esta solución» en §3 y «Administrador único de la solución» en §8—, las dos con la concordancia de género corregida. La **1 ocurrencia de «resolución»** —«La resolución del predicado» en §7— **se contó antes y después y sigue siendo 1**: no se tocó, porque la cadena `soluci` vive dentro de la palabra. De las 3 ocurrencias de «proyecto», 1 era la etiqueta de cabecera y **2 no se tocaron**: «el listado de proyectos SelfHosted» de §4, que designa la entidad del dominio, y «agente humano del proyecto» de §3, que designa el emprendimiento. **Ninguna ocurrencia se promovió a «proyecto de código».** La sustitución se hizo por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y **nunca por reemplazo global de cadena**. El bloque ASCII de §2 no contiene ninguna palabra a migrar y **conserva su ancho intacto**. Los nombres canónicos de superficie —`SUP-01` y `Aprovisionamiento inicial`— se conservan textualmente, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **Glosario (`[5.1]`)**: `Glosario-UX.md` pasa de recomendado a obligatorio para los ocho tipos D8 y §6 verifica ahora su existencia y su completitud además de la no duplicación; lo emite un lote posterior de esta migración, y los términos que este wireframe acuña —shell partido, shell de acceso, requisito declarado, predicado de aprovisionamiento en su lectura de superficie, `destinoAlCompletar`— se devolvieron para que ese lote los consuma sin redefinir los que ya están en `Glosario-Funcional.md` de 02. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) y el bloque de procedencia del destino no se tocó: sigue declarando 4.1, y cerrarlo es trabajo de M5 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica la superficie de aprovisionamiento inicial sobre el shell partido, sin chrome de navegación y sin acción de cancelar; declara el corte en las tres capas contra el predicado único, el destino al completar y el cierre del lazo en la superficie siguiente; declara once estados, incluidos los dos de condición de carrera; declara la ranura del requisito de política sin escribir su texto, por la brecha `B-UX-10` |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

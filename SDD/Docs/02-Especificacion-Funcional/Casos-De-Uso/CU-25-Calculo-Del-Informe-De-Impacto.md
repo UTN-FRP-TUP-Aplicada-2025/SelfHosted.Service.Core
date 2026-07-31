@@ -1,14 +1,15 @@
 # CU-25 — Cálculo del informe de impacto
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-25-Calculo-Del-Informe-De-Impacto.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-06](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-06-Cambios-Revisados-Y-Aplicados-En-Lote.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §4 capacidad F-07; anexo E-5 (el informe con sus dos listas y el campo de referencias); anexo E-9, camino de dos pasos para localizar las referencias; §17.P.11, acotación del marcado de redespliegue y su extensión a las referencias; E-16 RN-12, RN-13, RN-27
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service §4 capacidad F-07; anexo E-5 (el informe con sus dos listas y el campo de referencias); anexo E-9, camino de dos pasos para localizar las referencias; §17.P.11, acotación del marcado de redespliegue y su extensión a las referencias; E-16 RN-12, RN-13, RN-27
 
 ---
 
@@ -37,8 +38,8 @@ Calcular, antes de ejecutar nada, qué servicios de un proyecto SelfHosted queda
 | Actor | Tipo | Rol |
 | --- | --- | --- |
 | Módulo de impacto | Primario | Recorre los cambios pendientes y produce las dos listas del informe |
-| Registro de la solución | Sistema | Aporta las aristas entrantes y las variables con referencia sobre las que se resuelve la propagación |
-| Administrador de la solución | Secundario | Lee el informe antes de aplicar (CU-24) |
+| Registro del producto | Sistema | Aporta las aristas entrantes y las variables con referencia sobre las que se resuelve la propagación |
+| Administrador del producto | Secundario | Lee el informe antes de aplicar (CU-24) |
 
 Los nombres de los actores no humanos son **denominaciones acuñadas por esta categoría**, salvo los seis que trazan a una fuente: `Motor de contenedores`, `Destino externo`, `Automatismo de integración continua`, `Sincronizador de estado`, `Módulo de descubrimiento` y `Resolutor de referencias`. Los acuñados no son componentes declarados y no condicionan la descomposición: su correspondencia con los módulos que el intake §17.P.2 sí declara la fija 05-Arquitectura-Tecnica. La convención completa, nombre por nombre, está en [Especificacion-Funcional.md](../Especificacion-Funcional.md) §8.
 
@@ -120,6 +121,7 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/CU-25-Calculo-Del-Informe-De-Impacto-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, que `Vocabulario-Rules` §3 prohíbe como etiqueta de un plano sobre el valor de otro, y la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, sin ningún reemplazo global de cadena: se revisaron las dos ocurrencias de la cadena `soluci` de este documento y se sustituyeron dos, las dos designando el nivel superior y las dos con su concordancia de género —los dos nombres de actor de §2: «Administrador de la solución» pasa a «Administrador del producto» y «Registro de la solución» a «Registro del producto», las dos con la concordancia corregida—; no hay en este documento ninguna «solución de código» ni ningún uso de prosa de negocio que R2 preserve. Este documento no trae ninguna ocurrencia de «re**soluci**ón», de modo que la trampa de la subcadena no aplicó acá, y así queda registrado. De las siete ocurrencias de «proyecto», **ninguna pasó a «proyecto de código»**: tres son «proyecto SelfHosted» y tres son su forma corta con el contexto ya fijado en la misma sección —«el proyecto no es un nodo del lienzo» del paso 5, y el módulo y el agregado `Proyectos` de §9—, las seis la entidad del dominio; ninguna es el emprendimiento; la restante era la etiqueta de cabecera. La clasificación sigue el intake §12, que declara los tres referentes del término, y el glosario del dominio de `Vision-Producto.md` §9. **Glosario**: §2.1 y §4.2.4 de la regla convierten el vocabulario de la categoría en el artefacto propio y obligatorio `Glosario-Funcional.md`, que hasta la 3.0 era el punto 6 de `Modelo-Conceptual.md` y por lo tanto dependía de que el proyecto de código tuviera persistencia. Este caso de uso **no lo emite**: los términos que acuña o precisa y que aparecen en más de un artefacto de 02 se devolvieron al lote que lo emite, por la regla de inclusión de §3.3, y los que ya declara el glosario del dominio de `Vision-Producto.md` §9 se referencian en lugar de redefinirse, por la regla de no duplicación de la misma sección. Las once secciones obligatorias de §4.2 ya estaban completas y no se agregó ni se quitó ninguna; la tabla de contenido de §4.1 y la sección opcional §13 que §4.3 admite para `web-monolith` quedan como estaban. Ningún propósito, actor, precondición, paso del flujo principal, flujo alternativo, excepción, postcondición, criterio de aceptación, regla de negocio aplicable, historia de usuario prevista, componente esperado, test previsto ni brecha declarada cambió de enunciado: la migración es léxica y de forma de cabecera. Las filas históricas de esta tabla **no se reescribieron**, por `SDD-Development-Guide.md` §VI.2 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |
 

@@ -1,12 +1,12 @@
 # Visión de Producto
 
-**Proyecto:** SelfHosted Service (`Nombre-Solucion`: `SelfHosted-Service`)
+**Producto:** SelfHosted Service (`Slug-Producto`: `SelfHosted-Service`)
 **Documento:** Vision-Producto.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Product Manager Senior (AG-00)
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service §1, §2, §3, §8, §9, §10, §11, §12, §17.P.9, §17.P.10, §22.1, §22.2, §24.2, y la sección «Supuestos registrados por este intake y su estado»
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service §1, §2, §3, §8, §9, §10, §11, §12, §17.P.9, §17.P.10, §22.1, §22.2, §24.2, y la sección «Supuestos registrados por este intake y su estado»
 **Trazabilidad downstream:** 01-Necesidades-Negocio, 02-Especificacion-Funcional, 03-UX-UI-DX, 05-Arquitectura-Tecnica, 07-Plan-Sprint, 08-Calidad-Y-Pruebas, 10-Examples
 
 ---
@@ -68,11 +68,11 @@ El disparador es el propio parque existente: la herramienta tiene que ser adopta
 
 | Rol | Nombre o cargo | Categoría | Nivel de involucramiento | Responsabilidad principal |
 | --- | --- | --- | --- | --- |
-| Dueño del problema y administrador único | Propietario del servidor autoalojado de referencia, identificado por rol | Propietario | Permanente y decisorio | Aprueba el intake, opera la solución y valida cada punto de control de etapa |
+| Dueño del problema y administrador único | Propietario del servidor autoalojado de referencia, identificado por rol | Propietario | Permanente y decisorio | Aprueba el intake, opera el producto y valida cada punto de control de etapa |
 | Agente humano del proyecto | El mismo propietario, en su rol de validación técnica | Propietario | En cada punto de control, sin excepción | Ejecuta los guiones de demostración, da o niega el OK de la etapa, fusiona la rama y avisa el cierre |
 | Equipo de desarrollo | Dos desarrolladores [E], trabajando en etapas en serie | Implementador | Continuo durante la construcción | Especifican y construyen cada corte vertical, escriben las pruebas de las reglas que introducen y redactan el informe de cierre |
 | Agente IA de codificación | Orquestador SDD y sus subagentes | Implementador | Continuo durante la construcción | Genera la documentación de especificación y, en etapas posteriores, el código de cada etapa. No fusiona ramas ni aprueba puntos de control |
-| Usuario final: administrador de la solución | Único usuario con credenciales de la aplicación [E] | Beneficiario | Diario, una vez entregado el primer alcance | Crea proyectos SelfHosted, configura servicios en el lienzo, despliega, arranca y detiene |
+| Usuario final: administrador del producto | Único usuario con credenciales de la aplicación [E] | Beneficiario | Diario, una vez entregado el primer alcance | Crea proyectos SelfHosted, configura servicios en el lienzo, despliega, arranca y detiene |
 | Automatismo de integración continua | Flujo de trabajo de integración continua sobre el ejecutor del propio servidor [E] | Beneficiario | Por evento, sin intervención humana | Dispara despliegues con una credencial de máquina de ámbito mínimo |
 
 ### §2.2 Identificación por rol y ausencia de actores externos
@@ -109,7 +109,7 @@ Los cinco identificadores `DV-XX` provienen de la Fase A previa [FA] y se conser
 
 ### §4.1 Estado objetivo
 
-A tres años el parque completo está representado en la solución: cada contenedor en ejecución pertenece a un proyecto SelfHosted declarado, con su red, sus direcciones reservadas y su disposición, y la pregunta «qué consume qué y con qué dirección» se responde mirando una pantalla.
+A tres años el parque completo está representado en el producto: cada contenedor en ejecución pertenece a un proyecto SelfHosted declarado, con su red, sus direcciones reservadas y su disposición, y la pregunta «qué consume qué y con qué dirección» se responde mirando una pantalla.
 
 La arquitectura de cada proyecto SelfHosted es reproducible fuera del servidor, y esa exportación es la estrategia de respaldo frente a un servidor sin redundancia de disco. El alta de un servicio deja de ser un ejercicio de copiar y adaptar, con un catálogo de plantillas que arranca vacío y que el propietario puebla, y con los valores compartidos definidos una sola vez y referenciados desde donde hagan falta. La publicación de una versión nueva puede dispararse desde un automatismo con una credencial de ámbito mínimo, sin que ese automatismo conozca la contraseña del administrador.
 
@@ -119,7 +119,7 @@ Este enunciado proviene de la Fase A previa [FA] y se consume como propuesta, no
 
 | Capacidad postergada | Consecuencia asumida mientras no exista |
 | --- | --- |
-| Operación de más de un servidor y de más de un inquilino | El modelo de identidad, aislamiento y cuotas que exigiría no se construye; la solución sirve a un servidor y a un administrador |
+| Operación de más de un servidor y de más de un inquilino | El modelo de identidad, aislamiento y cuotas que exigiría no se construye; el producto sirve a un servidor y a un administrador |
 | Exposición del servicio fuera de la red local | No hay acceso remoto; el panel se alcanza únicamente desde la red local |
 | Gestión de dominios públicos y de enrutamiento de entrada | Reemplazar la versión de un servicio implica detener y arrancar, con una ventana de indisponibilidad que la interfaz debe advertir al confirmar |
 | Distribución de tráfico entre réplicas | El escalado horizontal queda útil sólo para procesos sin tráfico entrante |
@@ -140,7 +140,7 @@ Ningún target ni plazo de esta tabla se origina acá. Los de OBJ-01 a OBJ-04 so
 | Objetivo | Métrica | Target numérico | Plazo | Responsable |
 | --- | --- | --- | --- | --- |
 | OBJ-01 · Incorporar el parque existente sin reinstanciar contenedores | Contenedores en ejecución incorporados a un proyecto SelfHosted, sobre el total relevado | ≥ 6 de 8 contenedores (≥ 75 %) | 3 meses desde el cierre del Alcance 1 | Agente humano del proyecto |
-| OBJ-02 · Reemplazar el alta manual de servicios por el alta desde la solución | Altas de servicio nuevas hechas desde la solución, sobre el total de altas nuevas | ≥ 90 % | 6 meses desde el cierre del Alcance 1 | Agente humano del proyecto |
+| OBJ-02 · Reemplazar el alta manual de servicios por el alta desde el producto | Altas de servicio nuevas hechas desde el producto, sobre el total de altas nuevas | ≥ 90 % | 6 meses desde el cierre del Alcance 1 | Agente humano del proyecto |
 | OBJ-03 · Hacer reproducible la arquitectura fuera del servidor | Proyectos SelfHosted con exportación vigente, de antigüedad menor a 7 días, sobre el total declarado | 100 % | 3 meses desde el cierre del Alcance 3 | Agente humano del proyecto |
 | OBJ-04 · Sostener la entrega por etapas sin regresión acumulada | Etapas cerradas con su guion de demostración ejecutado y con los guiones de todas las anteriores pasando sin corrección | 100 % de las etapas | Durante toda la construcción | Agente humano del proyecto |
 | OBJ-05 · Operar la escala real sin degradación perceptible | Nodos y aristas por lienzo, y contenedores por parque, sin retraso perceptible en el arrastre | 30 nodos y 40 aristas por lienzo; menos de 50 contenedores | Verificado en la puerta técnica PT-01, antes de comprometer el corte del lienzo | Equipo de desarrollo, con validación del agente humano |
@@ -155,9 +155,9 @@ Cómo se leen las cuatro métricas cerradas: las tres primeras se leen del propi
 
 | Criterio | Métrica | Target | Plazo | Fuente del dato |
 | --- | --- | --- | --- | --- |
-| Adopción del parque existente | Porcentaje de los contenedores en ejecución del servidor de referencia incorporados a un proyecto SelfHosted sin haber sido reinstanciados | ≥ 75 % de los 8 contenedores relevados | 3 meses desde el cierre del Alcance 1 | Listado de servicios adoptados de la propia solución, contrastado contra el inventario del parque de referencia |
-| Reemplazo del método manual | Porcentaje de altas de servicio nuevas realizadas desde la solución en lugar de por definición editada a mano | ≥ 90 % de las altas nuevas | 6 meses desde el cierre del Alcance 1 | Registro de altas de la propia solución |
-| Reproducibilidad de la arquitectura | Proyectos SelfHosted con exportación vigente sobre el total declarado | 100 %, con exportación de antigüedad menor a 7 días | 3 meses desde el cierre del Alcance 3 | Fecha de la última exportación registrada por la solución |
+| Adopción del parque existente | Porcentaje de los contenedores en ejecución del servidor de referencia incorporados a un proyecto SelfHosted sin haber sido reinstanciados | ≥ 75 % de los 8 contenedores relevados | 3 meses desde el cierre del Alcance 1 | Listado de servicios adoptados del propio producto, contrastado contra el inventario del parque de referencia |
+| Reemplazo del método manual | Porcentaje de altas de servicio nuevas realizadas desde el producto en lugar de por definición editada a mano | ≥ 90 % de las altas nuevas | 6 meses desde el cierre del Alcance 1 | Registro de altas del propio producto |
+| Reproducibilidad de la arquitectura | Proyectos SelfHosted con exportación vigente sobre el total declarado | 100 %, con exportación de antigüedad menor a 7 días | 3 meses desde el cierre del Alcance 3 | Fecha de la última exportación registrada por el producto |
 | Continuidad de la entrega | Porcentaje de etapas cerradas con su guion de demostración ejecutado y con los guiones de todas las etapas anteriores pasando sin corrección | 100 % de las etapas | Durante toda la construcción | Informes de cierre de etapa y su índice acumulativo |
 | Escala operable sin degradación | Nodos y aristas por lienzo sostenidos sin retraso perceptible entre el evento de puntero y la actualización visual | 30 nodos y 40 aristas, con actualización de estado cada 2 s y consumo estable tras 15 minutos de uso continuo | Medición de PT-01, antes de comprometer el corte del lienzo | Medición de la puerta técnica PT-01, registrada en el informe de cierre de la etapa que la mide |
 
@@ -178,7 +178,7 @@ Doce restricciones del cliente, con los identificadores emitidos por la Fase A p
 | RE-03 | Sin presupuesto monetario; toda dependencia debe ser de licencia abierta y permisiva | Ninguna capacidad puede depender de un producto de licencia comercial |
 | RE-04 | Etapas en serie, con el punto de control como cuello por diseño | El punto de control bloquea el avance, y es decisión aceptada |
 | RE-05 | El motor de contenedores del host es el sustrato, accedido por su socket local | El producto no existe sin él y hereda sus límites |
-| RE-06 | Servidor de gama modesta, sin redundancia de disco | Solución liviana: presupuesto de memoria de cientos de MB, nunca de GB, y sin sondeo agresivo de métricas |
+| RE-06 | Servidor de gama modesta, sin redundancia de disco | Producto liviano: presupuesto de memoria de cientos de MB, nunca de GB, y sin sondeo agresivo de métricas |
 | RE-07 | Sólo red local, sin publicación a internet | No hay superficie pública; el acceso remoto queda fuera de alcance |
 | RE-08 | El ciclo de desarrollo ocurre dentro de un entorno contenedorizado declarativo | Ningún guion puede asumir herramientas instaladas en el equipo del desarrollador |
 | RE-09 | Ningún marco normativo aplicable | Sin requisitos de cumplimiento que condicionen el alcance |
@@ -246,10 +246,15 @@ No hubo un intento previo de construir esta herramienta [E]. Sí hubo un anális
 
 Términos del dominio del cliente. La categoría 02-Especificacion-Funcional amplía este glosario con los términos que el modelo funcional incorpore.
 
+Es además el glosario raíz de la cadena. `Rules-Contexto` 3.1 §6 declara que todo término que la categoría 00 acuña o precisa, y que aparece en más de uno de sus artefactos, se declara acá —con sus referentes cuando tiene más de uno— y no en un glosario propio de cada documento; las categorías aguas abajo lo referencian en lugar de redefinirlo. Las tres entradas de la familia «proyecto» y la entrada «alcance» transcriben la desambiguación que el PRODUCT-INTAKE §12 declara y la que el [Alcance de Producto](Alcance-Producto.md) §2.2 fijaba para su propia lectura.
+
 | Término | Definición | Sinónimos o notas |
 | --- | --- | --- |
-| Proyecto SelfHosted | Unidad de agrupación del producto: la arquitectura completa de servicios contenedorizados, con su red y su lienzo. Es lo que el usuario crea desde el portal web | Forma corta «proyecto» sólo donde el contexto ya fijó el sentido y el otro no está cerca. No confundir con proyecto de código |
+| Proyecto SelfHosted | Unidad de agrupación del producto: la arquitectura completa de servicios contenedorizados, con su red y su lienzo. Es lo que el usuario crea desde el portal web | Forma corta «proyecto» sólo donde el contexto ya fijó el sentido y el otro no está cerca. No confundir con proyecto de código ni con «proyecto» en el sentido de emprendimiento, que esta tabla declara aparte |
+| Conjunto de servicios, o «el conjunto» | **Forma de lectura de «proyecto SelfHosted»**, y el nombre con el que las necesidades de negocio lo denominan en casi todo su cuerpo. Designa el agrupamiento de servicios contenedorizados que se administran juntos. Tiene **dos estados** y la distinción importa: **antes** del producto, un agrupamiento de hecho, sostenido por el operador y sin identidad en ningún sistema —es el que el parque tiene hoy—; **dentro** del producto, un proyecto SelfHosted, declarado y con identidad | No es un término distinto de «proyecto SelfHosted»: es su forma de lectura. Se declara acá porque es el **denominador de criterios medibles** —`NB-01` mide «5 de 5 conjuntos representados»— y porque un lector que reciba una sección suelta necesita saber cuál de los dos estados cuenta el denominador |
 | Proyecto de código | La unidad de compilación del repositorio. Es una sola. No es algo que el usuario cree ni vea | Variante larga admitida: «proyecto de código fuente». Se escribe siempre completo |
+| Proyecto | Tercer referente de la palabra: el emprendimiento, es decir el esfuerzo de construir este producto, con sus etapas, su alcance, sus plazos, sus objetivos y sus criterios de aceptación. Aparece en «los objetivos del proyecto», «unidad de entrega del proyecto» y en el rol «agente humano del proyecto». Es el sentido predominante en los documentos de esta categoría | Se escribe «proyecto» a secas, sin calificar. El PRODUCT-INTAKE §12 declara que en contexto de proceso ésta es la forma correcta y que convertirla produciría una afirmación falsa. Los tres referentes se distinguen por el contexto en que viven, que es disjunto: producto, código y proceso |
+| Alcance | Dos referentes dentro de esta categoría: el alcance del proyecto, que es lo que el [Alcance de Producto](Alcance-Producto.md) delimita —qué se construye y qué no—; y cada uno de los cuatro incrementos declarados por el cliente | El primero se escribe «el alcance del proyecto», o «el alcance» a secas; el segundo, siempre con su número: «el Alcance 1» |
 | Capa | Cada una de las cuatro divisiones internas del proyecto de código, materializadas como carpeta y espacio de nombres | Reemplaza a «proyecto de código» cuando se habla de una de las cuatro |
 | Motor de contenedores | Servicio del host que crea y ejecuta los contenedores. Es la fuente de verdad del estado real y el sustrato del producto; se lo alcanza por su socket local | Término incorporado por la Fase A previa [FA] y conservado |
 | Socket del motor de contenedores | Punto de acceso local a la interfaz programática del motor. Acceder a él equivale a control administrativo del host | — |
@@ -267,8 +272,8 @@ Términos del dominio del cliente. La categoría 02-Especificacion-Funcional amp
 | Objeto con identidad | Elemento del modelo con identificador propio, cuyas relaciones con otros se establecen por ese identificador y nunca por su nombre, que es un atributo | Principio D-12 |
 | Higiene del modelo | Conjunto de condiciones que el sistema detecta y advierte sin bloquear: variables compartidas huérfanas, nombres repetidos en el mismo ámbito, claves que ya existen al instanciar y referencias sin uso | Capacidad F-25, decisión D-13. Informa, nunca impide |
 | Huérfano | Servicio cuyo contenedor vinculado ya no existe en el motor de contenedores | — |
-| Escalado horizontal | Agregar réplicas del mismo servicio. En esta solución, manual | Sin distribución de tráfico entre réplicas en esta versión |
-| Escalado vertical | Aumentar los recursos de procesamiento y memoria asignados a un servicio. En esta solución, manual | — |
+| Escalado horizontal | Agregar réplicas del mismo servicio. En este producto, manual | Sin distribución de tráfico entre réplicas en esta versión |
+| Escalado vertical | Aumentar los recursos de procesamiento y memoria asignados a un servicio. En este producto, manual | — |
 | Autoarranque | Marca que indica que un proyecto SelfHosted o un servicio debe levantarse al iniciar el sistema administrador | — |
 | Token de API | Credencial de máquina, con ámbitos y vigencia, revocable individualmente, usada por automatismos | — |
 | Ámbito | Permiso concreto asociado a un token de API | — |
@@ -278,6 +283,7 @@ Términos del dominio del cliente. La categoría 02-Especificacion-Funcional amp
 | Puerta técnica | Verificación medida que condiciona una decisión de arquitectura. Una puerta que no pasa detiene la planificación de lo que depende de ella | Las dos declaradas son PT-01 y PT-02 |
 | Informe de cierre | Documento autocontenido de trece secciones que cierra cada etapa, publicado antes de convocar el punto de control | Está escrito para quien no vio escribir el código y va a probarlo |
 | Punto de control | Instancia bloqueante en la que el agente humano del proyecto ejecuta el guion de demostración y da o niega el OK de la etapa | El pull request de la etapa es el punto de control |
+| Brecha | Decisión de producto que esta categoría **no resuelve** y declara con su destinatario: qué falta decidir y qué categoría lo decide. El conjunto forma el **registro de brechas**, que el [Alcance del Producto](Alcance-Producto.md) §6.3 consolida | Es el mecanismo con el que la categoría respeta su frontera de autoridad. Una brecha abierta no impide avanzar en general, pero impide iniciar o especificar la etapa que la necesita: es lo que verifican `DoR-11` del [Acuerdo de Equipo](Acuerdo-Equipo.md) y `CA-10` del Alcance del Producto |
 
 ---
 
@@ -285,7 +291,7 @@ Términos del dominio del cliente. La categoría 02-Especificacion-Funcional amp
 
 ### §10.1 Upstream
 
-| Sección de este documento | Origen en el SOLUTION-INTAKE |
+| Sección de este documento | Origen en el PRODUCT-INTAKE |
 | --- | --- |
 | §1 Problema de negocio | §1 Idea y problema |
 | §2 Audiencia y stakeholders | §2 Audiencia y stakeholders; tabla de supuestos (S-06) |
@@ -319,3 +325,4 @@ Términos del dominio del cliente. La categoría 02-Especificacion-Funcional amp
 | 1.0 | 2026-07-29 | Corrección de §8.1 absorbida dentro de la versión de emisión, sin subir versión, por la política de versionado de `Master-Prompt.md` §5: el documento estaba en estado `Propuesto` y la corrección proviene del audit de su propia fase. Reatribución de la columna `Responsable` de la matriz de riesgos, de `[E]` a `[FA]`, con la procedencia declarada en prosa antes de la tabla y la aclaración de que se consume como propuesta previa. Restitución fiel de los diez valores de esa columna contra la fuente `[FA]` `_legacy/2026-07-28/00-Contexto/Vision-Producto-v1.5.md` §8: se repone RG-10 a «Product Manager y equipo de desarrollo», y además RG-03 a «Propietario del servidor y equipo de desarrollo», RG-07 a «Propietario del servidor» y RG-09 a «Equipo de desarrollo», tres estrechamientos que el hallazgo no enumera y que se detectaron al verificar la fuente fila por fila. Se opta por restituir en lugar de declarar el cambio, que era la otra alternativa admitida, para que la columna quede como transcripción fiel y no sobreviva ninguna divergencia sin declarar. Actualización de la fila de §8 de la tabla de trazabilidad upstream de §10.1, que ahora separa qué columnas son `[E]` y cuál es `[FA]`. Origen: hallazgo H-01, P1, del informe [`Audit/A-00-01-r1.md`](../Audit/A-00-01-r1.md) | Product Manager Senior (AG-00) |
 | 1.0 | 2026-07-29 | Corrección de la cabecera absorbida dentro de la versión de emisión, sin subir versión, por el mismo motivo. El campo `Trazabilidad upstream` pasa a enumerar la unión de las secciones que la tabla de §10.1 declara como origen: se agregan §9, §17.P.9, §24.2 y la sección «Supuestos registrados por este intake y su estado», que el cuerpo citaba y la cabecera no nombraba. Origen: hallazgo H-02, P2, del mismo informe | Product Manager Senior (AG-00) |
 | 1.0 | 2026-07-29 | Adecuación a `Rules-Contexto` 2.1, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5. §1.1 de la regla retira a esta categoría la autoridad de arbitrar, y §6 suma el criterio de que ninguna prioridad, exclusión, fecha objetivo, target de métrica ni criterio de transición se origine acá. Se corrió el catálogo de ambigüedades de §6.1 completo sobre el documento. Dos cambios en consecuencia. §5 y §6: se declara que ningún target ni plazo se origina en esta categoría, con el origen de cada uno explicitado —§8 del intake para OBJ-01 a OBJ-04, §17.P.10 y PT-01 para OBJ-05—, y se precisa que OBJ-05 no figura entre las métricas de §8 sino que deriva de §22.1 [FA]. §8.2: por el ítem G1 del catálogo, se retiran los valores de probabilidad, impacto y responsable de RP-01 a RP-03, que ninguna fuente declara y que este documento había asignado; las tres columnas pasan a declarar la ausencia y la evaluación se escala como brecha al Product Owner. La mitigación y la medición asignada de los tres se conservan, porque sí son evidencia del intake | Product Manager Senior (AG-00) |
+| 2.0 | 2026-07-30 | Migración normativa de `Rules-Contexto` 2.1 a 3.1, fase M4 del plan [`Plan-Migracion-4.1-a-6.0.md`](../Audit/Plan-Migracion-4.1-a-6.0.md). Salto major, clasificación «regenerar contenido», fuente de contenido: el documento de origen, archivado en [`_legacy/2026-07-30/Vision-Producto-v1.0.md`](_legacy/2026-07-30/Vision-Producto-v1.0.md). Sube major porque el vocabulario normativo y los identificadores de la cabecera cambian, y la versión anterior deja de cumplir. Ningún enunciado de negocio, ningún target, ningún plazo, ninguna exclusión y ningún riesgo se modificó: la migración es léxica y estructural. Cabecera: la etiqueta `**Proyecto:**` pasa a `**Producto:**` sobre el mismo valor de plano producto, el identificador `Nombre-Solucion` pasa a `Slug-Producto` y la trazabilidad upstream pasa a nombrar al `PRODUCT-INTAKE-SelfHosted-Service`; por `Vocabulario-Rules.md` §4 R3 la cabecera de una categoría de nivel producto no declara proyecto de código, y esta no lo declaraba. Vocabulario: trece ocurrencias de «solución» que designaban el nivel superior pasan a «producto», con la concordancia de género rehecha en cada una —artículo, demostrativo, posesivo y adjetivo, incluida «Solución liviana» que pasa a «Producto liviano»—; la ocurrencia de «resolución» de DV-04 queda intacta y ninguna sustitución se hizo por reemplazo global de cadena, según `Vocabulario-Rules.md` §9.5. El documento de origen tenía diecinueve ocurrencias de «proyecto» a secas: se clasificaron una por una y se sustituyó exactamente una, la etiqueta de cabecera, que el plano de identidad exige. Las dieciocho restantes quedan intactas —dieciséis designan el emprendimiento y dos la entidad del dominio— y ninguna se convirtió a «proyecto de código». §9: por el criterio de gobierno del glosario que `Rules-Contexto` 3.1 §6 incorpora, esta sección se declara glosario raíz de la cadena y suma las entradas «Proyecto», con el referente de emprendimiento que el intake §12 declara, y «Alcance», con sus dos referentes, que hasta ahora vivían en el documento hermano de alcance **Corrección del hallazgo H-01 del audit `M4-00-Contexto-r1`, aplicada el 2026-07-30 dentro de la misma versión**: §9 suma la entrada «Brecha», término que la categoría precisa y usa en sus seis artefactos y que el criterio de gobierno del glosario de `Rules-Contexto` 3.1 §6 —uno de los tres que este salto incorpora— exige declarar en el glosario raíz. La definición **no se redactó de cero**: se tomó de los documentos hermanos que ya la usan, `Alcance-Producto.md` §6.3 con su tabla de tres columnas y sus controles `DoR-11` del `Acuerdo-Equipo.md` y `CA-10` del propio alcance. Fuente de contenido: documento hermano. **Corrección del hallazgo H-01 del audit `M4-01-Necesidades-Negocio-r1`, aplicada el 2026-07-30 dentro de la misma versión**: §9 suma la entrada «Conjunto de servicios», forma de lectura de «proyecto SelfHosted» que 01 usa en nueve de sus diez artefactos y que es el denominador del primer criterio de éxito de `NB-01`. **La deuda se origina en esta categoría y no en 01**: §3.1 de este mismo documento ya usaba la expresión sin declararla. La entrada distingue los dos estados que el término confunde —agrupamiento de hecho en el parque, previo al producto, contra proyecto SelfHosted declarado dentro de él—, tomados de §1.1 y §3.1 de este documento y de `NB-01` §3 y `NB-02` §3. Fuente de contenido: documento de origen + documento hermano. | Product Manager Senior (AG-00) |

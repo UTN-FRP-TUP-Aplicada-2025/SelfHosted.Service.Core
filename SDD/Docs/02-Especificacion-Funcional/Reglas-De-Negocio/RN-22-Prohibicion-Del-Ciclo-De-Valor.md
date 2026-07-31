@@ -1,13 +1,14 @@
 # RN-22 — Prohibición del ciclo de valor entre referencias
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** RN-22-Prohibicion-Del-Ciclo-De-Valor.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service anexo E-16, fila RN-22. **Autoría declarada en la fuente:** **[D-i]** completa, sin revisar. Se consume declarándola revisable.
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service anexo E-16, fila RN-22. **Autoría declarada en la fuente:** **[D-i]** completa, sin revisar. Se consume declarándola revisable.
 
 ---
 
@@ -57,4 +58,5 @@ Las pruebas se realizan en 08-Calidad-Y-Pruebas. El anexo E-22 declara los casos
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major 2.0 → 4.0 de la regla que gobierna la categoría; fuente de contenido: el **documento de origen**, archivado sin modificación en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. **El enunciado de la invariante no cambió de contenido normativo**: la prohibición del ciclo de valor, su distinción respecto de RN-05 y la imposibilidad de atravesar el nivel proyecto quedan exactamente como estaban. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor de plano producto —`SelfHosted Service`, que es el `Nombre-Producto`—, según `Vocabulario-Rules` §3 y §4 R3 y el referente R4 del plan de migración §3.5; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5, con censo declarado: **2 ocurrencias de «proyecto»**, de las cuales 1 era la etiqueta de cabecera y se sustituyó; la restante —«el nivel proyecto» en el enunciado de §1— designa la **entidad del dominio** y quedó intacta: es el nivel de la variable compartida y convertirla cambiaría el alcance de la prohibición. Ninguna designa el emprendimiento y **ninguna se promovió a «proyecto de código»**. **Cero** ocurrencias de «solución». **2 ocurrencias de «resolución»**, las dos en §3 —«resolución previa al despliegue» y «la resolución previa a crear el contenedor»—: contienen la cadena `soluci` y **quedaron intactas**, verificado por barrido negativo antes y después de la sustitución. **Glosario:** desde la 4.0 el vocabulario de la categoría vive en `Glosario-Funcional.md`, artefacto propio y obligatorio para los ocho tipos D8 (§2.1 y §4.2.4), y ya no en el punto 6 de `Modelo-Conceptual.md`; el término «ciclo de valor», que esta regla acuña y que RN-05 contrasta con «ciclo de arranque», se devolvió al lote que emite ese glosario y acá no se redefine |
 | 1.0 | 2026-07-29 | Versión inicial. Transcripción del enunciado, del momento de validación y de la respuesta ante incumplimiento que declara el anexo E-16 del intake. No se reinterpreta ninguno de los tres |

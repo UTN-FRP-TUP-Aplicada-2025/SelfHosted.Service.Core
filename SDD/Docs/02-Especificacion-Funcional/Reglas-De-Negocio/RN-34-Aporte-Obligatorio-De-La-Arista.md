@@ -1,13 +1,14 @@
 # RN-34 — Aporte obligatorio de la arista
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** RN-34-Aporte-Obligatorio-De-La-Arista.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
-**Trazabilidad upstream:** SOLUTION-INTAKE-SelfHosted-Service anexo E-16, fila RN-34. **Autoría declarada en la fuente:** **[D-i]** completa, sin revisar. Se consume declarándola revisable.
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service anexo E-16, fila RN-34. **Autoría declarada en la fuente:** **[D-i]** completa, sin revisar. Se consume declarándola revisable.
 
 ---
 
@@ -59,4 +60,5 @@ Las pruebas se realizan en 08-Calidad-Y-Pruebas. El anexo E-22 declara los casos
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que la gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3, y la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: **cero ocurrencias de «solución»** y por lo tanto cero sustituciones; tampoco hay «resolución». La única ocurrencia de «proyecto» era la etiqueta de cabecera: cero de la entidad del dominio, cero del emprendimiento y **cero promovidas a «proyecto de código»**. **El enunciado de la invariante no cambió**: la arista sigue debiendo aportar referencia, espera o ambas; el sistema sigue proponiendo la espera sin imponerla; y sigue prohibida la segunda arista de espera sin variable entre el mismo par. La migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Versión inicial. Transcripción del enunciado, del momento de validación y de la respuesta ante incumplimiento que declara el anexo E-16 del intake. No se reinterpreta ninguno de los tres |

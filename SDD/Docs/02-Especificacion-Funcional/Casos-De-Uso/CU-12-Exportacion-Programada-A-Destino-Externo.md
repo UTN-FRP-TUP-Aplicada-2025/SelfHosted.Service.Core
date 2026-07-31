@@ -1,14 +1,15 @@
 # CU-12 — Ejecución programada de la exportación hacia un destino externo
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-12-Exportacion-Programada-A-Destino-Externo.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-03](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-03-Reproducibilidad-De-La-Arquitectura.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §4 capacidad F-17; §8, métrica de reproducibilidad con antigüedad menor a 7 días; §11 riesgo RG-07; §17.P.4, respaldo; §17.P.11 DA-08 y su apartado de lo que queda abierto para el Sprint 0; E-16 RN-15, RN-25
+**Trazabilidad upstream:** PRODUCT-INTAKE §4 capacidad F-17; §8, métrica de reproducibilidad con antigüedad menor a 7 días; §11 riesgo RG-07; §17.P.4, respaldo; §17.P.11 DA-08 y su apartado de lo que queda abierto para el Sprint 0; E-16 RN-15, RN-25
 
 ---
 
@@ -25,6 +26,7 @@
 - [9. Trazabilidad](#9-trazabilidad)
 - [10. Notas y supuestos](#10-notas-y-supuestos)
 - [11. Control de cambios](#11-control-de-cambios)
+- [13. Interacción multiusuario y concurrencia](#13-interacción-multiusuario-y-concurrencia)
 
 ---
 
@@ -36,7 +38,7 @@ Permitir que la exportación de los proyectos SelfHosted y del catálogo se ejec
 
 | Actor | Tipo | Rol |
 | --- | --- | --- |
-| Administrador de la solución | Primario | Declara la programación y el destino, y consulta el resultado de cada ejecución |
+| Administrador del producto | Primario | Declara la programación y el destino, y consulta el resultado de cada ejecución |
 | Servicio en segundo plano | Sistema | Ejecuta la exportación en el momento programado y deja registro de su resultado |
 | Destino externo | Sistema | Recibe los archivos exportados |
 
@@ -116,6 +118,7 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/CU-12-Exportacion-Programada-A-Destino-Externo-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (§4 R3) y que el PRODUCT-INTAKE §13 declara como `Nombre-Proyecto-Codigo`; la trazabilidad upstream cita el `PRODUCT-INTAKE` renombrado, antes `SOLUTION-INTAKE`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: la única ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia de género —«Administrador de la solución» a «Administrador del producto»—; no hay ninguna «solución de código» ni ninguna ocurrencia de la cadena `resoluci` en este documento, verificado por barrido. Las catorce ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: siete llevan la forma calificada «proyecto SelfHosted»; cuatro son la misma entidad del dominio en forma corta, admitida por el PRODUCT-INTAKE §12 donde el contexto ya fijó el sentido; dos son el emprendimiento —«agente humano del proyecto»—, que `Vocabulario-Rules` §4 R1 y el PRODUCT-INTAKE §12 dejan sin calificar, y una era la etiqueta de cabecera. **Tabla de contenido:** suma la entrada de §13, que la sección tenía sin figurar. **Ningún propósito, actor, precondición, paso de flujo, flujo alternativo, excepción, postcondición, criterio de aceptación, referencia de trazabilidad, nota ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [Plan-Migracion-4.1-a-6.0.md](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |
 

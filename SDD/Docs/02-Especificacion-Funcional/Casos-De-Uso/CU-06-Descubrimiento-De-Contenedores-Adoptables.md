@@ -1,14 +1,15 @@
 # CU-06 — Descubrimiento de contenedores, con motivo de no incorporabilidad
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-06-Descubrimiento-De-Contenedores-Adoptables.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-02](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-02-Adoptabilidad-Del-Parque-Existente.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §4 capacidad F-11; §6 flujo 2; anexo E-7 (el listado de candidatos y las seis reglas RA-01 a RA-06); anexo E-15, endpoint de descubrimiento; §17.P.5, salvaguardas de aislamiento; E-16 RN-11, RN-29; §7 CL-07
+**Trazabilidad upstream:** PRODUCT-INTAKE §4 capacidad F-11; §6 flujo 2; anexo E-7 (el listado de candidatos, el campo de puertos publicados y las siete reglas RA-01 a RA-07); anexo E-15, endpoint de descubrimiento; §17.P.5, salvaguardas de aislamiento; E-16 RN-11, RN-29; §7 CL-07
 
 ---
 
@@ -36,7 +37,7 @@ Permitir que el administrador vea los contenedores que ya corren en su servidor 
 
 | Actor | Tipo | Rol |
 | --- | --- | --- |
-| Administrador de la solución | Primario | Consulta el listado de candidatos |
+| Administrador del producto | Primario | Consulta el listado de candidatos |
 | Módulo de descubrimiento | Sistema | Consulta el motor de contenedores en modo sólo lectura, inspecciona lo encontrado y clasifica los candidatos |
 | Motor de contenedores | Sistema | Devuelve los contenedores existentes y su configuración observada |
 
@@ -52,11 +53,11 @@ Los nombres de los actores no humanos son **denominaciones acuñadas por esta ca
 
 1. El administrador entra a un proyecto SelfHosted y pide incorporar contenedores existentes.
 2. El módulo de descubrimiento consulta el motor de contenedores en modo sólo lectura: listar no habilita operar.
-3. El sistema inspecciona cada contenedor encontrado y toma su imagen, su estado, su fecha de creación, sus redes con su modo y su dirección, sus montajes y la cantidad de variables detectadas.
+3. El sistema inspecciona cada contenedor encontrado y toma su imagen, su estado, su fecha de creación, sus redes con su modo y su dirección, **sus puertos publicados en el host** (regla RA-07), sus montajes y la cantidad de variables detectadas.
 4. El sistema descarta de la oferta los contenedores ya incorporados por otro proyecto SelfHosted, que aparecen deshabilitados con el proyecto que los tomó (RN-11, regla RA-01).
 5. El sistema marca como no incorporables los contenedores que montan el punto de acceso del motor, con su motivo escrito (regla RA-04).
 6. El sistema calcula, para cada candidato, qué variables sugiere la heurística por nombre como secretas. La heurística sugiere; no decide (RN-29, regla RA-05).
-7. El sistema devuelve el listado de candidatos con la marca de incorporable, el motivo cuando no lo es y la sugerencia de la heurística.
+7. El sistema devuelve el listado de candidatos con la marca de incorporable, el motivo cuando no lo es, la sugerencia de la heurística y **los puertos publicados de cada uno**. Una lista de puertos vacía es un dato válido y significa que el contenedor no publica ninguno, no que no se sepa.
 8. El administrador elige un candidato y continúa por CU-07.
 
 ## 5. Flujos alternativos
@@ -70,6 +71,11 @@ Punto de retorno: paso 8.
 Disparador: el servidor no tiene contenedores incorporables.
 Pasos: el sistema devuelve el listado vacío, sin error.
 Punto de retorno: paso 8, sin selección.
+
+**FA-03bis — Candidato sin puertos publicados.**
+Disparador: el candidato corre en macvlan, o en bridge sin publicar ningún puerto.
+Pasos: el sistema devuelve la lista de puertos publicados **vacía**, que es un dato válido y no una ausencia de dato. Para un candidato en macvlan es además lo esperado, porque RN-07 prohíbe publicar puertos en ese modo de red.
+Punto de retorno: paso 7.
 
 **FA-03 — Consulta de las variables de un candidato.**
 Disparador: el administrador quiere ver las variables de un candidato antes de elegirlo.
@@ -98,14 +104,16 @@ Punto de retorno: paso 8.
 | CA-02 | Un servidor con el contenedor `panel-admin`, que monta el punto de acceso del motor de contenedores | El administrador abre el descubrimiento | El contenedor aparece con la marca de no incorporable y el motivo escrito, forzable sólo con confirmación explícita |
 | CA-03 | Un contenedor ya incorporado por el proyecto SelfHosted `Impresion 3D` | El administrador abre el descubrimiento desde otro proyecto | El contenedor aparece deshabilitado, indicando el proyecto que lo tomó, y no puede elegirse |
 | CA-04 | Un candidato con una variable llamada `ADMIN_TOKEN` con valor | El administrador consulta las variables del candidato | La variable llega con la sugerencia de secreta activada, con el motivo de la heurística declarado, y su valor viaja enmascarado |
+| CA-05 | Un servidor con el contenedor `cache`, en bridge, que publica el puerto 6379 en el host | El administrador abre el descubrimiento | El candidato llega con ese puerto publicado declarado, y el dato queda disponible para que RN-38 pueda verificar la colisión contra un servicio nuevo aunque `cache` no pertenezca a ningún proyecto |
+| CA-06 | El candidato `print-server`, en macvlan | El administrador abre el descubrimiento | La lista de puertos publicados llega **vacía**, y eso es un dato válido y no una ausencia: RN-07 prohíbe publicar puertos en macvlan |
 
 ## 9. Trazabilidad
 
 | Dimensión | Referencia |
 | --- | --- |
 | Necesidad de negocio | [NB-02](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-02-Adoptabilidad-Del-Parque-Existente.md) |
-| Reglas de negocio aplicables | RN-11, RN-15, RN-29. Reglas conceptuales: RC-17 |
-| Historias de usuario a generar en 06 | US-CU-06-1 (ver los contenedores del servidor como candidatos), US-CU-06-2 (ver el motivo por el que un candidato no es incorporable), US-CU-06-3 (ver las variables de un candidato con la sugerencia de la heurística) |
+| Reglas de negocio aplicables | RN-11, RN-15, RN-29, RN-38. Reglas conceptuales: RC-17, RC-19 |
+| Historias de usuario a generar en 06 | US-CU-06-1 (ver los contenedores del servidor como candidatos), US-CU-06-2 (ver el motivo por el que un candidato no es incorporable), US-CU-06-3 (ver las variables de un candidato con la sugerencia de la heurística), US-CU-06-4 (ver los puertos que un candidato publica en el host) |
 | Componentes esperados en 05 | Capa `Web`, página de descubrimiento y controlador del recurso; capa `Application`, módulo de descubrimiento y adopción; capa `Infrastructure`, `Contenedores`, detrás de la abstracción del motor. Referencia tentativa |
 | Tests previstos en 08 | T-15 (contenedor ya incorporado); T-16 (contenedor que monta el punto de acceso del motor); T-17, T-17b (sugerencia de la heurística) |
 
@@ -122,6 +130,8 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/CU-06-Descubrimiento-De-Contenedores-Adoptables-v1.1.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (§4 R3) y que el PRODUCT-INTAKE §13 declara como `Nombre-Proyecto-Codigo`; la trazabilidad upstream cita el `PRODUCT-INTAKE` renombrado, antes `SOLUTION-INTAKE`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: la única ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia de género —«Administrador de la solución» a «Administrador del producto»—; no hay ninguna «solución de código», y la única ocurrencia de la cadena `resoluci` —dentro de «resolución»— quedó **intacta**, verificada por el barrido negativo que el plan §3.5 paso 4 exige. Las trece ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: siete llevan la forma calificada «proyecto SelfHosted»; cinco son la misma entidad del dominio en forma corta, admitida por el PRODUCT-INTAKE §12 donde el contexto ya fijó el sentido, y una era la etiqueta de cabecera. **Ningún propósito, actor, precondición, paso de flujo, flujo alternativo, excepción, postcondición, criterio de aceptación, referencia de trazabilidad, nota ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [Plan-Migracion-4.1-a-6.0.md](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
+| 1.1 | 2026-07-29 | **Se incorporan los puertos publicados del contenedor descubierto.** Hasta la versión 1.0 el candidato traía direcciones IP y ningún puerto, y ese hueco producía dos defectos verificados: un contenedor incorporado con puertos publicados **los perdía en la traducción** (CU-08), y la validación de la configuración **no podía verificar** la colisión de puerto de host contra el parque no incorporado (RN-38). El paso 3 los toma, el paso 7 los devuelve, y se agrega FA-03bis, que declara que la lista vacía es un dato válido y no una ausencia. §8 suma CA-05 y CA-06, §9 suma RN-38, RC-19 y una historia de usuario, y la cabecera pasa a citar las siete reglas de adopción RA-01 a RA-07 del intake v2.4. La versión 1.0 queda archivada en `_legacy/2026-07-29/`. Origen: §22.2 quinta fila del documento de trabajo `SDD/Estado/Redefinicion-Servicio.md` v2.0, y la especificación de integración `DI-23` |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |
 

@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | NB-02-Adoptabilidad-Del-Parque-Existente.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §1, §3 (diferenciador 1), §4 (F-11), §6 (flujo 2), §7 (CL-07, CL-08, CL-15), §11 (RG-09), §23.1, §23.3, §23.5; Vision-Producto.md §1.3, §3.2 (DV-01), §5 (OBJ-01), §6; Alcance-Proyecto.md §4.1; Roadmap-Producto.md §2.3 (EP-11), §3 |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §1, §3 (diferenciador 1), §4 (F-11), §6 (flujo 2), §7 (CL-07, CL-08, CL-15), §11 (RG-09), §23.1, §23.3, §23.5; Vision-Producto.md §1.3, §3.2 (DV-01), §5 (OBJ-01), §6; Alcance-Producto.md §4.1; Roadmap-Producto.md §2.3 (EP-11), §3 |
 | Trazabilidad downstream | CU-06, CU-07, CU-08 (previstas en 02-Especificacion-Funcional) |
 
 ---
@@ -54,7 +54,7 @@ Lo que necesita es entrar a un conjunto declarado, pedir ver qué contenedores h
 
 - Incorporar un servicio en uso exige hoy recrearlo, con su ventana de indisponibilidad.
 - La configuración real de un contenedor en ejecución sólo se conoce inspeccionándolo a mano, comando por comando.
-- No hay forma de saber qué contenedores ya están gobernados por la solución, y uno mismo podría quedar asociado a dos conjuntos.
+- No hay forma de saber qué contenedores ya están gobernados por el producto, y uno mismo podría quedar asociado a dos conjuntos.
 - Hay contenedores que no deben gobernarse —el caso declarado es el que monta el socket del motor de contenedores— y hoy nada lo señala antes de intentarlo.
 - Las variables de un contenedor en producción contienen credenciales que una importación ingenua dejaría legibles.
 
@@ -107,5 +107,6 @@ Must Have. Es el diferenciador declarado desde la definición del servicio y la 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3 y §4 R3; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado y al artefacto hermano `Alcance-Producto.md`, antes `Alcance-Proyecto.md`. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: una ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia —«gobernados por la solución» a «gobernados por el producto» en §4—; no hay ninguna «solución de código» ni ninguna «resolución» en este documento. Las seis ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: una es «proyecto SelfHosted», la entidad del dominio, y tres son el emprendimiento —«el disparador declarado del proyecto» en §3 y «el agente humano del proyecto» en §5 y §6—, y las dos clases quedan intactas según el intake §12; las restantes eran la etiqueta de cabecera y el nombre del artefacto hermano. Ninguna necesidad, criterio de éxito, dependencia, prioridad ni CU prevista cambió: la migración es léxica y de forma de cabecera |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar el estado anterior, por la política de versionado de `Master-Prompt.md` §5. Se completa el campo `Trazabilidad upstream` de la cabecera con `Roadmap-Producto.md` §3, que el §5 cita como origen de la secuencia de etapas a la que anclan sus plazos. Origen: hallazgo H-02 del informe [Audit/A-00-01-r1.md](../../Audit/A-00-01-r1.md), aplicado a la propiedad que el hallazgo describe y no sólo a los tres archivos que nombra |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir del consolidado de la Fase A previa transcripto en el intake §23, y de los documentos de 00-Contexto. Conserva el identificador NB-02, sus cinco criterios de éxito y sus tres CU previstas |

@@ -1,10 +1,11 @@
 # Wireframes — Cambio de contraseña
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Cambio-De-Contrasena.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -159,7 +160,7 @@ Lo que rige por accesibilidad: reflujo conforme al criterio 1.4.10 a 320 píxele
 
 `Design-Rules-Acceso-Monousuario.md` §4.4 exige que la superficie, al concretarse el cambio, **declare explícitamente qué pasa con la sesión en curso**: «un cambio de secreto que deja al usuario en duda sobre si sigue autenticado es un cambio a medias». §6 lo repite: si la conserva, se dice; si la invalida, se dice y se lleva al administrador al shell de acceso.
 
-Ninguna fuente de esta solución declara ese efecto. En consecuencia, este wireframe:
+Ninguna fuente de este producto declara ese efecto. En consecuencia, este wireframe:
 
 - declara el **componente** que lo enuncia y su ubicación, antes de la confirmación;
 - declara que el acuse posterior lo repite;
@@ -173,7 +174,7 @@ Es la brecha `B-UX-11`, con destinatario en el agente humano del proyecto y en `
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-31](../../02-Especificacion-Funcional/Casos-De-Uso/CU-31-Cambio-De-Contrasena.md) Cambio de contraseña |
 | Reglas de negocio relevantes | RN-17 |
 | Insumo del intake | §6 flujo 4; §4 capacidad F-01; §17.P.5; §9 exclusión 7 |
@@ -192,5 +193,6 @@ Es la brecha `B-UX-11`, con destinatario en el agente humano del proyecto y en `
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | **Migración normativa 4.1 → 6.0**, corte 4 de la fase M4, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md). Clasificación **regenerar contenido**, por el salto de `Rules-UX-UI-DX` 2.0 → 4.0. **Fuente de contenido: documento de origen**, más el [`PRODUCT-MANIFEST`](../../../Intake/PRODUCT-MANIFEST-SelfHosted-Service.md) §2 para el único campo de cabecera que se suma. Ni la barra de identidad, ni las siete interacciones, ni los once estados, ni la brecha `B-UX-11` cambian de contenido: lo que cambia es la nomenclatura. Las nueve secciones obligatorias de `Rules-UX-UI-DX` 4.0 §4.2.1 ya estaban presentes y ninguna se agregó ni se reordenó. **Cabecera**: `**Proyecto:**` llevaba un valor del plano de negocio y pasa a `**Producto:**`, porque `Vocabulario-Rules.md` §3 prohíbe la etiqueta de un plano sobre el valor de otro; se suma `**Proyecto de código:** SelfHosted-Service`, que §4.1 de la regla vigente exige y que este documento no declaraba, con el valor **leído del manifiesto y no inferido**. **Vocabulario (`[5.0]`)**: «solución» pasa a «producto» en **2 ocurrencias** del referente de nivel superior —«Ninguna fuente de esta solución» en §7.1 y «Administrador único de la solución» en §8—, las dos con la concordancia de género corregida. Este documento **no tiene ninguna ocurrencia de «resolución»**, y se deja constancia del barrido. De las 2 ocurrencias de «proyecto», 1 era la etiqueta de cabecera y **1 no se tocó**: «agente humano del proyecto» de §7.1, que designa el emprendimiento. **Ninguna ocurrencia se promovió a «proyecto de código».** La sustitución se hizo por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y **nunca por reemplazo global de cadena**. El bloque ASCII de §2 no contiene ninguna palabra a migrar y **conserva su ancho intacto**. Los nombres canónicos de superficie —`SUP-03` y `Cambio de contraseña`— se conservan textualmente, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **Glosario (`[5.1]`)**: `Glosario-UX.md` pasa de recomendado a obligatorio para los ocho tipos D8 y §6 verifica ahora su existencia y su completitud además de la no duplicación; lo emite un lote posterior de esta migración, y los términos que este wireframe acuña —barra de identidad, shell de trabajo, requisito declarado, declaración del efecto sobre la sesión— se devolvieron para que ese lote los consuma sin redefinir los que ya están en `Glosario-Funcional.md` de 02. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) y el bloque de procedencia del destino no se tocó: sigue declarando 4.1, y cerrarlo es trabajo de M5 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica la superficie de cambio de contraseña sobre el shell de trabajo, con acción secundaria porque hay estado previo al que volver; especifica la barra de identidad como patrón común del shell, con el cierre de sesión siempre a un clic y como envío y no como enlace; declara once estados; declara el componente que enuncia el efecto sobre la sesión sin escribir su texto ni elegir el destino posterior, por la brecha `B-UX-11` |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

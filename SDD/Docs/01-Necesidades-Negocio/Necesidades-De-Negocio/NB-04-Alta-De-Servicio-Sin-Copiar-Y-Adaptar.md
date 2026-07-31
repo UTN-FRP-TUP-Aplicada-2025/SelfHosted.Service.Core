@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 | --- | --- |
-| Proyecto | SelfHosted Service |
+| Producto | SelfHosted Service |
 | Documento | NB-04-Alta-De-Servicio-Sin-Copiar-Y-Adaptar.md |
-| Versión | 1.0 |
+| Versión | 2.0 |
 | Estado | Propuesto |
-| Fecha | 2026-07-29 |
+| Fecha | 2026-07-30 |
 | Autor | Analista de Negocio Senior (AG-01) |
-| Trazabilidad upstream | SOLUTION-INTAKE-SelfHosted-Service §1, §4 (F-05, F-10, F-14, F-23, F-24), §6 (flujo 1), §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §1.1, §4.1, §5 (OBJ-02), §6; Alcance-Proyecto.md §4.1, §6.3; Roadmap-Producto.md §2.3 (EP-05, EP-10, EP-14), §2.5 (EP-23, EP-24), §2.6, §3 |
+| Trazabilidad upstream | PRODUCT-INTAKE-SelfHosted-Service §1, §4 (F-05, F-10, F-14, F-23, F-24), §6 (flujo 1), §23.1, §23.3, §23.4, §23.5; Vision-Producto.md §1.1, §4.1, §5 (OBJ-02), §6; Alcance-Producto.md §4.1, §6.3; Roadmap-Producto.md §2.3 (EP-05, EP-10, EP-14), §2.5 (EP-23, EP-24), §2.6, §3 |
 | Trazabilidad downstream | CU-13, CU-14, CU-15, CU-16, CU-17, CU-34, CU-35 (previstas en 02-Especificacion-Funcional) |
 
 ---
@@ -65,7 +65,7 @@ Ningún criterio usa fecha de calendario. Los plazos se expresan en meses desde 
 
 | Criterio | Métrica | Target | Plazo |
 | --- | --- | --- | --- |
-| Reemplazo del método manual | Altas de servicio nuevas realizadas desde la solución, sobre el total de altas nuevas | ≥ 90 % de las altas nuevas | 6 meses desde el cierre del Alcance 1 |
+| Reemplazo del método manual | Altas de servicio nuevas realizadas desde el producto, sobre el total de altas nuevas | ≥ 90 % de las altas nuevas | 6 meses desde el cierre del Alcance 1 |
 | Cobertura de las dimensiones del alta | Dimensiones de configuración que el alta permite declarar, sobre las que el parque real exige | 8 de 8 dimensiones | Cierre de la etapa `02`, que entrega los servicios del proyecto SelfHosted (EP-03) |
 | Vías de alta soportadas | Vías por las que se puede dar de alta un servicio: imagen de registro, repositorio remoto, definición local y plantilla del catálogo | 4 de 4 vías | Cierre de la etapa que entrega EP-14, dentro de la Fase 3 |
 | Autosuficiencia de la instanciación | Datos adicionales a los huecos que la plantilla declara, y archivos de configuración redactados a mano, necesarios para instanciar un ítem del catálogo | 0 datos adicionales y 0 archivos a mano | Cierre de la etapa que entrega EP-14 |
@@ -75,7 +75,7 @@ Ningún criterio usa fecha de calendario. Los plazos se expresan en meses desde 
 Dos precisiones que se declaran en lugar de resolverse:
 
 1. El primer criterio adopta como propio el objetivo de negocio OBJ-02 de [Vision-Producto.md](../../00-Contexto/Vision-Producto.md) §5, que es dato cerrado confirmado el 2026-07-27.
-2. El plazo del sexto criterio depende de una brecha abierta que este documento no resuelve: la asignación de EP-23 y EP-24 a una fase y a un corte vertical está declarada como pendiente en [Alcance-Proyecto.md](../../00-Contexto/Alcance-Proyecto.md) §6.3 y en el Roadmap §2.6, con la categoría 07-Plan-Sprint y el agente humano del proyecto como destinatarios. El intake registra además que dos criterios de adopción del catálogo se retiraron durante la Fase A, porque un porcentaje de adopción no es medible sobre un catálogo que arranca vacío y que el usuario puebla o no; esos dos no se reponen acá.
+2. El plazo del sexto criterio depende de una brecha abierta que este documento no resuelve: la asignación de EP-23 y EP-24 a una fase y a un corte vertical está declarada como pendiente en [Alcance-Producto.md](../../00-Contexto/Alcance-Producto.md) §6.3 y en el Roadmap §2.6, con la categoría 07-Plan-Sprint y el agente humano del proyecto como destinatarios. El intake registra además que dos criterios de adopción del catálogo se retiraron durante la Fase A, porque un porcentaje de adopción no es medible sobre un catálogo que arranca vacío y que el usuario puebla o no; esos dos no se reponen acá.
 
 ## 6. Stakeholders involucrados
 
@@ -85,7 +85,7 @@ Dos precisiones que se declaran en lugar de resolverse:
 | Analista de Negocio Senior (AG-01) | Propietario del contenido | Mantiene la necesidad, sus criterios y su trazabilidad, y declara las brechas en lugar de resolverlas |
 | Equipo de desarrollo, dos desarrolladores | Implementador | Construye el alta completa, las cuatro vías, el catálogo de plantillas y el mecanismo de valores compartidos y referencias |
 | Agente IA de codificación | Implementador | Genera la especificación y, en etapas posteriores, el código de cada corte vertical de alta |
-| Usuario final: administrador de la solución | Beneficiario | Valida que un alta nueva no exija partir de la configuración de otro servicio |
+| Usuario final: administrador del producto | Beneficiario | Valida que un alta nueva no exija partir de la configuración de otro servicio |
 | Product Manager (AG-00) | Consultado | Verifica la alineación con la visión y con el alcance declarados |
 | Analista Funcional (AG-02) | Consultado | Desarrolla los casos de uso que esta necesidad declara previstos |
 
@@ -116,5 +116,6 @@ Must Have. Agrupa dos capacidades Must Have de despliegue con tres de reutilizac
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 2, bajo `Rules-Necesidades-Negocio` 3.1 y `Vocabulario-Rules` 2.1. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, según `Vocabulario-Rules` §3 y §4 R3; la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado y al artefacto hermano `Alcance-Producto.md`, antes `Alcance-Proyecto.md`. **Cierre del hallazgo H-02 del informe [`Audit/M4-00-Contexto-r1.md`](../../Audit/M4-00-Contexto-r1.md)**: el enlace markdown de la nota 2 de §5 apuntaba al nombre legado `Alcance-Proyecto.md`, que el corte 1 borró, y ahora resuelve contra `Alcance-Producto.md`. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5: dos ocurrencias de «solución» designaban el nivel superior y pasan a «producto» con su concordancia —«realizadas desde la solución» a «realizadas desde el producto» en el primer criterio de §5 y «administrador de la solución» a «administrador del producto» en §6—; no hay ninguna «solución de código» ni ninguna «resolución» en este documento. Las siete ocurrencias de «proyecto» se clasificaron por referente y **ninguna pasó a «proyecto de código»**: dos son «proyecto SelfHosted», la entidad del dominio, y una es el emprendimiento —«el agente humano del proyecto» como destinatario de la brecha en §5—, y las dos clases quedan intactas según el intake §12; las restantes eran la etiqueta de cabecera y el nombre del artefacto hermano. Ninguna necesidad, criterio de éxito, dependencia, prioridad, CU prevista ni brecha cambió: la migración es léxica, de forma de cabecera y de reparación de enlace |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar el estado anterior, por la política de versionado de `Master-Prompt.md` §5. Se completa el campo `Trazabilidad upstream` de la cabecera con `Roadmap-Producto.md` §2.6, que el §5 nota 2 cita como origen de la brecha del sexto criterio, y §3, que el §5 cita como origen de los hitos de anclaje. Origen: hallazgo H-02 del informe [Audit/A-00-01-r1.md](../../Audit/A-00-01-r1.md), aplicado a la propiedad que el hallazgo describe y no sólo a los tres archivos que nombra |
 | 1.0 | 2026-07-29 | Versión inicial, generada bajo el conjunto normativo 4.0 del Framework SDD a partir del consolidado de la Fase A previa transcripto en el intake §23, y de los documentos de 00-Contexto. Conserva el identificador NB-04, sus seis criterios de éxito y la decisión de recorte que ubica F-23 y F-24 acá y no en NB-01 ni en NB-06. Declara como brecha la asignación pendiente de EP-23 y EP-24 |

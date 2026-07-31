@@ -1,10 +1,11 @@
 # Wireframes — Descubrimiento e incorporación
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Descubrimiento-E-Incorporacion.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -17,6 +18,7 @@
 - [3. Componentes principales](#3-componentes-principales)
   - [3.1 La tabla de clasificación y su derivación](#31-la-tabla-de-clasificación-y-su-derivación)
   - [3.2 La advertencia de corte](#32-la-advertencia-de-corte)
+  - [3.3 Los puertos publicados del candidato](#33-los-puertos-publicados-del-candidato)
 - [4. Interacciones](#4-interacciones)
 - [5. Estados](#5-estados)
 - [6. Versión responsive](#6-versión-responsive)
@@ -130,6 +132,17 @@ La advertencia aparece dos veces, y las dos son necesarias:
 1. **En el paso 2, antes de confirmar la incorporación**, como declaración de la consecuencia diferida: lo que se incorpora ahora no se corta, pero el primer redespliegue sí lo hará.
 2. **En la acción de redesplegar del panel lateral del servicio incorporado**, en el momento en que la consecuencia se materializa.
 
+### 3.3 Los puertos publicados del candidato
+
+El candidato descubierto trae ahora **los puertos que publica en el host**, y la superficie los muestra en su ficha. Es un dato nuevo y hay dos motivos por los que tiene que estar a la vista antes de confirmar la incorporación:
+
+| Motivo | Qué evita |
+| --- | --- |
+| **El servicio incorporado los conserva** | Hasta esta versión un contenedor con puertos publicados **los perdía en la traducción**, y el administrador se enteraba cuando el servicio dejaba de responder en el puerto que antes respondía |
+| **Puede colisionar con un servicio ya declarado** | Un puerto que este candidato publica y que ya publica un servicio del producto es un conflicto que conviene ver **antes** de incorporar y no después |
+
+**Cómo se muestra la lista vacía, que es el caso frecuente.** Un candidato en macvlan no publica puertos, y su lista vacía es un **dato válido y no una ausencia de dato**. La ficha lo dice con esas palabras —«no publica puertos»— y no deja el campo en blanco, porque un blanco se lee como «no se sabe» y acá se sabe.
+
 ---
 
 ## 4. Interacciones
@@ -206,7 +219,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-06](../../02-Especificacion-Funcional/Casos-De-Uso/CU-06-Descubrimiento-De-Contenedores-Adoptables.md), [CU-07](../../02-Especificacion-Funcional/Casos-De-Uso/CU-07-Incorporacion-Con-Confirmacion-Explicita.md), [CU-08](../../02-Especificacion-Funcional/Casos-De-Uso/CU-08-Traduccion-De-La-Configuracion-Observada.md) |
 | Reglas de negocio relevantes | RN-01, RN-02, RN-07, RN-11, RN-15, RN-17, RN-26, RN-29, RN-34 |
 | Insumo del intake | §4 capacidad F-11; §6 flujo 2; §7 casos límite CL-07, CL-08 y CL-15; §17.P.5 salvaguardas de aislamiento y enmascarado en la incorporación; anexos E-7, E-11, E-20, E-21 |
@@ -225,5 +238,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | **Migración normativa 4.1 → 6.0**, corte 4 de la fase M4, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md). Clasificación **regenerar contenido**, por el salto de `Rules-UX-UI-DX` 2.0 → 4.0. **Fuente de contenido: documento de origen** —en su estado 1.1, que es el que dejó el fix de definiciones de servicio de la Fase B2—, más el [`PRODUCT-MANIFEST`](../../../Intake/PRODUCT-MANIFEST-SelfHosted-Service.md) §2 para el único campo de cabecera que se suma. Ni la derivación de la tabla de clasificación de §3.1, ni la advertencia de corte de §3.2, ni los puertos publicados de §3.3, ni las nueve interacciones, ni los dieciocho estados cambian de contenido: lo que cambia es la nomenclatura. Las nueve secciones obligatorias de `Rules-UX-UI-DX` 4.0 §4.2.1 ya estaban presentes y ninguna se agregó ni se reordenó. **Cabecera**: `**Proyecto:**` llevaba un valor del plano de negocio y pasa a `**Producto:**`, porque `Vocabulario-Rules.md` §3 prohíbe la etiqueta de un plano sobre el valor de otro; se suma `**Proyecto de código:** SelfHosted-Service`, que §4.1 de la regla vigente exige y que este documento no declaraba, con el valor **leído del manifiesto y no inferido**. **Vocabulario (`[5.0]`)**: «solución» pasa a «producto» en **1 ocurrencia** del referente de nivel superior —«Administrador único de la solución» en §8—, con la concordancia de género corregida. Este documento **no tiene ninguna ocurrencia de «resolución»**, y se deja constancia del barrido. De las 12 ocurrencias de «proyecto», 1 era la etiqueta de cabecera, **10 llevan la forma calificada «proyecto SelfHosted»** y no se tocaron por designar la entidad del dominio —incluida la del bloque ASCII del paso 1, «Ya incorporado por \<proyecto SelfHosted\>»— y **1 es «agente humano del proyecto»** en §1, que queda a secas por su referente de emprendimiento. **Ninguna ocurrencia se promovió a «proyecto de código».** La sustitución se hizo por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y **nunca por reemplazo global de cadena**. Los dos bloques ASCII de §2 **conservan su ancho intacto**. Los nombres canónicos de superficie —`SUP-10` y `Descubrimiento e incorporación`— se conservan textualmente, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **Glosario (`[5.1]`)**: `Glosario-UX.md` pasa de recomendado a obligatorio para los ocho tipos D8 y §6 verifica ahora su existencia y su completitud además de la no duplicación; lo emite un lote posterior de esta migración, y los términos que este wireframe acuña —grilla de candidatos, fila no incorporable, fila ya incorporada, tabla de clasificación, paso obligatorio, advertencia de corte, ficha del candidato— se devolvieron para que ese lote los consuma sin redefinir los que ya están en `Glosario-Funcional.md` de 02, en particular descubrimiento, candidato y motivo de no incorporabilidad. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) y el bloque de procedencia del destino no se tocó: sigue declarando 4.1, y cerrarlo es trabajo de M5 |
+| 1.1 | 2026-07-29 | **Se amplía con los puertos publicados del candidato.** §3.3 declara el dato nuevo con los dos motivos por los que tiene que estar a la vista antes de confirmar —el servicio incorporado los conserva, y pueden colisionar con un servicio ya declarado— y con el criterio de mostrar la lista vacía **como dato y no como blanco**, porque un blanco se lee como «no se sabe» y en macvlan se sabe. La versión 1.0 queda archivada en `_legacy/2026-07-29/`. Origen: §22.5 del documento de trabajo `SDD/Estado/Redefinicion-Servicio.md` v2.0 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica el flujo de cuatro pasos con el tercero obligatorio; **resuelve por derivación la pendencia `B-UX-02`** —maquetado del paso de clasificación de variables, brecha B-07 de `02-Especificacion-Funcional`— derivando la tabla campo por campo de la carga útil del anexo E-11 y de las reglas RA-05 y RA-06 del anexo E-7, y declarando la derivación para que sea impugnable; declara las dos reglas que la tabla hace cumplir, que la heurística sugiere y no decide y que se ven todas las variables importadas; especifica la advertencia de corte en sus dos apariciones; declara dieciocho estados |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

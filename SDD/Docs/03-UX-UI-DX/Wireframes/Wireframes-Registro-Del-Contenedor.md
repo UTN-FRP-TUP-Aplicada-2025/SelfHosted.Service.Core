@@ -1,10 +1,11 @@
 # Wireframes — Registro del contenedor
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Registro-Del-Contenedor.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -121,7 +122,7 @@ Tres consecuencias de diseño:
 
 | Lo que falta | Consecuencia en esta superficie | Destinatario |
 | --- | --- | --- |
-| El intake **no declara si el registro debe filtrarse respecto de valores secretos**. La regla de no devolver secretos en claro alcanza a las respuestas de la interfaz programática y a las exportaciones, y el registro lo produce el proceso de adentro del contenedor, no la solución | No se puede declarar si el área del registro exhibe el contenido tal cual o filtrado, ni si existe un aviso al respecto. **Este wireframe no especifica ningún filtrado**: especificarlo afirmaría una capacidad que ninguna fuente declara | Agente humano del proyecto |
+| El intake **no declara si el registro debe filtrarse respecto de valores secretos**. La regla de no devolver secretos en claro alcanza a las respuestas de la interfaz programática y a las exportaciones, y el registro lo produce el proceso de adentro del contenedor, no el producto | No se puede declarar si el área del registro exhibe el contenido tal cual o filtrado, ni si existe un aviso al respecto. **Este wireframe no especifica ningún filtrado**: especificarlo afirmaría una capacidad que ninguna fuente declara | Agente humano del proyecto |
 | El intake **no declara el comportamiento esperado ante el corte del flujo continuo** | El estado «flujo interrumpido» se declara como estado, y **no se declara si reconecta solo, si ofrece reconectar o si sólo informa**. La representación queda pendiente | `05-Arquitectura-Tecnica` |
 
 ---
@@ -157,7 +158,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-14](../../02-Especificacion-Funcional/Casos-De-Uso/CU-14-Consulta-Del-Registro-Del-Contenedor.md) Consulta del registro del contenedor |
 | Reglas de negocio relevantes | RN-15, en la medida en que el sistema no debe devolver secretos en claro; ver la brecha `B-UX-13` |
 | Insumo del intake | §4 capacidad F-05; §17.P.3 registro en flujo continuo; §17.P.10 frecuencia de sondeo y ausencia de recolección con vistas cerradas; anexo E-18 mapa de navegación |
@@ -176,5 +177,6 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 4, bajo `Rules-UX-UI-DX` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/Wireframes-Registro-Del-Contenedor-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige como primer campo por ser ésta una categoría de nivel proyecto de código (`Vocabulario-Rules` §4 R3) y que el `PRODUCT-MANIFEST` §2 declara como `Nombre-Proyecto-Codigo`; la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor `SelfHosted Service`, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro. Los dos campos conviven: el primero lo exige §4.1 y el segundo lo preserva `Migracion-Rules` §4.2. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: las **dos** ocurrencias de «solución» designaban el nivel superior y pasan a «producto» con su concordancia de género —«Administrador único de la solución» a «Administrador único **del** producto», y «lo produce el proceso de adentro del contenedor, no la solución» a «no **el** producto» en la brecha `B-UX-13`—; no hay ninguna «solución de código», y el cuerpo de este documento no contiene la cadena `soluci` dentro de ninguna otra palabra, de modo que el riesgo de superposición de cadenas que el plan §3.5 declara no se materializa acá. Las tres ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: una es el emprendimiento —«Agente humano del proyecto» como destinatario de la brecha—, que `Vocabulario-Rules` §4 R1 deja sin calificar; una es el segmento `/proyectos/{id}` de la ruta del anexo E-18, que nombra la entidad del dominio y **no se toca porque es una cadena de la interfaz**; y una era la etiqueta de cabecera. **El nombre canónico de la superficie `Registro del contenedor` y su identificador `SUP-08` se conservan textualmente**, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **El bloque ASCII de §2 no se tocó** y conserva su ancho: no contenía ninguna palabra a migrar. **Se verificó el conteo de estados que el hallazgo P3-4 del informe [`B2-Fix-Definiciones-Servicio-r1.md`](../../Audit/B2-Fix-Definiciones-Servicio-r1.md) elevaba a esta categoría: la tabla de §5 tiene nueve filas y el documento declara nueve estados. El hallazgo es un falso positivo y no se aplicó ninguna corrección**, que además habría sido invención por no tener fuente. **Ningún componente, interacción, estado, nota, referencia de trazabilidad ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica la superficie de registro con su selector de réplica condicional y su conmutador de seguimiento explícito; declara las tres consecuencias de diseño de la regla de no recolectar con las vistas cerradas; declara nueve estados; declara la brecha `B-UX-13` y su consecuencia concreta, que es no especificar ningún filtrado de secretos ni la representación del flujo interrumpido |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

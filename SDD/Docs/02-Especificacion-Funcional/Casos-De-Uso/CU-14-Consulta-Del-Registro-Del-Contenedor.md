@@ -1,14 +1,15 @@
 # CU-14 — Consulta del registro del contenedor
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** CU-14-Consulta-Del-Registro-Del-Contenedor.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-04](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-04-Alta-De-Servicio-Sin-Copiar-Y-Adaptar.md)
-**Trazabilidad upstream:** SOLUTION-INTAKE §4 capacidad F-05; anexo E-15, endpoint de registro del contenedor con su opción de flujo continuo; §17.P.3, integración con el motor en flujo continuo; anexo E-18, ruta de la vista de registro; E-16 RN-15
+**Trazabilidad upstream:** PRODUCT-INTAKE-SelfHosted-Service §4 capacidad F-05; anexo E-15, endpoint de registro del contenedor con su opción de flujo continuo; §17.P.3, integración con el motor en flujo continuo; anexo E-18, ruta de la vista de registro; E-16 RN-15
 
 ---
 
@@ -36,7 +37,7 @@ Permitir que el administrador consulte el registro que emite el contenedor de un
 
 | Actor | Tipo | Rol |
 | --- | --- | --- |
-| Administrador de la solución | Primario | Consulta el registro del contenedor |
+| Administrador del producto | Primario | Consulta el registro del contenedor |
 | Módulo de observación | Sistema | Obtiene el registro del motor de contenedores y lo entrega, con opción de flujo continuo |
 | Motor de contenedores | Sistema | Es la fuente del registro |
 
@@ -105,7 +106,7 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 ## 10. Notas y supuestos
 
-- **Brecha declarada:** el intake no declara si el registro que emite el contenedor debe filtrarse respecto de valores secretos. RN-15 alcanza a las respuestas de la API y a las exportaciones, y el registro del contenedor lo produce el proceso de adentro y no la solución. Destinatario: agente humano del proyecto.
+- **Brecha declarada:** el intake no declara si el registro que emite el contenedor debe filtrarse respecto de valores secretos. RN-15 alcanza a las respuestas de la API y a las exportaciones, y el registro del contenedor lo produce el proceso de adentro y no el producto. Destinatario: agente humano del proyecto.
 - **Brecha declarada:** el intake no declara el comportamiento esperado ante el corte del flujo continuo de registro. Destinatario: 05-Arquitectura-Tecnica.
 - El intake declara que no debe haber recolección de estadísticas con las vistas cerradas; el mismo criterio se aplica al flujo de registro.
 - La presentación de la vista pertenece a 03-UX-UI-DX.
@@ -114,6 +115,7 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: el documento de origen, archivado en `_legacy/2026-07-30/CU-14-Consulta-Del-Registro-Del-Contenedor-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. Cabecera: la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, que `Vocabulario-Rules` §3 prohíbe como etiqueta de un plano sobre el valor de otro, y la trazabilidad upstream apunta al `PRODUCT-INTAKE-SelfHosted-Service` renombrado. Sustitución léxica **por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, sin ningún reemplazo global de cadena: se revisaron las dos ocurrencias de la cadena `soluci` de este documento y se sustituyeron dos, las dos designando el nivel superior y las dos con su concordancia de género —el nombre del actor primario «Administrador de la solución» de §2, que pasa a «Administrador del producto», y la brecha declarada de §10, donde «el registro del contenedor lo produce el proceso de adentro y no la solución» pasa a «y no el producto»—; no hay en este documento ninguna «solución de código» ni ningún uso de prosa de negocio que R2 preserve. Este documento no trae ninguna ocurrencia de «re**soluci**ón», de modo que la trampa de la subcadena no aplicó acá, y así queda registrado. De las dos ocurrencias de «proyecto», **ninguna pasó a «proyecto de código»**: la única ocurrencia del cuerpo es «agente humano del proyecto», destinatario de las dos brechas de §10, que es el emprendimiento y queda a secas y sin calificar; la restante era la etiqueta de cabecera. La clasificación sigue el intake §12, que declara los tres referentes del término, y el glosario del dominio de `Vision-Producto.md` §9. **Glosario**: §2.1 y §4.2.4 de la regla convierten el vocabulario de la categoría en el artefacto propio y obligatorio `Glosario-Funcional.md`, que hasta la 3.0 era el punto 6 de `Modelo-Conceptual.md` y por lo tanto dependía de que el proyecto de código tuviera persistencia. Este caso de uso **no lo emite**: los términos que acuña o precisa y que aparecen en más de un artefacto de 02 se devolvieron al lote que lo emite, por la regla de inclusión de §3.3, y los que ya declara el glosario del dominio de `Vision-Producto.md` §9 se referencian en lugar de redefinirse, por la regla de no duplicación de la misma sección. La fila histórica de esta tabla que remite a `Modelo-Datos/Modelo-Conceptual.md` §6 por la entrada de glosario de «registro» con sus cuatro referentes **no se reescribe**, por `SDD-Development-Guide.md` §VI.2: registra dónde vivía esa entrada cuando se escribió, y su reubicación al artefacto propio la ejecuta el lote que emite el glosario. Las once secciones obligatorias de §4.2 ya estaban completas y no se agregó ni se quitó ninguna; la tabla de contenido de §4.1 y la sección opcional §13 que §4.3 admite para `web-monolith` quedan como estaban. Ningún propósito, actor, precondición, paso del flujo principal, flujo alternativo, excepción, postcondición, criterio de aceptación, regla de negocio aplicable, historia de usuario prevista, componente esperado, test previsto ni brecha declarada cambió de enunciado: la migración es léxica y de forma de cabecera. Las filas históricas de esta tabla **no se reescribieron**, por `SDD-Development-Guide.md` §VI.2 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto`. Se califica la forma «el registro» a secas, que tenía tres referentes distintos en la categoría y no era resoluble leyendo esta sección por separado, que es como se generan los artefactos de las categorías siguientes. La entrada de glosario con los cuatro referentes vive en `Modelo-Datos/Modelo-Conceptual.md` §6. Las formas ya calificadas no se tocaron: no colisionan. |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |

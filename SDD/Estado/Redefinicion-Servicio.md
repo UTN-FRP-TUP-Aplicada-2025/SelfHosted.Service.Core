@@ -2,7 +2,7 @@
 
 **Solución:** SelfHosted Service (identidad de código `SelfHosted.Service.Core`)
 **Documento:** `Redefinicion-Servicio.md`
-**Versión:** 1.15
+**Versión:** 2.0
 **Estado:** Propuesto — análisis y propuesta para decisión del Product Owner. No modifica ningún artefacto
 **Fecha:** 2026-07-29
 **Autor:** Orquestador SDD
@@ -14,6 +14,10 @@
 
 ## Tabla de contenido
 
+- [0. Cómo se usa este documento](#0-cómo-se-usa-este-documento)
+  - [0.1 Los pasajes superados, enumerados](#01-los-pasajes-superados-enumerados)
+  - [0.2 Orden de lectura para una sesión de corrección](#02-orden-de-lectura-para-una-sesión-de-corrección)
+  - [0.3 Qué no hace este documento](#03-qué-no-hace-este-documento)
 - [1. Cómo se llegó a este hallazgo](#1-cómo-se-llegó-a-este-hallazgo)
 - [2. Lo que Railway ofrece](#2-lo-que-railway-ofrece)
   - [2.1 Capa 1 · el menú de alta](#21-capa-1--el-menú-de-alta)
@@ -98,12 +102,81 @@
 - [18. El catálogo · las dos operaciones y su plan](#18-el-catálogo--las-dos-operaciones-y-su-plan)
   - [18.1 Las dos operaciones, que ya existen](#181-las-dos-operaciones-que-ya-existen)
   - [18.2 Lo que un ítem ya declara](#182-lo-que-un-ítem-ya-declara)
-  - [18.3 Los tres huecos reales](#183-los-tres-huecos-reales)
+  - [18.3 Los tres puntos, y qué se decidió en cada uno](#183-los-tres-puntos-y-qué-se-decidió-en-cada-uno)
+    - [Las dos versiones, que también están ya especificadas](#las-dos-versiones-que-también-están-ya-especificadas)
   - [18.4 Flujo A · instanciar desde el catálogo](#184-flujo-a--instanciar-desde-el-catálogo)
   - [18.5 Flujo B · dar de alta una plantilla](#185-flujo-b--dar-de-alta-una-plantilla)
   - [18.6 Situaciones concretas, de punta a punta](#186-situaciones-concretas-de-punta-a-punta)
-  - [18.7 Lo que hay que decidir](#187-lo-que-hay-que-decidir)
+  - [18.7 Estado de las decisiones del catálogo](#187-estado-de-las-decisiones-del-catálogo)
+- [19. La configuración de un servicio existente](#19-la-configuración-de-un-servicio-existente)
+  - [19.1 Lo que ya está declarado, y el detalle que importa](#191-lo-que-ya-está-declarado-y-el-detalle-que-importa)
+  - [19.2 Qué se puede cambiar, y qué exige cada cambio](#192-qué-se-puede-cambiar-y-qué-exige-cada-cambio)
+  - [19.3 El flujo, y sus dos diferencias con el alta](#193-el-flujo-y-sus-dos-diferencias-con-el-alta)
+- [20. El modelo de datos del catálogo, con valores](#20-el-modelo-de-datos-del-catálogo-con-valores)
+  - [20.1 El ítem, con las decisiones aplicadas](#201-el-ítem-con-las-decisiones-aplicadas)
+  - [20.2 El servicio instanciado, con el vínculo débil de H-3](#202-el-servicio-instanciado-con-el-vínculo-débil-de-h-3)
+  - [20.3 La instanciación del ítem multi-servicio, con sufijo automático](#203-la-instanciación-del-ítem-multi-servicio-con-sufijo-automático)
+  - [20.4 La exportación, y la colisión que nadie declaró](#204-la-exportación-y-la-colisión-que-nadie-declaró)
+- [21. Los datos que la maqueta necesita](#21-los-datos-que-la-maqueta-necesita)
+  - [21.1 Qué superficie toca cada conclusión](#211-qué-superficie-toca-cada-conclusión)
+  - [21.2 Los juegos de datos, y de qué bloque salen](#212-los-juegos-de-datos-y-de-qué-bloque-salen)
+  - [21.3 Las cuatro cosas que la maqueta debe poder demostrar](#213-las-cuatro-cosas-que-la-maqueta-debe-poder-demostrar)
+  - [21.4 Una advertencia sobre el orden](#214-una-advertencia-sobre-el-orden)
+- [22. Qué hay que tocar en la especificación](#22-qué-hay-que-tocar-en-la-especificación)
+  - [22.1 El intake](#221-el-intake)
+  - [22.2 Los casos de uso](#222-los-casos-de-uso)
+  - [22.3 Las reglas de negocio](#223-las-reglas-de-negocio)
+  - [22.4 El modelo conceptual y las restricciones](#224-el-modelo-conceptual-y-las-restricciones)
+  - [22.5 La capa de experiencia](#225-la-capa-de-experiencia)
+- [23. Las decisiones, consolidadas](#23-las-decisiones-consolidadas)
+  - [23.1 Cerradas](#231-cerradas)
+  - [23.2 Con propuesta escrita, esperando confirmación](#232-con-propuesta-escrita-esperando-confirmación)
+  - [23.3 Abiertas, sin propuesta cerrada](#233-abiertas-sin-propuesta-cerrada)
+  - [23.4 Las que bloquean la reconstrucción de la maqueta](#234-las-que-bloquean-la-reconstrucción-de-la-maqueta)
 - [Control de cambios](#control-de-cambios)
+
+---
+
+## 0. Cómo se usa este documento
+
+Este documento tiene **dos partes con estatuto distinto**, y confundirlas es el error que más caro sale, porque la primera mitad contiene el camino por el que se llegó a las conclusiones —incluidas propuestas que después se retiraron— y la segunda contiene las conclusiones.
+
+| Parte | Secciones | Estatuto |
+|---|---|---|
+| **Normativa** | §16 a §23 | **Es lo que se monta.** Autocontenida: no exige leer la parte de derivación para aplicarse |
+| **Derivación** | §1 a §15 | **Antecedente, no especificación.** Explica de dónde salió cada conclusión y qué evidencia la sostiene. Contiene pasajes superados, marcados uno por uno |
+
+**Regla de precedencia, que es la que hace montable el documento: donde las dos partes difieran, manda la normativa.** Ningún pasaje de §1 a §15 puede usarse para contradecir §16 a §23, ni siquiera cuando no lleve marca de superado.
+
+### 0.1 Los pasajes superados, enumerados
+
+| Pasaje | Qué decía | Qué lo reemplaza |
+|---|---|---|
+| §3 `P-2` | Que perdimos el nivel curado de servicios | **Retirado en su premisa:** no hay nivel curado porque el producto no lo entrega, por decisión del 2026-07-29 y por `CU-17` `FA-01`. **Sobrevive su último párrafo**, que es `Q-27` |
+| §7.6 fila `Q-4` | Que el catálogo se sembraría desde el parque de referencia | **Retirada.** `Q-4a` cerrada en «no hay contenido de fábrica» |
+| §11.4 | El flujo del origen repositorio | §16, que es la sección canónica de flujos. Se conserva por su tabla de diferencias |
+| §13.6 | El flujo del Dockerfile **por ruta** | §16, vía «Dockerfile en línea». Se conserva por su análisis de la restricción de rutas |
+| §18.3, versión 1.16 | Un catálogo de dos niveles, producto y usuario, con procedencia y bifurcación | **Retirado.** Un solo nivel, el del usuario |
+| §2, §3, §7 · el `Database` de Railway | Tratado como un nivel de servicios distinto de un contenedor | **Corregido en §18.3 `H-1`:** es un atajo curado a un contenedor, con la cita de la fuente |
+
+### 0.2 Orden de lectura para una sesión de corrección
+
+1. **§16** — el tronco común de diez pasos y el delta de cada vía. Es el flujo canónico de alta.
+2. **§19** — la configuración de un servicio ya existente, que es el tronco reentrado sin resolución de origen.
+3. **§18** — el catálogo: sus dos operaciones, sus dos flujos y las decisiones cerradas.
+4. **§17 y §20** — los modelos de datos, con las variantes discriminadas y los casos con valores.
+5. **§21** — qué datos necesita la maqueta y qué superficie los consume.
+6. **§22** — qué artefacto de la especificación hay que tocar, y con qué.
+7. **§23** — las decisiones abiertas, que son el insumo de la conversación con el agente humano del proyecto.
+
+Sólo se baja a §1–§15 cuando hace falta el fundamento de una conclusión o la cita de la fuente que la respalda.
+
+### 0.3 Qué no hace este documento
+
+- **No modifica ningún artefacto de `SDD/Docs/`.** Declara qué habría que tocar (§22); tocarlo es la sesión de corrección.
+- **No decide lo que está abierto.** §23 enumera las decisiones pendientes y no las presume resueltas.
+- **No reemplaza al intake.** Lo que el intake ya declara se cita, no se reescribe; cuando este documento contradice al intake, lo dice y explica por qué.
+- **No es fuente de evidencia sobre Railway.** Toda cita del producto de referencia proviene de `Analisis-Rayway.md`, que es el relevamiento; donde ese relevamiento no llega, este documento declara el límite en lugar de completarlo.
 
 ---
 
@@ -184,13 +257,17 @@ El anexo E-6 del intake **hace bien la distinción**:
 
 Pero esa distinción **no llegó a la pantalla**. El alta presenta tres orígenes técnicos en igualdad de condiciones y el catálogo vive en `SUP-11`, alcanzable desde el menú lateral, sin que ninguna superficie los presente como alternativas entre las que elegir. Una distinción declarada en un anexo y ausente de la interfaz no gobierna nada.
 
-### P-2 · Perdimos el nivel curado, que es el que resuelve el primer uso
+### P-2 · Perdimos el nivel curado, que es el que resuelve el primer uso — **parcialmente retirado**
+
+> **Reconciliación, 2026-07-29.** La premisa de este problema **quedó sin efecto por decisión del agente humano del proyecto**: no hay nivel curado porque el producto no lo entrega, y así lo declaraba ya `CU-17` `FA-01`. Ver §18.3 `H-1`. Se retira además la caracterización del `Database` de Railway como algo distinto de un contenedor: es un **atajo curado a un contenedor**, con la cita en §18.3. **Lo que sobrevive de este problema es su último párrafo**, que sigue siendo un hallazgo vigente y hoy pesa más, no menos.
 
 `Database` es la respuesta de Railway a «no sé la dirección de la imagen»: el usuario elige «Postgres» y la plataforma sabe cuál es la imagen, qué variables expone y cómo se conecta.
 
-Nosotros tenemos el catálogo, que cumple esa función, **pero lo llena el propio usuario** (`CU-17`). Arranca vacío. Railway trae el nivel curado de fábrica; nuestro equivalente está vacío en el primer arranque, que es exactamente el momento en que un usuario lo necesitaría.
+Nosotros tenemos el catálogo, que cumple esa función, **pero lo llena el propio usuario** (`CU-17`). Arranca vacío.
 
-Consecuencia verificada: **no existe ninguna capacidad de buscar, listar ni explorar imágenes de un registro.** Cero ocurrencias en el intake. Si el usuario no conoce la dirección de la imagen y el catálogo está vacío, **no tiene camino**.
+Consecuencia verificada, y **vigente**: **no existe ninguna capacidad de buscar, listar ni explorar imágenes de un registro.** Cero ocurrencias en el intake. Si el usuario no conoce la dirección de la imagen y el catálogo está vacío, **no tiene camino**.
+
+**Y la decisión de no entregar contenido de fábrica agrava exactamente este punto**, porque retira la única salida que quedaba para el primer uso. Queda entonces como decisión abierta `Q-27`: o se admite alguna forma de explorar un registro, o se declara explícitamente que **conocer la dirección de la imagen es requisito del usuario** y el producto no ayuda a averiguarla. Las dos son respuestas legítimas; lo que no es legítimo es dejarlo sin declarar, porque es el primer minuto de uso del producto.
 
 ### P-3 · Fusionamos imagen pública con imagen privada
 
@@ -401,7 +478,7 @@ Vale registrar que dos de los siete ítems del menú de Railway **no están defi
 | `Q-1` taxonomía o tres orígenes | **Taxonomía de siete vías** en la interfaz, sobre cinco valores de origen en el modelo. El catálogo entra al menú del alta en lugar de vivir sólo en `SUP-11` |
 | `Q-2` separar pública de privada | **Sí.** Y las credenciales se piden **en el alta**, como en Railway, con un «recordar esta credencial para este registro» que las persiste para reuso. Su administración —listar y revocar— vive en `SUP-12`, como sección **separada** de los tokens de máquina, que son otra entidad |
 | `Q-3` servicio sin origen | **Sí, con una diferencia declarada respecto de Railway.** En Railway el servicio vacío existe para empujarle contenido desde una CLI que nosotros no tenemos. Acá sería un **nodo borrador**: sirve para bosquejar la arquitectura en el lienzo antes de resolver cada pieza, y no se puede desplegar hasta que tenga origen |
-| `Q-4` catálogo precargado | **Sí, sembrado desde el parque de referencia.** El anexo E-19 declara ocho contenedores reales con sus patrones; son la base natural de la siembra, y ya son el juego de datos de la maqueta |
+| `Q-4` catálogo precargado | ~~**Sí, sembrado desde el parque de referencia.**~~ **Respuesta retirada el 2026-07-29 por decisión del agente humano del proyecto: no hay contenido de fábrica.** Ver §18.3 `H-1` y §23. El anexo E-19 sigue siendo el juego de datos de la maqueta, pero **no** una siembra del catálogo |
 
 ### 7.7 Qué habría que tocar si esto se aprueba
 
@@ -1853,22 +1930,59 @@ E-6 lo modela con más detalle del que el resto del documento tiene. El ejemplo 
 
 **Los cuatro tipos de parámetro declarados:** `texto`, `secreto`, `imagen` y `volumen`. Es un conjunto acotado y suficiente, y conviene declararlo **cerrado** —hoy se infiere de los ejemplos, no está enunciado como enum—.
 
-### 18.3 Los tres huecos reales
+### 18.3 Los tres puntos, y qué se decidió en cada uno
 
-**H-1 · Arranca vacío.** `CU-17` paso 2 lo declara: «El catálogo arranca vacío en una instalación nueva». Es la única diferencia sustantiva con el `Database` de Railway, que trae el nivel curado de fábrica. Es `Q-4`.
+**H-1 · El catálogo arranca vacío, y eso es la especificación, no un hueco.**
 
-**H-2 · Los secretos y el catálogo exportable.** Es `B-09`, que `02` ya declaró como brecha. Y es más filoso de lo que su enunciado sugiere, porque hay **dos situaciones distintas** y sólo una es problema:
+`CU-17` `FA-01` lo declara con esas palabras: *«el sistema lista el catálogo vacío. **El producto no se distribuye con contenido precargado**»*. **Cerrado [D], agente humano del proyecto, 2026-07-29**, confirmando lo ya escrito: no hay contenedores de fábrica; el usuario define sus propias plantillas.
 
-| Situación | ¿Problema? |
+La propuesta de dos niveles —uno de producto y otro del usuario, con procedencia declarada y bifurcación al editar— **se retira**. Estaba resolviendo un problema que la especificación ya había decidido que no existe, y agregaba un campo de procedencia, una regla de bifurcación y una política de actualización para sostenerlo. **Hay un solo nivel: el del usuario.**
+
+Conviene además rectificar contra qué se comparaba, porque la primera redacción de esta sección lo hizo mal. **El `Database` de Railway no es un servicio gestionado sin contenedor:** la definición oficial que la fuente transcribe es *«Under the hood, services are containers deployed from an image»*, y su §6.1 muestra `New` → `Database` → Postgres produciendo el nodo `Postgres` como cambio *staged*, que luego se referencia con `${{ Postgres.DATABASE_URL }}`; §5 confirma que de ese servicio sobreviven «Service, variables, volumen, dominios», vocabulario de contenedor. `Database` es **un atajo curado a un contenedor**. Límite de lo que la fuente sostiene: **nunca disecciona qué hace `Database` por debajo** —no dice quién provee la imagen, si la parchea, si hay respaldos—, así que «curado» es todo lo afirmable. Y para esta solución no es ni una opción: `RN-30` declara que un servicio es siempre exactamente un contenedor, de modo que **un ítem del catálogo sólo puede resolver a contenedores**.
+
+**Por qué el catálogo vacío no reabre el problema `P-2` de §3.** Porque no es un callejón: `A-1` declara el vacío y ofrece las otras vías. Una pantalla vacía que explica y deriva no es una pantalla en blanco. Y el mecanismo no falta —`cat-postgres-16` de `E-6` ya es el ítem de Postgres completo, con imagen, etiqueta fijada, puerto sin publicar, las tres variables, el volumen, el límite de memoria y el `healthcheck` con `pg_isready`—: lo que no hay es la decisión de entregarlo puesto, y esa decisión es no entregarlo.
+
+**Qué es entonces una plantilla, dicho con precisión.** Es **el alta de un servicio sin la cola de despliegue**: se declara lo mismo que en un alta —origen, variables, puertos, montajes, recursos, política de reinicio, verificación de salud— y **no se instancia, no se despliega y no ocupa dirección**. Lo que la vuelve plantilla es que sus valores variables quedan como parámetros, y que se puede tomar después para crear N servicios distintos, cada uno con sus propios valores. Esto tiene una consecuencia de interfaz directa: **el editor de plantillas es el formulario de alta de servicio menos los pasos T-8 a T-10 del tronco de §16.1** —validar contra el motor, aplicar, desplegar—, y no una superficie nueva que haya que diseñar aparte.
+
+#### Las dos versiones, que también están ya especificadas
+
+La versión de plantilla que la buena práctica pide **existe, y hay dos que no deben confundirse.** `CU-17` §10 las distingue: *«La versión de formato del ítem es distinta de la versión de contenido que el usuario publica»*.
+
+| | Qué versiona | Cuándo cambia | Para qué sirve |
+|---|---|---|---|
+| **Versión de contenido** | Lo que el usuario publicó del ítem: su plantilla y sus parámetros | `FA-03`: **al editar un ítem ya publicado se incrementa** | Es lo que el servicio instanciado copia como origen, por `H-3`. Permite responder «vino de `cat-postgres-16` v4» |
+| **Versión de formato** | La forma del archivo, no su contenido | Cuando cambia el esquema del catálogo, por decisión del producto | Permite convertir un catálogo importado sin adivinar su forma. `FA-02` y `CA-04` la ejercitan, con conversión determinista y sin pérdida |
+
+En `E-6` se ven las dos: `"version": 4` es contenido del ítem, y el envoltorio del archivo de exportación lleva la de formato.
+
+**Lo único que falta acá, y es un hueco real:** con el producto sin contenido precargado, el catálogo se puebla por **dos** caminos —guardar como plantilla, e importar—, y **nadie declaró qué pasa al importar un ítem cuyo identificador ya existe**. `FA-02` cubre el formato anterior, las excepciones cubren el formato no admitido y la conversión con pérdida, y `FA-03` cubre editar un ítem propio. La colisión de identificador en una importación no está en ninguno. Es `Q-26`.
+
+**H-2 · Los secretos y el catálogo exportable.** Es `B-09`, y su alcance es **exactamente** el que el audit enunció: *«RN-15 alcanza a toda exportación; lo que no declara es qué ocurre al guardar como plantilla un servicio con variables secretas»*. La primera redacción de esta sección lo presentó como más filoso que su enunciado y contrastó dos situaciones para llegar a lo mismo; era retórica sobre algo ya dicho en una línea.
+
+**Una plantilla escrita como plantilla no puede llevar secretos**, y `E-6` lo demuestra: en sus dos ítems, todo secreto es un hueco o una referencia —`"valor": "{{ password }}"` y `"valor": null, "referencia": "${{ shared.DB_PASSWORD }}"`—. El parámetro de contraseña no lleva siquiera un valor por defecto: lleva **`"generar": true`**, o sea el sistema la genera y el usuario no la escribe.
+
+Quedan dos casos, y el segundo no se había visto:
+
+| # | Caso | Tratamiento |
+|---|---|---|
+| 1 | **Guardar como plantilla un servicio ya resuelto.** Ahí `POSTGRES_PASSWORD` tiene valor literal, y copiar el subgrafo copia el valor | Convertir cada variable secreta en parámetro de tipo `secreto` **con `"generar": true`**, informando cuáles se convirtieron. No es una restricción: una plantilla cuyo segundo uso hereda la contraseña del primero no es reutilizable, y generar es mejor que pedirla tipeada |
+| 2 | **`porDefecto` sobre un parámetro de tipo `secreto`.** Nada declara que esté prohibido, y `porDefecto` es un valor literal que vive en la definición y se exporta | Prohibirlo, y dejar `generar` como el único mecanismo para un parámetro secreto |
+
+Un tercer caso se menciona para descartarlo: una cadena de conexión con contraseña adentro, escrita en una variable marcada `"secreta": false`. `RN-23` propaga el carácter de secreto **a través de referencias** y no alcanza a un literal, pero eso ocurre igual en un servicio normal y no es un problema del catálogo.
+
+**H-3 · Qué pasa si la plantilla cambia después de instanciar.** Verificado: cero menciones en `CU-16` y `CU-17` sobre actualizar instancias o propagar cambios. El ítem tiene «versión de contenido», y no había regla sobre si los servicios creados se enteran.
+
+**Decidido [D], agente humano del proyecto, 2026-07-29: no pasa nada.** El servicio instanciado se constituye y **tiene su propio ciclo de vida**, independiente de la plantilla. Al instanciar se copia el subgrafo resuelto; cambiar la plantilla después no toca nada de lo ya creado. El vínculo es **débil, y sólo en calidad de origen**. La alternativa —instancias vivas que se actualizan— convertiría el catálogo en un gestor de configuración, que es otro producto.
+
+**La consecuencia concreta de que el vínculo sea débil**, y es lo que hay que escribir con precisión para que no se implemente como una relación fuerte por descuido:
+
+| Aspecto | Qué se sigue |
 |---|---|
-| Un ítem declara `POSTGRES_PASSWORD` como `{{ password }}`, parámetro de tipo `secreto` | **No.** El valor no está en la plantilla: se completa al instanciar |
-| **Se guarda como plantilla un subgrafo ya resuelto** (`CU-17` paso 3), cuyo secreto **ya tiene valor** | **Sí.** El valor real quedaría en la plantilla, y el catálogo se exporta |
-
-**Propuesta:** al guardar como plantilla, **toda variable marcada secreta se convierte en parámetro de tipo `secreto` y su valor se descarta**, informando cuáles se convirtieron. No es una restricción: es la operación correcta. Una plantilla con un secreto adentro no es reutilizable —el segundo uso tendría la contraseña del primero— así que convertirlo es lo que la vuelve útil, no lo que la limita.
-
-**H-3 · Nadie declaró qué pasa si la plantilla cambia después de instanciar.** Verificado: cero menciones en `CU-16` y `CU-17` sobre actualizar instancias o propagar cambios. El ítem tiene «versión de contenido», y no hay regla sobre si los servicios creados se enteran.
-
-**Propuesta: desvinculación al instanciar.** Una plantilla es un **molde, no una dependencia viva**. Al instanciar se copia el subgrafo resuelto y el servicio queda independiente: cambiar la plantilla después no toca nada de lo ya creado. Se registra en la procedencia del servicio de qué ítem y de qué versión de contenido salió, para poder responder «esto vino de la plantilla X v2», pero sin vínculo que propague. La alternativa —instancias vivas que se actualizan— convertiría el catálogo en un gestor de configuración, que es otro producto.
+| Qué se guarda | Una **copia** del identificador, el nombre y la versión de contenido del ítem, no una clave foránea |
+| Borrar la plantilla | **Permitido y sin efecto** sobre los servicios instanciados. Ninguna advertencia de «en uso», porque no está en uso |
+| Servicio huérfano | Puede responder «vino de `cat-postgres-16` v4» aunque ese ítem ya no exista. Por eso la copia y no la referencia |
+| Plantilla más nueva | **No se notifica.** Un aviso de «hay una versión nueva» instala la expectativa de un botón para actualizar, que es precisamente lo que esta decisión descarta |
+| Para qué sirve el origen entonces | Para responder de dónde salió una configuración, y para agrupar en los informes. Nada más |
 
 ### 18.4 Flujo A · instanciar desde el catálogo
 
@@ -1893,8 +2007,8 @@ No es alta de servicio: es alta de **definición**. Por eso no usa el tronco de 
 |---|---|---|
 | B-1 | Abre el catálogo | Lista los ítems declarados. Declara si está vacío |
 | B-2 | Elige **crear desde cero** o **guardar como plantilla** un subgrafo de un proyecto | Dos caminos distintos desde acá |
-| B-3a | *Desde cero:* declara el subgrafo, sus variables compartidas, sus enlaces y sus parámetros | Valida que todo hueco `{{ … }}` tenga su parámetro declarado, y que ningún parámetro quede sin uso |
-| B-3b | *Guardar como plantilla:* elige los servicios de un proyecto | **Convierte cada variable secreta en parámetro de tipo `secreto` y descarta su valor, informando cuáles convirtió** (`H-2`). Propone parámetros para los valores que varían: nombres, puertos, volúmenes |
+| B-3a | *Desde cero:* declara el subgrafo, sus variables compartidas, sus enlaces y sus parámetros | Presenta **el formulario de alta de servicio sin la cola de despliegue** —sin validar contra el motor, sin aplicar y sin desplegar—, y valida que todo hueco `{{ … }}` tenga su parámetro declarado y que ningún parámetro quede sin uso |
+| B-3b | *Guardar como plantilla:* elige los servicios de un proyecto | **Convierte cada variable secreta en parámetro de tipo `secreto` con `generar` activo, descartando el valor, e informa cuáles convirtió** (`H-2`). Propone parámetros para los valores que varían: nombres, puertos, volúmenes |
 | B-4 | Revisa los parámetros propuestos, ajusta etiquetas y valores por defecto | Persiste el ítem con su plantilla, sus parámetros y su **versión de formato** |
 | B-5 | *Opcional:* exporta el catálogo | Emite el archivo con el envoltorio versionado. **Declara en el informe si algún ítem contiene material sensible** |
 
@@ -1951,14 +2065,409 @@ Cuatro situaciones encadenadas sobre el mismo servidor, para ver cómo las pieza
 
 **Y una advertencia que S-4 destapa:** el descubrimiento **no trae los puertos publicados** del contenedor —sus campos son `imagen`, `estado`, `redes`, `montajes`, `variablesDetectadas` y `etiquetasCompose`—, de modo que un contenedor adoptado con puertos publicados **los pierde en la traducción**. Es el mismo hueco que `H-E` nivel 2 necesita cerrar, y acá tiene una segunda consecuencia.
 
-### 18.7 Lo que hay que decidir
+### 18.7 Estado de las decisiones del catálogo
 
-| # | Pregunta | Por qué |
+| # | Pregunta | Estado |
 |---|---|---|
-| `Q-22` | Al **guardar como plantilla**, ¿los secretos se convierten en parámetro y se descarta su valor? | Es `B-09`. Sin eso, las plantillas guardadas no son compartibles y el catálogo exportado filtra secretos |
-| `Q-23` | ¿La instancia queda **desvinculada** de la plantilla? | Sin decidirlo, nadie sabe si cambiar una plantilla toca lo ya creado. La alternativa convierte el catálogo en gestor de configuración |
-| `Q-24` | ¿Los cuatro tipos de parámetro —`texto`, `secreto`, `imagen`, `volumen`— son un **conjunto cerrado**? | Hoy se infieren de los ejemplos de E-6, no están declarados como enum |
-| `Q-25` | ¿El descubrimiento incorpora los **puertos publicados**? | Lo necesitan `H-E` nivel 2 y la traducción de `CU-08`. Es un campo, y cierra dos huecos |
+| `Q-4a` | ¿El producto trae ítems de fábrica? | **Cerrada [D], agente humano del proyecto, 2026-07-29: no.** Confirma lo que `CU-17` `FA-01` ya declaraba —«el producto no se distribuye con contenido precargado»—. Hay un solo nivel de catálogo, el del usuario |
+| `Q-4b` | ¿Una definición puede venir de afuera, y las plantillas se versionan? | **Cerrada: ya estaba especificado.** `CU-17` exporta e importa, y distingue **versión de contenido** —que `FA-03` incrementa al editar— de **versión de formato**, que sostiene la conversión determinista al importar |
+| `Q-23` | ¿La instancia queda **desvinculada** de la plantilla? | **Cerrada [D], agente humano del proyecto, 2026-07-29.** Cambiar la plantilla no afecta lo instanciado: el servicio tiene su propio ciclo de vida y el vínculo es débil, sólo en calidad de origen. Ver `H-3` |
+| `Q-26` | ¿Qué pasa al **importar un ítem cuyo identificador ya existe**? | **Abierta, hueco real.** Con el producto sin contenido precargado, importar es uno de los dos únicos caminos para poblar el catálogo, y la colisión de identificador no está cubierta por `FA-02`, `FA-03` ni las excepciones de `CU-17` |
+| `Q-22` | Al **guardar como plantilla**, ¿los secretos se convierten en parámetro con `generar` activo? | **Propuesta, sin confirmar.** Es `B-09` con el alcance que el audit le dio |
+| `Q-24` | ¿Los cuatro tipos de parámetro son un **conjunto cerrado**, y `porDefecto` queda prohibido sobre `secreto`? | **Abierta.** Hoy los tipos se infieren de los ejemplos de `E-6` y no están declarados como enum |
+| `Q-25` | ¿El descubrimiento incorpora los **puertos publicados**? | **Abierta.** Lo necesitan `H-E` nivel 2 y la traducción de `CU-08`. Es un campo, y cierra dos huecos |
+
+---
+
+## 19. La configuración de un servicio existente
+
+§16 dio el alta. Esta sección da lo otro que el alta necesita para ser útil: **volver sobre un servicio ya creado y cambiarlo**. No es una vía nueva ni un caso de uso nuevo — `CU-03` se llama, literalmente, «Alta **y configuración** completa de un servicio», y su `FA-01` ya declara la reentrada.
+
+### 19.1 Lo que ya está declarado, y el detalle que importa
+
+`CU-03` `FA-01` dice: *«se repiten los pasos **5 a 10** sobre el servicio elegido; el cambio entra al conjunto de cambios pendientes y marca el servicio como pendiente de redespliegue»*.
+
+El detalle está en el rango. El flujo principal de `CU-03` tiene el origen en el **paso 4**, y la reentrada empieza en el **5**. Es decir: **la configuración no vuelve a pasar por el origen**. Leído en el modelo de §16, la configuración es **el tronco reentrado desde T-5**, salteando T-1, T-2 y T-3 —elegir vía, resolver origen y verificar origen—.
+
+Eso es coherente y probablemente deliberado, pero tiene una consecuencia que nadie declaró: **no hay forma de cambiarle el origen a un servicio existente.** Pasar un servicio de «imagen pública» a «repositorio», o corregir una etiqueta mal escrita, no tiene camino en el flujo escrito. Es `Q-28`.
+
+### 19.2 Qué se puede cambiar, y qué exige cada cambio
+
+La distinción operativa no es «qué campo es editable» sino **qué consecuencia tiene el cambio**, porque de eso depende lo que la interfaz debe advertir.
+
+| Clase de cambio | Ejemplos | Consecuencia |
+|---|---|---|
+| **Cosmético** | Posición en el lienzo, notas | Ninguna. `RN-12` los excluye del conjunto de cambios pendientes: no son cambios de configuración |
+| **De configuración, sin recrear** | Política de reinicio, límites de recursos, verificación de salud, réplicas | Entra al conjunto de cambios pendientes y marca **pendiente de redespliegue** |
+| **De configuración, recreando** | Variables, puertos, montajes, dispositivos, modo de red, dirección | Igual, y además el contenedor **se recrea**: es el motor el que no admite cambiarlos en caliente |
+| **De identidad** | Nombre del servicio | `RN-01` valida unicidad y formato. `D-8` garantiza que **ninguna referencia se rompe**, porque se vinculan al servicio y no a su nombre. El alias DNS sí cambia |
+| **De origen** | Imagen, etiqueta, rama, Dockerfile, política de actualización | **Sin camino declarado.** Es `Q-28` |
+| **Destructivo** | Eliminar el servicio | `RN-10` exige confirmación escrita. `RN-09` conserva volúmenes y montajes al detener, no al eliminar |
+
+**Lo que esta tabla obliga a mostrar en la interfaz**, y hoy no está declarado en ninguna parte: cuando un cambio recrea el contenedor, el usuario tiene que saberlo **antes** de aplicar, porque recrear es lo que le hace perder el estado no persistido. El cajón de cambios pendientes ya existe para eso; lo que falta es que **distinga las dos clases de cambio de configuración**.
+
+### 19.3 El flujo, y sus dos diferencias con el alta
+
+| # | Qué hace el usuario | Qué hace el sistema |
+|---|---|---|
+| C-1 | Abre un servicio del lienzo | Presenta su configuración actual, y **el origen en modo lectura** — hoy, por `Q-28` |
+| C-2 | Cambia lo que quiera | Marca cada cambio, **declarando si recrea el contenedor o no** |
+| C-3 | Guarda | Valida lo mismo que el alta: `RN-01`, `RN-02`, `RN-06`, `RN-07`, `RN-19`, `RN-28`, `RN-32`. **Persiste aunque el servicio quede incompleto**, según `U-6` |
+| C-4 | — | El cambio entra al **conjunto de cambios pendientes** del proyecto y el servicio queda **pendiente de redespliegue** |
+| C-5 | *Opcional:* descarta un cambio individual | `CU-23`. El conjunto de cambios pendientes no es todo o nada |
+| C-6 | Revisa el impacto | `CU-25` calcula qué servicios se ven afectados. `RN-13` acota el redespliegue **a lo afectado** y no al proyecto entero |
+| C-7 | Aplica | `CU-24` aplica en lote. El resultado se determina **por contenedor** (`RN-31`, decisión `D-1`), de modo que un resultado parcial es legítimo |
+
+**Las dos diferencias con el alta, y son las que hacen que esto no sea el mismo flujo:**
+
+1. **No hay resolución ni verificación de origen** — T-1 a T-3 no se recorren, por lo que la única verificación que queda es la de configuración, no la de origen.
+2. **Hay un estado previo que el cambio destruye.** El alta no puede romper nada porque no había nada; la configuración sí, y por eso `CU-25` y `RN-13` existen sólo de este lado.
+
+---
+
+## 20. El modelo de datos del catálogo, con valores
+
+§17 emitió el modelo del servicio y sus siete casos. Esta sección hace lo mismo con el catálogo, que §18 dejó definido pero sin emitir. Los cuatro bloques que siguen son **el juego de datos del catálogo para la maqueta y para las pruebas**, y llevan aplicadas las decisiones de §18.3.
+
+### 20.1 El ítem, con las decisiones aplicadas
+
+Respecto de `E-6` hay tres diferencias, y las tres vienen de decisiones y no de gusto:
+
+| # | Diferencia | De dónde sale |
+|---|---|---|
+| 1 | `porDefecto` **no se admite** sobre un parámetro de tipo `secreto`; su único mecanismo es `generar` | §18.3 `H-2` caso 2, pendiente `Q-24` |
+| 2 | `tipo` es un **conjunto cerrado** de cuatro valores | §18.2, pendiente `Q-24` |
+| 3 | El ítem no lleva campo de procedencia | §18.3 `H-1`: hay un solo nivel de catálogo |
+
+Éste es el ítem que la situación `S-1` de §18.6 produce: el usuario resolvió un Postgres a mano y lo guardó como plantilla. **Nótese que `POSTGRES_PASSWORD` llegó con valor real al guardarse y salió convertido en parámetro con `generar`**, que es el tratamiento de `H-2`:
+
+```json
+{
+  "id": "cat-postgres-16",
+  "nombre": "PostgreSQL 16",
+  "categoria": "base-de-datos",
+  "icono": "database",
+  "versionContenido": 1,
+  "versionFormato": 2,
+  "origenDelItem": "guardado-desde-servicio",
+  "plantilla": {
+    "servicios": [
+      {
+        "nombre": "{{ slug }}-db",
+        "origen": {
+          "tipo": "imagen-publica",
+          "registro": "docker.io",
+          "imagen": "library/postgres",
+          "etiqueta": "16.3-alpine",
+          "politicaActualizacion": "fijada"
+        },
+        "comandoArranque": null,
+        "puertos": [ { "contenedor": 5432, "protocolo": "tcp", "publicar": false } ],
+        "variables": [
+          { "clave": "POSTGRES_DB", "valor": "{{ nombreBase }}", "secreta": false },
+          { "clave": "POSTGRES_USER", "valor": "{{ usuario }}", "secreta": false },
+          { "clave": "POSTGRES_PASSWORD", "valor": "{{ password }}", "secreta": true }
+        ],
+        "montajes": [ { "tipo": "volumen", "nombre": "{{ slug }}-datos", "destino": "/var/lib/postgresql/data" } ],
+        "recursos": { "limiteMemoriaMb": 1024, "limiteCpu": null },
+        "politicaReinicio": "unless-stopped",
+        "healthcheck": { "modo": "propio", "comando": "pg_isready -U {{ usuario }}", "intervaloSegundos": 30 }
+      }
+    ],
+    "variablesCompartidas": [],
+    "enlaces": []
+  },
+  "parametros": [
+    { "clave": "slug", "etiqueta": "Prefijo de recursos", "tipo": "texto", "requerido": true, "porDefecto": null },
+    { "clave": "nombreBase", "etiqueta": "Nombre de la base", "tipo": "texto", "requerido": true, "porDefecto": "app" },
+    { "clave": "usuario", "etiqueta": "Usuario", "tipo": "texto", "requerido": true, "porDefecto": "app" },
+    { "clave": "password", "etiqueta": "Contraseña", "tipo": "secreto", "requerido": true, "generar": true }
+  ],
+  "informeDeGuardado": {
+    "variablesConvertidasAParametroSecreto": [ "POSTGRES_PASSWORD" ],
+    "parametrosPropuestos": [ "slug", "nombreBase", "usuario" ],
+    "valoresDescartados": 1
+  },
+  "publicadoEn": "2026-07-29T10:12:00-03:00"
+}
+```
+
+### 20.2 El servicio instanciado, con el vínculo débil de `H-3`
+
+Éste es el resultado de la situación `S-2`: el ítem anterior instanciado en otro proyecto, con `ia` como nombre de base. **El campo `plantillaDeOrigen` es una copia, no una referencia**, exactamente por lo que `H-3` decidió: la plantilla puede borrarse y este servicio sigue respondiendo de dónde salió.
+
+```json
+{
+  "id": "svc-8f21",
+  "proyecto": "ia-local",
+  "nombre": "ia-db",
+  "estado": "pendiente-de-aplicar",
+  "plantillaDeOrigen": {
+    "id": "cat-postgres-16",
+    "nombre": "PostgreSQL 16",
+    "versionContenido": 1,
+    "instanciadoEn": "2026-07-29T11:40:00-03:00",
+    "vinculo": "debil-solo-origen"
+  },
+  "origen": {
+    "tipo": "imagen-publica",
+    "registro": "docker.io",
+    "imagen": "library/postgres",
+    "etiqueta": "16.3-alpine",
+    "politicaActualizacion": "fijada"
+  },
+  "red": { "modo": "bridge", "red": "ia-net", "alias": "ia-db" },
+  "puertos": [ { "contenedor": 5432, "protocolo": "tcp", "publicar": false } ],
+  "variables": [
+    { "clave": "POSTGRES_DB", "valor": "ia", "secreta": false },
+    { "clave": "POSTGRES_USER", "valor": "app", "secreta": false },
+    { "clave": "POSTGRES_PASSWORD", "valor": null, "secreta": true, "valorPresente": true }
+  ],
+  "montajes": [ { "tipo": "volumen", "nombre": "ia-datos", "destino": "/var/lib/postgresql/data" } ],
+  "recursos": { "limiteMemoriaMb": 1024, "limiteCpu": null },
+  "politicaReinicio": "unless-stopped",
+  "healthcheck": { "modo": "propio", "comando": "pg_isready -U app", "intervaloSegundos": 30 }
+}
+```
+
+**El secreto sale con `"valor": null` y `"valorPresente": true`**, que es lo que `RN-15` exige: la lectura nunca devuelve el secreto en claro, pero el consumidor necesita saber que está cargado para no mostrarlo como faltante. Es el mismo patrón de §17.7.
+
+### 20.3 La instanciación del ítem multi-servicio, con sufijo automático
+
+Situación `S-3`: `cat-api-con-base` instanciado en un proyecto donde `portal-db` ya existe. Éste es **el informe de la instanciación**, que es lo que la interfaz muestra y hoy no está modelado en ninguna parte:
+
+```json
+{
+  "operacion": "instanciar-plantilla",
+  "plantilla": { "id": "cat-api-con-base", "versionContenido": 1 },
+  "proyecto": "portal-interno",
+  "resultado": "creado-con-avisos",
+  "serviciosCreados": [
+    { "id": "svc-a1", "nombreSolicitado": "portal-db", "nombreAsignado": "portal-db-2", "sufijado": true },
+    { "id": "svc-a2", "nombreSolicitado": "portal-api", "nombreAsignado": "portal-api", "sufijado": false }
+  ],
+  "variablesCompartidasCreadas": [ { "clave": "DB_PASSWORD", "secreta": true, "reusada": false } ],
+  "enlacesCreados": [
+    { "origen": "svc-a2", "destino": "svc-a1", "puerto": 5432, "esperaAlDestino": true }
+  ],
+  "avisos": [
+    { "codigo": "nombre-sufijado", "regla": "RN-36", "detalle": "El nombre «portal-db» ya existía en el proyecto; se asignó «portal-db-2»", "bloquea": false }
+  ],
+  "estadoDeLosServicios": "pendiente-de-aplicar"
+}
+```
+
+`"bloquea": false` no es decorativo: `RN-36` **sufija e informa**, no rechaza y no pregunta, y `RN-37` hace lo propio con las claves compartidas. Un consumidor que trate los avisos como errores rompe las dos reglas.
+
+### 20.4 La exportación, y la colisión que nadie declaró
+
+El envoltorio de exportación, con las dos versiones de §18.3 en su lugar:
+
+```json
+{
+  "tipoDeArchivo": "catalogo-selfhosted",
+  "versionFormato": 2,
+  "exportadoEn": "2026-07-29T12:00:00-03:00",
+  "items": [ "cat-postgres-16", "cat-api-con-base" ],
+  "informe": { "itemsExportados": 2, "itemsConMaterialSensible": 0 }
+}
+```
+
+`"itemsConMaterialSensible": 0` es la contrapartida verificable de `H-2`: si la conversión al guardar como plantilla funciona, este contador es siempre cero, y si alguna vez no lo es, la exportación tiene que declararlo antes de emitir el archivo, porque `RN-15` prohíbe escribir un secreto en una exportación.
+
+Y éste es **el caso que `Q-26` deja sin regla** — importar un ítem cuyo identificador ya existe. Se emite el informe que la resolución recomendada produciría, para que la decisión se tome sobre algo concreto:
+
+```json
+{
+  "operacion": "importar-catalogo",
+  "archivo": { "versionFormato": 1, "items": 3 },
+  "resultado": "importado-con-avisos",
+  "detalle": [
+    { "id": "cat-redis-7", "accion": "importado", "conversionDeFormato": "1-a-2" },
+    { "id": "cat-mysql-8", "accion": "importado", "conversionDeFormato": "1-a-2" },
+    { "id": "cat-postgres-16", "accion": "importado-como-copia", "idAsignado": "cat-postgres-16-importado", "motivo": "identificador-ya-existente" }
+  ],
+  "avisos": [
+    { "codigo": "identificador-ya-existente", "detalle": "El ítem «cat-postgres-16» ya existe. Se importó como copia con identificador nuevo; el existente no se modificó", "bloquea": false }
+  ]
+}
+```
+
+**Por qué se recomienda esta resolución y no las otras dos.** Rechazar el ítem hace que un solo choque frustre una importación entera; pisar el existente destruye trabajo del usuario en silencio, y con el vínculo débil de `H-3` no habría forma de recuperarlo porque las instancias no lo conservan. Importar como copia **no pierde nada y no bloquea nada**, a cambio de dejar dos ítems parecidos que el usuario puede borrar cuando compare. Es la única de las tres que no destruye información.
+
+
+---
+
+## 21. Los datos que la maqueta necesita
+
+La maqueta actual tiene 17 superficies y su juego de datos vive en `Datos-Maqueta.js`. Esta sección declara **qué de ese juego queda obsoleto, qué superficie hay que rehacer y de qué bloque de este documento sale cada dato**, para que la reconstrucción no tenga que inferirlo.
+
+### 21.1 Qué superficie toca cada conclusión
+
+| Superficie | Qué cambia | De dónde sale el dato |
+|---|---|---|
+| `Alta-De-Servicio` · `SUP-17` | **Rehacer.** Hoy pide origen como un campo; pasa a **menú de siete vías** (T-1) y luego a la resolución propia de la vía elegida (T-2), con **verificación de origen separada de la de configuración** | §16.1, §16.2, §17.3, §17.4 |
+| `Catalogo-De-Plantillas` | **Rehacer.** Hoy es una lista; pasa a tener las **dos operaciones separadas** —instanciar y mantener—, el estado vacío que deriva a las otras vías, y el editor de plantilla que es el formulario de alta sin la cola de despliegue | §18.1, §18.4, §18.5, §20.1 |
+| `Panel-Lateral-Del-Servicio` | **Ampliar.** Agrega el origen **en modo lectura**, la procedencia de plantilla cuando existe, el digesto de la imagen en uso, y la distinción entre cambio que recrea y cambio que no | §19.2, §19.3, §20.2 |
+| `Cajon-De-Cambios-Pendientes` | **Ampliar.** Debe distinguir las **dos clases de cambio de configuración**: el que recrea el contenedor y el que no | §19.2 |
+| `Descubrimiento-E-Incorporacion` | **Ampliar.** Agrega los **puertos publicados** del contenedor descubierto, que hoy el modelo no trae | §18.6 `S-4`, `Q-25` |
+| `Lienzo-Del-Proyecto` | **Ampliar.** La instanciación de una plantilla mete **N nodos y sus aristas de una sola confirmación**, con el aviso de sufijo | §18.4, §20.3 |
+| **Nueva superficie** · imágenes | **Crear.** No existe. El ciclo de vida de imágenes de §14 no tiene ninguna superficie que lo muestre | §14.3, §17.5 |
+| `Registro-Del-Contenedor` | Sin cambio de datos | — |
+| Las 10 restantes | Sin cambio | — |
+
+### 21.2 Los juegos de datos, y de qué bloque salen
+
+| Juego | Bloque de origen | Para qué superficie |
+|---|---|---|
+| Servicio por cada una de las cinco variantes de origen | §17.3 | `Alta-De-Servicio`, `Panel-Lateral-Del-Servicio` |
+| Los siete casos concretos, uno por vía | §17.4 | `Alta-De-Servicio`, recorrido completo |
+| Los dos informes de verificación, con sus **dos clases de fallo** distinguidas | §17.7 | `Alta-De-Servicio`, ambos botones de verificar |
+| Imagen como objeto con identidad, con digesto y pertenencia | §17.5 | Superficie nueva de imágenes, `Panel-Lateral-Del-Servicio` |
+| Ítem del catálogo con parámetros e informe de guardado | §20.1 | `Catalogo-De-Plantillas` |
+| Servicio instanciado con vínculo débil | §20.2 | `Lienzo-Del-Proyecto`, `Panel-Lateral-Del-Servicio` |
+| Informe de instanciación con sufijo | §20.3 | `Lienzo-Del-Proyecto`, `Catalogo-De-Plantillas` |
+| Exportación e informe de importación con colisión | §20.4 | `Exportacion-E-Importacion`, `Catalogo-De-Plantillas` |
+| Parque de ocho contenedores reales | Intake `E-19` | `Descubrimiento-E-Incorporacion` — **sigue siendo el juego de datos, y no es una siembra del catálogo** |
+
+### 21.3 Las cuatro cosas que la maqueta debe poder demostrar
+
+Son los recorridos que hoy no se pueden caminar, y son el criterio para saber si la maqueta nueva sirve:
+
+1. **Elegir vía antes de origen.** Que el menú de siete opciones exista y que cada una lleve a su propia resolución. Hoy el origen es un campo y las vías son invisibles.
+2. **Verificar dos veces, con informes distintos.** Verificar el origen y verificar la configuración son dos operaciones con dos informes, y los dos deben poder mostrar la diferencia entre **dato incorrecto** y **consulta imposible** (`U-4`).
+3. **Guardar incompleto.** Que se pueda guardar un servicio sin todos los datos y que quede visiblemente incompleto, sin bloquear (`U-6`, §8.4).
+4. **Instanciar una plantilla multi-servicio.** Que una confirmación produzca dos nodos, su arista y el aviso de sufijo, y que el aviso **no** se muestre como error.
+
+### 21.4 Una advertencia sobre el orden
+
+**La maqueta no debe rehacerse desde este documento directamente.** El orden es: este documento entra a la especificación (§22), la especificación queda corregida, y **la maqueta se rehace desde la especificación corregida**, que es de donde `03-UX-UI-DX` la deriva. Saltear el paso del medio produce una maqueta que no traza a ningún artefacto, que es el defecto que la Fase B2 existe para evitar.
+
+---
+
+## 22. Qué hay que tocar en la especificación
+
+Consolidado de lo que las secciones anteriores dejaron disperso. Está ordenado **por artefacto**, porque así se ejecuta, y cada fila declara de dónde sale y si depende de una decisión abierta.
+
+**Regla de dependencia que conviene respetar:** tocar el intake primero y regenerar los artefactos derivados después es más barato que corregir en las dos puntas y reconciliar.
+
+### 22.1 El intake
+
+| Artefacto | Qué se toca | Origen | ¿Depende de decisión? |
+|---|---|---|---|
+| `E-2`, el servicio | Las **cinco variantes discriminadas de origen** en lugar de tres valores planos | §16.2, §17.3 | `Q-1`, `Q-2` |
+| `E-2` | Campo de **comando de arranque** | `H-B` | No: es un hueco puro |
+| `E-2` | **Dockerfile como contenido en línea**, no como ruta | §15.1 | `Q-14` reformulada |
+| `E-2` | **Credenciales de registro** para la variante privada | `P-3`, §17.3 | `Q-2` |
+| `E-2` | **Digesto** de la imagen en uso, y procedencia de plantilla | §17.5, `H-3` | `Q-15` |
+| `E-6`, el ítem del catálogo | `tipo` como **conjunto cerrado**; `porDefecto` **prohibido** sobre `secreto`; conversión con `generar` al guardar como plantilla | §18.3 `H-2`, §20.1 | `Q-22`, `Q-24` |
+| `E-7`, el descubrimiento | **Puertos publicados** del contenedor | §18.6 `S-4` | `Q-25` |
+| Nuevo anexo o `E-9` | **La imagen como objeto con identidad**, con digesto, pertenencia y marca de conservada | §14, §17.5 | `Q-15` a `Q-21` |
+| §4, capacidades | La vía de alta como **eje propio**, distinto del origen | §7.2, §16 | `Q-1` |
+
+### 22.2 Los casos de uso
+
+| Artefacto | Qué se toca | Origen |
+|---|---|---|
+| `CU-03` | Insertar el paso de **elegir vía** antes del origen; declarar la **verificación de origen** separada de la de configuración; declarar el **guardado incompleto** | §16.1 T-1 a T-4, §8.4 |
+| `CU-03` `FA-01` | Declarar si el **origen es editable** después del alta. Hoy la reentrada arranca en el paso 5 y lo excluye sin decirlo | §19.1, `Q-28` |
+| `CU-16` | Declarar que la instanciación **desvincula**: copia la versión de contenido como origen y no crea dependencia viva | §18.3 `H-3` |
+| `CU-17` | Declarar la **conversión de secretos** al guardar como plantilla, y **qué pasa al importar un identificador ya existente** | §18.3 `H-2`, §20.4, `Q-26` |
+| `CU-06`, `CU-08` | Incorporar los **puertos publicados** a lo descubierto y a la traducción | `Q-25` |
+| `CU-13`, `CU-15` | Alinear con las cinco variantes de origen y con el registro del digesto | §17.3, §17.6 |
+| **Nuevo caso de uso** | **Higiene de imágenes**: listar, marcar conservada, limpiar | §14.3 |
+| **Nuevo caso de uso** | **Volver a un despliegue anterior** | §15.2, `Q-19` |
+
+### 22.3 Las reglas de negocio
+
+| Regla | Qué se toca | Origen |
+|---|---|---|
+| **Nueva** | **Colisión de puerto publicado en el host**: el sistema no permite asignar un puerto ya registrado por otro servicio | `H-E` |
+| **Nueva** | **Desvinculación de la plantilla**: cambiar un ítem no afecta lo instanciado; borrarlo tampoco | §18.3 `H-3` |
+| **Nueva** | **Protección de la imagen conservada** frente a la limpieza | `Q-21` |
+| `RN-08` | Reformular los datos obligatorios del origen repositorio según la variante | §11, §16.2 |
+| `RN-15` | Alcanzar explícitamente **la plantilla del catálogo**, no sólo la exportación | §18.3 `H-2` |
+| `RN-30` | Se cita tal cual: es la invariante que sostiene que un ítem sólo resuelve a contenedores | §18.3 `H-1` |
+
+### 22.4 El modelo conceptual y las restricciones
+
+| Artefacto | Qué se toca |
+|---|---|
+| `Modelo-Conceptual` §6, glosario | Entradas para **vía de alta**, **plantilla**, **versión de contenido** frente a **versión de formato**, **imagen** como objeto, y **digesto** |
+| `Modelo-Conceptual`, entidades | La **imagen** como entidad con identidad y ciclo de vida propio, por `D-12` |
+| Restricciones | La de **puerto único publicado por host**, que hoy no existe |
+
+### 22.5 La capa de experiencia
+
+| Artefacto | Qué se toca |
+|---|---|
+| `Experiencia-De-Uso` | El alta pasa de un formulario a **menú de vías más resolución más dos verificaciones**; el catálogo pasa a **dos operaciones separadas** |
+| Wireframes | `SUP-17` y el del catálogo se rehacen; el panel lateral y el cajón de cambios se amplían; **falta uno nuevo** para imágenes |
+| Maqueta | Se rehace **desde la especificación corregida**, no desde este documento. Ver §21.4 |
+
+
+---
+
+## 23. Las decisiones, consolidadas
+
+Las veintiocho decisiones que este documento abrió, en un solo lugar y con su estado. Es el insumo de la conversación con el agente humano del proyecto, y **ninguna se presume resuelta**.
+
+### 23.1 Cerradas
+
+| # | Qué se decidió | Cuándo |
+|---|---|---|
+| `Q-4a` | **No hay ítems de fábrica.** El usuario define sus propias plantillas. Confirma lo que `CU-17` `FA-01` ya declaraba | 2026-07-29, agente humano del proyecto |
+| `Q-4b` | **Ya estaba especificado.** Una definición puede venir de afuera por exportar e importar, y hay **dos versiones** distintas: contenido y formato | 2026-07-29, verificado contra `CU-17` §10 y `FA-03` |
+| `Q-23` | **La instancia queda desvinculada.** Cambiar la plantilla no afecta lo instanciado; el vínculo es débil y sólo en calidad de origen | 2026-07-29, agente humano del proyecto |
+| `Q-9` | **Se conservan las dos modalidades** de despliegue. Queda abierto si el disparo externo es propiedad transversal de cualquier servicio | 2026-07-29, agente humano del proyecto |
+
+### 23.2 Con propuesta escrita, esperando confirmación
+
+Son las que se pueden cerrar leyendo una tabla, porque la propuesta ya está argumentada en el documento.
+
+| # | Pregunta | Propuesta | Dónde |
+|---|---|---|---|
+| `Q-1` | ¿Taxonomía de vías o tres orígenes? | **Siete vías** en la interfaz sobre **cinco variantes** de origen en el modelo | §7.6, §16.2 |
+| `Q-2` | ¿Separar imagen pública de privada? | **Sí.** Credenciales pedidas en el alta, con reuso por registro | §7.6, §17.3 |
+| `Q-3` | ¿Existe el servicio sin origen? | **Sí, como nodo borrador**, no desplegable. No es una vía: es el tronco detenido en T-2 | §7.6, §16.2 |
+| `Q-14` | ¿Dockerfile en línea en lugar de por ruta? | **Sí.** Elimina los cuatro problemas de la vía por ruta | §15.1, §15.3 |
+| `Q-22` | ¿Los secretos se convierten al guardar como plantilla? | **Sí, a parámetro `secreto` con `generar`**, descartando el valor e informando | §18.3 `H-2`, §20.1 |
+| `Q-24` | ¿Tipos de parámetro cerrados, y `porDefecto` prohibido sobre `secreto`? | **Sí a las dos** | §18.3 `H-2`, §20.1 |
+| `Q-25` | ¿El descubrimiento trae los puertos publicados? | **Sí.** Es un campo y cierra dos huecos | §18.6 `S-4`, `H-E` |
+| `Q-26` | ¿Qué pasa al importar un identificador existente? | **Importar como copia** con identificador nuevo. Es la única de las tres opciones que no destruye información | §20.4 |
+
+### 23.3 Abiertas, sin propuesta cerrada
+
+| # | Pregunta | Por qué importa |
+|---|---|---|
+| `Q-5` | ¿El disparo automático es por ejecutor autoalojado, consulta periódica, o siempre manual? | Define si el origen repositorio tiene paridad con Railway o es deliberadamente más manual |
+| `Q-6` | ¿Se registra **qué commit** construyó cada despliegue? | Sin eso el usuario no sabe qué versión corre. Lo responde `Q-15` |
+| `Q-7` | ¿Sólo GitHub como proveedor? | Cambia el control de la interfaz: un selector de uno, o un campo que va a crecer |
+| `Q-8` | ¿Cualquier repositorio alcanzable, o lista declarada? | Construir ejecuta código en el servidor que administra el motor |
+| `Q-10` | ¿El panel **genera** el fragmento de workflow? | Es lo que vuelve usable la capacidad para quien no conoce GitHub Actions |
+| `Q-11` | ¿Se muestra cuándo y desde dónde se disparó el último despliegue externo? | `RN-17` ya lo registra; falta que el panel lo exhiba |
+| `Q-12` | ¿El Dockerfile se acota al directorio de trabajo? | Cruzado con el acceso al socket, es la mayor superficie de riesgo |
+| `Q-13` | ¿Se registra la fecha de modificación del Dockerfile usado? | Es el equivalente del commit en esta vía |
+| `Q-15` | ¿El despliegue registra el **digesto** de la imagen? | **Es la pieza que habilita todo el resto**, y además responde `Q-6` |
+| `Q-16` | ¿Las imágenes construidas llevan etiquetas de pertenencia? | Distinguir lo propio de lo ajeno en un almacén compartido |
+| `Q-17` | ¿La limpieza es manual, sugerida o programada? | Llenar el disco es el modo de falla más probable del servidor de referencia |
+| `Q-18` | ¿Ámbito propio para la limpieza? | Un workflow que despliega no debe poder borrar |
+| `Q-19` | ¿Existe volver a un despliegue anterior? | Retenemos 50 despliegues y no podemos volver a ninguno |
+| `Q-20` | Al volver, ¿la política pasa a fijada sola o se pregunta? | Sin eso el usuario cree que volvió y el próximo redespliegue lo lleva adelante |
+| `Q-21` | ¿La imagen fijada queda protegida de la limpieza? | Sin eso la limpieza borra la versión a la que se quería poder volver |
+| `Q-27` | ¿Hay alguna forma de **explorar un registro**, o conocer la dirección de la imagen es requisito del usuario? | **Es el primer minuto de uso.** Sin catálogo de fábrica y sin exploración, quien no sabe la dirección no tiene camino. Las dos respuestas son legítimas; dejarlo sin declarar no |
+| `Q-28` | ¿El **origen es editable** después del alta? | `CU-03` `FA-01` lo excluye sin decirlo, al reentrar en el paso 5. Corregir una etiqueta mal escrita no tiene camino |
+
+### 23.4 Las que bloquean la reconstrucción de la maqueta
+
+De las veintiocho, **cuatro** condicionan la forma de una pantalla y por lo tanto hay que cerrarlas antes de rehacer la maqueta. El resto condiciona datos o reglas, y puede resolverse después.
+
+| # | Qué pantalla condiciona |
+|---|---|
+| `Q-1` | El alta entera: si no hay taxonomía de vías, `SUP-17` no cambia |
+| `Q-2` | Si pública y privada no se separan, no hay paso de credenciales |
+| `Q-3` | Si no existe el nodo borrador, el lienzo no admite un servicio sin origen |
+| `Q-27` | Si hay exploración de registro, es una pantalla nueva; si no, es una línea de ayuda |
 
 ---
 
@@ -1966,6 +2475,9 @@ Cuatro situaciones encadenadas sobre el mismo servidor, para ver cómo las pieza
 
 | Versión | Fecha | Cambios | Autor |
 | --- | --- | --- | --- |
+| 2.0 | 2026-07-29 | **El documento pasa a estar estructurado para montarse bajo un prompt en otra sesión**, a pedido del agente humano del proyecto, y en el camino aparecieron dos pasajes que las decisiones de hoy dejaron muertos y que una sesión nueva habría tomado por vigentes. Se agrega **§0**, que declara las **dos partes con estatuto distinto** —normativa §16 a §23, derivación §1 a §15— con la **regla de precedencia** de que la derivación nunca contradice a la normativa, la enumeración de los **seis pasajes superados**, el orden de lectura y qué no hace el documento. **Reconciliación:** `P-2` queda **parcialmente retirado** —su premisa, que perdimos el nivel curado, cayó con la decisión de que no hay contenido de fábrica— pero **sobrevive su hallazgo final**, que no existe capacidad de explorar imágenes de un registro, y que la decisión de hoy **agrava** en lugar de aliviar: es `Q-27`, y es el primer minuto de uso del producto. La fila `Q-4` de §7.6, que respondía «sí, sembrado desde el parque de referencia», queda **retirada**. Se agrega **§19**, la configuración de un servicio existente, que `CU-03` ya cubre y cuya reentrada por `FA-01` **arranca en el paso 5 y saltea el 4**, de modo que **el origen no es editable y nadie lo declaró**: es `Q-28`. §19.2 clasifica los cambios por consecuencia y no por campo, porque de eso depende qué debe advertir la interfaz, y aparece que el cajón de cambios pendientes **no distingue el cambio que recrea el contenedor del que no**. Se agrega **§20**, el modelo del catálogo con valores, que §18 había definido sin emitir: el ítem con las tres decisiones aplicadas, el servicio instanciado con el **vínculo débil** de `H-3` como copia y no como clave foránea, el informe de instanciación con el sufijo de `RN-36` marcado `bloquea: false`, y la exportación con el contador de material sensible más el informe de la colisión de `Q-26`, con el argumento de por qué importar como copia es la única de las tres resoluciones que no destruye información. Se agrega **§21**, los datos de la maqueta: qué superficie toca cada conclusión, de qué bloque sale cada juego de datos, las **cuatro cosas que la maqueta debe poder demostrar**, y la advertencia de que **la maqueta se rehace desde la especificación corregida y no desde este documento**, porque saltearlo produce una maqueta que no traza. Se agrega **§22**, qué tocar en la especificación, consolidado por artefacto —intake, casos de uso, reglas, modelo conceptual y experiencia—. Y **§23**, las veintiocho decisiones en un solo lugar, separadas en cerradas, con propuesta escrita y abiertas, más las **cuatro que bloquean la reconstrucción de la maqueta** por condicionar la forma de una pantalla. | Orquestador SDD |
+| 1.17 | 2026-07-29 | **Se cierran `Q-4a` y `Q-4b`, y las dos se cierran contra lo ya escrito.** El agente humano del proyecto decidió que **no hay ítems de fábrica**: el usuario define sus propias plantillas. Al verificarlo apareció que `CU-17` `FA-01` **ya lo declaraba textualmente** —«el producto no se distribuye con contenido precargado»—, de modo que la decisión confirma la especificación en lugar de cambiarla, y **se retira la propuesta de dos niveles con procedencia y bifurcación** de la versión 1.16: resolvía un problema que la especificación ya había decidido que no existe, al precio de un campo, una regla y una política. Hay un solo nivel, el del usuario. Sobre versionar plantillas, también estaba resuelto: `CU-17` §10 distingue **versión de contenido** —que `FA-03` incrementa al editar un ítem publicado, y que es lo que el servicio instanciado copia como origen por `H-3`— de **versión de formato**, que sostiene la conversión determinista al importar; se agrega la tabla que las separa, porque confundirlas es el error probable. Se declara además, con las palabras del agente humano, **qué es una plantilla**: el alta de un servicio sin la cola de despliegue, con la consecuencia de interfaz de que el editor de plantillas **es el formulario de alta menos T-8 a T-10** y no una superficie nueva. Y se declara por qué el catálogo vacío **no reabre `P-2`**: `A-1` declara el vacío y deriva a las otras vías. **Hueco real nuevo, `Q-26`:** con el producto sin contenido precargado el catálogo se puebla por dos caminos, guardar como plantilla e importar, y **nadie declaró qué pasa al importar un ítem cuyo identificador ya existe** — `FA-02` cubre el formato anterior, `FA-03` la edición propia, y las excepciones el formato no admitido y la conversión con pérdida; la colisión no está en ninguno. §18.3 se retitula porque `H-1` no era un hueco. | Orquestador SDD |
+| 1.16 | 2026-07-29 | **Se rehace §18.3 con tres correcciones, dos de ellas a afirmaciones propias de la versión anterior.** `H-1`: era **falso** que el `Database` de Railway sea un nivel curado de servicios sin contenedor. La fuente transcribe la definición oficial —*«under the hood, services are containers deployed from an image»*— y su §6.1 muestra `Database` → Postgres produciendo un nodo que se referencia con `${{ Postgres.DATABASE_URL }}`, con «Service, variables, volumen, dominios» sobreviviendo: es un **atajo curado a un contenedor**. Se declara además el límite: la fuente **nunca disecciona** qué hace `Database` por debajo. Y se agrega que para esta solución no es una elección sino la invariante `RN-30`, un servicio es exactamente un contenedor. `Q-4` se parte: la **distribución ya está resuelta** por el exportar e importar de `CU-17`, y lo único abierto es la **semilla**, con propuesta de dos niveles —producto y usuario— con procedencia declarada y bifurcación al editar. `H-2`: se acota al alcance exacto que el audit le dio a `B-09`, retirando el contraste de dos situaciones que era retórica sobre algo ya dicho en una línea; se declara que **una plantilla escrita como plantilla no puede llevar secretos**, porque en `E-6` todo secreto es hueco o referencia, y se corrige la propuesta para usar el **`generar: true`** que `E-6` ya trae en lugar de sólo descartar el valor. Se agrega un caso no visto: **`porDefecto` sobre un parámetro de tipo `secreto`** es un literal que vive en la definición y se exporta. `H-3`: **cerrado por el agente humano del proyecto** — no pasa nada, el servicio instanciado tiene su propio ciclo de vida y el vínculo es **débil y sólo en calidad de origen**; se escriben las cinco consecuencias de esa debilidad, entre ellas que se guarda una **copia** y no una clave foránea, que borrar la plantilla es inocuo, y que **no se notifica** una versión más nueva porque el aviso instalaría la expectativa del botón de actualizar. §18.7 pasa de lista de preguntas a **estado de decisiones**. | Orquestador SDD |
 | 1.15 | 2026-07-29 | **Se agrega §18, el catálogo.** Resultó **la vía mejor especificada de las siete**, y la confusión que el agente humano del proyecto identificó —tomar un servicio del catálogo frente a dar de alta una plantilla en él— **ya estaba resuelta en el modelo**: son `CU-16` y `CU-17`, dos casos de uso distintos, y el segundo ya prevé «guardar como plantilla un subgrafo ya resuelto». E-6 declara además el ítem con `parametros[]` que llevan `etiqueta`, `tipo`, `requerido` y **`porDefecto`**, o sea los valores por defecto que se venían pensando. Se declaran los **tres huecos reales**: arranca vacío (`Q-4`); los secretos en un catálogo exportable (`B-09`), con la precisión de que el problema **no** es el parámetro de tipo secreto sino **guardar como plantilla un subgrafo resuelto**, cuyo valor real quedaría adentro, y su solución es convertir toda variable secreta en parámetro descartando el valor, que es lo que vuelve compartible la plantilla; y que **nadie declaró qué pasa si la plantilla cambia después de instanciar** —cero menciones—, con la propuesta de **desvinculación**, porque la alternativa convierte el catálogo en gestor de configuración. §18.4 y §18.5 dan los dos flujos, distinguiendo que instanciar produce servicios que corren y mantener produce definiciones en reposo. §18.6 encadena **cuatro situaciones concretas** sobre el mismo servidor —catálogo vacío y guardar como plantilla, reuso en otro proyecto, ítem multi-servicio con sufijo automático por `RN-36`, y adopción de un contenedor manual—, y la cuarta destapa que **el descubrimiento no trae los puertos publicados**, de modo que un contenedor adoptado los pierde en la traducción de `CU-08`. Se abren `Q-22` a `Q-25`. | Orquestador SDD |
 | 1.14 | 2026-07-29 | **Se agregan §16, la unificación, y §17, los modelos de datos con casos concretos**, a pedido del agente humano del proyecto. La auditoría previa confirmó que **las siete vías no estaban cubiertas**: faltaba el flujo de adopción, catálogo e imagen privada; el de Dockerfile estaba desactualizado por el contenido en línea; y el de repositorio estaba **escrito dos veces**, en §11.4 y §11.7. §16 lo resuelve unificando en lugar de agregar tres tablas casi repetidas: declara un **tronco común de diez pasos** que todas comparten y el **delta de cada vía**, que sólo cambia en dos —cómo se resuelve el origen y qué verifica su verificación—. §16.2 hace visibles tres cosas que las secciones sueltas ocultaban: la adopción y el catálogo **no tienen origen propio** sino que producen uno; imagen pública y privada difieren en dos campos y no en su naturaleza; y el servicio vacío **no es una vía sino el tronco detenido en T-2**. §16.3 reúne siete criterios transversales `U-1` a `U-7` y §16.4 la forma del modelo que se sigue. Se marcan §11.4 como superada y §13.6 como desactualizada, conservándolas por su fundamento. §17 emite el modelo del servicio con sus **cinco variantes discriminadas de origen**, los **siete casos concretos** uno por vía, la **imagen como objeto con identidad** con los tres campos que habilitan `Q-6`, `Q-15` y `Q-21`, el despliegue con la imagen que usó, y los **informes de verificación** con los dos fallos que `U-4` obliga a distinguir. §17.8 declara qué tomar para la maqueta y qué regla prueba cada caso, y qué deliberadamente no cubren. | Orquestador SDD |
 | 1.13 | 2026-07-29 | **Se agrega §15 con dos propuestas del agente humano del proyecto.** La primera reformula `Q-14`: el Dockerfile se declara **en línea, como contenido**, en lugar de por ruta del servidor, y eso **elimina los cuatro problemas propios de la vía por ruta** —resolución de la ruta por el demonio, apuntar a cualquier directorio sin regla que lo acote, insumo que el producto no puede obtener ni verificar, y ausencia de señal de cambio—. Se declara la restricción técnica que acota su alcance: **sin contexto de construcción un Dockerfile no puede copiar archivos locales**, de modo que sirve para el patrón «tomar una imagen pública y ajustarla», que es justamente el único caso irreemplazable de esta vía, y la interfaz debe declararlo en lugar de dejarlo como sorpresa. La segunda descubre un hueco grande: **Railway tiene `Rollback` como operación de primera clase** —*«Rollback to previous deployments if mistakes were made»*, sobre un deployment anterior, distinta de `Redeploy` que actúa sobre el actual— y **nuestro modelo no lo tiene**: cero ocurrencias, y el `FA-01` de `CU-13` sólo redespliega la configuración actual. El hueco es más notorio porque `DA-07` retiene 50 despliegues que alimentan la línea de tiempo del panel: el usuario **los ve y no puede volver a ninguno**. §15.3 registra que **las dos propuestas y dos huecos previos se cierran con un solo dato**, el digesto por despliegue de `Q-15`, que habilita saber qué corre, decidir qué se descarta y volver a una versión anterior. Se abren `Q-19` a `Q-21`, incluida la que evita el error de creer que se volvió atrás cuando la política flotante lleva adelante en el próximo despliegue. | Orquestador SDD |

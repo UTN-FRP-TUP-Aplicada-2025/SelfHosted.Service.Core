@@ -1,10 +1,11 @@
 # Wireframes — Acceso al panel
 
-**Proyecto:** SelfHosted Service
+**Proyecto de código:** SelfHosted-Service
+**Producto:** SelfHosted Service
 **Documento:** Wireframes-Acceso-Al-Panel.md
-**Versión:** 1.0
+**Versión:** 2.0
 **Estado:** Propuesto
-**Fecha:** 2026-07-29
+**Fecha:** 2026-07-30
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -129,7 +130,7 @@ El flujo del aprovisionamiento inicial declara que el sistema **inicia la sesió
 
 ### 5.2 Brecha `B-UX-11`, política de sesión
 
-`Design-Rules-Acceso-Monousuario.md` §6 exige que este artefacto declare tres cosas: **la duración única de la sesión, su condición de vencimiento y el efecto de cada acto de identidad sobre la sesión en curso**. Ninguna fuente de esta solución declara ninguna de las tres. El intake declara que la sesión se emite con credencial de tipo cookie con sus atributos, y que la capacidad F-01 incluye «sesión recordada», sin decir cuánto dura ni cuándo vence.
+`Design-Rules-Acceso-Monousuario.md` §6 exige que este artefacto declare tres cosas: **la duración única de la sesión, su condición de vencimiento y el efecto de cada acto de identidad sobre la sesión en curso**. Ninguna fuente de este producto declara ninguna de las tres. El intake declara que la sesión se emite con credencial de tipo cookie con sus atributos, y que la capacidad F-01 incluye «sesión recordada», sin decir cuánto dura ni cuándo vence.
 
 En consecuencia: el estado `SESION-VENCIDA` se declara con su representación y su comportamiento, y **no se declara la condición numérica que lo dispara**. Destinatario: agente humano del proyecto y `05-Arquitectura-Tecnica`.
 
@@ -165,7 +166,7 @@ Lo que rige por accesibilidad: reflujo conforme al criterio 1.4.10 a 320 píxele
 
 | Dimensión | Referencia |
 | --- | --- |
-| Persona objetivo | Administrador único de la solución: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
+| Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-30](../../02-Especificacion-Funcional/Casos-De-Uso/CU-30-Inicio-Y-Cierre-De-Sesion.md) Inicio y cierre de sesión |
 | Reglas de negocio relevantes | RN-17 |
 | Insumo del intake | §6 flujo 4; §4 capacidad F-01; §17.P.5; §17.P.11 decisión DA-01; §9 exclusiones 5 y 7; anexo E-18 mapa de navegación |
@@ -184,5 +185,6 @@ Lo que rige por accesibilidad: reflujo conforme al criterio 1.4.10 a 320 píxele
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.0 | 2026-07-30 | **Migración normativa 4.1 → 6.0**, corte 4 de la fase M4, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md). Clasificación **regenerar contenido**, por el salto de `Rules-UX-UI-DX` 2.0 → 4.0. **Fuente de contenido: documento de origen**, más el [`PRODUCT-MANIFEST`](../../../Intake/PRODUCT-MANIFEST-SelfHosted-Service.md) §2 para el único campo de cabecera que se suma. Ninguna superficie, componente, interacción, estado, brecha ni referencia cambia de contenido: lo que cambia es la nomenclatura. Las nueve secciones obligatorias de `Rules-UX-UI-DX` 4.0 §4.2.1 ya estaban presentes y ninguna se agregó ni se reordenó. **Cabecera**: `**Proyecto:**` llevaba un valor del plano de negocio y pasa a `**Producto:**`, porque `Vocabulario-Rules.md` §3 prohíbe la etiqueta de un plano sobre el valor de otro; se suma `**Proyecto de código:** SelfHosted-Service`, que §4.1 de la regla vigente exige y que este documento no declaraba, con el valor **leído del manifiesto y no inferido**. `Nombre-Proyecto-Codigo` y `Nombre-Producto` difieren sólo por el guion y no son intercambiables: los dos campos conviven, el primero por §4.1 y el segundo porque `Migracion-Rules.md` §4.2 prohíbe perder el valor del origen. **Vocabulario (`[5.0]`)**: «solución» pasa a «producto» en **2 ocurrencias** del referente de nivel superior —«Administrador único de la solución» en §8 y «ninguna fuente de esta solución» en §5.2—, las dos con la concordancia de género corregida de «la» a «el». Este documento **no tiene ninguna ocurrencia de «resolución»**, de modo que la superposición de cadenas que produjo las «reproducto» del framework no se presenta acá, y se deja constancia del barrido. De las 3 ocurrencias de «proyecto», 1 era la etiqueta de cabecera y **2 no se tocaron**: «el listado de proyectos SelfHosted» de §5.1, que designa la entidad del dominio, y «agente humano del proyecto» de §5.2, que designa el emprendimiento. **Ninguna ocurrencia se promovió a «proyecto de código».** La sustitución se hizo por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y **nunca por reemplazo global de cadena**. El bloque ASCII de §2 no contiene ninguna palabra a migrar y **conserva su ancho intacto**. Los nombres canónicos de superficie —`SUP-02` y `Acceso al panel`— se conservan textualmente, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **Glosario (`[5.1]`)**: `Glosario-UX.md` pasa de recomendado a obligatorio para los ocho tipos D8 y §6 verifica ahora su existencia y su completitud además de la no duplicación; lo emite un lote posterior de esta migración, y los términos que este wireframe acuña o precisa se devolvieron para que ese lote los consuma sin redefinir los que ya están en `Glosario-Funcional.md` de 02 o en el glosario raíz de `Vision-Producto.md` §9. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) y el bloque de procedencia del destino no se tocó: sigue declarando 4.1, y cerrarlo es trabajo de M5 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica la superficie de acceso sobre el shell partido, con la composición compartida con el aprovisionamiento inicial; declara las cinco ausencias del perfil de operador único como decisión de diseño; declara trece estados, incluidos los tres del sello de versión y los tres de continuidad entre superficies de identidad; declara el rechazo indiferenciado y la prohibición de exponer parámetros de la política; declara la brecha `B-UX-11` de política de sesión, que deja sin condición de disparo declarada al estado de sesión vencida |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |
