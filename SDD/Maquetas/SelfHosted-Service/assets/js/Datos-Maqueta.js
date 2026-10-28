@@ -5,7 +5,7 @@
    descriptores de configuración. Ningún HTML de esta maqueta hardcodea datos:
    los renderiza `Maqueta.js` desde acá (Maqueta-Rules.md §4.2).
 
-   Procedencia de cada conjunto (anexos del SOLUTION-INTAKE):
+   Procedencia de cada conjunto (anexos del PRODUCT-INTAKE):
      E-1  proyecto con layout de lienzo, variables compartidas y aristas
      E-2  servicio con sus tres variantes de origen + variante macvlan
      E-3  despliegue con línea de tiempo y métricas, y despliegue fallido
@@ -33,13 +33,15 @@
   var MAQUETA = {
     proyecto: 'SelfHosted Service',
     proyectoCodigo: 'SelfHosted-Service',
-    /* Versiones verificadas en disco el 2026-07-30 contra
+    /* Versiones verificadas en disco de nuevo el 2026-08-02 contra
        `Devs/References/Design/`, no transcriptas de la iteración anterior:
-       la pasada A había dejado tres de las cinco desactualizadas y el sello
-       de versión no puede declarar una capa que no es la que se aplicó. */
+       las siete capas siguen en la misma versión que el 2026-07-30, y el
+       sello no puede declarar una capa que no es la que se aplicó.
+       `Devs/Modelos-UX-UI/` sigue con su índice y su plantilla y ningún
+       modelo registrado: no hay modelo que aplicar por encima del catálogo. */
     modeloUxUi: 'Catálogo base · Design-Rules-Web-Generico 1.3 + Blazor-Mudblazor 1.3 + Config-Esquema 1.2 + Primer-Arranque 1.1 + Acceso-Monousuario 1.1 + Identidad-De-Version 1.1 (Index-Design-Rules 1.4)',
     modeloUxUiCorto: 'Catálogo base (sin modelo de Modelos-UX-UI/)',
-    fechaIteracion: '2026-07-30',
+    fechaIteracion: '2026-08-02',
     reglaMaqueta: 'Maqueta-Rules.md 3.1',
     rotuloBarra: 'Barra de validación de maqueta — no forma parte del producto',
     navegadorSoportado: 'Chrome de escritorio estable ≥ 150.0.7871.186 · Windows Server 2022 21H2 · red local · familia única, sin versión móvil'
@@ -682,7 +684,39 @@
       { clave: 'ClaveMaestra', valor: 'valor-no-detectado-por-la-heuristica', sugeridaSecreta: false, motivoSugerencia: null, marcadaSecreta: false },
       { clave: 'ADMIN_TOKEN', valor: 'valor-detectado-por-la-heuristica', sugeridaSecreta: true, motivoSugerencia: 'heuristica:TOKEN', marcadaSecreta: true }
     ],
-    advertenciaCorte: 'El contenedor no se recrea al incorporarlo. El primer redespliegue posterior sí implica corte del servicio.'
+    advertenciaCorte: 'El contenedor no se recrea al incorporarlo. El primer redespliegue posterior sí implica corte del servicio.',
+    /* SUP-10 §3.4, 2026-08-01 · adoptar deja de ser una vía del alta y pasa a
+       ser una ACCIÓN DE ESTE LISTADO, alcanzable desde la navegación del
+       proyecto SelfHosted. El motivo es que adoptar no es declarar un
+       servicio desde cero, que es lo que un formulario hace, sino elegir un
+       elemento de una lista y aceptar la configuración que ya tiene.
+       El flujo de cuatro pasos, el paso obligatorio de clasificación y la
+       advertencia de corte NO CAMBIAN. */
+    puntoDeEntrada: {
+      donde: 'Navegación del proyecto SelfHosted',
+      yaNo: 'El menú de vías del alta de servicio, que ya no existe',
+      cambia: [
+        'El punto de entrada: se llega por la navegación del proyecto SelfHosted y no desde el menú del alta.',
+        'La acción de la fila produce un servicio, y la superficie lo dice: es el desenlace del flujo y no un paso previo a otro formulario.',
+        'La superficie deja de ser un destino intermedio del alta y pasa a ser el destino completo de esta operación.'
+      ],
+      noCambia: [
+        'Los cuatro pasos del flujo: descubrir, elegir, clasificar y confirmar.',
+        'El paso obligatorio de clasificación de variables, que sigue sin poder saltearse ni descartarse.',
+        'La advertencia de corte en sus dos apariciones, y las salvaguardas de aislamiento.'
+      ],
+      origenSigueDeducido: 'El origen del servicio adoptado sigue siendo el que la traducción de la configuración observada deduzca, y sigue sin elegirse. La unificación del alta no lo toca: la adopción nunca tuvo origen propio, produce uno.',
+      notaDeMitigacion: 'El alta unificada pierde la tarjeta que le contaba al administrador que se puede adoptar lo que ya corre. Esta superficie no la compensa por sí sola: la compensa su presencia al mismo nivel en la navegación del proyecto.'
+    },
+    /* El acuse tiene que declarar QUÉ SERVICIO QUEDÓ CREADO Y EN QUÉ
+       PROYECTO: no hay un formulario posterior donde el administrador vaya a
+       verlo. */
+    acuse: {
+      servicioCreado: 'bot-mensajeria',
+      proyecto: 'Portal Interno',
+      texto: 'Se creó el servicio «bot-mensajeria» en el proyecto SelfHosted «Portal Interno». El nodo aparece en el lienzo ya activo, sin corte del servicio que ya corría.',
+      porQue: 'El acuse declara qué servicio quedó creado y en qué proyecto SelfHosted: es el desenlace del flujo y no hay formulario posterior donde verlo.'
+    }
   };
 
   /* 5.10 Rango de direcciones gestionado y reservas — E-8 */
@@ -830,6 +864,68 @@
 
   var CATALOGO = {
     tiposParametro: TIPOS_PARAMETRO,
+
+    /* SUP-11 §3.2 rehecha, 2026-08-01 · usar el catálogo deja de ser una vía
+       del alta y pasa a ser ACCIÓN DE ESTE LISTADO. El catálogo sigue sin ser
+       un origen: un ítem es una plantilla parametrizada que, al instanciarse,
+       resuelve a una de las SEIS variantes de origen. Lo que cambia es dónde
+       vive la operación. */
+    puntoDeEntrada: {
+      donde: 'Navegación del producto',
+      yaNo: 'El menú de vías del alta de servicio, que ya no existe',
+      cambia: [
+        'El punto de entrada: se llega por la navegación del producto y no desde el menú del alta. Esta superficie deja de ser «la otra puerta» y pasa a ser la única.',
+        'La acción de la tarjeta produce uno o varios servicios, y es el desenlace de la operación y no un paso previo a otro formulario.',
+        'El editor de plantilla reusa el formulario unificado del alta, no el menú de vías que ya no existe.'
+      ],
+      noCambia: [
+        'Que instanciar produce servicios que corren y mantener produce definiciones que no corren, y que las dos operaciones no comparten fila de acciones.',
+        'La declaración de lo que se va a crear antes de confirmar, y la desvinculación de la instancia respecto de la plantilla.',
+        'Que el editor sea el alta menos la cola de despliegue, cuyo argumento no depende de la forma del alta.'
+      ]
+    },
+    /* El acuse declara QUÉ SERVICIOS quedaron creados y EN QUÉ PROYECTO. */
+    acuseInstanciacion: {
+      serviciosCreados: ['portal-api', 'portal-db-2'],
+      enlaces: 1,
+      proyecto: 'Portal Interno',
+      texto: 'Se crearon los servicios «portal-api» y «portal-db-2» y 1 enlace en el proyecto SelfHosted «Portal Interno». Quedaron en estado pendiente de aplicar.',
+      porQue: 'No hay un formulario posterior donde el administrador vaya a verlo: el acuse es el desenlace de la operación.'
+    },
+    /* El editor de plantilla HEREDA el campo de origen del alta unificada.
+       Tres valores visibles, con la variante pública o privada DERIVADA de la
+       credencial: la distinción público/privado no es un valor del campo. */
+    editorDePlantilla: {
+      hereda: 'El campo de origen de tres valores del formulario unificado del alta, con la variante pública o privada derivada de la credencial. No hay menú de vías que reintroducir.',
+      valoresVisibles: 3,
+      variantesDelModelo: 6,
+      porQueTresYNoSeis: 'Seis son las VARIANTES del modelo; tres son los VALORES del campo. La distinción público/privado no es un valor del campo: se deriva de si se declaró credencial, y por lo tanto no se ofrece como opción.',
+      seQuita: [
+        ['La validación de la configuración contra el motor de contenedores', 'No hay nada que validar contra el motor: la plantilla no ocupa dirección ni puerto, y validar contra el estado actual de un servidor concreto haría la plantilla dependiente de ese servidor.'],
+        ['La acción de aplicar', 'Una definición en reposo no se aplica.'],
+        ['El despliegue y todo lo que lo acompaña', 'Línea de tiempo, estado del contenedor y registros. Nada del catálogo corre.']
+      ],
+      seAgrega: 'El declarador de parámetros, que convierte los valores variables del formulario en huecos, y una validación propia: que todo hueco tenga su parámetro declarado y que ningún parámetro quede sin uso.',
+      seConserva: 'La verificación del origen se conserva: verificar que la imagen que la plantilla declara existe es útil al escribirla, no depende de ningún servidor concreto, y evita publicar una plantilla que va a fallar en su primer uso.'
+    },
+    /* El acceso directo del estado vacío CAMBIA DE DESTINO Y NO DE FORMA. */
+    accesoDirectoVacio: {
+      destino: 'Alta-De-Servicio.html',
+      destinoAnterior: 'El menú de vías del alta de servicio, que ya no existe',
+      abreEn: 'El paso del nombre, con el campo de origen sin resolver',
+      noLleva: 'No lleva directamente a la exploración de registro: saltear el paso del nombre desde acá produciría dos recorridos distintos hacia la misma pantalla.',
+      /* Pasa a nombrar DOS entradas y no seis. */
+      entradas: [
+        { etiqueta: 'Dar de alta un servicio', archivo: 'Alta-De-Servicio.html' },
+        { etiqueta: 'Incorporar un contenedor que ya corre', archivo: 'Descubrimiento-E-Incorporacion.html' }
+      ],
+      porQueDosYNoSeis: 'La cifra cambia porque las seis vías dejaron de existir como tales, no porque se retire ninguna capacidad.',
+      /* La celda del estado «Vacío» de la §5 del wireframe sigue diciendo
+         «acceso directo a las otras seis vías de alta»: la versión 2.2
+         actualizó §3.8 y no esa celda. Manda §3.8, y la discrepancia se
+         devuelve como hallazgo. */
+      discrepanciaDeclarada: 'La fila «Vacío» de la §5 del wireframe conserva «acceso directo a las otras seis vías de alta», que su propia §3.8 corrige a «otras dos formas de tener un servicio». La maqueta sigue §3.8 y devuelve la discrepancia.'
+    },
 
     /* Informe de guardar como plantilla — E-6 §20.6.2, campo `informeDeGuardado`.
        Las cuatro cosas que SUP-11 §3.7 exige mostrar para que sea confiable. */
@@ -1000,7 +1096,49 @@
       noRepresentables: [
         { elemento: 'stop_grace_period: 2m', motivo: 'El modelo no representa el período de gracia de detención' },
         { elemento: 'command: --cpu', motivo: 'El modelo no representa la sobreescritura del comando de arranque' }
-      ]
+      ],
+      /* TERCERA LISTA — SUP-15 §3.3, 2026-08-01. Es DISTINTA de la de
+         elementos no representables, y la distinción no es cosmética: un
+         servicio de origen local SÍ SE PUDO REPRESENTAR —se creó, con su
+         configuración completa—. Lo que no está es su imagen. Mezclarlo con
+         lo no representable haría que el informe afirmara una pérdida de
+         traducción que no ocurrió.
+         El rótulo de la lista es DECISIÓN DE MAQUETA: el §2 del wireframe no
+         se actualizó con la versión 2.1 y su arte ASCII sólo declara los
+         encabezados de las dos listas anteriores. Se devuelve como hallazgo. */
+      noVanALevantar: {
+        rotulo: 'No van a poder levantar en este destino',
+        rotuloEsDecisionDeMaqueta: 'El wireframe declara el contenido de esta tercera lista —qué servicios no van a poder levantar acá y por qué, uno por uno con su nombre— y no su encabezado: su §2 no se actualizó con la versión 2.1. Esta cadena es decisión de la maqueta y no transcripción de la fuente.',
+        porQueEsOtraLista: 'Es una tercera lista y no la de elementos no representables. Un servicio de origen de almacén local sí se pudo representar: se creó, con su configuración completa. Lo que no está es su imagen. Mezclarlo con lo no representable haría que el informe afirmara una pérdida de traducción que no ocurrió.',
+        porQueNoAlcanzaLaAdvertenciaPrevia: 'El que importa puede no ser el que exportó. La advertencia previa a la exportación no lo alcanza, y descubrirlo al arrancar sería exactamente la pérdida silenciosa que la superficie declara inaceptable.',
+        /* A diferencia de las dos primeras, esta lista NO está siempre
+           presente: existe sólo cuando el archivo trae servicios cuya imagen
+           no está en este servidor. */
+        soloCuandoCorresponde: 'Las dos listas anteriores están siempre presentes, incluso vacías. Esta tercera existe sólo cuando el archivo trae servicios cuya imagen no está en este servidor.',
+        servicios: [
+          { servicio: 'ia-video', motivo: 'Su imagen `registro-privado/video:0.3` vive sólo en el almacén local del servidor de origen y no está en este servidor.' }
+        ]
+      }
+    },
+    /* ADVERTENCIA PREVIA AL MODO EXPORTACIÓN — SUP-15 §3.3, 2026-08-01.
+       Va JUNTO A LA SELECCIÓN DE ARTEFACTOS, antes de exportar, porque es el
+       único momento en el que el administrador todavía puede hacer algo.
+       Advertir después es informar, no advertir. */
+    advertenciaNoReproducible: {
+      /* Las tres piezas obligatorias del enunciado. */
+      encabezado: 'Este proyecto tiene servicios no reproducibles',
+      servicios: ['ia-video'],
+      consecuencia: 'En el destino no van a poder levantar, porque su imagen vive sólo en el almacén local de este servidor y no viaja con la exportación.',
+      caminoDePago: 'Publicar la imagen en un registro y pasar el servicio a un origen de registro retira la marca.',
+      /* Las cuatro reglas de composición, para que la maqueta las declare y
+         el agente humano pueda verificarlas. */
+      reglas: [
+        ['No bloquea la exportación', 'El intake declara que la deuda se acepta a cambio de costo: el administrador puede exportar igual, sabiendo qué se lleva. Bloquear convertiría una propiedad declarada en un error.'],
+        ['Enumera los servicios, no un contador', '«Dos servicios no reproducibles» no le dice al administrador cuáles ni si le importan. La advertencia lista sus nombres.'],
+        ['Enuncia el camino de pago', 'Publicar la imagen en un registro y pasar el servicio a un origen de registro retira la marca. Enunciar la deuda sin su salida la vuelve un reproche.'],
+        ['No usa el lenguaje visual de error', 'Es una propiedad declarada de lo que el proyecto contiene, no un fallo de la operación. Se exhibe como región de estado, con el mismo criterio con el que se exhibe el aviso de que se exporta la configuración aplicada y no la del borrador.']
+      ],
+      porQueAntes: 'Es el único momento en el que el administrador todavía puede hacer algo: publicar la imagen en un registro y pasar el servicio a un origen de registro antes de exportar. Advertir después es informar, no advertir. Un archivo ya generado que declara al pie que dos de sus servicios no van a levantar en el destino no le da al administrador ninguna decisión que tomar.'
     },
     causaReferenciaNoResoluble: "La expresión ${{ db.SELFHOSTED_HOST }} de api · ConnectionStrings__Default no resuelve: el servicio 'db' no existe en este proyecto."
   };
@@ -1139,88 +1277,139 @@
              que es auditoría y no configuración (E-2 §20.2.3 punto 5).
      ───────────────────────────────────────────────────────────────────── */
 
-  /* Las siete vías. El orden es el del wireframe §3.1: la adopción primera,
-     porque es la que resuelve el primer uso sobre un servidor en producción
-     y la que no exige saber ninguna dirección de imagen. El servicio sin
-     origen va SEPARADO de los seis: no es una alternativa equivalente. */
-  var VIAS_ALTA = [
-    {
-      id: 'adopcion', etiqueta: 'Adoptar un contenedor existente',
-      resuelve: 'Ya tengo el contenedor corriendo y quiero administrarlo desde acá',
-      origenResultante: 'El que la traducción de la configuración observada deduzca',
-      icono: 'search', separada: false, origenPropio: false,
-      abre: 'Descubrimiento-E-Incorporacion.html',
-      dejaProcedencia: 'adopcion',
-      queVerifica: 'Que el candidato siga existiendo y no haya sido incorporado por otro proyecto entretanto'
+  /* EL CAMPO DE ORIGEN — SUP-17 §3.1 rehecha, 2026-08-01.
+     La grilla de siete tarjetas se retira: el alta es UNA SOLA ENTRADA y de
+     dónde sale la imagen es un CAMPO de tres valores. El argumento de la
+     grilla —«siete opciones que hay que comparar antes de elegir necesitan
+     verse juntas»— estaba atado al número, y el número cambió.
+     La variante de origen que se persiste SE DERIVA y no se elige: la
+     credencial decide entre pública y privada. `RN-08` no se toca. */
+  var CAMPO_ORIGEN = {
+    rotulo: 'De dónde sale la imagen',
+    nombreAccesible: 'de dónde sale la imagen',
+    /* Tres valores, en el orden del arte ASCII de §2. */
+    valores: [
+      {
+        id: 'registro', etiqueta: 'Imagen de un registro',
+        resuelve: 'La imagen ya está publicada en un registro',
+        varianteResultante: 'imagen-publica o imagen-privada, derivada de si se declaró credencial',
+        origenBase: 'imagen-publica', explora: true, marcaNoReproducible: false,
+        queVerifica: 'Que la imagen y la etiqueta existan; devuelve el digesto. Con credencial declarada, además que la credencial autentique',
+        puedeQuedarIndeterminado: true
+      },
+      {
+        id: 'almacen-local', etiqueta: 'Imagen del almacén local',
+        resuelve: 'La imagen ya está en este servidor',
+        varianteResultante: 'imagen-local · la sexta variante, incorporada el 2026-07-31',
+        origenBase: 'imagen-local', explora: false, marcaNoReproducible: true,
+        queVerifica: 'Que la imagen siga en el almacén; devuelve el digesto, que es su identidad real porque la etiqueta local se puede reasignar',
+        /* El almacén es del propio servidor: la consulta SÍ responde. Una
+           imagen que no está produce FALLIDO y nunca indeterminado, que queda
+           reservado a lo que el producto no puede alcanzar (SUP-17 §3.4). */
+        puedeQuedarIndeterminado: false,
+        motivoSinIndeterminado: 'El almacén local es del propio servidor y la consulta siempre responde: una imagen que no está produce un resultado fallido y no uno indeterminado. El indeterminado queda reservado a lo que el producto no puede alcanzar.'
+      },
+      {
+        id: 'definicion-local', etiqueta: 'Definición local',
+        resuelve: 'Quiero tomar una imagen publicada y ajustarla con un archivo de construcción declarado acá',
+        varianteResultante: 'dockerfile',
+        origenBase: 'dockerfile', explora: false, marcaNoReproducible: false,
+        queVerifica: 'Que el contenido sea interpretable y no lleve instrucciones de copia local',
+        puedeQuedarIndeterminado: false
+      }
+    ],
+    derivacion: 'La variante se deriva y no se elige: el administrador declara una dirección de registro y, si hace falta, una credencial, y el panel deriva pública o privada. La superficie no exhibe la variante derivada como rótulo técnico: lo que muestra es si hay credencial y cuál.',
+    /* La reversión se DECLARA en lugar de borrar el argumento anterior: un
+       argumento retirado sin registro se vuelve a tomar la próxima vez. */
+    reversion: [
+      ['Imagen de registro público · Imagen de registro privado', 'Se funden en un valor del campo. La variante se deriva de si hay credencial'],
+      ['Archivo de construcción en línea', 'Es otro valor, ahora llamado «definición local». F-10 acotada lo conserva'],
+      ['Imagen del almacén local', 'Es un valor nuevo, y también una acción desde la superficie de imágenes'],
+      ['Repositorio remoto', 'Deja de ofrecerse. F-10 le retira esa mitad por redundante con el ejecutor de integración continua'],
+      ['Servicio sin origen', 'Nunca fue una vía: es este mismo formulario guardado en el paso del nombre'],
+      ['Adoptar un contenedor existente · Desde el catálogo', 'Salen del alta. Son listados donde se elige, con superficie propia']
+    ],
+    /* §3.2 · lo que se pierde, declarado, en lugar de presentarse como una
+       mejora sin costo. */
+    perdida: {
+      texto: 'Quien no sabe qué quiere ya no ve las opciones juntas. Una grilla de tarjetas con qué resuelve cada una le contaba al administrador qué le ofrece el producto antes de que tuviera que saber nada; un campo de tres valores no cuenta lo mismo con la misma fuerza.',
+      compensaciones: [
+        'El campo llega con el registro público de referencia ya puesto: el valor de registro no arranca en blanco y el camino frecuente empieza resuelto. Cuál es ese registro y si viene configurado de fábrica es la brecha B-UX-29, abierta.',
+        'El que no sabe la dirección de la imagen no tiene que saberla: explora el registro desde el propio apartado de origen. Es la decisión Q-27, cerrada el 2026-07-30.'
+      ],
+      loQueNoCubre: 'Las dos compensaciones sirven a quien ya sabe que quiere una imagen. Al que no sabe si quiere una imagen, un contenedor que ya corre o una plantilla, el formulario no se lo cuenta: se lo cuentan el lienzo, que conserva las tres entradas al mismo nivel, y el estado vacío del catálogo.'
     },
-    {
-      id: 'catalogo', etiqueta: 'Desde el catálogo',
-      resuelve: 'Ya resolví esto antes y lo guardé como plantilla',
-      origenResultante: 'El que declare la plantilla',
-      icono: 'layers', separada: false, origenPropio: false,
-      abre: 'Catalogo-De-Plantillas.html',
-      dejaProcedencia: 'catalogo',
-      queVerifica: 'Lo que la vía del origen que la plantilla declara verifique'
-    },
-    {
-      id: 'imagen-publica', etiqueta: 'Imagen de registro público',
-      resuelve: 'Sé qué imagen quiero y está publicada',
-      origenResultante: 'Imagen de registro público',
-      icono: 'caja', separada: false, origenPropio: true, explora: true,
-      queVerifica: 'Que la imagen y la etiqueta existan; devuelve el digesto'
-    },
-    {
-      id: 'imagen-privada', etiqueta: 'Imagen de registro privado',
-      resuelve: 'La imagen está en mi registro y necesita credencial',
-      origenResultante: 'Imagen de registro privado',
-      icono: 'lock', separada: false, origenPropio: true, explora: true,
-      queVerifica: 'Lo mismo, más que la credencial autentique'
-    },
-    {
-      id: 'repositorio', etiqueta: 'Repositorio remoto',
-      resuelve: 'Tengo el código en un repositorio y quiero que el panel construya',
-      origenResultante: 'Repositorio remoto',
-      icono: 'grid', separada: false, origenPropio: true,
-      queVerifica: 'Repositorio y rama alcanzables, y que la ruta exista en esa rama; devuelve el último commit'
-    },
-    {
-      id: 'dockerfile', etiqueta: 'Archivo de construcción en línea',
-      resuelve: 'Quiero tomar una imagen publicada y ajustarla',
-      origenResultante: 'Archivo de construcción en línea',
-      icono: 'list', separada: false, origenPropio: true,
-      queVerifica: 'Que el contenido sea interpretable y no lleve instrucciones de copia local'
-    },
-    {
-      id: 'ninguno', etiqueta: 'Servicio sin origen',
-      resuelve: 'Quiero el nodo en el lienzo y resolver el origen después',
-      origenResultante: 'Sin origen',
-      icono: 'reloj', separada: true, origenPropio: true,
-      queVerifica: 'No aplica: la acción de verificar no está'
-    }
-  ];
+    /* Las dos operaciones que SALEN del alta y pasan a ser acciones de su
+       propio listado. No son formularios: son listados donde se elige. */
+    fueraDelAlta: [
+      {
+        operacion: 'Adoptar un contenedor existente',
+        donde: 'Descubrimiento e incorporación, como acción de la fila del candidato',
+        archivo: 'Descubrimiento-E-Incorporacion.html',
+        produce: 'Un servicio vinculado al contenedor existente, con el origen que la traducción de la configuración observada deduzca',
+        noCambia: 'Los cuatro pasos del flujo y el paso obligatorio de clasificación de variables'
+      },
+      {
+        operacion: 'Usar un ítem del catálogo',
+        donde: 'Catálogo de plantillas, como acción de la tarjeta del ítem',
+        archivo: 'Catalogo-De-Plantillas.html',
+        produce: 'Uno o varios servicios con sus aristas, con el origen que declare la plantilla',
+        noCambia: 'La declaración de lo que se va a crear antes de confirmar, y la desvinculación de la plantilla'
+      }
+    ],
+    /* El servicio sin origen NO es un cuarto valor: ofrecerlo lo presentaría
+       como alternativa equivalente. La variante `ninguno` la produce el
+       guardado, no una elección. */
+    sinOrigen: 'El servicio sin origen no es un cuarto valor del campo: es este mismo formulario detenido en el paso del nombre. La variante `ninguno` sigue en el modelo y la produce el guardado, no una elección.'
+  };
 
-  /* Punto de entrada a la exploración de registro (SUP-19), sólo en las vías
-     3 y 4. Q-27 cerrada el 2026-07-30. La superficie destino se construye en
-     la pasada B: acá queda el disparador con su destino declarado. */
+  /* Punto de entrada a la exploración de registro (SUP-19), sólo en el valor
+     de registro. Q-27 cerrada el 2026-07-30. */
   var EXPLORACION_REGISTRO = {
     destino: 'Exploracion-De-Registro-De-Imagenes.html',
     superficie: 'SUP-19',
     etiqueta: 'Explorar el registro',
-    disponibleEn: ['imagen-publica', 'imagen-privada'],
+    disponibleEn: ['registro'],
     precisiones: [
-      'Explorar no es una octava vía: no cambia el origen resultante, no agrega una variante y no deja huella en la procedencia.',
+      'Explorar no es un cuarto valor del campo: no cambia la variante resultante, no agrega una variante y no deja huella en la procedencia.',
       'Volver de la exploración no saltea la verificación: el origen queda completo y sin verificar.',
       'La acción convive con los campos y no los reemplaza: el que sabe la dirección la escribe, el que no la sabe explora.'
     ],
-    brecha: 'B-UX-29 · dónde se configura el conjunto de registros explorables y si viene alguno de fábrica no está declarado por ninguna fuente. De eso depende que el primer minuto de uso termine en una lista de imágenes o en un estado vacío que pide configurar un registro. La maqueta deja el disparador con su destino declarado y no elige por el agente humano.',
+    brecha: 'B-UX-29 · dónde se configura el conjunto de registros explorables y si viene alguno de fábrica no está declarado por ninguna fuente. Con el alta unificada la brecha GANA PESO: el registro público de referencia ya puesto es una de las dos compensaciones de la pérdida declarada en §3.2, y si no viene configurado de fábrica, la compensación no ocurre. La maqueta deja el disparador con su destino declarado y no elige por el agente humano.',
     notaMaqueta: 'SUP-19 está construida: el disparador abre la superficie, y volver de ella deja el origen completo y sin verificar.'
   };
 
-  /* Las cinco variantes discriminadas de `origen` — E-2 §20.2.3.
+  /* Punto de entrada del almacén local, que viene de AFUERA: el inventario de
+     imágenes ofrece crear un servicio desde una imagen ya presente y abre el
+     alta con el valor del campo puesto y la referencia declarada.
+     Misma regla que la exploración: origen completo y SIN VERIFICAR. */
+  var ENTRADA_DESDE_INVENTARIO = {
+    origen: 'SUP-18',
+    archivoOrigen: 'Imagenes.html',
+    etiqueta: 'Crear un servicio desde esta imagen',
+    destino: 'Alta-De-Servicio.html',
+    precondicion: 'La imagen está en el almacén y la administra el producto.',
+    /* SUP-18 §3.6: la acción NO EXISTE en el grupo ajeno, ni siquiera
+       deshabilitada. Un control deshabilitado invita a buscar cómo
+       habilitarlo, y acá no hay forma: no es una restricción de permiso, es
+       que la imagen no es del producto. */
+    ausenteEnGrupoAjeno: 'En el grupo de imágenes ajenas esta acción no existe, y no se dibuja deshabilitada. El panel no administra esas imágenes: no es una restricción de permiso que se pueda levantar, es que no son del producto. Un control deshabilitado invitaría a buscar cómo habilitarlo.',
+    dejaOrigen: 'El alta se abre con el valor del campo ya puesto en almacén local y la referencia ya declarada. El origen queda completo y SIN VERIFICAR: volver del inventario no marca el origen como verificado.'
+  };
+
+  /* Las SEIS variantes discriminadas de `origen` — E-2 §20.2.3.
      Cada variante exige sus campos y NINGUNO MÁS: un campo de otra variante
      es un dato inválido y no un campo opcional vacío. Por eso el bloque de
      origen de la maqueta nunca dibuja campos de otra variante, ni siquiera
-     deshabilitados (wireframe §3.5 criterio 1). */
+     deshabilitados (wireframe §3.5 criterio 1).
+
+     Pasaron de cinco a seis el 2026-07-31 con `imagen-local`. De las seis,
+     la interfaz PRODUCE TRES —las dos de imagen fundidas en un valor del
+     campo, la definición local y el almacén local— y no produce las otras:
+     `ninguno` se obtiene guardando el alta detenida en el nombre, y
+     `repositorio` dejó de ofrecerse cuando `F-10` se acotó. El panel las
+     exhibe igual en lectura, porque ocultarlas dejaría un servicio sin
+     origen visible (SUP-06 §3.4, brecha B-UX-32). */
   var ORIGENES = [
     {
       tipo: 'imagen-publica', etiqueta: 'Imagen de registro público',
@@ -1260,10 +1449,38 @@
       ]
     },
     {
+      /* Sexta variante, E-2 §20.2.3, incorporada el 2026-07-31. Exige el
+         digesto porque la etiqueta local se reasigna, y NO ADMITE política de
+         actualización: no hay registro remoto donde la etiqueta pueda moverse.
+         La ausencia se declara con su motivo y NO se dibuja deshabilitada
+         (SUP-17 §3.6 criterio 2, SUP-06 §3.4). */
+      tipo: 'imagen-local', etiqueta: 'Imagen del almacén local',
+      descripcion: 'El servicio se instancia desde una imagen que ya vive en el almacén local del servidor, sin traerla de ningún registro.',
+      fuente: 'E-2 §20.2.3, sexta variante',
+      marcaNoReproducible: true,
+      sinPoliticaActualizacion: 'Esta variante no exhibe política de actualización, y la ausencia se declara en lugar de dejarse en blanco: no hay registro remoto donde la etiqueta pueda moverse. No se dibuja el control deshabilitado.',
+      campos: [
+        { clave: 'referencia', etiqueta: 'Referencia de la imagen del almacén', tipo: 'seleccion',
+          enum: null, requerido: true,
+          ejemplo: 'registro-privado/video:0.3', fuente: 'E-23 · referencia de una imagen administrada del almacén, tomada del inventario de SUP-18',
+          nota: 'Nombre y etiqueta local, elegidos de lo que el almacén tiene. No es texto libre: es una selección del inventario.' },
+        { clave: 'digesto', etiqueta: 'Digesto', tipo: 'lectura', requerido: true,
+          ejemplo: null, fuente: null,
+          sinEjemplo: 'Ninguna fuente del corpus declara el digesto de esta imagen. E-23 declara un único digesto de imagen del almacén, y es el de `portal-api:1.4.2`, que dos anexos declaran distinto. La maqueta exhibe la ranura y no fabrica los caracteres.',
+          nota: 'Es la identidad real de la imagen: la etiqueta local se puede reasignar y el digesto no. La verificación lo devuelve.' }
+      ]
+    },
+    {
       tipo: 'repositorio', etiqueta: 'Repositorio remoto',
-      descripcion: 'El panel construye la imagen desde un repositorio remoto.',
+      descripcion: 'La imagen se construye desde un repositorio remoto.',
       fuente: 'E-2 §20.2.4, servicio 402',
       reglaPropia: 'RN-08: el origen repositorio exige la rama y la ruta del archivo de construcción.',
+      /* B-UX-32 · la variante sigue en el modelo y en RN-08, y ninguna
+         superficie la produce desde que F-10 se acotó el 2026-08-01. El panel
+         la exhibe EN LECTURA —ocultarla dejaría un servicio sin origen
+         visible— y declara que la interfaz ya no la produce. El alta NO la
+         ofrece. Las dos mitades tienen que verse, y ninguna se resuelve acá. */
+      noProducidaPorLaInterfaz: 'Ninguna superficie produce hoy esta variante: `F-10` se acotó el 2026-08-01 y el alta dejó de ofrecerla. Un servicio con este origen es representable por importación o por dato migrado. Qué hace el despliegue frente a un servicio así no lo declara ninguna fuente: es la brecha B-30 de 02-Especificacion-Funcional, recogida como B-UX-32 y no resuelta.',
       campos: [
         { clave: 'proveedor', etiqueta: 'Proveedor', tipo: 'seleccion', enum: ['github'],
           requerido: true, ejemplo: 'github', fuente: 'E-2 §20.2.3',
@@ -1287,8 +1504,16 @@
       ]
     },
     {
-      tipo: 'dockerfile', etiqueta: 'Archivo de construcción en línea',
-      descripcion: 'El panel construye la imagen desde un archivo de construcción escrito acá mismo.',
+      /* `SUP-06` 2.2 y `SUP-17` 2.2 renombran la fila de superficie a
+         «Definición local». `Glosario-Funcional.md` §2 de 02 sigue nombrando
+         a la variante del modelo «Archivo de construcción en línea». La
+         maqueta conserva los dos rótulos con su dueño declarado en lugar de
+         elegir: el de superficie es de 03 y el del modelo es de 02, y
+         unificarlos sería decidir por una de las dos categorías. La
+         divergencia se devuelve como hallazgo. */
+      tipo: 'dockerfile', etiqueta: 'Definición local',
+      etiquetaDelModelo: 'Archivo de construcción en línea',
+      descripcion: 'La imagen se construye desde un archivo de construcción escrito acá mismo.',
       fuente: 'E-2 §20.2.4, servicio 403',
       limiteDeclarado: 'Sin contexto de construcción, un archivo de construcción no puede copiar archivos locales. Esta vía sirve para tomar una imagen publicada y ajustarla, y no para construir código fuente propio (E-2 §20.2.3 punto 3, DI-20).',
       campos: [
@@ -1382,6 +1607,32 @@
         { que: 'Registro de imágenes alcanzable', resultado: 'no', detalle: 'Sin respuesta tras 10 s' }
       ],
       accionSugerida: 'reintentar'
+    },
+    /* Verificación del valor de almacén local. Es una LECTURA DEL PROPIO
+       SERVIDOR: no cruza a ningún sistema externo, no necesita el
+       tratamiento de operación con progreso, y NO PUEDE dar indeterminado.
+       Una imagen que no está produce FALLIDO. */
+    almacenLocal: {
+      resultado: 'verificado', clase: null,
+      en: '2026-08-02T09:12:00-03:00',
+      alcance: 'Consultado el almacén de imágenes del propio servidor. No se consultó ningún registro remoto.',
+      comprobaciones: [
+        { que: 'La imagen sigue en el almacén local', resultado: 'si', detalle: 'registro-privado/video:0.3' },
+        { que: 'Digesto resuelto', resultado: 'no', detalle: 'Ninguna fuente declara el digesto de esta imagen. El inventario la lista con su digesto sin declarar y la maqueta no fabrica los caracteres.' }
+      ],
+      accionSugerida: null,
+      notaVerificacion: 'La verificación del almacén local devuelve el digesto, que es la identidad real de la imagen porque la etiqueta local se puede reasignar. Acá la ranura está y el valor no: es la misma ausencia que el inventario declara.'
+    },
+    almacenLocalFallido: {
+      resultado: 'fallido', clase: 'dato-incorrecto',
+      en: '2026-08-02T09:13:00-03:00',
+      alcance: 'Consultado el almacén de imágenes del propio servidor.',
+      comprobaciones: [
+        { que: 'La imagen sigue en el almacén local', resultado: 'no', detalle: 'La referencia ya no está en el almacén. Pudo borrarla una limpieza.' }
+      ],
+      accionSugerida: 'corregir-el-dato',
+      campoFoco: 'referencia',
+      notaVerificacion: 'El almacén local es del propio servidor y la consulta siempre responde: una imagen que no está produce un resultado FALLIDO y nunca uno indeterminado. El indeterminado queda reservado a lo que el producto no puede alcanzar.'
     }
   };
 
@@ -1455,10 +1706,291 @@
     }
   };
 
+  /* ─────────────────────────────────────────────────────────────────────
+     5.9 LOS DOS DISTINTIVOS — Representacion-Lenguaje-Visual-De-Estados 2.1
+         §3.5, y su zona en el nodo, Representacion-Nodo-De-Servicio 2.1 §3.4.
+
+     Un distintivo declara una propiedad del SERVICIO que NO es un estado de
+     su despliegue. La regla que gobierna a los dos es una sola: COMPONE
+     sobre el par de estado, no lo reemplaza y NO LE CAMBIA LA VARIANTE.
+     Por eso no lleva insignia, ni borde, ni color propios, y por eso no
+     agrega ninguna fila al contrato visual del anexo E-18.
+     Su ausencia NO se representa: lo normal no se rotula.
+     Entre los dos NO hay precedencia: un servicio puede estar en cuarentena
+     y ser no reproducible a la vez, y los dos rótulos se exhiben.
+     ───────────────────────────────────────────────────────────────────── */
+
+  var DISTINTIVOS = {
+    'cuarentena': {
+      id: 'cuarentena',
+      /* Rótulo literal de Representacion-Lenguaje-Visual-De-Estados §3.5,
+         tabla de distintivos, columna «Distintivo». */
+      etiqueta: 'En cuarentena',
+      declara: 'Que el despliegue nuevo del servicio no arrancó y que el anterior recuperado tampoco, con el proyecto SelfHosted siguiendo en marcha.',
+      dependeDe: 'Del resultado del último intento de arranque.',
+      apareceEn: ['Nodo del lienzo', 'Cabecera del panel lateral', 'Fila del tablero de estado'],
+      /* B-UX-31 · las tres ausencias son DELIBERADAS y la maqueta las declara
+         como tales en lugar de dejarlas pasar por olvido. */
+      brecha: 'B-UX-31',
+      noSeDibuja: [
+        { que: 'Ninguna acción de retirar la cuarentena', porQue: 'Ninguna fuente declara qué la levanta. No se dibuja ni habilitada ni deshabilitada ni en menú secundario.' },
+        { que: 'Ningún aviso en el momento en que ocurre', porQue: 'Ver y avisar son cosas distintas. La visibilidad persistente se DERIVA de la exigencia de que un servicio en cuarentena se encuentre antes de necesitarlo; el aviso —la notificación en el momento en que ocurre— no está declarado y no se inventa. Nada de notificación superpuesta, de contador en la navegación ni de centro de avisos.' },
+        { que: 'Ninguna acción de recuperar el despliegue anterior', porQue: 'Si la recuperación resultara ofrecida en vez de automática haría falta un control que hoy no se dibuja, y el estado intermedio necesitaría representación propia.' },
+        { que: 'Ninguna segunda marca de participación en el arranque', porQue: 'Si la cuarentena apagara la participación en vez del autoarranque haría falta una marca que el panel no tiene. Y si apagara el autoarranque, el control quedaría cambiado por el sistema y haría falta decir quién lo cambió.' }
+      ],
+      /* La cuarentena NO tiene umbral: un solo servicio ya es motivo
+         suficiente para exhibir el bloque. No hay valor por defecto que
+         declarar y por lo tanto no hay brecha nueva por ese eje. */
+      sinUmbral: 'A diferencia de la sugerencia de limpieza, la cuarentena no tiene umbral: un solo servicio en cuarentena ya es motivo suficiente para exhibir el bloque.'
+    },
+    'no-reproducible': {
+      id: 'no-reproducible',
+      etiqueta: 'No reproducible',
+      declara: 'Que la imagen del servicio vive sólo en el almacén local de este servidor, y que al importar el proyecto en otra máquina no va a estar.',
+      dependeDe: 'Del origen del servicio, de forma derivada y no editable. Es verdadero sólo con la variante imagen del almacén local.',
+      apareceEn: ['Nodo del lienzo', 'Cabecera y apartado de origen del panel lateral', 'Alta de servicio', 'Tarjeta del proyecto en el listado', 'Resumen del proyecto en el lienzo'],
+      /* El camino de pago es OBLIGATORIO en el enunciado: enunciar la deuda
+         sin su salida la vuelve un reproche. */
+      caminoDePago: 'Se retira publicando la imagen en un registro y pasando el servicio a un origen de registro.',
+      sinTratamiento: 'No usa el lenguaje visual de error ni el de atención. No es un fallo ni una condición a resolver: es una propiedad declarada de lo que el administrador eligió, y el intake declara que la deuda se acepta a cambio de costo.',
+      noSeDibuja: [
+        { que: 'Ningún control que la active ni que la desactive', porQue: 'Es derivada del origen y no editable. No se dibuja una casilla deshabilitada: no está. Un control deshabilitado invita a buscar cómo habilitarlo.' }
+      ],
+      /* Sube al proyecto por EXISTENCIAL y no por universal. */
+      reglaDeProyecto: 'El proyecto SelfHosted queda marcado cuando AL MENOS UNO de sus servicios lo está.',
+      /* SUP-04 §3.2: la tarjeta del listado no enumera los servicios que la
+         producen; el conteo vive en el lienzo, que es donde el administrador
+         puede hacer algo al respecto. */
+      enTarjetaDeProyecto: 'La tarjeta del listado exhibe el rótulo y su consecuencia, y NO enumera los servicios que la producen: con hasta treinta servicios por proyecto, enumerarlos rompería la densidad de la tarjeta.',
+      consecuenciaEnTarjeta: 'Lo que la marca comunica es qué pasaría al llevarse el proyecto a otro servidor, no que algo esté mal acá.',
+      brecha: null
+    },
+    /* La regla común, para que las superficies la puedan exhibir. */
+    reglaComun: 'El distintivo compone sobre el par de estado, no lo reemplaza y no le cambia la variante. No lleva insignia, borde ni color propios, y por lo tanto no agrega ninguna fila al contrato visual del anexo E-18. Su ausencia no se representa. Entre los dos no hay precedencia.',
+    nombreAccesible: 'El nombre accesible del elemento que los aloja incluye el distintivo, no sólo el estado: un lector de pantalla que recorre treinta nodos tiene que poder distinguir el que está en cuarentena sin abrirlo.'
+  };
+
+  /* ─────────────────────────────────────────────────────────────────────
+     5.10 LAS SEIS ACCIONES DE EJECUCIÓN — SUP-06 §3.8
+
+     «Desplegar» son TRES operaciones y no una: obtener la imagen, crear el
+     contenedor y poner en marcha. Las dos primeras son «el despliegue» y la
+     tercera «el arranque». El estado intermedio —contenedor creado y sin
+     arrancar— es REPOSO LEGÍTIMO y no un paso transitorio.
+
+     Composición: la cabecera exhibe UNA SOLA acción de arranque a la vez
+     —arrancar cuando el servicio no está en marcha, detener cuando lo está—
+     y las CUATRO RESTANTES viven en el grupo secundario contiguo. Es lo que
+     evita seis botones al mismo nivel.
+     ───────────────────────────────────────────────────────────────────── */
+
+  var FASES_DESPLIEGUE = [
+    { n: 1, etiqueta: 'Obtener la imagen', que: 'Descargarla del registro, construirla desde la definición local, tomarla del almacén local, o encontrarla ya presente' },
+    { n: 2, etiqueta: 'Crear el contenedor', que: 'Resolver variables, reservar la dirección y crear el contenedor con la configuración' },
+    { n: 3, etiqueta: 'Poner en marcha', que: 'Arrancar el proceso y esperar su verificación de salud' }
+  ];
+
+  /* Invariante de redacción que rige TODA la maqueta: el verbo «construir»
+     nunca aparece sin complemento y su complemento es siempre la imagen;
+     para el contenedor el verbo es «crear». Crear el contenedor nunca sale
+     del producto: lo único que puede vivir afuera es construir la imagen. */
+  var INVARIANTE_CONSTRUIR = 'Crear el contenedor nunca sale del producto. Lo único que puede vivir afuera es construir la imagen, que es la fase 1 y sólo en la variante de definición local.';
+
+  var ACCIONES_EJECUCION = [
+    {
+      id: 'arrancar', etiqueta: 'Arrancar', icono: 'play', grupo: 'primario',
+      fases: '3, sobre un contenedor ya creado',
+      dejaAl: 'Activo, cuando su verificación de salud confirma',
+      nueva: true,
+      precondicion: 'Hay contenedor creado',
+      seExhibeCuando: 'no-en-marcha',
+      nota: 'Respeta el orden de arranque cuando la acción alcanza a más de un servicio.'
+    },
+    {
+      id: 'detener', etiqueta: 'Detener', icono: 'stop', grupo: 'primario',
+      fases: 'Deshace la 3, conservando el contenedor',
+      dejaAl: 'Contenedor creado y sin arrancar. No borra nada y no libera la dirección',
+      nueva: true,
+      precondicion: 'Hay despliegue en marcha',
+      seExhibeCuando: 'en-marcha',
+      nota: 'El proceso se detiene y el contenedor se conserva: el servicio vuelve al reposo.'
+    },
+    {
+      id: 'desplegar-sin-arrancar', etiqueta: 'Desplegar sin arrancar', icono: 'caja', grupo: 'secundario',
+      fases: '1 y 2',
+      dejaAl: 'Contenedor creado y sin arrancar: reposo legítimo, no un despliegue a medias',
+      nueva: true,
+      precondicion: 'El servicio está declarado y validado',
+      nota: 'No se consulta el grafo de arranque, y el panel lo declara al confirmar: obtener imágenes y crear contenedores son operaciones independientes entre servicios.'
+    },
+    {
+      id: 'reiniciar', etiqueta: 'Reiniciar', icono: 'refresh', grupo: 'secundario',
+      fases: '3 sobre el mismo contenedor',
+      dejaAl: 'Activo. No obtiene la imagen de nuevo y no altera los montajes',
+      nueva: false,
+      precondicion: 'Hay despliegue en marcha',
+      nota: 'El contenedor se reinicia. No se obtiene la imagen de nuevo y no se alteran los montajes.'
+    },
+    {
+      id: 'redesplegar', etiqueta: 'Redesplegar', icono: 'play', grupo: 'secundario',
+      fases: '1, 2 y 3, reemplazando el despliegue vigente',
+      dejaAl: 'Activo, con ventana de indisponibilidad advertida al confirmar',
+      nueva: false,
+      precondicion: 'Hay servicio declarado',
+      nota: 'Se advierte la ventana de indisponibilidad y, al confirmar, el despliegue anterior pasa a retirado y se crea uno nuevo.'
+    },
+    {
+      id: 'parar', etiqueta: 'Parar', icono: 'stop', grupo: 'secundario',
+      fases: 'Deshace la 2 y la 3',
+      dejaAl: 'Sin contenedor, conservando definición, variables y datos de los montajes',
+      nueva: false,
+      precondicion: 'Hay contenedor creado',
+      nota: 'El contenedor se elimina conservando la definición, las variables y los datos de los montajes. Es distinta de detener, que lo conserva.'
+    }
+  ];
+
+  /* Qué queda habilitado en el estado «Sin despliegue» — SUP-06 §5, literal:
+     arrancar, detener, reiniciar y parar quedan deshabilitadas por no tener
+     sobre qué actuar; desplegar sin arrancar y redesplegar quedan
+     disponibles. */
+  var EJECUCION_SIN_DESPLIEGUE = {
+    habilitadas: ['desplegar-sin-arrancar', 'redesplegar'],
+    motivo: 'Arrancar, detener, reiniciar y parar quedan deshabilitadas: no hay despliegue sobre el que actuar. Desplegar sin arrancar y redesplegar quedan disponibles, porque las dos crean el contenedor.'
+  };
+
+  /* Las tres acciones de la barra superior del lienzo — SUP-05 §3.4.
+     La tercera es NUEVA, vive CONTIGUA a las dos y con JERARQUÍA MENOR: es
+     la menos frecuente de las tres y no puede competir con las que el anexo
+     E-18 ubicó por frecuencia. Se suma sin desplazar a ninguna de las dos. */
+  var ACCIONES_PROYECTO = [
+    { id: 'arrancar', etiqueta: 'Arrancar', icono: 'play', fases: '3',
+      respeta: 'El orden topológico del subgrafo de aristas que declaran espera. Es la razón por la que la regla se llama grafo de arranque',
+      nueva: false, jerarquia: 'siempre-visible' },
+    { id: 'detener', etiqueta: 'Detener', icono: 'stop', fases: 'Deshace la 3',
+      respeta: '—', nueva: false, jerarquia: 'siempre-visible' },
+    { id: 'desplegar-sin-arrancar', etiqueta: 'Desplegar sin arrancar', etiquetaCorta: 'Desplegar', icono: 'caja',
+      fases: '1 y 2 sobre todos los servicios alcanzados',
+      respeta: 'No consulta el grafo: obtener imágenes y crear contenedores son independientes entre servicios y pueden ir en paralelo',
+      nueva: true, jerarquia: 'menor',
+      nota: 'Reserva direcciones igual, porque crear el contenedor es la fase que las ocupa, y por lo tanto valida los conflictos igual.' }
+  ];
+
+  /* ─────────────────────────────────────────────────────────────────────
+     5.11 Los dos casos que la ronda del 2026-07-31 habilita y que NINGUNA
+          fuente instancia con datos.
+
+          Ni el intake ni los CU ni el modelo conceptual declaran un solo
+          servicio concreto con origen `imagen-local`, ni un solo servicio
+          concreto en cuarentena: declaran la VARIANTE y la POLÍTICA, no una
+          instancia. Los wireframes, en cambio, exigen demostrar los dos
+          estados en cinco superficies.
+
+          La maqueta resuelve como ya venía resolviendo el digesto y la
+          exploración: COMPONE el caso con valores que alguna fuente sí
+          declara en otro contexto, y lo ROTULA como composición de maqueta
+          en lugar de presentarlo como dato del corpus. No fabrica nombres,
+          imágenes ni identificadores nuevos. La ambigüedad se devuelve.
+     ───────────────────────────────────────────────────────────────────── */
+
+  var COMPUESTO_POR_LA_MAQUETA = 'Compuesto por la maqueta. Ninguna fuente del corpus instancia este caso: el intake declara la variante y la política, y no un servicio concreto que las lleve. Los valores salen de elementos que alguna fuente sí declara en otro contexto, y se rotulan como composición en lugar de presentarse como dato del corpus.';
+
+  /* Servicio con origen de almacén local. La imagen es la `img-4` del
+     inventario de SUP-18 —administrada por el panel y marcada como
+     conservada— y el servicio es el que el parque de referencia E-19
+     declara usándola. La combinación es de la maqueta. */
+  var SERVICIO_ALMACEN_LOCAL = {
+    id: 413,
+    nombre: 'ia-video',
+    proyecto: 'Laboratorio IA',
+    descripcion: 'Procesamiento de video del laboratorio',
+    estado: 'activo',
+    estadoServicio: 'aplicado',
+    origen: {
+      tipo: 'imagen-local',
+      referencia: 'registro-privado/video:0.3',
+      digesto: null,
+      digestoSinFuente: 'Ninguna fuente declara el digesto de esta imagen. El inventario de imágenes la lista con su digesto sin declarar, y la maqueta no fabrica los caracteres que la fuente no emite.',
+      politicaActualizacion: null
+    },
+    noReproducible: true,
+    red: { modo: 'bridge', aliasDns: 'ia-video', ipFija: null, interfazPadre: null },
+    puertos: [{ contenedor: 8188, host: 8188, protocolo: 'tcp', publicar: true }],
+    montajes: [{ tipo: 'bind', nombre: '/srv/despliegues/ia-video/data/models', destino: '/opt/app/models', soloLectura: false }],
+    recursos: { limiteMemoriaMb: 4096, reservaMemoriaMb: null, limiteCpus: null },
+    politicaReinicio: 'unless-stopped', replicas: 1, efimero: false, autoArranque: true,
+    posicion: { x: 20, y: 360 },
+    metricas: { cpuPorcentaje: 12.4, memoriaUsadaMb: 2310, memoriaLimiteMb: 4096 },
+    fuente: 'Servicio del parque de referencia E-19 y E-20 C-5; imagen `img-4` del inventario de E-23. El origen `imagen-local` es la sexta variante de E-2 §20.2.3.',
+    composicion: COMPUESTO_POR_LA_MAQUETA
+  };
+
+  /* Servicio en cuarentena. La política de fallo al arrancar del intake §4
+     declara los tres pasos; el despliegue fallido que E-3 §20.3 declara
+     —el 5472 del servicio 102, «La imagen no existe en el registro»— es un
+     fallo de la fase 1 y no de la 3, de modo que no es este caso. La
+     maqueta compone el caso sobre el mismo servicio y rotula la causa como
+     compuesta. */
+  var SERVICIO_EN_CUARENTENA = {
+    id: 102,
+    nombre: 'cache',
+    proyecto: 'Portal Interno',
+    /* La cuarentena NO cambia la variante del par: el servicio exhibe el
+       par del despliegue que esté sirviendo. Acá no sirve ninguno, porque
+       el anterior recuperado tampoco arrancó. */
+    estado: 'fallido',
+    enCuarentena: true,
+    despliegueQueSirve: null,
+    despliegueFallido: 5472,
+    despliegueAnteriorRecuperado: 5460,
+    causaDelFallo: 'El proceso terminó con código distinto de cero al arrancar.',
+    causaComposicion: 'La causa concreta del fallo de ARRANQUE no la declara ninguna fuente: E-3 §20.3 declara el despliegue 5472 fallido por «La imagen no existe en el registro», que es un fallo de la fase de obtener la imagen y no de la de poner en marcha. La maqueta exhibe la ranura de la causa y la rotula como compuesta.',
+    autoArranqueApagado: true,
+    /* B-UX-31 punto (b): cuál de las dos marcas concretas se apaga —el
+       autoarranque o la participación en el arranque— es punto abierto. La
+       maqueta escribe «autoarranque apagado» siguiendo el cuerpo decidido de
+       la fuente, y declara que la elección entre las dos no está tomada. */
+    marcaApagadaSinDecidir: 'Que la cuarentena apague el AUTOARRANQUE sigue el cuerpo decidido de la política. Si lo que apagara fuera la PARTICIPACIÓN EN EL ARRANQUE —que es otra marca— haría falta un control que el panel no tiene. Cuál de las dos se apaga es el punto (b) de B-UX-31.',
+    composicion: COMPUESTO_POR_LA_MAQUETA
+  };
+
+  /* El bloque de servicios en cuarentena del tablero — SUP-09 §3.3.
+     El wireframe declara el CONTENIDO del bloque y no su rótulo: su §2 no se
+     actualizó con la versión 2.2 y su arte ASCII no tiene la línea. El
+     rótulo de acá es DECISIÓN DE MAQUETA y no transcripción; se devuelve
+     como hallazgo para que 03 lo fije. */
+  var CUARENTENA_TABLERO = {
+    rotulo: 'Servicios en cuarentena',
+    rotuloEsDecisionDeMaqueta: 'El wireframe de SUP-09 declara el contenido del bloque —cuántos, cuáles, su proyecto y un enlace por servicio— y no su rótulo: su §2 no se actualizó con la versión 2.2 y el arte ASCII no tiene la línea. Esta cadena es decisión de la maqueta y no transcripción de la fuente.',
+    servicios: [
+      { servicio: 'cache', proyecto: 'Portal Interno', archivo: 'Panel-Lateral-Del-Servicio.html', estadoQueSirve: null }
+    ],
+    /* Qué hace y qué no hace, literal de §3.3. */
+    hace: [
+      'Declara cuántos servicios están en cuarentena y cuáles, con su proyecto SelfHosted, dentro del bloque del servidor.',
+      'Ofrece un enlace por servicio a su panel lateral.',
+      'Se comporta como aviso de higiene: región de estado, sin robar el foco y sin bloquear.',
+      'Convive con la línea de sugerencia de limpieza sin mezclarse con ella.'
+    ],
+    noHace: [
+      'No declara la causa del fallo de arranque. La causa vive en la línea de tiempo del despliegue, en el panel lateral del servicio.',
+      'No ofrece retirar la cuarentena ni reintentar el arranque. Qué levanta la cuarentena no está declarado: brecha B-UX-31.',
+      'No es una notificación: no se superpone y no interrumpe.',
+      'No agrupa la cuarentena y la sugerencia de limpieza en un centro de avisos que ninguna fuente declara.'
+    ],
+    /* Ver ≠ avisar, y la distinción se declara. */
+    verNoEsAvisar: 'Lo que esta superficie hace es VER, no AVISAR. Exhibir de forma persistente se deriva de la exigencia de que un servicio en cuarentena se encuentre antes de necesitarlo. Dónde se avisa en el momento en que ocurre no está declarado por ninguna fuente y no se inventa acá.',
+    ausencia: 'Sin servicios en cuarentena el bloque no está, y su ausencia no se representa: ni hueco, ni leyenda de «ninguno», ni espacio reservado. Un cero permanente entrena a no mirar.',
+    porQueAca: 'El lienzo lo muestra por proyecto y sirve a quien ya está mirando ese proyecto. El tablero lo muestra por servidor, y es la única superficie del producto que se abre sin haber decidido antes qué mirar: es donde el administrador se entera antes de necesitarlo.'
+  };
+
   /* Propiedades del borrador — wireframe §3.4 */
   var BORRADOR = {
     propiedades: [
-      ['Existe y es visible en el lienzo', 'El nodo aparece desde que se eligió la vía, no desde que se completó el alta'],
+      /* Cambia con el alta unificada: antes el nodo existía «desde que se
+         eligió la vía». Sin menú de vías, el primer acto que produce un
+         objeto identificable es DECLARAR EL NOMBRE. Antes del nombre no hay
+         nada que representar en el lienzo. */
+      ['Existe y es visible en el lienzo', 'El nodo aparece desde que el nombre queda declarado, no desde que se completó el alta'],
       ['Está incompleto de forma visible', 'El indicador de avance conserva qué falta, y el nodo del lienzo lo señala'],
       ['No entra al conjunto de cambios pendientes', 'El cajón no lo lista, y por lo tanto el lote sigue siendo aplicable'],
       ['No es aplicable', 'La acción de dejar pendiente está deshabilitada hasta que las dos verificaciones estén en verde'],
@@ -1478,7 +2010,7 @@
   };
 
   var ALTA_SERVICIO = {
-    vias: VIAS_ALTA,
+    campoOrigen: CAMPO_ORIGEN,
     origenes: ORIGENES,
     pasos: PASOS_TRONCO,
     nombre: CAMPO_NOMBRE,
@@ -1487,6 +2019,10 @@
     informesConfiguracion: INFORMES_CONFIGURACION,
     criteriosVerificacion: CRITERIOS_VERIFICACION,
     exploracion: EXPLORACION_REGISTRO,
+    desdeInventario: ENTRADA_DESDE_INVENTARIO,
+    distintivos: DISTINTIVOS,
+    fases: FASES_DESPLIEGUE,
+    invarianteConstruir: INVARIANTE_CONSTRUIR,
     borrador: BORRADOR,
     rechazos: RECHAZOS_ALTA,
     /* Lo que la vía dedujo o la plantilla declaró, en lectura — wireframe §5 */
@@ -1701,7 +2237,27 @@
       origenDeLaImagen: 'construida-por-el-panel',
       pertenencia: { gestionadaPorElPanel: true, proyecto: 'Laboratorio IA', servicio: 'ia-video', proyectoId: 9, servicioId: 413 },
       conservada: true,
-      uso: { lectura: 'solo-historial', activos: 0, historial: 2, sinDigesto: 0, masReciente: 'el despliegue más reciente del historial de ia-video', detalle: [{ proyecto: 'Laboratorio IA', servicio: 'ia-video', despliegue: null, estado: 'historial' }] },
+      uso: {
+        lectura: 'solo-historial', activos: 0, historial: 2, sinDigesto: 0,
+        masReciente: 'el despliegue más reciente del historial de ia-video',
+        detalle: [{ proyecto: 'Laboratorio IA', servicio: 'ia-video', despliegue: null, estado: 'historial' }],
+        /* B-UX-33 · la imagen que sostiene a un servicio no reproducible.
+           NO es una quinta lectura: es una contribución más al mismo
+           contador, dentro de la lectura vigente. El indicador CUENTA AL
+           SERVICIO DECLARADO COMO REFERENCIA, con esas palabras, y la fila
+           lo declara. */
+        servicioDeclarado: {
+          proyecto: 'Laboratorio IA', servicio: 'ia-video',
+          texto: 'Cuenta al servicio declarado como referencia: `ia-video` la declara como su origen de almacén local.',
+          detalle: 'Un servicio de origen imagen del almacén local sin despliegue activo referencia una imagen que puede quedar entre las descartables, y no hay de dónde volver a traerla.'
+        }
+      },
+      /* La imagen NO se marca como protegida y la limpieza NO la excluye:
+         ninguna fuente declara si el origen de un servicio protege a su
+         imagen, ni si esa protección sería automática o exigiría la marca de
+         conservada. Demostrar la protección sería completar la política. */
+      sostieneServicioNoReproducible: true,
+      sinProteccion: 'No se marca como protegida, porque protegerla es la decisión que no está tomada. Ninguna fuente declara si el origen de un servicio declarado protege a su imagen frente a la limpieza. Se cruza con Q-21, que decide el alcance de la marca de conservada, y con el criterio de descarte de B-26. Es la brecha B-32 de 02-Especificacion-Funcional, recogida como B-UX-33.',
       fuente: 'E-19 y E-20 C-5 · el proyecto Laboratorio IA está detenido, de modo que ningún despliegue activo la referencia',
       pertenenciaSujetaA: 'Q-16',
       conservadaSujetaA: 'Q-21',
@@ -1958,7 +2514,28 @@
       nota: 'Los filtros acotan el inventario y NO alteran la propuesta de limpieza. El grupo ajeno tampoco desaparece del total de ocupación aunque se filtre.',
       procedencias: ['todas', 'descargada', 'construida-por-el-panel', 'construida-por-el-ejecutor', 'ajena']
     },
-    accionMasiva: 'Un «seleccionar todo» selecciona todo lo administrado y nada de lo ajeno. Ninguna acción masiva alcanza al grupo ajeno.'
+    accionMasiva: 'Un «seleccionar todo» selecciona todo lo administrado y nada de lo ajeno. Ninguna acción masiva alcanza al grupo ajeno.',
+    /* SUP-18 §3.6, 2026-08-01 · crear un servicio desde una imagen del
+       almacén local. La acción vive EN LA FILA y su desenlace está afuera:
+       abre el alta con el campo de origen ya puesto en el valor de almacén
+       local y la referencia ya declarada. */
+    crearServicio: {
+      etiqueta: 'Crear un servicio desde esta imagen',
+      destino: 'Alta-De-Servicio.html',
+      superficieDestino: 'SUP-17',
+      reglas: [
+        ['El origen queda completo y sin verificar', 'Es la misma regla que rige al volver de la exploración de registro: entre elegir y confirmar puede haber pasado cualquier cosa, y es la verificación la que devuelve el digesto con el que el despliegue va a trabajar.'],
+        ['La acción no existe en el grupo ajeno, y no se dibuja deshabilitada', 'El grupo ajeno no tiene columna de acciones, y esta acción no la abre. Una imagen que el producto no administra no puede ser origen de un servicio que el producto gobierna.'],
+        ['La acción declara que el servicio va a quedar no reproducible, antes de abrir el alta', 'Es el único origen que produce esa marca, y el administrador está eligiendo ahí. Decírselo después, en el alta, sería informarlo de una consecuencia de una decisión ya tomada.'],
+        ['La acción no pregunta en qué proyecto SelfHosted', 'Lo pregunta el alta. Esta superficie no conoce el proyecto en curso, y duplicar la pregunta produciría dos lugares donde se elige lo mismo.']
+      ],
+      avisoNoReproducible: 'El servicio que se cree desde esta imagen va a quedar marcado como NO REPRODUCIBLE: al exportar el proyecto e importarlo en otra máquina, esta imagen no está.',
+      porQueAca: 'El campo de origen del alta necesita, para el valor de almacén local, elegir una imagen de lo que el almacén tiene, y ese listado es esta superficie. Construir un selector propio dentro del alta duplicaría el inventario con menos información —sin ocupación, sin uso, sin la separación entre lo propio y lo ajeno— y el administrador acabaría abriendo el inventario igual para decidir.',
+      /* La declaración de la NO EXISTENCIA en el grupo ajeno se exhibe como
+         texto: la ausencia del control es la representación correcta, y un
+         control gris sería un error de maqueta. */
+      ausenteEnAjeno: 'La acción de crear un servicio no existe en el grupo de imágenes ajenas, y no se dibuja deshabilitada. El grupo ajeno no tiene columna de acciones: no es una restricción de permiso que se pueda levantar, es que la imagen no es del producto. Un control deshabilitado invitaría a buscar cómo habilitarlo, y acá no hay forma.'
+    }
   };
 
   /* ─────────────────────────────────────────────────────────────────────
@@ -2321,8 +2898,9 @@
     },
     {
       id: 'SUP-04', nombre: 'Listado de proyectos', archivo: 'Listado-De-Proyectos.html',
-      shell: 'trabajo', cu: ['CU-01', 'CU-02', 'CU-11'], wireframe: 'Wireframes-Listado-De-Proyectos.md',
+      shell: 'trabajo', cu: ['CU-01', 'CU-02', 'CU-11'], wireframe: 'Wireframes-Listado-De-Proyectos.md 2.1',
       proposito: 'Portada del shell de trabajo: estado agregado de los proyectos y su alta, renombrado y eliminación.',
+      estadosDeclarados: 14, estadosDemostrables: 13,
       estados: [
         { id: 'con-datos', etiqueta: 'Con datos', predeterminado: true },
         { id: 'vacio-primer-uso', etiqueta: 'Vacío · primer uso, con orientación posterior' },
@@ -2331,6 +2909,12 @@
         { id: 'proyecto-activo', etiqueta: 'Proyecto activo' },
         { id: 'proyecto-parcial', etiqueta: 'Proyecto parcialmente activo' },
         { id: 'proyecto-detenido', etiqueta: 'Proyecto detenido' },
+        /* Los dos de la ronda del 2026-08-01. Son ORTOGONALES a los tres de
+           arriba: un proyecto no reproducible puede estar activo,
+           parcialmente activo o detenido, y el distintivo compone sobre el
+           par de estado agregado sin cambiarle la variante. */
+        { id: 'proyecto-no-reproducible', etiqueta: 'Proyecto no reproducible (§3.2)' },
+        { id: 'proyecto-reproducible', etiqueta: 'Proyecto reproducible · sin rótulo, la ausencia no se representa (§3.2)' },
         { id: 'error', etiqueta: 'Error' },
         { id: 'exito-accion', etiqueta: 'Éxito de una acción' },
         { id: 'confirmacion-entrante', etiqueta: 'Confirmación entrante · IDENTIDAD-CREADA' },
@@ -2340,48 +2924,67 @@
     {
       id: 'SUP-05', nombre: 'Lienzo del proyecto', archivo: 'Lienzo-Del-Proyecto.html',
       shell: 'trabajo', cu: ['CU-03', 'CU-04', 'CU-05', 'CU-13', 'CU-15', 'CU-16', 'CU-18', 'CU-22', 'CU-28'],
-      wireframe: 'Wireframes-Lienzo-Del-Proyecto.md 2.0',
+      wireframe: 'Wireframes-Lienzo-Del-Proyecto.md 2.1',
       proposito: 'Vista por defecto del proyecto: leer, editar, arrancar y detener la arquitectura completa.',
-      estadosDeclarados: 16, estadosDemostrables: 15,
+      /* §8 declara veintiún estados y veinte demostrables; la tabla de §5
+         enumera veinte filas, de las que una —«Sin permiso»— no aplica. La
+         fila que falta para cerrar la aritmética es «Nodo borrador», que §3.3
+         especifica en detalle, §4 cita y la representación del nodo tiene
+         como variante propia, y que §5 no enumera. La maqueta la demuestra y
+         la discrepancia se devuelve como hallazgo. */
+      estadosDeclarados: 21, estadosDemostrables: 20,
       estados: [
         { id: 'con-datos', etiqueta: 'Con datos', predeterminado: true },
-        { id: 'menu-vias', etiqueta: 'Menú de las siete vías de alta (§3.1) — suplementario' },
-        { id: 'nodo-borrador', etiqueta: 'Nodo borrador (§3.3) — suplementario' },
-        { id: 'instanciacion-plantilla', etiqueta: 'Instanciación de plantilla · N nodos (§3.2) — suplementario' },
         { id: 'vacio', etiqueta: 'Vacío · sin servicios declarados' },
         { id: 'cargando', etiqueta: 'Cargando · reconciliando contra el motor' },
         { id: 'sin-cambios-pendientes', etiqueta: 'Sin cambios pendientes · el banner no se muestra' },
         { id: 'con-cambios-pendientes', etiqueta: 'Con cambios pendientes' },
         { id: 'nodo-pendiente', etiqueta: 'Nodo pendiente de aplicar' },
+        { id: 'nodo-borrador', etiqueta: 'Nodo borrador (§3.3) — la fila que §5 no enumera' },
         { id: 'nodo-huerfano', etiqueta: 'Nodo huérfano' },
         { id: 'proyecto-parcial', etiqueta: 'Proyecto parcialmente activo' },
+        /* Los cuatro de la ronda del 2026-08-01. */
+        { id: 'proyecto-reposo', etiqueta: 'Proyecto desplegado y en reposo (§3.4)' },
+        { id: 'nodo-cuarentena', etiqueta: 'Nodo en cuarentena (§3.5)' },
+        { id: 'nodo-no-reproducible', etiqueta: 'Nodo no reproducible (§3.5)' },
+        { id: 'proyecto-no-reproducible', etiqueta: 'Proyecto no reproducible (§3.5)' },
         { id: 'arranque-bloqueado', etiqueta: 'Arranque bloqueado por conflicto' },
         { id: 'arista-invalida', etiqueta: 'Arista inválida · bloquea el arranque' },
         { id: 'ciclo-rechazado', etiqueta: 'Ciclo de arranque rechazado' },
         { id: 'arista-sin-aporte', etiqueta: 'Arista sin aporte rechazada' },
         { id: 'arista-duplicada', etiqueta: 'Arista de espera duplicada' },
         { id: 'error', etiqueta: 'Error' },
-        { id: 'canal-caido', etiqueta: 'Canal caído' }
+        { id: 'canal-caido', etiqueta: 'Canal caído' },
+        { id: 'instanciacion-plantilla', etiqueta: 'Instanciación de plantilla · N nodos (§3.2) — suplementario' }
       ]
     },
     {
       id: 'SUP-06', nombre: 'Panel lateral del servicio', archivo: 'Panel-Lateral-Del-Servicio.html',
       shell: 'trabajo', cu: ['CU-03', 'CU-13', 'CU-15', 'CU-18', 'CU-19', 'CU-35', 'CU-38'],
-      wireframe: 'Wireframes-Panel-Lateral-Del-Servicio.md 2.1',
-      proposito: 'Configuración del servicio seleccionado, con la garantía de que guardar un cambio no lo despliega.',
-      estadosDeclarados: 17, estadosDemostrables: 15,
+      wireframe: 'Wireframes-Panel-Lateral-Del-Servicio.md 2.2',
+      proposito: 'Configuración del servicio seleccionado, con la garantía de que guardar un cambio no lo despliega, y las tres fases del despliegue gobernadas por servicio.',
+      estadosDeclarados: 22, estadosDemostrables: 20,
       estados: [
         { id: 'con-datos', etiqueta: 'Con datos', predeterminado: true },
         { id: 'origen-imagen-publica', etiqueta: 'Origen en lectura · imagen de registro público (§3.4) — suplementario' },
         { id: 'origen-imagen-privada', etiqueta: 'Origen en lectura · imagen de registro privado (§3.4) — suplementario' },
-        { id: 'origen-repositorio', etiqueta: 'Origen en lectura · repositorio remoto (§3.4) — suplementario' },
-        { id: 'origen-dockerfile', etiqueta: 'Origen en lectura · archivo de construcción (§3.4) — suplementario' },
+        { id: 'origen-imagen-local', etiqueta: 'Origen en lectura · imagen del almacén local (§3.4) — suplementario' },
+        { id: 'origen-repositorio', etiqueta: 'Origen en lectura · repositorio remoto, que la interfaz ya no produce (§3.4) — suplementario' },
+        { id: 'origen-dockerfile', etiqueta: 'Origen en lectura · definición local (§3.4) — suplementario' },
         { id: 'origen-ninguno', etiqueta: 'Origen en lectura · sin origen (§3.4) — suplementario' },
         { id: 'digesto-no-registrado', etiqueta: 'Digesto no registrado (§3.5) — suplementario' },
         { id: 'procedencia-plantilla', etiqueta: 'Procedencia de plantilla (§3.6) — suplementario' },
         { id: 'clase-de-cambio', etiqueta: 'Qué cambio recrea el contenedor y qué no (§3.7) — suplementario' },
         { id: 'cargando', etiqueta: 'Cargando' },
         { id: 'sin-despliegue', etiqueta: 'Sin despliegue' },
+        /* Los cinco de la ronda del 2026-08-01: los cuatro que las tres fases
+           y la política de fallo al arrancar habilitan, más el distintivo de
+           no reproducible de la sexta variante de origen. */
+        { id: 'desplegado-en-reposo', etiqueta: 'Desplegado y en reposo (§3.8)' },
+        { id: 'en-marcha', etiqueta: 'En marcha (§3.8)' },
+        { id: 'nuevo-fallido-anterior-sirviendo', etiqueta: 'Despliegue nuevo fallido con el anterior sirviendo · no es cuarentena (§3.9)' },
+        { id: 'en-cuarentena', etiqueta: 'En cuarentena (§3.9)' },
+        { id: 'no-reproducible', etiqueta: 'No reproducible (§3.10)' },
         { id: 'campo-valido', etiqueta: 'Campo válido' },
         { id: 'campo-en-error', etiqueta: 'Campo en error' },
         { id: 'campo-deshabilitado', etiqueta: 'Campo deshabilitado por incompatibilidad' },
@@ -2439,14 +3042,15 @@
     },
     {
       id: 'SUP-09', nombre: 'Tablero de estado', archivo: 'Tablero-De-Estado.html',
-      shell: 'trabajo', cu: ['CU-26', 'CU-27', 'CU-28', 'CU-37'], wireframe: 'Wireframes-Tablero-De-Estado.md 2.1',
-      proposito: 'Atribuir el consumo del servidor a un servicio concreto, en tres capas.',
-      /* §5 del wireframe 2.1 tiene QUINCE filas, de las cuales «sin permiso»
-         declara no aplica: catorce demostrables. El texto del wireframe dice
-         «pasa a catorce, trece demostrables», que es una fila menos de las
-         que su propia tabla enumera. Se maquetan las catorce y la
-         discrepancia se devuelve como hallazgo. */
-      estadosDeclarados: 15, estadosDemostrables: 14,
+      shell: 'trabajo', cu: ['CU-26', 'CU-27', 'CU-28', 'CU-37'], wireframe: 'Wireframes-Tablero-De-Estado.md 2.2',
+      proposito: 'Atribuir el consumo del servidor a un servicio concreto, en tres capas, y encontrar los servicios en cuarentena antes de necesitarlos.',
+      /* §5 del wireframe 2.2 tiene DIECIOCHO filas, de las cuales «sin
+         permiso» declara no aplica: DIECISIETE demostrables. El texto del
+         wireframe dice «diecisiete declarados, dieciséis demostrables», que
+         es una fila menos de las que su propia tabla enumera. El desfase es
+         preexistente y se arrastra desde la versión 1.0. Se maquetan las
+         diecisiete y la discrepancia se devuelve como hallazgo. */
+      estadosDeclarados: 18, estadosDemostrables: 17,
       estados: [
         { id: 'con-datos', etiqueta: 'Con datos', predeterminado: true },
         { id: 'vacio', etiqueta: 'Vacío · sin proyectos declarados' },
@@ -2461,13 +3065,20 @@
         { id: 'estado-sin-reconciliar', etiqueta: 'Estado sin reconciliar' },
         { id: 'sugerencia-limpieza-vigente', etiqueta: 'Sugerencia de limpieza vigente (§3.2)' },
         { id: 'sin-sugerencia-limpieza', etiqueta: 'Sin sugerencia · la ausencia no se representa (§3.2)' },
+        /* Los tres de la ronda del 2026-08-01. El tercero es el que se
+           olvida: el distintivo aparece DOS VECES en la misma pantalla —en
+           el bloque del servidor y sobre la fila del contenedor de la tercera
+           capa— y son cosas distintas con reglas distintas. */
+        { id: 'con-cuarentena', etiqueta: 'Con servicios en cuarentena (§3.3)' },
+        { id: 'sin-cuarentena', etiqueta: 'Sin servicios en cuarentena · la ausencia no se representa (§3.3)' },
+        { id: 'cuarentena-tercera-capa', etiqueta: 'Servicio en cuarentena en la tercera capa (§3.3)' },
         { id: 'error', etiqueta: 'Error' }
       ]
     },
     {
       id: 'SUP-10', nombre: 'Descubrimiento e incorporación', archivo: 'Descubrimiento-E-Incorporacion.html',
-      shell: 'trabajo', cu: ['CU-06', 'CU-07', 'CU-08'], wireframe: 'Wireframes-Descubrimiento-E-Incorporacion.md 2.0',
-      proposito: 'Incorporar contenedores que ya corren, sin recrearlos ni cortar el servicio.',
+      shell: 'trabajo', cu: ['CU-06', 'CU-07', 'CU-08'], wireframe: 'Wireframes-Descubrimiento-E-Incorporacion.md 2.1',
+      proposito: 'Incorporar contenedores que ya corren, sin recrearlos ni cortar el servicio. Desde el 2026-08-01, adoptar es una acción de este listado y no una vía del alta.',
       estadosDeclarados: 18, estadosDemostrables: 17,
       estados: [
         { id: 'con-datos', etiqueta: 'Con datos · paso 1', predeterminado: true },
@@ -2493,8 +3104,8 @@
     },
     {
       id: 'SUP-11', nombre: 'Catálogo de plantillas', archivo: 'Catalogo-De-Plantillas.html',
-      shell: 'trabajo', cu: ['CU-16', 'CU-17', 'CU-36'], wireframe: 'Wireframes-Catalogo-De-Plantillas.md 2.1',
-      proposito: 'Convertir en activo reutilizable algo ya resuelto, e instanciarlo con sus parámetros.',
+      shell: 'trabajo', cu: ['CU-16', 'CU-17', 'CU-36'], wireframe: 'Wireframes-Catalogo-De-Plantillas.md 2.2',
+      proposito: 'Convertir en activo reutilizable algo ya resuelto, e instanciarlo con sus parámetros. Desde el 2026-08-01, usar el catálogo es una acción de este listado y no una vía del alta.',
       estadosDeclarados: 24, estadosDemostrables: 23,
       estados: [
         { id: 'con-datos', etiqueta: 'Con datos', predeterminado: true },
@@ -2593,11 +3204,13 @@
     },
     {
       id: 'SUP-15', nombre: 'Exportación e importación', archivo: 'Exportacion-E-Importacion.html',
-      shell: 'trabajo', cu: ['CU-09', 'CU-10', 'CU-11', 'CU-12'], wireframe: 'Wireframes-Exportacion-E-Importacion.md',
+      shell: 'trabajo', cu: ['CU-09', 'CU-10', 'CU-11', 'CU-12'], wireframe: 'Wireframes-Exportacion-E-Importacion.md 2.1',
       proposito: 'Reproducir la arquitectura fuera del servidor y traerla de vuelta sin perder nada en silencio.',
+      estadosDeclarados: 18, estadosDemostrables: 16,
       estados: [
         { id: 'exportacion-seleccion', etiqueta: 'Con datos · selección de exportación', predeterminado: true },
         { id: 'exportacion-cambios-pendientes', etiqueta: 'Exportación con cambios pendientes' },
+        { id: 'exportacion-no-reproducible', etiqueta: 'Exportación con servicios no reproducibles (§3.3)' },
         { id: 'exportacion-generando', etiqueta: 'Cargando · generando los archivos' },
         { id: 'exportacion-entregada', etiqueta: 'Exportación entregada' },
         { id: 'referencia-no-resoluble', etiqueta: 'Referencia no resoluble al exportar' },
@@ -2605,6 +3218,7 @@
         { id: 'importacion-interpretando', etiqueta: 'Cargando · interpretando el archivo' },
         { id: 'informe-sin-perdida', etiqueta: 'Informe sin pérdida' },
         { id: 'informe-con-perdida', etiqueta: 'Informe con pérdida' },
+        { id: 'importacion-no-levantan', etiqueta: 'Importación con servicios que no van a levantar · tercera lista (§3.3)' },
         { id: 'rechazo-nombre', etiqueta: 'Rechazo por nombre' },
         { id: 'rechazo-referencia', etiqueta: 'Rechazo por referencia inválida' },
         { id: 'rechazo-ciclo', etiqueta: 'Rechazo por ciclo de arranque' },
@@ -2632,41 +3246,50 @@
     {
       id: 'SUP-17', nombre: 'Alta de servicio', archivo: 'Alta-De-Servicio.html',
       shell: 'trabajo', cu: ['CU-03', 'CU-13', 'CU-15', 'CU-16'],
-      wireframe: 'Wireframes-Alta-De-Servicio.md 2.1',
-      proposito: 'Declarar un servicio completo dentro de un proyecto, empezando por elegir por dónde llegar y no por completar un campo técnico.',
-      estadosDeclarados: 19, estadosDemostrables: 18,
+      wireframe: 'Wireframes-Alta-De-Servicio.md 2.2',
+      proposito: 'Declarar un servicio completo dentro de un proyecto SelfHosted, empezando por ponerle nombre y siguiendo por decir de dónde sale su imagen. Una sola entrada, con el origen como campo de tres valores.',
+      /* De diecinueve a veintidós: se RETIRAN dos —«elección de vía» y «vía
+         de adopción o de catálogo»—, que la unificación deja sin objeto; se
+         SUMAN cinco; y «tronco, origen sin resolver» se PARTE EN DOS, porque
+         con el campo de origen son dos situaciones con acciones distintas. */
+      estadosDeclarados: 22, estadosDemostrables: 21,
       estados: [
-        { id: 'eleccion-de-via', etiqueta: 'Elección de vía · las siete tarjetas', predeterminado: true },
-        { id: 'tronco-origen-sin-resolver', etiqueta: 'Tronco · origen sin resolver' },
+        { id: 'form-abierto-sin-nombre', etiqueta: 'Formulario abierto, sin nombre', predeterminado: true },
+        { id: 'origen-sin-elegir', etiqueta: 'Origen sin elegir · los tres valores y ningún campo propio' },
+        { id: 'origen-elegido-incompleto', etiqueta: 'Origen elegido, incompleto' },
         { id: 'origen-sin-verificar', etiqueta: 'Origen sin verificar' },
         { id: 'origen-de-exploracion', etiqueta: 'Origen traído de la exploración' },
+        { id: 'origen-de-inventario', etiqueta: 'Origen traído del inventario de imágenes' },
+        { id: 'variante-derivada-privada', etiqueta: 'Variante derivada privada · la credencial la decide' },
         { id: 'origen-verificado', etiqueta: 'Origen verificado · con su digesto' },
         { id: 'origen-dato-incorrecto', etiqueta: 'Origen fallido por dato incorrecto' },
-        { id: 'origen-indeterminado', etiqueta: 'Origen indeterminado por consulta imposible' },
+        { id: 'origen-indeterminado', etiqueta: 'Origen indeterminado por consulta imposible · no aplica al almacén local' },
+        { id: 'no-reproducible', etiqueta: 'Servicio marcado como no reproducible (§3.7)' },
         { id: 'configuracion-sin-validar', etiqueta: 'Configuración sin validar' },
         { id: 'configuracion-validada', etiqueta: 'Configuración validada' },
         { id: 'configuracion-con-hallazgos', etiqueta: 'Configuración con hallazgos bloqueantes' },
         { id: 'colision-de-puerto', etiqueta: 'Colisión de puerto de host' },
-        { id: 'campo-ajeno-a-la-variante', etiqueta: 'Rechazo por campo ajeno a la variante' },
+        { id: 'campo-ajeno-a-la-variante', etiqueta: 'Rechazo por campo ajeno a la variante · sólo por API' },
         { id: 'borrador-guardado', etiqueta: 'Borrador guardado' },
+        { id: 'servicio-sin-origen-guardado', etiqueta: 'Servicio sin origen guardado · no es un cuarto valor' },
         { id: 'pendiente-de-aplicar', etiqueta: 'Pendiente de aplicar' },
         { id: 'puertos-deshabilitados', etiqueta: 'Puertos deshabilitados por modo de red' },
-        { id: 'via-sin-origen-propio', etiqueta: 'Vía de adopción o de catálogo · origen en lectura' },
-        { id: 'servicio-sin-origen-guardado', etiqueta: 'Servicio sin origen guardado' },
         { id: 'error', etiqueta: 'Error · no se pudo cargar ni persistir' },
         /* Estado suplementario: `Maqueta-Rules.md` §4.3 exige cargando como
            mínimo y la tabla §5 del wireframe no lo declara. §7 sí declara que
-           las dos verificaciones «pueden tardar» y se muestran como operación
-           con progreso: es de ahí que se deriva. */
-        { id: 'cargando', etiqueta: 'Cargando · verificación en curso — suplementario' }
+           la verificación contra un registro «puede tardar» y se muestra como
+           operación con progreso: es de ahí que se deriva. La verificación
+           contra el almacén local NO lo necesita, porque es una lectura del
+           propio servidor. */
+        { id: 'cargando', etiqueta: 'Cargando · verificación contra el registro en curso — suplementario' }
       ]
     },
     {
       id: 'SUP-18', nombre: 'Imágenes', archivo: 'Imagenes.html',
       shell: 'trabajo', cu: ['CU-37', 'CU-38'],
-      wireframe: 'Wireframes-Imagenes.md 2.1',
-      proposito: 'Ver qué imágenes ocupan el servidor, cuáles administra el producto y cuáles no, cuáles están en uso, y liberar espacio sin destruir nada que haga falta.',
-      estadosDeclarados: 20, estadosDemostrables: 19,
+      wireframe: 'Wireframes-Imagenes.md 2.2',
+      proposito: 'Ver qué imágenes ocupan el servidor, cuáles administra el producto y cuáles no, cuáles están en uso, liberar espacio sin destruir nada que haga falta, y crear un servicio desde una imagen del almacén local.',
+      estadosDeclarados: 21, estadosDemostrables: 20,
       estados: [
         { id: 'con-datos', etiqueta: 'Con datos · dos grupos por pertenencia', predeterminado: true },
         { id: 'cargando', etiqueta: 'Cargando · esqueleto de tabla' },
@@ -2675,6 +3298,10 @@
         { id: 'imagen-en-uso', etiqueta: 'Imagen en uso · sin acción de conservar' },
         { id: 'imagen-solo-historial', etiqueta: 'Imagen sólo en el historial · con acción de conservar' },
         { id: 'imagen-sin-referencia', etiqueta: 'Imagen sin ninguna referencia' },
+        /* El estado nuevo de la versión 2.2, que la sexta variante de origen
+           habilita. No es una quinta lectura del indicador: es una
+           contribución más al mismo contador. */
+        { id: 'imagen-sostiene-no-reproducible', etiqueta: 'Imagen que sostiene a un servicio no reproducible (§3.6, B-UX-33)' },
         { id: 'uso-no-atribuible', etiqueta: 'Uso no atribuible · despliegues sin digesto' },
         { id: 'imagen-conservada', etiqueta: 'Imagen conservada' },
         { id: 'imagen-ajena', etiqueta: 'Imagen ajena · sin acciones' },
@@ -2727,9 +3354,54 @@
     restricciones: [
       'Si el conjunto es configuración de la instalación, su superficie es SUP-12; si es del proyecto SelfHosted, es una superficie del proyecto.',
       'La acción del estado vacío tiene que llevar a un lugar que exista, y hoy no se puede declarar cuál es sin elegir por el agente humano.',
-      'Explorar no es una octava vía: las vías siguen siendo siete y las variantes de origen, cinco.'
+      'Explorar no es un cuarto valor del campo de origen: los valores siguen siendo tres y las variantes de origen, seis.',
+      'Con el alta unificada la brecha GANA PESO: el registro público de referencia ya puesto es una de las dos compensaciones de la pérdida que el formulario produce, y si no viene configurado de fábrica, la compensación no ocurre.'
     ],
-    nota: 'SUP-19, exploración de registro de imágenes, se construye en la pasada B de esta iteración. El disparador de las vías 3 y 4 ya declara su destino.'
+    nota: 'SUP-19, exploración de registro de imágenes, está construida. El disparador del valor de registro del campo de origen ya declara su destino, y volver de la exploración deja el origen completo y sin verificar.'
+  };
+
+  /* B-UX-31 · la política de cuarentena. La maqueta DEMUESTRA que un servicio
+     en cuarentena se ve —en el nodo del lienzo, en el panel lateral y en el
+     bloque del tablero— y NO DIBUJA ninguna acción de retirarla, ningún aviso
+     en el momento en que ocurre y ninguna acción de recuperar el despliegue
+     anterior. Las tres ausencias son deliberadas y se declaran como tales. */
+  var BRECHA_CUARENTENA = {
+    brecha: 'B-UX-31',
+    titulo: 'Brecha abierta declarada · los tres puntos sin decidir de la política de cuarentena',
+    texto: 'La política ante un despliegue que no arranca tiene su cuerpo decidido —informar y recuperar el anterior, servir la versión previa si arranca, y si tampoco arranca dejar el proyecto corriendo con el servicio en cuarentena— y deja TRES puntos sin decidir. Esta maqueta demuestra la visibilidad persistente, que se DERIVA de la exigencia de que un servicio en cuarentena se encuentre antes de necesitarlo, y no dibuja nada de lo que depende de los tres puntos abiertos.',
+    restricciones: [
+      'Ninguna acción de retirar la cuarentena, porque ninguna fuente declara qué la levanta. No se dibuja ni habilitada ni deshabilitada.',
+      'Ningún aviso en el momento en que ocurre: ver y avisar son cosas distintas, y avisar no está declarado. Nada de notificación superpuesta, de contador en la navegación ni de centro de avisos.',
+      'Ninguna acción de recuperar el despliegue anterior: si la recuperación resultara ofrecida en vez de automática haría falta un control que hoy no se dibuja.',
+      'Cuál de las dos marcas apaga la cuarentena —el autoarranque o la participación en el arranque— no está decidido. La maqueta escribe «autoarranque apagado» siguiendo el cuerpo decidido y declara que la elección no está tomada.'
+    ],
+    nota: 'La cuarentena no tiene umbral: un solo servicio ya es motivo suficiente para exhibir el bloque del tablero. No hay valor por defecto que declarar y por lo tanto no hay brecha nueva por ese eje.'
+  };
+
+  /* B-UX-33 · la imagen que sostiene a un servicio no reproducible. */
+  var BRECHA_IMAGEN_SOSTIENE = {
+    brecha: 'B-UX-33',
+    titulo: 'Brecha abierta declarada · la imagen que sostiene a un servicio no reproducible',
+    texto: 'Un servicio de origen imagen del almacén local sin despliegue activo referencia una imagen que puede quedar entre las descartables de la limpieza, y no hay de dónde volver a traerla. Ninguna fuente declara si el origen de un servicio declarado protege a su imagen, ni si esa protección sería automática o exigiría la marca de conservada.',
+    restricciones: [
+      'El indicador de uso CUENTA AL SERVICIO DECLARADO COMO REFERENCIA, con esas palabras, y la fila lo declara.',
+      'La imagen NO se marca como protegida y la limpieza no la excluye: demostrar la protección sería completar la política.',
+      'Se cruza con Q-21, que decide el alcance de la marca de conservada, y con el criterio de descarte de B-26.'
+    ],
+    nota: 'Es la brecha B-32 de 02-Especificacion-Funcional, vista desde la superficie. Destinatario: agente humano del proyecto.'
+  };
+
+  /* B-UX-32 · la variante `repositorio`. Las dos mitades tienen que verse. */
+  var BRECHA_REPOSITORIO = {
+    brecha: 'B-UX-32',
+    titulo: 'Brecha abierta declarada · la variante de origen que ninguna superficie produce',
+    texto: 'La variante `repositorio` sigue en el modelo y en RN-08, y el campo de origen del alta no la ofrece desde que F-10 se acotó el 2026-08-01. Un servicio con ese origen es representable por importación o por dato migrado. Qué hace el despliegue frente a un servicio así no lo declara ninguna fuente.',
+    restricciones: [
+      'El panel lateral la EXHIBE EN LECTURA con sus cuatro campos, porque ocultarla dejaría un servicio sin origen visible, y declara que la interfaz ya no la produce.',
+      'El alta NO la ofrece: no hay ningún control, ninguna opción y ningún texto que la produzca.',
+      'Las dos mitades tienen que verse a la vez: que un servicio con ese origen se lee, y que ninguna superficie lo crea.'
+    ],
+    nota: 'Es la brecha B-30 de 02-Especificacion-Funcional, vista desde la superficie. No se resuelve acá.'
   };
 
   /* Brecha abierta que SUP-18, SUP-12 y SUP-09 exhiben declarada y NINGUNA
@@ -2806,8 +3478,19 @@
     IMAGENES: IMAGENES_SUPERFICIE,
     EXPLORACION: EXPLORACION,
     ALTA_SERVICIO: ALTA_SERVICIO,
-    VIAS_ALTA: VIAS_ALTA,
+    CAMPO_ORIGEN: CAMPO_ORIGEN,
     ORIGENES: ORIGENES,
+    DISTINTIVOS: DISTINTIVOS,
+    ACCIONES_EJECUCION: ACCIONES_EJECUCION,
+    EJECUCION_SIN_DESPLIEGUE: EJECUCION_SIN_DESPLIEGUE,
+    ACCIONES_PROYECTO: ACCIONES_PROYECTO,
+    FASES_DESPLIEGUE: FASES_DESPLIEGUE,
+    INVARIANTE_CONSTRUIR: INVARIANTE_CONSTRUIR,
+    SERVICIO_ALMACEN_LOCAL: SERVICIO_ALMACEN_LOCAL,
+    SERVICIO_EN_CUARENTENA: SERVICIO_EN_CUARENTENA,
+    CUARENTENA_TABLERO: CUARENTENA_TABLERO,
+    ENTRADA_DESDE_INVENTARIO: ENTRADA_DESDE_INVENTARIO,
+    COMPUESTO_POR_LA_MAQUETA: COMPUESTO_POR_LA_MAQUETA,
     PASOS_TRONCO: PASOS_TRONCO,
     ESTADOS_SERVICIO: ESTADOS_SERVICIO,
     EXPLORACION_REGISTRO: EXPLORACION_REGISTRO,
@@ -2824,13 +3507,27 @@
        apruebe o las corrija. Una por superficie que la aloja. */
     BRECHA_UMBRAL: BRECHA_UMBRAL,
     BRECHA_REGISTROS: BRECHA_REGISTROS,
+    BRECHA_CUARENTENA: BRECHA_CUARENTENA,
+    BRECHA_IMAGEN_SOSTIENE: BRECHA_IMAGEN_SOSTIENE,
+    BRECHA_REPOSITORIO: BRECHA_REPOSITORIO,
 
+    /* Una superficie puede alojar más de una brecha desde la ronda del
+       2026-08-01: la barra de validación las lista todas, con su borde
+       propio, en lugar de exhibir sólo la primera. */
+    propuestasDe: function (idSuperficie) {
+      var lista = [];
+      if (idSuperficie === 'SUP-05') { lista.push(PROPUESTA_ARISTAS, BRECHA_CUARENTENA); }
+      if (idSuperficie === 'SUP-06') { lista.push(BRECHA_CUARENTENA, BRECHA_REPOSITORIO); }
+      if (idSuperficie === 'SUP-09') { lista.push(BRECHA_CUARENTENA, BRECHA_UMBRAL); }
+      if (idSuperficie === 'SUP-17') { lista.push(BRECHA_REGISTROS, BRECHA_REPOSITORIO); }
+      if (idSuperficie === 'SUP-19') { lista.push(BRECHA_REGISTROS); }
+      if (idSuperficie === 'SUP-18') { lista.push(BRECHA_UMBRAL, BRECHA_IMAGEN_SOSTIENE); }
+      if (idSuperficie === 'SUP-12') { lista.push(BRECHA_UMBRAL); }
+      return lista;
+    },
     propuestaDe: function (idSuperficie) {
-      if (idSuperficie === 'SUP-05') { return PROPUESTA_ARISTAS; }
-      if (idSuperficie === 'SUP-17') { return BRECHA_REGISTROS; }
-      if (idSuperficie === 'SUP-19') { return BRECHA_REGISTROS; }
-      if (idSuperficie === 'SUP-18' || idSuperficie === 'SUP-12' || idSuperficie === 'SUP-09') { return BRECHA_UMBRAL; }
-      return null;
+      var l = this.propuestasDe(idSuperficie);
+      return l.length ? l[0] : null;
     },
     origen: function (tipo) {
       for (var i = 0; i < ORIGENES.length; i++) {
@@ -2838,11 +3535,18 @@
       }
       return ORIGENES[0];
     },
-    via: function (idVia) {
-      for (var i = 0; i < VIAS_ALTA.length; i++) {
-        if (VIAS_ALTA[i].id === idVia) { return VIAS_ALTA[i]; }
+    /* Valor del campo de origen. Reemplaza a `via()`: con el alta unificada
+       ya no hay vías, hay tres valores de un campo. */
+    valorOrigen: function (idValor) {
+      var v = CAMPO_ORIGEN.valores;
+      for (var i = 0; i < v.length; i++) {
+        if (v[i].id === idValor) { return v[i]; }
       }
-      return VIAS_ALTA[0];
+      return v[0];
+    },
+    distintivo: function (id) { return DISTINTIVOS[id] || null; },
+    accionesEjecucion: function (grupo) {
+      return ACCIONES_EJECUCION.filter(function (a) { return a.grupo === grupo; });
     },
 
     superficie: function (id) {

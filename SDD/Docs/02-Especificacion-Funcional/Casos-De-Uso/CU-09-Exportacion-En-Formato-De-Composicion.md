@@ -3,13 +3,13 @@
 **Proyecto de código:** SelfHosted-Service
 **Producto:** SelfHosted Service
 **Documento:** CU-09-Exportacion-En-Formato-De-Composicion.md
-**Versión:** 2.0
+**Versión:** 2.1
 **Estado:** Propuesto
-**Fecha:** 2026-07-30
+**Fecha:** 2026-08-02
 **Autor:** Analista Funcional Senior (AG-02)
 
 **Necesidad de negocio upstream:** [NB-03](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-03-Reproducibilidad-De-La-Arquitectura.md)
-**Trazabilidad upstream:** PRODUCT-INTAKE §4 capacidad F-13; §5 historia 9; anexo E-14 (el archivo exportado, el archivo de variables y el manifiesto); anexo E-15, endpoint de exportación; E-16 RN-15, RN-23, RN-25; §17.P.11 DA-08
+**Trazabilidad upstream:** **el intake vigente es v3.7**, verificado en el campo `Versión` de su cabecera el 2026-08-02. **Todo el contenido que este documento incorpora de la ronda del 2026-07-31 y del 2026-08-01 entró en la v3.4**, y se cita por esa versión en el cuerpo y en el control de cambios porque es la que permite localizarlo en el snapshot [`_legacy/2026-08-01/PRODUCT-INTAKE-SelfHosted-Service-v3.4.md`](../../../Intake/_legacy/2026-08-01/PRODUCT-INTAKE-SelfHosted-Service-v3.4.md), según el criterio de cita de versión de [`Especificacion-Funcional.md`](../Especificacion-Funcional.md) §8. **Secciones y anexos consumidos:** §4 capacidad F-13; §5 historia 9; anexo E-14 (el archivo exportado, el archivo de variables y el manifiesto); anexo E-15, endpoint de exportación; E-16 RN-15, RN-23, RN-25; §17.P.11 DA-08
 
 ---
 
@@ -55,19 +55,27 @@ Los nombres de los actores no humanos son **denominaciones acuñadas por esta ca
 4. Para cada valor secreto, el sistema emite un marcador de variable en lugar del valor y agrega su entrada vacía en el archivo de variables (RN-15, RN-23, RN-25).
 5. El sistema escapa todo signo de expansión que forme parte de un valor literal, para que la herramienta de composición lo entregue tal cual (RN-25).
 6. El sistema emite el archivo de composición y el archivo de variables que lo acompaña.
-7. El sistema entrega los dos archivos al administrador.
+7. **Si el proyecto SelfHosted tiene algún servicio marcado como no reproducible**, el sistema lo **advierte antes de exportar**, enumerando cuáles y por qué: su origen es una imagen del almacén local, que no está en la máquina de destino. La advertencia es previa a la emisión y no un aviso posterior.
+8. El sistema entrega los dos archivos al administrador.
 
 ## 5. Flujos alternativos
 
 **FA-01 — Exportación acompañada del manifiesto propio.**
 Disparador: el administrador quiere preservar además la disposición del lienzo, el nivel de variable compartida y las expresiones sin resolver.
 Pasos: se genera además el manifiesto propio. Ver CU-10.
-Punto de retorno: paso 7.
+Punto de retorno: paso 8.
 
 **FA-02 — Proyecto SelfHosted sin secretos.**
 Disparador: ningún valor del proyecto es secreto.
 Pasos: el archivo de variables se emite igualmente, vacío de entradas de secreto.
-Punto de retorno: paso 7.
+Punto de retorno: paso 8.
+
+**FA-03 — El proyecto tiene servicios no reproducibles.**
+Disparador: en el paso 7 al menos un servicio tiene origen `imagen-local`, que es la **única** variante que marca al servicio como no reproducible.
+Pasos: el sistema **advierte antes de exportar** y enumera los servicios alcanzados. La exportación **no se bloquea**: la deuda se acepta a cambio de costo, y su camino de pago está declarado —publicar la imagen en un registro y pasar a un origen de registro, con lo que la marca se retira—. El archivo se emite igual, con el origen tal como está declarado.
+Punto de retorno: paso 8.
+
+**La marca es derivada del origen y no editable**, de modo que ni la exportación ni el administrador pueden quitarla desde acá: se retira cambiando el origen (CU-03).
 
 ## 6. Excepciones y errores
 
@@ -78,7 +86,7 @@ Punto de retorno: paso 7.
 
 ## 7. Postcondiciones
 
-**En caso de éxito:** existen el archivo de composición y su archivo de variables; ningún valor secreto aparece en ninguno de los dos; ningún archivo contiene una expresión propia del modelo sin escapar; el archivo levanta en otra instalación.
+**En caso de éxito:** existen el archivo de composición y su archivo de variables; ningún valor secreto aparece en ninguno de los dos; ningún archivo contiene una expresión propia del modelo sin escapar; el archivo levanta en otra instalación, **con la salvedad advertida de los servicios no reproducibles**, cuya imagen no está en la máquina de destino.
 
 **En caso de fallo:** no se entrega ningún archivo parcial y el proyecto SelfHosted no se modifica: la exportación es de sólo lectura sobre el registro.
 
@@ -90,6 +98,8 @@ Punto de retorno: paso 7.
 | CA-02 | Un proyecto SelfHosted con una variable secreta | El administrador exporta | El valor de la variable secreta no aparece en ningún archivo de la exportación |
 | CA-03 | Un servicio con una variable cuyo valor literal contiene un signo de expansión | El administrador exporta | Todo signo de expansión literal viaja duplicado, el archivo levanta y la herramienta de composición entrega el valor sin interpolarlo |
 | CA-04 | El proyecto SelfHosted 12 con el conjunto de cambios 331 pendiente, que cambiaría la variable compartida de zona horaria | El administrador exporta antes de aplicar | El archivo exporta el valor aplicado y no el del borrador |
+| CA-05 | Un proyecto SelfHosted con dos servicios de origen `imagen-local`, marcados como no reproducibles | El administrador exporta | El sistema **advierte antes de emitir**, enumerando los dos servicios y el motivo. La exportación no se bloquea y los archivos se emiten |
+| CA-06 | Un proyecto SelfHosted sin ningún servicio no reproducible | El administrador exporta | No aparece ninguna advertencia de reproducibilidad |
 
 ## 9. Trazabilidad
 
@@ -97,7 +107,7 @@ Punto de retorno: paso 7.
 | --- | --- |
 | Necesidad de negocio | [NB-03](../../01-Necesidades-Negocio/Necesidades-De-Negocio/NB-03-Reproducibilidad-De-La-Arquitectura.md) |
 | Reglas de negocio aplicables | RN-15, RN-23, RN-25. Reglas conceptuales: RC-16 |
-| Historias de usuario a generar en 06 | US-CU-09-1 (exportar el proyecto SelfHosted al formato estándar de composición), US-CU-09-2 (obtener el archivo de variables con los secretos vacíos), US-CU-09-3 (conservar los literales con signo de expansión al exportar) |
+| Historias de usuario a generar en 06 | US-CU-09-1 (exportar el proyecto SelfHosted al formato estándar de composición), US-CU-09-2 (obtener el archivo de variables con los secretos vacíos), US-CU-09-3 (conservar los literales con signo de expansión al exportar), US-CU-09-4 (enterarse antes de exportar de qué servicios no son reproducibles) |
 | Componentes esperados en 05 | Capa `Web`, controlador del recurso de exportación; capa `Application`, módulo de proyectos; capa `Infrastructure`, `Exportacion`. Referencia tentativa |
 | Tests previstos en 08 | T-18 (secreto en la exportación); T-39 (las seis referencias del proyecto 12); T-47 (escape del signo de expansión); T-30 (ida y vuelta con la importación) |
 
@@ -109,11 +119,15 @@ Los identificadores de historia de usuario llevan la forma `US-CU-XX-n` y son **
 - El archivo exportado debe ser autosuficiente sin el manifiesto propio: con el manifiesto se recuperan además la disposición del lienzo, el nivel de variable compartida y la intención de cada referencia.
 - La exportación es la mitigación declarada del riesgo RG-07, servidor sin redundancia de disco, y la decisión pre-tomada DA-08.
 - El destino externo concreto del respaldo no está declarado y el intake lo deja abierto. Ver CU-12.
+- **La advertencia del paso 7 es previa y no posterior, y es deliberado.** Exportar es lo que el administrador hace para poder reconstruir en otra máquina; enterarse después de que dos servicios no van a levantar allá vuelve inútil el archivo en el momento en que ya no hay nadie mirando. Es lo que el intake declara al exigir que la exportación advierta **antes** de exportar.
+- **La reproducibilidad es atributo derivado del origen.** Lo declara CU-03 y este caso de uso lo lee: acá no se calcula ni se edita.
 
 ## 11. Control de cambios
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.1 | 2026-08-02 | **Corrección del hallazgo `P0-01`** del informe [`B2-Retroalimentacion-Decisiones-2026-08-01-r1.md`](../../Audit/B2-Retroalimentacion-Decisiones-2026-08-01-r1.md), veredicto RECHAZADO. **Absorbida dentro de la versión 2.1 sin subirla y sin archivar de nuevo**, por la política de versionado de `Master-Prompt.md` §5: el documento está en `Propuesto` y la corrección deriva del audit de su propia fase de emisión. **Cabecera, y sólo cabecera:** la trazabilidad upstream no declaraba cuál es la versión vigente del intake, de modo que la versión que citaba se leía como afirmación de vigencia y dejó de ser cierta cuando la fuente emitió la 3.6 y la 3.7 el 2026-08-02. Pasa a declarar que **el intake vigente es v3.7**, verificado en el campo `Versión` de su cabecera ese día, y que **el contenido incorporado entró en la v3.4**, con el enlace al snapshot donde se localiza. Las dos citas dicen cosas distintas y conviven, por el criterio de cita de versión que [`Especificacion-Funcional.md`](../Especificacion-Funcional.md) §8 fija en esta misma ronda: la de vigencia se verifica contra el intake vivo, la de origen contra la copia archivada. **Todo el contenido incorporado resuelve contra la v3.4**, verificado sobre su snapshot antes de escribir esta fila; ninguna cita del cuerpo ni del control de cambios se re-apunta. **Ninguna otra parte del documento cambia**: ningún propósito, actor, precondición, paso del flujo, flujo alternativo, excepción, postcondición, criterio de aceptación, referencia de trazabilidad ni nota. Ninguna decisión abierta se cerró y ningún conteo cambió. Ninguna fila previa de esta tabla se reescribió, por `Master-Prompt.md` §5.1 |
+| 2.1 | 2026-08-01 | **La exportación advierte antes de exportar cuando hay servicios no reproducibles**, por la sexta variante de origen `imagen-local` que la ronda de decisiones del agente humano del proyecto del 2026-07-31 incorpora y que el `PRODUCT-INTAKE-SelfHosted-Service` **v3.4** consolida en su anexo E-2 §20.2.3. Sube **minor**: ningún paso preexistente cambia de contenido y el flujo **suma un paso al final**, el 7, con el que era 7 corrido al 8; los dos flujos alternativos que apuntaban al paso 7 se reapuntaron al 8. **FA-03 nueva**, con la constancia de que la advertencia **no bloquea** la exportación —la deuda se acepta a cambio de costo y su camino de pago está declarado— y de que la marca es **derivada del origen y no editable**. **§7** acota la afirmación de que el archivo levanta en otra instalación con la salvedad advertida. **§8** suma `CA-05` y `CA-06`. **§9** suma `US-CU-09-4`. **§10** declara por qué la advertencia es previa. **Ninguna decisión abierta se cerró acá.** La versión 2.0 queda archivada en `_legacy/2026-08-01/CU-09-Exportacion-En-Formato-De-Composicion-v2.0.md` |
 | 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 3, bajo `Rules-Especificacion-Funcional` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/CU-09-Exportacion-En-Formato-De-Composicion-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (§4 R3) y que el PRODUCT-INTAKE §13 declara como `Nombre-Proyecto-Codigo`; la trazabilidad upstream cita el `PRODUCT-INTAKE` renombrado, antes `SOLUTION-INTAKE`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: la única ocurrencia de «solución» designaba el nivel superior y pasa a «producto» con su concordancia de género —«Administrador de la solución» a «Administrador del producto»—; no hay ninguna «solución de código» ni ninguna ocurrencia de la cadena `resoluci` en este documento, verificado por barrido. Las dieciocho ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: once llevan la forma calificada «proyecto SelfHosted»; seis son la misma entidad del dominio en forma corta, admitida por el PRODUCT-INTAKE §12 donde el contexto ya fijó el sentido, y una era la etiqueta de cabecera. **Ningún propósito, actor, precondición, paso de flujo, flujo alternativo, excepción, postcondición, criterio de aceptación, referencia de trazabilidad, nota ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [Plan-Migracion-4.1-a-6.0.md](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Corrección absorbida dentro de la versión 1.0, sin subirla y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase de emisión. §2 suma la declaración de que los nombres de los actores no humanos son denominaciones acuñadas por esta categoría y no componentes declarados, con la salvedad de los seis que sí trazan a una fuente. Ningún actor cambia de nombre y ningún flujo se altera: lo que se corrige es que la categoría afirmaba que todo dato trazaba y trece de los diecinueve nombres de actor no humano no lo cumplían. Origen: hallazgo H-04 del informe [Audit/B-02-03-r1.md](../../Audit/B-02-03-r1.md) |
 | 1.0 | 2026-07-29 | Versión inicial, derivada de la necesidad de negocio upstream y de las secciones del intake citadas en la cabecera |

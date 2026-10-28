@@ -3,9 +3,9 @@
 **Proyecto de código:** SelfHosted-Service
 **Producto:** SelfHosted Service
 **Documento:** Wireframes-Descubrimiento-E-Incorporacion.md
-**Versión:** 2.0
+**Versión:** 2.1
 **Estado:** Propuesto
-**Fecha:** 2026-07-30
+**Fecha:** 2026-08-01
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -19,6 +19,7 @@
   - [3.1 La tabla de clasificación y su derivación](#31-la-tabla-de-clasificación-y-su-derivación)
   - [3.2 La advertencia de corte](#32-la-advertencia-de-corte)
   - [3.3 Los puertos publicados del candidato](#33-los-puertos-publicados-del-candidato)
+  - [3.4 Adoptar es una acción de este listado, no una vía del alta](#34-adoptar-es-una-acción-de-este-listado-no-una-vía-del-alta)
 - [4. Interacciones](#4-interacciones)
 - [5. Estados](#5-estados)
 - [6. Versión responsive](#6-versión-responsive)
@@ -35,6 +36,8 @@
 Es el flujo diferencial del producto: lo que hace la herramienta aplicable sobre un servidor que ya está en producción. Su tarea es que el administrador vea los contenedores que ya corren en su servidor y los incorpore a un proyecto SelfHosted **sin recrearlos ni cortar el servicio**.
 
 Corresponde a la ruta `/descubrimiento` del mapa de navegación del anexo E-18. El flujo tiene **cuatro pasos y no tres** —descubrir, elegir, **clasificar** y confirmar—, y el tercero es obligatorio: sin clasificación confirmada, el servicio no se crea.
+
+**Desde el 2026-08-01, adoptar es una acción de esta superficie y no una vía del alta de servicio.** El alta se unificó en una sola entrada con el origen como campo, y adoptar salió de ahí porque **no es un formulario sino un listado donde se elige**. Ver §3.4. El flujo de cuatro pasos, el paso obligatorio de clasificación y la advertencia de corte **no cambian**.
 
 **Pendencia declarada `B-UX-02`.** El anexo E-18 no maqueta el paso de clasificación de variables, y `02-Especificacion-Funcional` lo transfiere como brecha B-07 a esta categoría. A diferencia de la distinción visual de las aristas, **acá sí hay de dónde derivarlo**: el anexo E-11 declara la carga útil completa del paso, las reglas de incorporación RA-05 y RA-06 del anexo E-7 declaran su comportamiento, y el catálogo de diseño aporta el patrón de grilla de listado y el de formulario. Se especifica por derivación y se declara la derivación, para que el agente humano del proyecto pueda confirmarla.
 
@@ -143,6 +146,24 @@ El candidato descubierto trae ahora **los puertos que publica en el host**, y la
 
 **Cómo se muestra la lista vacía, que es el caso frecuente.** Un candidato en macvlan no publica puertos, y su lista vacía es un **dato válido y no una ausencia de dato**. La ficha lo dice con esas palabras —«no publica puertos»— y no deja el campo en blanco, porque un blanco se lee como «no se sabe» y acá se sabe.
 
+### 3.4 Adoptar es una acción de este listado, no una vía del alta
+
+Hasta el 2026-07-31 «adoptar un contenedor existente» figuraba como una de las **siete vías de alta** y el menú del alta de servicio la ofrecía como tarjeta. Con el alta unificada, esa vía **sale del alta**: el motivo es que adoptar **no es declarar un servicio desde cero**, que es lo que un formulario hace, sino **elegir un elemento de una lista** y aceptar la configuración que ya tiene.
+
+| Qué cambia | Qué no cambia |
+| --- | --- |
+| El punto de entrada: se llega por la navegación del proyecto SelfHosted y no desde el menú del alta, que ya no existe | Los **cuatro pasos** del flujo: descubrir, elegir, **clasificar** y confirmar |
+| La acción de la fila **produce un servicio**, y la superficie lo dice: es el desenlace del flujo y no un paso previo a otro formulario | El **paso obligatorio de clasificación de variables**, que sigue sin poder saltearse ni descartarse |
+| La superficie deja de ser un destino intermedio del alta y pasa a ser el destino completo de esta operación | La **advertencia de corte** en sus dos apariciones, y las salvaguardas de aislamiento |
+
+**Tres consecuencias de composición que esta superficie tiene que hacer cumplir:**
+
+1. **El verbo de la acción primaria del paso 2 nombra el resultado.** «Confirmar e incorporar» ya lo hacía, y con la adopción fuera del alta el acuse tiene que declarar además **qué servicio quedó creado y en qué proyecto SelfHosted**: no hay un formulario posterior donde el administrador vaya a verlo.
+2. **La superficie es alcanzable sin pasar por el alta.** Con el menú de vías retirado, la única entrada es la navegación del proyecto SelfHosted, y por lo tanto tiene que estar ahí. Lo declara [`SUP-05`](Wireframes-Lienzo-Del-Proyecto.md) §3.1, que ubica las tres entradas al mismo nivel.
+3. **El origen del servicio adoptado sigue siendo el que la traducción deduzca**, y sigue sin elegirse. La unificación del alta no lo toca: la adopción nunca tuvo origen propio, produce uno.
+
+**Lo que esta superficie gana con el cambio, y conviene decirlo.** El alta unificada pierde la tarjeta que le contaba al administrador que se puede adoptar lo que ya corre —es la pérdida que [`SUP-17`](Wireframes-Alta-De-Servicio.md) §3.2 declara—. Esta superficie **no la compensa por sí sola**: la compensa su presencia al mismo nivel en la navegación del proyecto. Se declara para que la mitigación no se dé por descontada.
+
 ---
 
 ## 4. Interacciones
@@ -154,7 +175,7 @@ El candidato descubierto trae ahora **los puertos que publica en el host**, y la
 | Consultar las variables de un candidato | Acción de la fila, antes de elegirlo | Se devuelven las variables con la sugerencia de la heurística; **los valores de las sugeridas viajan enmascarados** | El candidato es incorporable |
 | Forzar un candidato no incorporable | Acción diferenciada de la fila | El sistema exige **confirmación explícita escribiendo el nombre** antes de continuar, porque gobernarlo desde el administrador crearía una dependencia circular de control | El candidato es no incorporable |
 | Marcar o desmarcar una variable | Casilla de la tabla | El valor se enmascara al marcar y se muestra al desmarcar. Sin efecto en el sistema hasta confirmar | El paso 2 está abierto |
-| Confirmar e incorporar | Acción primaria del paso 2 | El sistema crea el servicio **vinculado al contenedor existente por su identificador, sin recrearlo**; persiste lo marcado como secreto cifrado en reposo con recarga manual pendiente, y lo no marcado como valor literal; persiste la traza de la clasificación; y **el nodo aparece en el lienzo ya activo** | La tabla está confirmada |
+| Confirmar e incorporar | Acción primaria del paso 2 | El sistema crea el servicio **vinculado al contenedor existente por su identificador, sin recrearlo**; persiste lo marcado como secreto cifrado en reposo con recarga manual pendiente, y lo no marcado como valor literal; persiste la traza de la clasificación; y **el nodo aparece en el lienzo ya activo**. El acuse declara **qué servicio quedó creado y en qué proyecto SelfHosted**: es el desenlace del flujo y no hay formulario posterior donde verlo | La tabla está confirmada |
 | Abandonar la clasificación | Acción secundaria o cierre | **El servicio no se crea y el contenedor sigue sin incorporar.** Retorno al paso 1 | El paso 2 está abierto |
 | Confirmar sin clasificación | — | **No existe.** La incorporación no se completa sin el paso de clasificación confirmado | — |
 | Operar sobre un contenedor desde el descubrimiento | — | **No existe.** Ninguna operación de escritura se habilita desde el descubrimiento | — |
@@ -222,14 +243,14 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 | Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-06](../../02-Especificacion-Funcional/Casos-De-Uso/CU-06-Descubrimiento-De-Contenedores-Adoptables.md), [CU-07](../../02-Especificacion-Funcional/Casos-De-Uso/CU-07-Incorporacion-Con-Confirmacion-Explicita.md), [CU-08](../../02-Especificacion-Funcional/Casos-De-Uso/CU-08-Traduccion-De-La-Configuracion-Observada.md) |
 | Reglas de negocio relevantes | RN-01, RN-02, RN-07, RN-11, RN-15, RN-17, RN-26, RN-29, RN-34 |
-| Insumo del intake | §4 capacidad F-11; §6 flujo 2; §7 casos límite CL-07, CL-08 y CL-15; §17.P.5 salvaguardas de aislamiento y enmascarado en la incorporación; anexos E-7, E-11, E-20, E-21 |
+| Insumo del intake | **v3.5.** §4 capacidad F-11 y la nota del **tercer eje y el alta unificada**, que saca la adopción del alta; §6 flujo 2; §7 casos límite CL-07, CL-08 y CL-15; §17.P.5 salvaguardas de aislamiento y enmascarado en la incorporación; anexos E-7, E-11, E-20, E-21. Fila 3.4 de su control de cambios |
 | Marco de experiencia aplicado | [`Experiencia-De-Uso.md`](../Experiencia-De-Uso.md) §3.4 flujo FL-04, §8.1 taxonomía de errores |
 | Representaciones que invoca | [`Representacion-Lenguaje-Visual-De-Estados.md`](../Representaciones/Representacion-Lenguaje-Visual-De-Estados.md) |
 | Catálogo de diseño aplicado | `Design-Rules-Web-Generico.md` §4.3, §4.4, §4.6, §4.9, §4.10, §5, §7, §8; `Design-Rules-Config-Esquema.md` §4.1 campo dirigido por descriptor; `Design-Rules-Blazor-Mudblazor.md` §4 |
 | US a generar en 06 | US-CU-06-1 a US-CU-06-3, US-CU-07-1 a US-CU-07-4, US-CU-08-1 a US-CU-08-3, provisionales |
-| Tests previstos en 08 | Snapshot de los dieciocho estados declarados; verificación de que la incorporación sin clasificación confirmada se rechaza; verificación de que una variable no detectada llega desmarcada y no en claro; verificación de que ninguna operación de escritura se habilita desde el descubrimiento |
+| Tests previstos en 08 | Snapshot de los dieciocho estados declarados; verificación de que la incorporación sin clasificación confirmada se rechaza; verificación de que una variable no detectada llega desmarcada y no en claro; verificación de que ninguna operación de escritura se habilita desde el descubrimiento; verificación de que la superficie **es alcanzable desde la navegación del proyecto SelfHosted sin pasar por el alta**; verificación de que el acuse de la incorporación **declara qué servicio quedó creado y en qué proyecto** |
 | Brechas que declara | `B-UX-02`, maquetado del paso de clasificación resuelto por derivación (B-07 de `02-Especificacion-Funcional`) |
-| Maqueta de la Fase B2 | Nombre canónico `Descubrimiento e incorporación`. Dieciocho estados declarados en §5, de los cuales diecisiete son demostrables: las filas marcadas no aplicable no se maquetan. La superficie tiene dos pasos |
+| Maqueta de la Fase B2 | Nombre canónico `Descubrimiento e incorporación`. Dieciocho estados declarados en §5, de los cuales diecisiete son demostrables: las filas marcadas no aplicable no se maquetan. La superficie tiene dos pasos. **Se ajusta**: cambia su punto de entrada y el contenido del acuse; **no cambia su composición y no suma estados** |
 | Fuente de la correspondencia | La fila «CU origen» reproduce la fila de esta superficie en [`Experiencia-De-Uso.md`](../Experiencia-De-Uso.md) §9.2, que es la **fuente única** de la correspondencia entre superficie y caso de uso. Se reproduce, y no se referencia, porque `Rules-UX-UI-DX.md` §4.2.1 punto 8 la exige como sección obligatoria del wireframe |
 
 ---
@@ -238,6 +259,7 @@ La matriz de plataforma declara una única familia de navegador de escritorio y 
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.1 | 2026-08-01 | **Retroalimentación de la Fase B2: adoptar sale del alta y pasa a ser una acción de este listado.** Por la decisión del agente humano del proyecto del 2026-07-31, consolidada en el `PRODUCT-INTAKE-SelfHosted-Service` **v3.5** §4, nota del tercer eje y el alta unificada, y consumida de la brecha `B-29` de [`02-Especificacion-Funcional`](../../02-Especificacion-Funcional/Especificacion-Funcional.md) §9. Sube **minor**: **ninguna sección se renumera, ninguna interacción cambia de resultado y los dieciocho estados no cambian**; el flujo de cuatro pasos, el paso obligatorio de clasificación, su derivación de §3.1, la advertencia de corte de §3.2 y los puertos publicados de §3.3 quedan **idénticos**. **§3.4 nueva**: declara por qué adoptar deja de ser una vía del alta —**no es un formulario sino un listado donde se elige**—, qué cambia y qué no, y **tres consecuencias de composición**: que el acuse declare qué servicio quedó creado y en qué proyecto SelfHosted, que la superficie sea alcanzable desde la navegación del proyecto sin pasar por el alta, y que el origen del servicio adoptado siga siendo el que la traducción deduzca. Se declara además que esta superficie **no compensa por sí sola** la pérdida que la unificación produce: la compensa su presencia al mismo nivel en la navegación, declarada en `SUP-05` §3.1. **§1** incorpora el cambio de punto de entrada. **§8** actualiza el insumo del intake a v3.5, suma dos verificaciones a los tests previstos y declara que la superficie **se ajusta sin cambiar de composición**. **Ninguna brecha se abre ni se cierra acá**, y **ninguna decisión abierta se cerró**. **Ningún artefacto fuera de `03-UX-UI-DX` se tocó.** La versión 2.0 queda archivada en [`_legacy/2026-08-01/Wireframes-Descubrimiento-E-Incorporacion-v2.0.md`](_legacy/2026-08-01/Wireframes-Descubrimiento-E-Incorporacion-v2.0.md), con su bloque de archivado antepuesto y su cuerpo sin modificar. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) |
 | 2.0 | 2026-07-30 | **Migración normativa 4.1 → 6.0**, corte 4 de la fase M4, sobre el plan [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md). Clasificación **regenerar contenido**, por el salto de `Rules-UX-UI-DX` 2.0 → 4.0. **Fuente de contenido: documento de origen** —en su estado 1.1, que es el que dejó el fix de definiciones de servicio de la Fase B2—, más el [`PRODUCT-MANIFEST`](../../../Intake/PRODUCT-MANIFEST-SelfHosted-Service.md) §2 para el único campo de cabecera que se suma. Ni la derivación de la tabla de clasificación de §3.1, ni la advertencia de corte de §3.2, ni los puertos publicados de §3.3, ni las nueve interacciones, ni los dieciocho estados cambian de contenido: lo que cambia es la nomenclatura. Las nueve secciones obligatorias de `Rules-UX-UI-DX` 4.0 §4.2.1 ya estaban presentes y ninguna se agregó ni se reordenó. **Cabecera**: `**Proyecto:**` llevaba un valor del plano de negocio y pasa a `**Producto:**`, porque `Vocabulario-Rules.md` §3 prohíbe la etiqueta de un plano sobre el valor de otro; se suma `**Proyecto de código:** SelfHosted-Service`, que §4.1 de la regla vigente exige y que este documento no declaraba, con el valor **leído del manifiesto y no inferido**. **Vocabulario (`[5.0]`)**: «solución» pasa a «producto» en **1 ocurrencia** del referente de nivel superior —«Administrador único de la solución» en §8—, con la concordancia de género corregida. Este documento **no tiene ninguna ocurrencia de «resolución»**, y se deja constancia del barrido. De las 12 ocurrencias de «proyecto», 1 era la etiqueta de cabecera, **10 llevan la forma calificada «proyecto SelfHosted»** y no se tocaron por designar la entidad del dominio —incluida la del bloque ASCII del paso 1, «Ya incorporado por \<proyecto SelfHosted\>»— y **1 es «agente humano del proyecto»** en §1, que queda a secas por su referente de emprendimiento. **Ninguna ocurrencia se promovió a «proyecto de código».** La sustitución se hizo por el procedimiento por ocurrencia de `Vocabulario-Rules.md` §9.5 y **nunca por reemplazo global de cadena**. Los dos bloques ASCII de §2 **conservan su ancho intacto**. Los nombres canónicos de superficie —`SUP-10` y `Descubrimiento e incorporación`— se conservan textualmente, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **Glosario (`[5.1]`)**: `Glosario-UX.md` pasa de recomendado a obligatorio para los ocho tipos D8 y §6 verifica ahora su existencia y su completitud además de la no duplicación; lo emite un lote posterior de esta migración, y los términos que este wireframe acuña —grilla de candidatos, fila no incorporable, fila ya incorporada, tabla de clasificación, paso obligatorio, advertencia de corte, ficha del candidato— se devolvieron para que ese lote los consuma sin redefinir los que ya están en `Glosario-Funcional.md` de 02, en particular descubrimiento, candidato y motivo de no incorporabilidad. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) y el bloque de procedencia del destino no se tocó: sigue declarando 4.1, y cerrarlo es trabajo de M5 |
 | 1.1 | 2026-07-29 | **Se amplía con los puertos publicados del candidato.** §3.3 declara el dato nuevo con los dos motivos por los que tiene que estar a la vista antes de confirmar —el servicio incorporado los conserva, y pueden colisionar con un servicio ya declarado— y con el criterio de mostrar la lista vacía **como dato y no como blanco**, porque un blanco se lee como «no se sabe» y en macvlan se sabe. La versión 1.0 queda archivada en `_legacy/2026-07-29/`. Origen: §22.5 del documento de trabajo `SDD/Estado/Redefinicion-Servicio.md` v2.0 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica el flujo de cuatro pasos con el tercero obligatorio; **resuelve por derivación la pendencia `B-UX-02`** —maquetado del paso de clasificación de variables, brecha B-07 de `02-Especificacion-Funcional`— derivando la tabla campo por campo de la carga útil del anexo E-11 y de las reglas RA-05 y RA-06 del anexo E-7, y declarando la derivación para que sea impugnable; declara las dos reglas que la tabla hace cumplir, que la heurística sugiere y no decide y que se ven todas las variables importadas; especifica la advertencia de corte en sus dos apariciones; declara dieciocho estados |

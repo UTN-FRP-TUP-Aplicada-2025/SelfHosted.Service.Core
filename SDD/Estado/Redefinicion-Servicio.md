@@ -8,7 +8,7 @@
 **Autor:** Orquestador SDD
 **Naturaleza:** Documento de trabajo del proceso, fuera de `SDD/Docs/`. No es artefacto de ninguna de las doce categorías y ningún subagente lo consume como insumo. Registra un hallazgo de producto detectado durante el paso 5 de la Fase B2 y el análisis de impacto que su corrección requeriría.
 
-**Fuente de referencia:** análisis de Railway en `SelfHosted.Service.Core.Documentos/Analisis/Analisis-SaaS-Service/Analisis-Rayway.md`, secciones §2, §3.2, §4.2, §4.3, §6.1, §7 y el glosario de §10.
+**Fuente de referencia:** análisis de Railway en `SelfHosted.Service.Core.Documentacion/Analisis/Analisis-SaaS-Service/Analisis-Rayway.md`, secciones §2, §3.2, §4.2, §4.3, §6.1, §7 y el glosario de §10.
 
 **Sobre nombrar a Railway en este documento.** La solución no menciona a Railway en ninguno de sus artefactos: ni el intake, ni los 117 documentos de `02-Especificacion-Funcional` y `03-UX-UI-DX`, ni los otros documentos de `SDD/Estado/`. Es deliberado y lo verifica el audit, porque D7 prohíbe el vocabulario del dominio fuente en los artefactos generados. **Este documento es la excepción y lo declara**: es de trabajo, vive fuera de `SDD/Docs/`, ningún subagente lo consume, y su objeto es precisamente la comparación contra Railway. Si algo de acá se traslada a un artefacto de `SDD/Docs/`, ahí sí corresponde reexpresarlo como «la plataforma de referencia».
 

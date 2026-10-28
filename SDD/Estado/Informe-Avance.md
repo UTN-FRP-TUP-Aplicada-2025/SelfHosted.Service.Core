@@ -2,9 +2,9 @@
 
 **Solución:** SelfHosted Service (identidad de código `SelfHosted.Service.Core`)
 **Documento:** `Informe-Avance.md`
-**Versión:** 2.9
-**Estado:** Vigente — Fases A y B cerradas y aprobadas. Fase B2 en ejecución, con la especificación corregida y la maqueta pendiente de rehacer
-**Fecha:** 2026-07-29
+**Versión:** 3.0
+**Estado:** Vigente — Fases A y B cerradas y aprobadas. Migración normativa 4.1 → 6.0 cerrada. Fase B2 en ejecución, en el paso 6, con la ronda de corrección del 2026-08-02 emitida y su re-audit en curso
+**Fecha:** 2026-08-02
 **Autor:** Orquestador SDD
 **Naturaleza:** Documento de trabajo del proceso, fuera de `SDD/Docs/`. No es artefacto de ninguna de las doce categorías y ningún subagente lo consume como insumo. Existe para llevar el registro de las decisiones del agente humano del proyecto y de los hallazgos que la corrida produce sobre el framework.
 
@@ -18,6 +18,7 @@
 - [4. Puntos abiertos](#4-puntos-abiertos)
 - [5. Qué sigue](#5-qué-sigue)
 - [6. Fix de las definiciones de servicio · lo aplicado, lo declarado y lo que quedó fuera](#6-fix-de-las-definiciones-de-servicio--lo-aplicado-lo-declarado-y-lo-que-quedó-fuera)
+- [7. Corrida del 2026-08-02 · cierre del veredicto RECHAZADO y declaración de los flags](#7-corrida-del-2026-08-02--cierre-del-veredicto-rechazado-y-declaración-de-los-flags)
 - [Anexo A · Hallazgos sobre el Framework SDD](#anexo-a--hallazgos-sobre-el-framework-sdd)
 - [Anexo B · Análisis de causa: la identidad de la solución en el SDD](#anexo-b--análisis-de-causa-la-identidad-de-la-solución-en-el-sdd)
 - [Control de cambios](#control-de-cambios)
@@ -44,6 +45,11 @@
 | Corte de la Fase B | **Aprobado** el 2026-07-29 |
 | Fase B2 · validación visual de maqueta | **En ejecución, paso 5, con un desvío mayor.** La maqueta está construida —16 superficies, `index.html`, tres assets, 352 KB— y servida en `http://127.0.0.1:8137/`. El ciclo de corrección destapó un **defecto de definición de producto y no de representación visual**, que obligó a corregir la especificación antes de poder rehacer la maqueta. Ver la fila siguiente |
 | Corrección de las definiciones de servicio (Fix SDD) | **Ejecutada el 2026-07-29.** El intake pasa a **2.4** y `02` y `03` incorporan las definiciones de alta y configuración de servicios y de ítems del catálogo. **La maqueta no se rehizo**: se rehace desde la especificación corregida, que es el orden que §21.4 del documento de entrada exige. Ver §6 |
+| Migración normativa 4.1 → 6.0 | **Cerrada el 2026-07-30**, en cinco fases del orquestador de migración. 144 filas del plan resueltas —142 documentos de `SDD/Docs/` más el intake y el manifiesto—, cero P0 y cero P1 abiertos. Plan en `SDD/Docs/Audit/Plan-Migracion-4.1-a-6.0.md`, informes de M4 en cuatro cortes y de M6 en dos rondas. La procedencia del manifiesto pasó a declarar el conjunto **6.0** |
+| Fase B2 · rondas de retroalimentación del paso 6 | **Tres rondas auditadas.** La del 2026-07-30 y la del 2026-07-31 y 2026-08-01 consolidaron decisiones del agente humano del proyecto en el intake y las propagaron a `02` y `03`. La tercera cerró **RECHAZADA** el 2026-08-01: informe `B2-Retroalimentacion-Decisiones-2026-08-01-r1.md`, con 2 P0, 2 P1, 4 P2 y 3 P3 |
+| Ronda de corrección del veredicto RECHAZADO | **Emitida el 2026-08-02**, en dos tramos. El primero, de la mañana, cerró `P0-02`, `P2-01`, `P2-04`, `P3-01`, `P3-03` y el contenido de `P1-01`, `P1-02` y `P3-02`, y dejó abiertos `P0-01`, `P2-03` y la mitad de `P2-02`. El segundo, el de esta corrida, cerró lo que faltaba. Ver la fila siguiente y §7 |
+| Re-audit de la ronda 2 | **En curso al momento de esta versión.** Informe previsto en `SDD/Docs/Audit/B2-Retroalimentacion-Decisiones-2026-08-01-r2.md`. Hasta que devuelva veredicto, la Fase B2 sigue detenida por el RECHAZADO de la ronda 1: `Master-Prompt.md` §10 no admite avanzar sin audit aprobado |
+| Flags de `Master-Prompt.md` §4 | **Declarados por primera vez el 2026-08-02**, en el manifiesto v2.2 §2. Hasta ese día el bloque no vivía en ningún artefacto del destino: se había publicado en la conversación del plan inicial y nunca quedó escrito. `requiere_maqueta` quedó **confirmado en `true`** por el agente humano del proyecto. Ver §7 |
 
 
 ---
@@ -251,6 +257,43 @@ Y **dos más** para que la maqueta pueda demostrar el ciclo de vida de las imág
 
 ---
 
+## 7. Corrida del 2026-08-02 · cierre del veredicto RECHAZADO y declaración de los flags
+
+La corrida arrancó como reanudación del orquestador sobre un destino con documentación previa. La reconciliación normativa de `Master-Prompt.md` §2.1 corrió y dio **al día**: el manifiesto declara procedencia 6.0 y el `CHANGELOG.md` del repositorio fuente tiene como entrada vigente `[6.0] - 2026-07-29`, con las catorce filas de versión por archivo coincidiendo con las cabeceras en disco. No hubo diff normativo que presentar.
+
+### 7.1 Estado de las cinco condiciones para promover del informe r1
+
+Verificado sobre disco antes de tocar nada, y no contra lo que las filas de control de cambios declaraban:
+
+| Condición | Cómo estaba al arrancar | Cómo quedó |
+|---|---|---|
+| `P0-01` · re-apuntar la trazabilidad de `02` al intake vigente | **Abierta.** Sólo dos de los veinte documentos citaban v3.5; los otros dieciocho seguían en v3.4, y `Glosario-Funcional.md` conservaba dieciocho marcas `[+3.4]` y ninguna `[+3.5]` | Cerrada. Veinte documentos declarando vigencia v3.7, cero de v3.4 y v3.5 fuera de las filas de control de cambios |
+| `P0-02` · el barrido de `requiere_maqueta` que no reproducía | Cerrada la noche anterior | Cerrada, y **rehecha**: la emisión del manifiesto v2.2 de esta misma corrida invalidó la evidencia corregida —las menciones del flag pasaron de cuatro a diez— y AG-03 la reprodujo antes de reescribirla |
+| `P1-01` · `CU-38` cierra por arrastre lo que su fuente declara abierto | Cerrada en contenido, **sin fila de control de cambios** que citara el hallazgo, contra `Master-Prompt.md` §5 | Cerrada. La fila se escribió declarando que se registra a posteriori, y AG-02 encontró que «recuperación automática» sobrevivía como dato firme en cuatro lugares que el fix anterior no había alcanzado |
+| `P1-02` y `P2-02` · intake v3.6 | `P1-02` cerrada; `P2-02` **medio cerrada** —la aritmética de §4 rehecha y la de §19 intacta—; y la **v3.6 emitida sin su fila de control de cambios**, contra §13 regla 3 | Cerradas. La fila 3.6 quedó escrita y la v3.7 rehizo los tres agregados de §19 |
+| P2 y P3 restantes | `P2-01`, `P2-04`, `P3-01` y `P3-03` cerradas; `P2-03` cubierta sólo en `CU-38` | `P2-03` cerrada en `CU-13`, `CU-18`, `RN-20` y el glosario, con la fila `B-31` del índice alineada con la de `CU-38` |
+
+### 7.2 Lo que la corrida agregó por su cuenta
+
+**El criterio de cita de versión del intake**, que hasta hoy no estaba declarado y es la causa de que `P0-01` se repita en cada ronda: la cabecera de cada documento declara la versión **vigente** del intake, y el cuerpo y las filas de control de cambios conservan la versión que **originó** cada contenido, que es la cita que permite abrir la copia archivada de `SDD/Intake/_legacy/` y encontrar lo citado. Quedó declarado como regla en `Especificacion-Funcional.md` §8 y en `03-UX-UI-DX/README.md` §4. AG-03 precisó su lectura: «cabecera» es la nota antepuesta que declara la vigencia, y «cuerpo» incluye la fila «Insumo del intake» de la sección de trazabilidad.
+
+**El bloque de flags de `Master-Prompt.md` §4**, que no existía en ningún artefacto del destino. Es un hueco de proceso, no de contenido: los flags se publicaron en la conversación del plan inicial y nunca quedaron escritos, y de ahí venía que el manifiesto declarara desde el 2026-07-30 que `requiere_maqueta` «no tiene valor declarado en ninguna fuente» y que las dos reglas de la Fase B2 figuraran como previstas. Las once filas quedaron derivadas con su sección de origen en el intake, porque un flag sin evidencia es una afirmación sobre el estado del sistema y D9 la prohíbe.
+
+Dos flags merecen lectura, y quedan anotados como puntos abiertos:
+
+| Flag | Valor | Por qué merece lectura |
+|---|---|---|
+| `equipo_n` | 2 | El intake declara dos desarrolladores en §2 y en §10, ambos con marcador `[E]`. De ahí se sigue que la categoría **07 produce sprint plan completo** y no `Mini-Plan.md`, que es lo que correspondería a un equipo de uno |
+| `tiene_observabilidad_critica` | true | Por la **regla literal** de §4, que lo activa ante un SLO de disponibilidad ≥ 99.9 % **o** una latencia p99 con métrica numérica. **No hay SLO**: §17.P.10 declara su ausencia con marcador `[E]`. Sí hay p99 numérica, ≤ 300 ms, pero marcada `[S]`, propuesta y no confirmada. El flag queda en `true` por la regla y no por una exigencia dura del producto |
+
+### 7.3 Lo que sigue
+
+1. **Veredicto del re-audit de la ronda 2.** Con APROBADO o APROBADO CON OBSERVACIONES, la Fase B2 se destraba; con RECHAZADO, otra ronda de corrección.
+2. **Reconstruir la maqueta desde la especificación corregida**, que es el paso donde la Fase B2 quedó detenida desde el 2026-07-29 y que las tres rondas de retroalimentación vinieron a habilitar.
+3. Cerrar el ciclo de corrección de la maqueta con aprobación explícita del agente humano del proyecto, emitir la línea de base del sensado de deriva según `Deriva-Rules.md` §2, y recién entonces arrancar la Fase C.
+
+---
+
 ## Anexo A · Hallazgos sobre el Framework SDD
 
 Este anexo **no es materia de esta solución**. Registra defectos del framework que aparecieron al ejecutar el orquestador sobre este destino, para que se revisen en el repositorio fuente `IA.SDD`, que el orquestador nunca modifica.
@@ -392,6 +435,7 @@ La línea repite **el mismo marcador dos veces** en dos posiciones que evidentem
 
 | Versión | Fecha | Cambios | Autor |
 | --- | --- | --- | --- |
+| 3.0 | 2026-08-02 | **Incorporación del tramo del 2026-07-30 al 2026-08-02, que el documento no registraba.** Sube **major** porque §1 reescribe el estado de la corrida, que es la sección que el resto del documento presupone: la versión 2.9 declaraba la Fase B2 detenida en el paso 5 con la maqueta pendiente de rehacer, y desde entonces ocurrieron una migración normativa completa, tres rondas de retroalimentación del paso 6 y una ronda de corrección de un veredicto RECHAZADO. **§1 suma cinco filas**: la migración normativa 4.1 → 6.0 cerrada el 2026-07-30 con sus 144 filas resueltas; las tres rondas de retroalimentación del paso 6, la última rechazada; la ronda de corrección del 2026-08-02 en sus dos tramos; el re-audit de la ronda 2, en curso al momento de esta versión; y la declaración de los flags de `Master-Prompt.md` §4. **§7 es nueva** y registra la corrida del 2026-08-02: la reconciliación normativa que dio al día, el estado verificado sobre disco de las cinco condiciones para promover del informe r1 —dos abiertas, una medio cerrada y dos cerradas en contenido pero sin su fila de control de cambios—, el criterio de cita de versión del intake que la corrida fijó como regla permanente, el bloque de flags que hasta hoy no vivía en ningún artefacto del destino, y los dos flags que merecen lectura del agente humano del proyecto: `equipo_n` en 2, que manda sprint plan completo en la categoría 07, y `tiene_observabilidad_critica` en true por la regla literal de §4 pese a que el intake declara que no hay SLO. **Ninguna sección anterior se reescribe**: §2 a §6 y los dos anexos quedan como estaban, incluido el vocabulario legado de «solución» que el documento arrastra desde antes de la migración, que se conserva porque este documento es registro y no artefacto de las doce categorías. | Orquestador SDD |
 | 2.9 | 2026-07-29 | **Fix de las definiciones de servicio ejecutado sobre la especificación del producto.** Se incorporó la parte normativa —§16 a §23— de `SDD/Estado/Redefinicion-Servicio.md` v2.0; su parte de derivación no se usó. El intake pasa a **2.4** con el anexo **E-23** nuevo y tres reglas de negocio nuevas; `02` pasa a **38 CU, 40 RN y 19 RC**; `03` pasa a **dieciocho superficies**. Diecinueve artefactos archivados en su `_legacy/2026-07-29/`, sin desvíos. Sección **§6** nueva con el contraste fila por fila contra §22, lo aplicado por artefacto, lo declarado como brecha, **tres correcciones a afirmaciones del propio documento de entrada** —entre ellas que el campo de comando de arranque **no** existía en E-2, contra lo que su `H-B` y su §17.1 afirman—, el **hallazgo de que `SUP-17` no existía en ninguna parte**, el **conflicto declarado con `PA-15`**, lo que quedó fuera con su motivo, y las **seis decisiones que el agente humano necesita tomar** para desbloquear la reconstrucción de la maqueta. **La maqueta no se rehizo**, por §21.4 del documento de entrada: se rehace desde la especificación corregida. `PA-15` queda **reabierto**; `PA-4`, `PA-5`, `PA-9` y `PA-14` amplían su alcance. **Cuatro decisiones cerradas** entraron como dato `[D]`, **ocho** como `[D-i]` aplicadas y revisables, y **diecisiete** como pendientes sin valor supuesto: ninguna de las veinticinco no cerradas se presumió resuelta. | Orquestador SDD |
 | 2.8 | 2026-07-29 | **Maqueta construida, servida y en ciclo de corrección.** AG-03M fue interrumpido por un límite de gasto de la cuenta cuando le quedaban dos correcciones finales; la construcción estaba completa —16 superficies, `index.html`, tres assets, 352 KB— y el orquestador aplicó las dos correcciones pendientes verificándolas primero contra el catálogo, en lugar de aplicarlas a ciegas: el `box-shadow` ad hoc se retiró porque `Design-Rules-Web-Generico.md` §2 fija que la elevación se comunica con borde y superficie, y el `Incorporar` por fila perdió su énfasis primario porque §4.3 manda icon-buttons en las filas y reserva la primaria al encabezado. Se registra un falso positivo propio que vale como advertencia: el chequeo de integridad del JavaScript dio «desbalanceado» y era artefacto del analizador —dos expresiones regulares que contienen comillas, `/"/g` y `/'/g`—; confiar en ese resultado habría llevado a «arreglar» un archivo sano. La maqueta se sirve en el puerto 8137 porque el 8080 está ocupado por otro servicio del host, que no se tocó. **Primera observación del agente humano en el paso 5, y es el hallazgo más importante de la corrida hasta acá**: el alta de servicio desde cero no tiene superficie. Se registra como PA-15. Lo encontró mirando la maqueta en la primera pasada, después de que **el audit independiente de la Fase B y el auto-chequeo de AG-03 no lo levantaran**. Es la justificación empírica más fuerte de la Fase B2 que produjo esta corrida: el audit verifica que lo escrito cumpla las reglas, y la maqueta verifica que lo escrito alcance, que son dos propiedades distintas. | Orquestador SDD |
 | 2.7 | 2026-07-29 | **Seis P1 de la Fase B corregidos, corte aprobado y Fase B2 arrancada.** AG-02 cerró sus cuatro y AG-03 sus dos; el orquestador reverificó ambos sobre el árbol emitido. Dos resultados de la corrección que valen como registro. Primero, **AG-02 corrigió la contabilidad del propio hallazgo H-04**: el universo de actores no humanos son 19 y no 16, seis trazan y no tres, y tres de los trece acuñados son actor primario y no de sistema, de modo que la corrección hubo que redactarla sobre «actores no humanos» —acotarla a los de sistema habría dejado tres fuera y la afirmación del índice seguiría siendo falsa—. Es la **tercera vez en la corrida que un subagente corrige la extensión de un hallazgo del audit**, después de los cuatro estrechamientos de la columna `Responsable` en la Fase A y del dato de anchos de ventana que ya estaba aplicado en dieciséis archivos. El patrón es consistente y se registra como criterio operativo: **el audit localiza bien los defectos y subestima su extensión**, de modo que un hallazgo es un piso y no una medida. Segundo, **H-06 se resolvió de raíz**: la correspondencia superficie↔caso de uso se declaraba en cuatro vistas independientes que se contradecían en cinco superficies, y el defecto no era de transcripción sino de fuente única faltante; ahora `Experiencia-De-Uso` §9.2 es canónica por regla, §9.3 es su inversión mecánica declarada, el README dejó de repetir la columna y los wireframes reproducen su fila declarando el origen. Verificador programático: 0 discrepancias sobre 16 superficies y 36 casos de uso. **Fase B2**: oferta aceptada, plan de 16 superficies aprobado, modelo base —`Modelos-UX-UI/` no tiene modelos registrados—, y AG-03M despachado con la instrucción de resolver la brecha `B-UX-01` dibujando una distinción de aristas que cumpla sus tres restricciones y marcándola **como propuesta a validar y no como especificación**, que es la función propia de una maqueta. | Orquestador SDD |
