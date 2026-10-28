@@ -3,9 +3,9 @@
 **Proyecto de código:** SelfHosted-Service
 **Producto:** SelfHosted Service
 **Documento:** Representacion-Nodo-De-Servicio.md
-**Versión:** 2.0
+**Versión:** 2.1
 **Estado:** Propuesto
-**Fecha:** 2026-07-30
+**Fecha:** 2026-08-01
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -19,6 +19,7 @@
   - [3.1 Variantes por estado](#31-variantes-por-estado)
   - [3.2 Variantes de la zona de red](#32-variantes-de-la-zona-de-red)
   - [3.3 La arista y su pendencia declarada](#33-la-arista-y-su-pendencia-declarada)
+  - [3.4 La zona de distintivos](#34-la-zona-de-distintivos)
 - [4. Datos que consume](#4-datos-que-consume)
 - [5. Restricciones de accesibilidad](#5-restricciones-de-accesibilidad)
 - [6. Reutilización](#6-reutilización)
@@ -44,6 +45,7 @@ Composición del nodo, transcripta del anexo E-18 y desprovista de los valores d
                  +--------------------------------------------+
     (entrada) o--|  [icono]  <nombre del servicio>   (i) <est> |
                  |           <imagen resuelta>:<etiqueta>      |--o (salida)
+                 |           <distintivos, si los hay>         |
                  |           [====   ] CPU <n>%  <m>/<M> MB    |
                  |           <direccion> · <modo de red>       |
                  |           <politica de reinicio>  x<N>      |
@@ -54,7 +56,7 @@ Composición del nodo, transcripta del anexo E-18 y desprovista de los valores d
         Es el ancla de las aristas y el objetivo mas chico de la interfaz.
 ```
 
-Cinco zonas, en el orden en que el ojo las recorre de arriba abajo. El ritmo vertical es regular, según `Design-Rules-Web-Generico.md` §3.3: el administrador tiene que poder escanear una columna de nodos sin saltos arbitrarios.
+**Seis zonas desde el 2026-08-01**, en el orden en que el ojo las recorre de arriba abajo: la **zona de distintivos** se intercala entre el subtítulo y las métricas, y **sólo existe cuando hay algún distintivo que exhibir**. Ver §3.4. El ritmo vertical es regular, según `Design-Rules-Web-Generico.md` §3.3: el administrador tiene que poder escanear una columna de nodos sin saltos arbitrarios.
 
 ---
 
@@ -73,6 +75,9 @@ El borde, la insignia y la etiqueta salen de [`Representacion-Lenguaje-Visual-De
 | Nodo de servicio incorporado | El servicio quedó vinculado a un contenedor preexistente sin recrearlo | Sin diferencia de composición. La procedencia se lee en el panel lateral, no en el nodo: el nodo representa el servicio, y un servicio incorporado es un servicio como cualquier otro |
 | Nodo con más de una réplica | El servicio declara réplicas | La zona de pie exhibe el número de réplicas. El par de estado del nodo **agrega** los estados de los despliegues de cada réplica con el criterio del estado agregado; el detalle por réplica vive en el panel lateral |
 | Nodo dentro de un grupo | El servicio pertenece a una agrupación visual del lienzo | Sin diferencia de composición. La pertenencia la exhibe el contenedor del grupo, con su título |
+| Nodo borrador | El servicio existe con su configuración incompleta y **no entra al conjunto de cambios pendientes** | Zona de métricas ausente. La señal visual que lo distingue del modo pendiente **no está declarada por ninguna fuente**: brecha `B-UX-24` |
+| Nodo desplegado y en reposo | El contenedor está creado y el despliegue terminó sin ponerlo en marcha | Zona de métricas **ausente**: el proceso no corre. Par neutro con la etiqueta textual propia «Desplegado, sin arrancar», **sin animación**. Ver [`Representacion-Lenguaje-Visual-De-Estados.md`](Representacion-Lenguaje-Visual-De-Estados.md) §3.6 |
+| Nodo con distintivo | El servicio está en cuarentena, es no reproducible, o las dos cosas | **La zona de distintivos aparece**; el resto de las zonas no cambia y **el par de estado conserva su variante**. Ver §3.4 |
 
 ### 3.2 Variantes de la zona de red
 
@@ -100,6 +105,22 @@ Lo que sí se declara son las **tres restricciones que cualquier solución tiene
 2. El color no puede ser el único canal: la distinción necesita un segundo canal, de forma o de rótulo.
 3. La arista marcada inválida por falta de canal alcanzable tiene que ser distinguible de las dos anteriores, porque su consecuencia es distinta: bloquea el arranque.
 
+### 3.4 La zona de distintivos
+
+Desde el 2026-08-01 el nodo tiene que exhibir **dos propiedades del servicio que no son estados de su despliegue**: que está **en cuarentena** y que es **no reproducible**. El contrato que las gobierna vive en [`Representacion-Lenguaje-Visual-De-Estados.md`](Representacion-Lenguaje-Visual-De-Estados.md) §3.5 y no se redefine acá. Lo que esta representación declara es **dónde van en el nodo y qué le hacen a su composición**.
+
+| Decisión de composición | Motivo |
+| --- | --- |
+| **Zona propia**, entre el subtítulo y las métricas | Son propiedades del **servicio**, como el nombre y la imagen, y no del despliegue: van del lado de arriba, con lo permanente, y no mezcladas con el estado ni con el consumo |
+| **La zona sólo existe cuando hay algo que exhibir**, y no reserva alto cuando no lo hay | Un hueco permanente en un nodo que se repite treinta veces gasta densidad en informar que no pasa nada. Es el mismo criterio con el que la zona de métricas **desaparece** en lugar de mostrar cero |
+| **Rótulos textuales, sin insignia ni color propios** | El contrato visual del anexo E-18 no tiene fila para ninguno de los dos, y no se inventa. La distinción se sostiene sobre el canal textual |
+| **El par de estado de la cabecera no cambia** | Un servicio en cuarentena exhibe el par del despliegue que esté sirviendo; uno no reproducible, el que corresponda al suyo. El distintivo **compone, no reemplaza** |
+| **Los dos pueden coexistir**, y el nodo los exhibe juntos | No hay precedencia entre ellos: son propiedades independientes |
+
+**Consecuencia para la puerta técnica PT-01, declarada.** El nodo pasa de cinco zonas a seis, y la medición de PT-01 se hace sobre treinta nodos con insignia de estado y métricas por nodo. La zona nueva **no agrega ningún dato que se actualice con la cadencia de sondeo**: la marca de no reproducible es de configuración y la de cuarentena cambia sólo al fallar un arranque. **No suma trabajo por ciclo de actualización**, y se declara para que la medición no se lea invalidada por el cambio de composición.
+
+**Lo que esta representación no resuelve.** Los tres puntos abiertos de la política de cuarentena son la brecha `B-UX-31` y **no se cierran acá**. Y la señal visual del **nodo borrador** sigue siendo la brecha `B-UX-24`, que **es distinta de las de esta sección**: el borrador es un estado de configuración que sí pide su propia variante del par, mientras que los distintivos son propiedades que componen encima. Se declara la diferencia para que no se traten como una sola deuda.
+
 ---
 
 ## 4. Datos que consume
@@ -112,6 +133,7 @@ Tabla del anexo E-18, transcripta con su columna de origen del dato, que es lo q
 | Subtítulo | Imagen resuelta con su etiqueta | Imagen y etiqueta del origen del servicio |
 | Métricas | Barra de procesador y memoria usada sobre el límite declarado | Métricas del despliegue |
 | Red | Dirección y modo, o alias de resolución de nombres cuando el modo es de red virtual | Configuración de red del servicio |
+| Distintivos | Rótulos de cuarentena y de no reproducible, cuando corresponden | Marca de cuarentena del servicio; **variante de origen** del servicio, de la que la marca de no reproducible se **deriva** |
 | Pie | Política de reinicio y número de réplicas | Política de reinicio y réplicas del servicio |
 | Puertos laterales | Anclas de las aristas: entrada a la izquierda, salida a la derecha | Modelo de puertos de la herramienta de dibujo |
 
@@ -128,7 +150,7 @@ Piso WCAG 2.2 nivel AA.
 
 - **Objetivos de toque.** Los puertos laterales son el objetivo más chico de toda la interfaz y tienen que cumplir el mínimo de 24 × 24 píxeles del criterio 2.5.8. Si el tamaño visual del puerto es menor, el área activa se amplía sin ampliar el dibujo.
 - **Operación completa por teclado.** El nodo es un elemento enfocable. Seleccionarlo, abrir su panel lateral, recorrer las acciones que ofrece y volver tienen que ser posibles sin puntero. La alternativa por teclado al trazado de una arista y al desplazamiento del nodo se especifica en el wireframe del lienzo y no depende de la técnica de arrastre que la puerta técnica PT-01 decida.
-- **Nombre accesible completo.** El nombre accesible del nodo no es sólo el nombre del servicio: incluye su estado, porque un lector de pantalla que recorre treinta nodos necesita distinguirlos sin abrir cada uno.
+- **Nombre accesible completo.** El nombre accesible del nodo no es sólo el nombre del servicio: incluye su estado **y sus distintivos cuando los tiene**, porque un lector de pantalla que recorre treinta nodos necesita distinguirlos sin abrir cada uno. Un nodo en cuarentena que suena igual que uno activo anula la razón por la que la cuarentena se hace visible.
 - **La barra de consumo lleva su valor en texto.** Una barra sin cifra no es información: la zona de métricas exhibe el porcentaje y el par de memoria usada sobre límite, con su unidad explícita.
 - **Contraste.** El texto de las cinco zonas cumple 4.5:1 pese a la densidad; el borde y las barras, 3:1 como componentes gráficos.
 - **El ícono de categoría es decorativo** y se marca como tal: la categoría no aporta información que no esté en el nombre y en la imagen.
@@ -152,5 +174,6 @@ Representación de la que depende: [`Representacion-Lenguaje-Visual-De-Estados.m
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.1 | 2026-08-01 | **Retroalimentación de la Fase B2: el nodo suma una zona de distintivos.** Por la ronda de decisiones del agente humano del proyecto del 2026-07-31, consolidada en el `PRODUCT-INTAKE-SelfHosted-Service` **v3.5** §4 —política ante un despliegue que no arranca— y anexo E-2 §20.2.3 —sexta variante de origen con su marca de no reproducible—. Sube **minor**: **la anatomía transcripta del anexo E-18 no se altera** y las cinco zonas que declaraba conservan su contenido, su orden y su origen de dato; la pendencia `B-UX-01` de §3.3 y sus tres restricciones quedan **idénticas y sin resolver**. **§2 pasa de cinco zonas a seis**: se intercala la **zona de distintivos** entre el subtítulo y las métricas, y el bloque ASCII la suma **sin alterar su ancho de caja**. **§3.1 suma tres variantes**: nodo borrador —que hasta ahora sólo vivía en el wireframe del lienzo—, **nodo desplegado y en reposo**, con la zona de métricas ausente y sin animación, y **nodo con distintivo**. **§3.4 nueva: la zona de distintivos**, con las cinco decisiones de composición —zona propia del lado de lo permanente, **existe sólo cuando hay algo que exhibir**, rótulos textuales sin insignia ni color propios, el par de estado que **no cambia**, y la coexistencia de los dos—. Se declara además la **consecuencia para la puerta técnica PT-01**: la zona nueva **no agrega ningún dato que se actualice con la cadencia de sondeo** y por lo tanto no suma trabajo por ciclo, de modo que la medición no queda invalidada por el cambio de composición. **§4 suma la fila de datos** de la zona nueva, con la marca de no reproducible declarada **derivada de la variante de origen**. **§5** extiende el nombre accesible del nodo a sus distintivos, con el argumento de que un nodo en cuarentena que suena igual que uno activo anula la razón por la que la cuarentena se hace visible. **Ninguna brecha se cierra acá.** Se declara que `B-UX-24` —la señal del nodo borrador— **es distinta** de lo que §3.4 resuelve, para que no se traten como una sola deuda, y que los tres puntos de la política de cuarentena son `B-UX-31` y **no se cierran**. La versión 2.0 queda archivada en [`_legacy/2026-08-01/Representacion-Nodo-De-Servicio-v2.0.md`](_legacy/2026-08-01/Representacion-Nodo-De-Servicio-v2.0.md), con su bloque de archivado antepuesto y su cuerpo sin modificar. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) |
 | 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 4, bajo `Rules-UX-UI-DX` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major 2.0 → 4.0 de la regla que gobierna la categoría; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/Representacion-Nodo-De-Servicio-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **Cabecera:** se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige por ser ésta una categoría de nivel proyecto de código (`Vocabulario-Rules` §4 R3), y la etiqueta `Proyecto` pasa a `Producto` sobre su valor de origen `SelfHosted Service`, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro; los dos conviven porque §4.1 exige el primero y `Migracion-Rules` §4.2 prohíbe perder el segundo. Se conserva el campo `Variante`. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: la única ocurrencia de «solución» —«las tres restricciones que cualquier solución tiene que cumplir», en §3.3— **se preserva**, porque su referente es el remedio de un problema y no el nivel superior del framework, uso que `Vocabulario-Rules` §4 R2 conserva expresamente; las tres ocurrencias de la cadena `resoluci` —dos «resolución de nombres» en §3.2 y §4, y «cualquier resolución debe cumplir» en el control de cambios— quedaron **intactas**, verificadas por el barrido negativo que el plan §3.5 paso 4 exige. Las siete ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: cinco designan la entidad del dominio —dos con la forma calificada «proyecto SelfHosted», dos en forma corta que el PRODUCT-INTAKE §12 admite donde el contexto ya fijó el sentido, y una en el nombre del archivo de un wireframe del dominio, que no se renombra—, y una era la etiqueta de cabecera. **Glosario:** desde la 4.0 `Glosario-UX.md` es artefacto obligatorio para los ocho tipos D8 y §6 verifica su existencia y su completitud; los términos que esta representación acuña —nodo de servicio, zona del nodo, puerto de enlace, arista, nodo pendiente de aplicar, nodo huérfano, nodo de servicio incorporado, ranura del ícono por categoría— se devolvieron al lote que emite ese glosario y acá no se redefinen, y los que ya declaran [`Vision-Producto`](../../00-Contexto/Vision-Producto.md) §9 y [`Glosario-Funcional`](../../02-Especificacion-Funcional/Glosario-Funcional.md) se referencian sin duplicarse. **Ninguna zona, variante, restricción de la arista, dato consumido, restricción de accesibilidad, brecha ni nota de derivación cambió de contenido**: la migración es léxica y de forma de cabecera. El bloque ASCII de §2, que transcribe la anatomía del nodo del anexo E-18, no contenía ninguna palabra a migrar y quedó intacto, con su ancho de caja preservado. Las filas anteriores de este control de cambios no se reescribieron. El bloque de procedencia del destino sigue declarando la 4.1 y no se toca: es trabajo de M5. Origen: [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Versión inicial. Transcribe la anatomía del nodo del anexo E-18 con su tabla de origen del dato; declara siete variantes por estado y dos por modo de red; declara la separación entre las zonas que provienen del servicio y las que provienen del despliegue como materialización del diferenciador DV-02; declara la pendencia de la distinción visual de las aristas —brecha B-07 de `02-Especificacion-Funcional`, recogida como `B-UX-01`— sin resolverla, y fija las tres restricciones que cualquier resolución debe cumplir; declara la ranura del ícono por categoría como derivación sin origen de dato |

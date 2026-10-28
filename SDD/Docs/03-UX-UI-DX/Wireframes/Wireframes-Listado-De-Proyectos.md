@@ -3,9 +3,9 @@
 **Proyecto de código:** SelfHosted-Service
 **Producto:** SelfHosted Service
 **Documento:** Wireframes-Listado-De-Proyectos.md
-**Versión:** 2.0
+**Versión:** 2.1
 **Estado:** Propuesto
-**Fecha:** 2026-07-30
+**Fecha:** 2026-08-01
 **Autor:** UX/UI Designer + Frontend Lead (AG-03)
 **Variante:** UX/UI
 
@@ -17,6 +17,7 @@
 - [2. Layout](#2-layout)
 - [3. Componentes principales](#3-componentes-principales)
   - [3.1 La orientación posterior y su derivación](#31-la-orientación-posterior-y-su-derivación)
+  - [3.2 El proyecto no reproducible](#32-el-proyecto-no-reproducible)
 - [4. Interacciones](#4-interacciones)
   - [4.1 La confirmación de eliminación y su brecha](#41-la-confirmación-de-eliminación-y-su-brecha)
 - [5. Estados](#5-estados)
@@ -78,7 +79,7 @@ La barra lateral realiza el patrón §4.1 del documento base y sus destinos son 
 | Banda de resultado, variante de confirmación | Cierra el lazo del acto ocurrido en la superficie anterior | Texto del catálogo de códigos | Aparece al llegar desde el aprovisionamiento inicial, con `IDENTIDAD-CREADA`. Rol de estado |
 | Encabezado de la sección | Nombra la superficie y aloja la única acción primaria | Título y subtítulo descriptivo | Patrón §4.3 del documento base |
 | Barra de búsqueda y filtros | Acota el listado | — | La búsqueda filtra; un resultado vacío muestra el estado vacío de filtro, con acción siguiente |
-| Tarjeta de proyecto SelfHosted | Es la unidad del listado | Nombre visible, identificador legible, estado agregado con su conteo de servicios activos sobre el total, consumo de procesador y memoria, y modo de red | Toda la tarjeta es el área clicleable hacia el lienzo. El foco se ve en el contenedor |
+| Tarjeta de proyecto SelfHosted | Es la unidad del listado | Nombre visible, identificador legible, estado agregado con su conteo de servicios activos sobre el total, consumo de procesador y memoria, modo de red, y el **distintivo de no reproducible** cuando corresponde | Toda la tarjeta es el área clicleable hacia el lienzo. El foco se ve en el contenedor. Ver §3.2 |
 | Par de estado agregado | Comunica en qué situación está el conjunto | Ver [`Representacion-Lenguaje-Visual-De-Estados.md`](../Representaciones/Representacion-Lenguaje-Visual-De-Estados.md) §3.4 | El estado se **deriva de los despliegues por contenedor**, no de un estado propio |
 | Acciones por tarjeta | Abrir el lienzo, renombrar, exportar, eliminar | — | La acción de abrir es explícita además del área clicleable, para que sea alcanzable por teclado sin ambigüedad. Las tres restantes viven en un menú por tarjeta, con la de eliminar diferenciada |
 | Grilla de orientación posterior | Sugiere los pasos siguientes sin bloquear | Una tarjeta de acceso por paso recomendado | Sólo en el estado vacío. Ver §3.1 |
@@ -96,6 +97,24 @@ Ninguna fuente declara cuáles son esos pasos en este producto. Los tres que la 
 | Declarar el rango de direcciones gestionado | Configuración del sistema | Es precondición de todo servicio con dirección fija, que es el patrón mayoritario del parque real |
 
 Las tres tarjetas **no bloquean nada**: el administrador puede ignorarlas y crear un proyecto SelfHosted directamente desde la acción primaria.
+
+### 3.2 El proyecto no reproducible
+
+Un servicio de origen **imagen del almacén local** queda marcado como **no reproducible**, y el proyecto SelfHosted queda marcado **cuando al menos uno de sus servicios lo está**. Esta superficie es donde el administrador ve sus proyectos sin haber abierto ninguno, y por lo tanto donde la marca a nivel proyecto tiene sentido.
+
+| Propiedad | Cómo la trata la tarjeta |
+| --- | --- |
+| **Derivada de los orígenes de sus servicios** | Aparece porque al menos un servicio la lleva. **No hay control que la ponga ni que la saque**, y no se dibuja deshabilitada |
+| **No es un estado del proyecto** | Compone con el par de estado agregado en lugar de reemplazarlo: un proyecto no reproducible puede estar activo, parcialmente activo o detenido. **No se le asigna insignia ni color propios** |
+| Sin tratamiento de error ni de atención | Es una propiedad declarada de lo que el administrador eligió, no un fallo. Rótulo informativo |
+| Con su consecuencia enunciada | Lo que la marca comunica es **qué pasaría al llevarse el proyecto a otro servidor**, no que algo esté mal acá. El detalle —qué servicios la producen y cómo se retira— vive en el lienzo del proyecto ([`SUP-05`](Wireframes-Lienzo-Del-Proyecto.md) §3.5) y la advertencia accionable, antes de exportar, en [`SUP-15`](Wireframes-Exportacion-E-Importacion.md) §3.3 |
+
+**Dos criterios de composición:**
+
+1. **La tarjeta no enumera los servicios que la producen.** Con hasta treinta servicios por proyecto, enumerarlos rompería la densidad de la tarjeta. El conteo vive en el lienzo, que es donde el administrador puede hacer algo al respecto.
+2. **Su ausencia no se representa.** Un proyecto reproducible no lleva ningún rótulo que lo declare: lo normal no se rotula.
+
+**Por qué acá y no sólo en el lienzo.** La exportación se dispara **también desde la tarjeta de esta superficie**, según la fila de acciones por tarjeta. Un administrador que exporta desde acá sin haber abierto el proyecto necesita saber, antes de hacerlo, que se está llevando algo incompleto. La advertencia detallada la da `SUP-15` al abrir el modo exportación; lo que esta superficie aporta es que **la propiedad sea visible antes de elegir la acción**.
 
 ---
 
@@ -133,6 +152,8 @@ Este wireframe declara que la confirmación existe y que la eliminación propaga
 | Proyecto activo | Todos los servicios con despliegue están activos | Par de estado de éxito, con el conteo completo |
 | Proyecto parcialmente activo | Al menos un servicio quedó fuera | Par de estado de atención más la etiqueta textual propia. **Es un estado legítimo del modelo**: no lleva tratamiento de error ni acción de reparar |
 | Proyecto detenido | Ningún servicio tiene despliegue activo | Par de estado neutro, con el conteo en cero y **sin cifras de consumo**: mostrar cero afirmaría un consumo que no existe |
+| Proyecto no reproducible | Al menos un servicio del proyecto tiene origen imagen del almacén local | Distintivo informativo **compuesto sobre el par de estado agregado**, sin insignia ni color propios, sin control que lo modifique y **sin enumerar los servicios que lo producen** |
+| Proyecto reproducible | Ningún servicio lo produce | **Sin rótulo.** Lo normal no se rotula y su ausencia no se representa |
 | Error | El listado no pudo traerse | Banda de error con causa y acción de recuperación |
 | Éxito de una acción | Un alta, un renombrado o una eliminación se concretó | Confirmación sutil, con el verbo del acuse coincidiendo con el del botón |
 | Confirmación entrante | Se llega desde el aprovisionamiento inicial | Banda de confirmación con `IDENTIDAD-CREADA` |
@@ -182,14 +203,14 @@ Lo que rige por accesibilidad y por el patrón §8 del documento base:
 | Persona objetivo | Administrador único del producto: [`Vision-Producto.md`](../../00-Contexto/Vision-Producto.md) §2.1 |
 | CU origen | [CU-01](../../02-Especificacion-Funcional/Casos-De-Uso/CU-01-Alta-De-Proyecto.md), [CU-02](../../02-Especificacion-Funcional/Casos-De-Uso/CU-02-Listado-Renombrado-Y-Eliminacion-De-Proyectos.md), [CU-11](../../02-Especificacion-Funcional/Casos-De-Uso/CU-11-Importacion-Como-Proyecto-Nuevo.md) como punto de entrada |
 | Reglas de negocio relevantes | RN-10, RN-17, RN-20, RN-31, RN-33, RN-35 |
-| Insumo del intake | §4 capacidad F-02; §17.P.11 decisiones DA-03 y DA-04; anexos E-1 y E-18 |
+| Insumo del intake | **v3.5.** §4 capacidad F-02; §17.P.11 decisiones DA-03 y DA-04; anexos E-1, **E-2 §20.2.3** con la sexta variante de origen y su marca de no reproducible, y E-18. Fila 3.4 de su control de cambios |
 | Marco de experiencia aplicado | [`Experiencia-De-Uso.md`](../Experiencia-De-Uso.md) §2.4 contrato del predicado, §3.3 flujo FL-03, §4.1 mapa de estados |
 | Representaciones que invoca | [`Representacion-Lenguaje-Visual-De-Estados.md`](../Representaciones/Representacion-Lenguaje-Visual-De-Estados.md), [`Representacion-Banda-De-Resultado.md`](../Representaciones/Representacion-Banda-De-Resultado.md) |
 | Catálogo de diseño aplicado | `Design-Rules-Web-Generico.md` §3.1, §3.2, §4.1, §4.2, §4.3, §4.9, §4.10, §5, §8; `Design-Rules-Primer-Arranque.md` §4.6 orientación posterior; `Design-Rules-Acceso-Monousuario.md` §3 shell de trabajo y §4.3 |
 | US a generar en 06 | US-CU-01-1 a US-CU-01-3 y US-CU-02-1 a US-CU-02-3, provisionales |
-| Tests previstos en 08 | Snapshot de los doce estados declarados; verificación de que renombrar un proyecto SelfHosted no produce ningún cambio pendiente; test de accesibilidad sobre el nombre accesible de la tarjeta |
+| Tests previstos en 08 | Snapshot de los **catorce** estados declarados; verificación de que renombrar un proyecto SelfHosted no produce ningún cambio pendiente; verificación de que el distintivo de no reproducible **aparece con un solo servicio que lo produzca** y **no tiene control que lo modifique**; verificación de que un proyecto reproducible **no lleva rótulo alguno**; test de accesibilidad sobre el nombre accesible de la tarjeta, que **incluye el distintivo cuando está** |
 | Brechas que declara | `B-UX-14`, forma de la confirmación de eliminación. Recoge además B-02 y B-03 de `02-Especificacion-Funcional` |
-| Maqueta de la Fase B2 | Nombre canónico `Listado de proyectos`. Doce estados declarados en §5, de los cuales once son demostrables: las filas marcadas no aplicable no se maquetan. Incluye los dos estados vacíos distintos |
+| Maqueta de la Fase B2 | Nombre canónico `Listado de proyectos`. **Catorce** estados declarados en §5, de los cuales **trece** son demostrables: la fila marcada no aplicable no se maqueta. Incluye los dos estados vacíos distintos. **Se ajusta**: la tarjeta suma el distintivo de no reproducible |
 | Fuente de la correspondencia | La fila «CU origen» reproduce la fila de esta superficie en [`Experiencia-De-Uso.md`](../Experiencia-De-Uso.md) §9.2, que es la **fuente única** de la correspondencia entre superficie y caso de uso. Se reproduce, y no se referencia, porque `Rules-UX-UI-DX.md` §4.2.1 punto 8 la exige como sección obligatoria del wireframe |
 
 ---
@@ -198,6 +219,7 @@ Lo que rige por accesibilidad y por el patrón §8 del documento base:
 
 | Versión | Fecha | Cambios |
 | --- | --- | --- |
+| 2.1 | 2026-08-01 | **Retroalimentación de la Fase B2: la marca de no reproducible sube al proyecto.** Por la decisión del agente humano del proyecto del 2026-07-31, consolidada en el `PRODUCT-INTAKE-SelfHosted-Service` **v3.5** anexo E-2 §20.2.3, que declara la marca **derivada del origen, no editable y visible en el servicio y en el proyecto**. Sube **minor**: ninguna sección se renumera, la orientación posterior de §3.1 y su derivación **no cambian de contenido**, y ninguna interacción cambia de resultado. **§3.2 nueva: el proyecto no reproducible**, marcado **cuando al menos uno de sus servicios lo está**, con las cuatro propiedades de su tratamiento —derivada, **no es un estado del proyecto** y compone con el par agregado sin insignia ni color propios, sin tratamiento de error, y con su consecuencia enunciada—, y con **dos criterios de composición**: la tarjeta **no enumera** los servicios que la producen, y **su ausencia no se representa**. Se declara **por qué acá y no sólo en el lienzo**: la exportación se dispara también desde la tarjeta, y el administrador que exporta sin abrir el proyecto necesita saber antes de elegir la acción que se lleva algo incompleto. **§3** actualiza la fila de la tarjeta. **§5 suma dos estados** y la superficie pasa a **catorce**, trece demostrables. **§8** actualiza el insumo del intake a v3.5, suma tres verificaciones a los tests previstos y declara que la superficie **se ajusta**. **Ninguna brecha se abre ni se cierra acá** y **ninguna decisión abierta se cerró**: `B-UX-14` sigue abierta y B-02 y B-03 de `02-Especificacion-Funcional` se siguen recogiendo. **Ningún artefacto fuera de `03-UX-UI-DX` se tocó.** La versión 2.0 queda archivada en [`_legacy/2026-08-01/Wireframes-Listado-De-Proyectos-v2.0.md`](_legacy/2026-08-01/Wireframes-Listado-De-Proyectos-v2.0.md), con su bloque de archivado antepuesto y su cuerpo sin modificar. Ninguna fila anterior de este control de cambios se reescribió (`SDD-Development-Guide.md` §VI.2) |
 | 2.0 | 2026-07-30 | Migración normativa del conjunto 4.1 al 6.0, fase M4 corte 4, bajo `Rules-UX-UI-DX` 4.0, `Vocabulario-Rules` 2.1 y `Migracion-Rules` 1.0. Clasificación **regenerar contenido** por el salto major de la regla que lo gobierna; fuente de contenido: **el documento de origen**, archivado sin modificar en `_legacy/2026-07-30/Wireframes-Listado-De-Proyectos-v1.0.md`. Sube **major** porque la nomenclatura anterior deja de cumplir. **El nombre del archivo no cambia**: `Wireframes-Listado-De-Proyectos.md` nombra la **entidad del dominio** —el agrupador de servicios que el usuario crea desde el portal—, no la unidad de compilación, y por eso el renombre `Alcance-Proyecto` → `Alcance-Producto` de §3.1 del plan no lo alcanza; es el referente R6 de §3.5 paso 2 del plan, que declara textualmente que estos nombres no se tocan. **Cabecera:** se suma el campo `Proyecto de código` con el valor `SelfHosted-Service`, que §4.1 de la regla 4.0 exige como primer campo por ser ésta una categoría de nivel proyecto de código (`Vocabulario-Rules` §4 R3) y que el `PRODUCT-MANIFEST` §2 declara como `Nombre-Proyecto-Codigo`; la etiqueta `Proyecto` pasa a `Producto` sobre el mismo valor `SelfHosted Service`, porque `Vocabulario-Rules` §3 prohíbe la etiqueta de un plano de identidad sobre el valor de otro. Los dos campos conviven: el primero lo exige §4.1 y el segundo lo preserva `Migracion-Rules` §4.2. Los dos valores **difieren sólo por el guion** y no son intercambiables. **Sustitución léxica por ocurrencia** según `Vocabulario-Rules` §9.5 y el plan de migración §3.5, y nunca por reemplazo global de cadena: las **dos** ocurrencias de «solución» designaban el nivel superior y pasan a «producto» con su concordancia de género —«Administrador único de la solución» a «Administrador único **del** producto», y «cuáles son esos pasos en esta solución» a «en **este** producto» en §3.1—; no hay ninguna «solución de código», y el cuerpo de este documento no contiene la cadena `soluci` dentro de ninguna otra palabra, de modo que el riesgo de superposición de cadenas que el plan §3.5 declara no se materializa acá. Las treinta y ocho ocurrencias de «proyecto» se clasificaron una por una y **ninguna pasó a «proyecto de código»**: quince llevan la forma calificada «proyecto SelfHosted»; trece son la misma entidad del dominio en forma corta, admitida por el `PRODUCT-INTAKE` §12 y por el glosario raíz de `Vision-Producto.md` §9 donde el contexto ya fijó el sentido —entre ellas las etiquetas «Proyectos» y «+ Nuevo proyecto» del bloque ASCII de §2, que son cadenas de la pantalla—; tres son el **nombre canónico de la superficie** `Listado de proyectos`, que se conserva textualmente; cuatro nombran artefactos del dominio en sus enlaces a `CU-01-Alta-De-Proyecto.md`, `CU-02-Listado-Renombrado-Y-Eliminacion-De-Proyectos.md` y `CU-11-Importacion-Como-Proyecto-Nuevo.md`, que no se renombran; una es el segmento `/proyectos` de la ruta del anexo E-18; una es el emprendimiento —«agente humano del proyecto» como destinatario de `B-UX-14`—, que `Vocabulario-Rules` §4 R1 deja sin calificar; y una era la etiqueta de cabecera. **El nombre canónico de la superficie `Listado de proyectos` y su identificador `SUP-04` se conservan textualmente**, porque `Deriva-Rules.md` exige que coincidan término por término con la línea de base visual. **El bloque ASCII de §2 no se tocó** y conserva su ancho. **Ningún componente, interacción, estado, tarjeta de orientación posterior, nota, referencia de trazabilidad ni brecha cambió de contenido**: la migración es léxica y de forma de cabecera, y las filas anteriores de este control de cambios no se reescribieron. Origen: [`Plan-Migracion-4.1-a-6.0.md`](../../Audit/Plan-Migracion-4.1-a-6.0.md) §3.5 y §4 |
 | 1.0 | 2026-07-29 | Versión inicial. Especifica la portada del shell de trabajo con su grilla de tarjetas, su encabezado con acción primaria única y su barra de filtros; especifica el estado vacío del primer uso como sede de la orientación posterior que exige `Design-Rules-Primer-Arranque.md` §4.6, con las tres tarjetas derivadas y su derivación declarada como supuesto `S-UX-01`; declara doce estados, con dos estados vacíos distintos; declara la confirmación de eliminación de un proyecto SelfHosted sin inventar su forma, por la brecha `B-UX-14` |
 | 1.0 | 2026-07-29 | Corrección del audit de la Fase B, absorbida dentro de la versión de emisión, sin subir versión y sin archivar, por la política de versionado de `Master-Prompt.md` §5: el documento está en estado `Propuesto` y la corrección proviene del audit de su propia fase. **H-06, P1:** Se suma a §8 la fila que declara la fuente única de la correspondencia entre superficie y caso de uso. **Brecha `B-UX-15` retirada por falsa:** §6 deja de declarar ausente el punto de quiebre y cita la norma que `Design-Rules-Web-Generico.md` §8 sí declara, acotando lo delegado a los anchos de verificación de la etapa `b`. Origen: informe [`Audit/B-02-03-r1.md`](../../Audit/B-02-03-r1.md) |

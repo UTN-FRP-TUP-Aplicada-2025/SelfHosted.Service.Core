@@ -4,10 +4,12 @@
 **Proyecto de código:** SelfHosted-Service (`web-monolith`)
 **Fase:** B2 · Validación visual de maqueta, bajo **`Maqueta-Rules.md` 3.1**
 **Modelo UX-UI aplicado:** catálogo base de `Devs/References/Design/`. El catálogo `Modelos-UX-UI/` está vacío —sólo tiene su índice y su plantilla—, de modo que no se aplica ningún modelo por encima.
-**Fecha de la iteración vigente:** 2026-07-30
+**Fecha de la iteración vigente:** 2026-08-02
 **Plataforma de validación:** Google Chrome de escritorio, canal estable, versión mínima 150.0.7871.186, sobre Windows Server 2022 21H2, en red local. Es el único navegador soportado por `00-Contexto/Compatibilidad-Plataformas.md` §2.1 y §4. **Familia única: no hay versión móvil especificada.**
 
-> **Documento consolidado el 2026-07-30, al cierre de la segunda pasada.** La iteración del 2026-07-30 rehízo la maqueta entera bajo `Maqueta-Rules` 3.1 en dos pasadas: la **A** rehízo `SUP-05`, `SUP-06`, `SUP-07`, `SUP-10`, `SUP-11` y `SUP-17`, y extendió la columna vertebral; la **B** construyó `SUP-18` y `SUP-19`, ajustó `SUP-09` y `SUP-12`, y consolidó este documento y el índice. **Todas las cifras de acá abajo se verificaron en disco**, no se transcribieron de la versión anterior.
+> **Documento actualizado el 2026-08-02, al cierre de la reconstrucción incremental.** La iteración del 2026-08-02 **no rehízo la maqueta entera**: alcanzó a **nueve superficies** y conservó las otras diez exactamente como estaban. `SUP-17` se rehizo desde cero —la grilla de siete tarjetas se retiró y el origen pasó a ser un campo de tres valores—, la cabecera de `SUP-06` se rehizo, `SUP-05` y `SUP-09` cambiaron de forma, `SUP-04`, `SUP-15` y `SUP-18` de forma acotada, y `SUP-10` y `SUP-11` sólo de contenido. **Todas las cifras de acá abajo se verificaron en disco**, no se transcribieron de la versión anterior.
+
+> **Qué agrega esta ronda, en una línea.** El **alta unificada** con su campo de origen de tres valores, la **sexta variante de origen** —imagen del almacén local— con su marca de **no reproducible**, las **tres fases del despliegue** con sus seis acciones de ejecución, y la **cuarentena** como distintivo visible y sin acción de retirarla.
 
 Esta maqueta **no es el producto**. Es la materialización navegable de la especificación de experiencia de `SDD/Docs/03-UX-UI-DX/`, para que el agente humano del proyecto vea antes de que se codifique.
 
@@ -76,24 +78,24 @@ La correspondencia es la de `Experiencia-De-Uso.md` §9.2, que es su **fuente ú
 | SUP-01 | Aprovisionamiento inicial | `Aprovisionamiento-Inicial.html` | `Wireframes-Aprovisionamiento-Inicial.md` | CU-29 | 9 |
 | SUP-02 | Acceso al panel | `Acceso-Al-Panel.html` | `Wireframes-Acceso-Al-Panel.md` | CU-30 | 11 |
 | SUP-03 | Cambio de contraseña | `Cambio-De-Contrasena.html` | `Wireframes-Cambio-De-Contrasena.md` | CU-31 | 9 |
-| SUP-04 | Listado de proyectos | `Listado-De-Proyectos.html` | `Wireframes-Listado-De-Proyectos.md` | CU-01, CU-02, CU-11 | 11 |
-| SUP-05 | Lienzo del proyecto | `Lienzo-Del-Proyecto.html` | `Wireframes-Lienzo-Del-Proyecto.md` 2.0 | CU-03, CU-04, CU-05, CU-13, CU-15, CU-16, CU-18, CU-22, CU-28 | 18 |
-| SUP-06 | Panel lateral del servicio | `Panel-Lateral-Del-Servicio.html` | `Wireframes-Panel-Lateral-Del-Servicio.md` 2.1 | CU-03, CU-13, CU-15, CU-18, CU-19, CU-35, CU-38 | 23 |
+| SUP-04 | Listado de proyectos | `Listado-De-Proyectos.html` | `Wireframes-Listado-De-Proyectos.md` 2.1 | CU-01, CU-02, CU-11 | 13 |
+| SUP-05 | Lienzo del proyecto | `Lienzo-Del-Proyecto.html` | `Wireframes-Lienzo-Del-Proyecto.md` 2.1 | CU-03, CU-04, CU-05, CU-13, CU-15, CU-16, CU-18, CU-22, CU-28 | 21 |
+| SUP-06 | Panel lateral del servicio | `Panel-Lateral-Del-Servicio.html` | `Wireframes-Panel-Lateral-Del-Servicio.md` 2.2 | CU-03, CU-13, CU-15, CU-18, CU-19, CU-35, CU-38 | 29 |
 | SUP-07 | Cajón de cambios pendientes | `Cajon-De-Cambios-Pendientes.html` | `Wireframes-Cajon-De-Cambios-Pendientes.md` 2.0 | CU-22, CU-23, CU-24, CU-25 | 17 |
 | SUP-08 | Registro del contenedor | `Registro-Del-Contenedor.html` | `Wireframes-Registro-Del-Contenedor.md` | CU-14 | 8 |
-| SUP-09 | Tablero de estado | `Tablero-De-Estado.html` | `Wireframes-Tablero-De-Estado.md` 2.1 | CU-26, CU-27, CU-28, CU-37 | 14 |
-| SUP-10 | Descubrimiento e incorporación | `Descubrimiento-E-Incorporacion.html` | `Wireframes-Descubrimiento-E-Incorporacion.md` 2.0 | CU-06, CU-07, CU-08 | 19 |
-| SUP-11 | Catálogo de plantillas | `Catalogo-De-Plantillas.html` | `Wireframes-Catalogo-De-Plantillas.md` 2.1 | CU-16, CU-17, CU-36 | 23 |
+| SUP-09 | Tablero de estado | `Tablero-De-Estado.html` | `Wireframes-Tablero-De-Estado.md` 2.2 | CU-26, CU-27, CU-28, CU-37 | 17 |
+| SUP-10 | Descubrimiento e incorporación | `Descubrimiento-E-Incorporacion.html` | `Wireframes-Descubrimiento-E-Incorporacion.md` 2.1 | CU-06, CU-07, CU-08 | 19 |
+| SUP-11 | Catálogo de plantillas | `Catalogo-De-Plantillas.html` | `Wireframes-Catalogo-De-Plantillas.md` 2.2 | CU-16, CU-17, CU-36 | 23 |
 | SUP-12 | Configuración del sistema | `Configuracion-Del-Sistema.html` | `Wireframes-Configuracion-Del-Sistema.md` 2.1 | CU-12, CU-19, CU-32, CU-37 | 20 |
 | SUP-13 | Variables compartidas del proyecto | `Variables-Compartidas-Del-Proyecto.html` | `Wireframes-Variables-Compartidas-Del-Proyecto.md` | CU-34, CU-35, CU-36 | 14 |
 | SUP-14 | Informe de conflicto de direcciones | `Informe-De-Conflicto-De-Direcciones.html` | `Wireframes-Informe-De-Conflicto-De-Direcciones.md` | CU-18, CU-20, CU-21, CU-24 | 11 |
-| SUP-15 | Exportación e importación | `Exportacion-E-Importacion.html` | `Wireframes-Exportacion-E-Importacion.md` | CU-09, CU-10, CU-11, CU-12 | 14 |
+| SUP-15 | Exportación e importación | `Exportacion-E-Importacion.html` | `Wireframes-Exportacion-E-Importacion.md` 2.1 | CU-09, CU-10, CU-11, CU-12 | 16 |
 | SUP-16 | Revisión de higiene | `Revision-De-Higiene.html` | `Wireframes-Revision-De-Higiene.md` | CU-36 | 10 |
-| SUP-17 | Alta de servicio | `Alta-De-Servicio.html` | `Wireframes-Alta-De-Servicio.md` 2.1 | CU-03, CU-13, CU-15, CU-16 | 19 |
-| SUP-18 | Imágenes | `Imagenes.html` | `Wireframes-Imagenes.md` 2.1 | CU-37, CU-38 | 19 |
+| SUP-17 | Alta de servicio | `Alta-De-Servicio.html` | `Wireframes-Alta-De-Servicio.md` 2.2 | CU-03, CU-13, CU-15, CU-16 | 22 |
+| SUP-18 | Imágenes | `Imagenes.html` | `Wireframes-Imagenes.md` 2.2 | CU-37, CU-38 | 20 |
 | SUP-19 | Exploración de registro de imágenes | `Exploracion-De-Registro-De-Imagenes.html` | `Wireframes-Exploracion-De-Registro-De-Imagenes.md` 1.0 | CU-39, CU-03 | 13 |
 
-**Diecinueve superficies. 282 estados demostrables.** La cifra la calcula `index.html` desde `Datos-Maqueta.js` y no se transcribe a mano; la de esta tabla se verificó contra el mismo archivo.
+**Diecinueve superficies. 302 estados demostrables.** La cifra la calcula `index.html` desde `Datos-Maqueta.js` y no se transcribe a mano; la de esta tabla se verificó contra el mismo archivo.
 
 **Cobertura de casos de uso.** Los treinta y nueve casos de uso de `02-Especificacion-Funcional` están cubiertos salvo **CU-33**, y no es una omisión: su actor es el automatismo de integración continua y su superficie es la API REST, no una pantalla.
 
@@ -111,13 +113,23 @@ Ofrece tres cosas:
 - **Selector de estado.** Alterna los estados de la superficie en curso **sin recargar**. Cada cambio se anuncia como región activa para lectores de pantalla, y queda en el fragmento de la dirección (`#estado=<id>`), de modo que un estado concreto se puede compartir por enlace.
 - **Interruptor de recarga automática.** Apagado por defecto; su estado se persiste en el navegador. Encendido, compara el identificador de versión de los recursos —`ETag` o `Last-Modified` de una petición `HEAD`, no una descarga completa— cada 3 segundos, suspende el sondeo con la pestaña no visible, y refresca la página cuando alguno cambió. Sobre `file://` se muestra **deshabilitado con su razón** en lugar de fallar.
 
-En las superficies que alojan una brecha o una propuesta abierta la barra suma además su **nota**, con borde propio: `SUP-05` (`B-UX-01`), `SUP-17` y `SUP-19` (`B-UX-29`), y `SUP-09`, `SUP-12` y `SUP-18` (`B-UX-28`).
+En las superficies que alojan una brecha o una propuesta abierta la barra suma además su **nota**, con borde propio. Desde el 2026-08-02 una superficie puede alojar **más de una**, y la barra las lista todas en lugar de exhibir sólo la primera:
+
+| Superficie | Notas que la barra exhibe |
+| --- | --- |
+| `SUP-05` | `B-UX-01` · distinción de aristas · y `B-UX-31` · cuarentena |
+| `SUP-06` | `B-UX-31` · cuarentena · y `B-UX-32` · la variante `repositorio` |
+| `SUP-09` | `B-UX-31` · cuarentena · y `B-UX-28` · umbral de limpieza |
+| `SUP-12` | `B-UX-28` · umbral de limpieza |
+| `SUP-17` | `B-UX-29` · registros explorables · y `B-UX-32` · la variante `repositorio` |
+| `SUP-18` | `B-UX-28` · umbral de limpieza · y `B-UX-33` · la imagen que sostiene a un servicio no reproducible |
+| `SUP-19` | `B-UX-29` · registros explorables |
 
 ---
 
 ## 5. Las brechas y propuestas abiertas que hay que resolver
 
-Ninguna de las tres es especificación. La maqueta las **exhibe declaradas** y no elige por el agente humano. La corrección de los wireframes y de `Experiencia-De-Uso` es del paso 6 y la hace AG-03.
+Ninguna es especificación. La maqueta las **exhibe declaradas** y no elige por el agente humano. La corrección de los wireframes y de `Experiencia-De-Uso` es del paso 6 y la hace AG-03.
 
 ### 5.1 Distinción visual de las aristas · `B-UX-01`, en `SUP-05`
 
@@ -145,11 +157,34 @@ La maqueta dibuja **la forma completa** de las tres materializaciones y deja las
 
 ---
 
+### 5.4 Los tres puntos sin decidir de la política de cuarentena · `B-UX-31`, en `SUP-05`, `SUP-06` y `SUP-09`
+
+La política ante un despliegue que no arranca tiene su **cuerpo decidido** —informar y recuperar el anterior, servir la versión previa si arranca, y si tampoco arranca dejar el proyecto corriendo con el servicio en cuarentena— y deja **tres puntos sin decidir**.
+
+La maqueta **demuestra que un servicio en cuarentena se ve**, en los tres lugares que la especificación exige: el nodo del lienzo, la cabecera del panel lateral y el bloque del tablero de estado. La visibilidad persistente **se deriva** de la exigencia de que se lo encuentre antes de necesitarlo.
+
+Lo que la maqueta **no dibuja**, y lo declara como ausencia deliberada en lugar de dejarlo pasar por olvido:
+
+| Qué no se dibuja | Por qué |
+| --- | --- |
+| Ninguna acción de **retirar la cuarentena** | Ninguna fuente declara qué la levanta. Ni habilitada, ni deshabilitada, ni en menú secundario |
+| Ningún **aviso** en el momento en que ocurre | Ver y avisar son cosas distintas. Avisar no está declarado: nada de notificación superpuesta, de contador en la navegación ni de centro de avisos |
+| Ninguna acción de **recuperar el despliegue anterior** | Si la recuperación resultara ofrecida en vez de automática haría falta un control que hoy no se dibuja |
+| Ninguna **segunda marca** de participación en el arranque | La maqueta escribe «autoarranque apagado» siguiendo el cuerpo decidido, y declara que cuál de las dos marcas se apaga es el punto abierto |
+
+### 5.5 La imagen que sostiene a un servicio no reproducible · `B-UX-33`, en `SUP-18`
+
+El indicador de uso **cuenta al servicio declarado como referencia**, con esas palabras. La imagen **no se marca como protegida** y la limpieza no la excluye: ninguna fuente declara si el origen de un servicio protege a su imagen, y demostrar la protección sería completar la política.
+
+### 5.6 La variante de origen que ninguna superficie produce · `B-UX-32`, en `SUP-06` y `SUP-17`
+
+Las **dos mitades** tienen que verse, y la maqueta las muestra: `SUP-06` **exhibe en lectura** la variante `repositorio` con sus cuatro campos y declara que la interfaz ya no la produce; `SUP-17` **no la ofrece**, y no hay ningún control, opción ni texto que la produzca.
+
 ## 6. De dónde salen los datos
 
 Los datos de ejemplo viven **exclusivamente** en `assets/js/Datos-Maqueta.js`. Ningún HTML los hardcodea: los renderiza `Maqueta.js`. `index.html` exhibe el contrato de campos completo, con tipo, ejemplo, entidad de origen y anexo del intake que lo declara.
 
-Fuente: `PRODUCT-INTAKE-SelfHosted-Service.md` **v3.3**.
+Fuente: `PRODUCT-INTAKE-SelfHosted-Service.md`, **vigente v3.7**; los conjuntos de esta ronda vienen de la **v3.4** —alta unificada, tercer eje, sexta variante de origen— y de la **v3.5** —las tres fases del despliegue y la política ante un despliegue que no arranca—.
 
 | Conjunto | Anexo del intake |
 | --- | --- |
@@ -166,8 +201,22 @@ Fuente: `PRODUCT-INTAKE-SelfHosted-Service.md` **v3.3**.
 | Parque de contenedores de referencia | E-19 |
 | Configuraciones reales ofuscadas (C-1 a C-6) | E-20 |
 | **La imagen como objeto con identidad**: digesto, pertenencia, marca de conservada, el valor `ajena`, y el bloque `imagen` del despliegue | **E-23** |
+| **La sexta variante de origen** `imagen-local`, con su digesto, su referencia del almacén y su prohibición de política flotante | **E-2 §20.2.3** |
 
 Los valores son verosímiles del dominio y **no son datos reales del cliente**: E-19 y E-20 ya vienen ofuscados en origen por la política declarada en el propio intake.
+
+### 6.0 Los dos casos que ninguna fuente instancia, y cómo la maqueta los resuelve
+
+**Ni el intake, ni los casos de uso, ni el modelo conceptual declaran un solo servicio concreto con origen `imagen-local`, ni un solo servicio concreto en cuarentena.** Declaran la **variante** y la **política**, no una instancia. Los wireframes, en cambio, exigen demostrar los dos estados en cinco superficies.
+
+La maqueta resuelve como ya venía resolviendo el digesto y la exploración: **compone** el caso con valores que alguna fuente sí declara en otro contexto, y lo **rotula como composición de maqueta** en lugar de presentarlo como dato del corpus. No fabrica nombres, imágenes ni identificadores nuevos.
+
+| Caso | Con qué se compone | Qué queda declarado como ausente |
+| --- | --- | --- |
+| Servicio con origen de almacén local | El servicio `ia-video` del parque de referencia E-19 y E-20 C-5, y la imagen `registro-privado/video:0.3` que el inventario ya lista como administrada | Su **digesto**, que ninguna fuente declara y que la maqueta no fabrica |
+| Servicio en cuarentena | El servicio `cache` y su despliegue fallido 5472 de E-3 §20.3 | La **causa concreta del fallo de arranque**: el 5472 falló por «La imagen no existe en el registro», que es un fallo de la fase de obtener la imagen y no de la de poner en marcha |
+
+Las dos composiciones llevan su rótulo visible en la superficie que las exhibe. **La ambigüedad se devuelve como hallazgo.**
 
 ### 6.1 Dónde la maqueta exhibe la ranura vacía en lugar de inventar el valor
 
@@ -189,7 +238,7 @@ Lo mismo vale para el **tamaño de imagen** —el corpus declara uno solo, 214 M
 
 - HTML5 semántico, CSS y JavaScript vanilla, Bootstrap 5.0 por CDN como grilla y componentes. El CSS propio se carga después y sobreescribe con los tokens del catálogo.
 - **Ningún token visual ad hoc.** Todo valor de color, tipografía y radio está en el bloque `:root` de `Estilos-Maqueta.css`, con el nombre semántico del catálogo. Fuera de ese bloque no hay literales de ninguno de los tres.
-- Capas del catálogo aplicadas, con la versión **verificada en disco el 2026-07-30**: `Design-Rules-Web-Generico` 1.3, `Design-Rules-Blazor-Mudblazor` 1.3, `Design-Rules-Config-Esquema` 1.2, `Design-Rules-Primer-Arranque` 1.1, `Design-Rules-Acceso-Monousuario` 1.1 y `Design-Rules-Identidad-De-Version` 1.1, bajo `Index-Design-Rules` 1.4.
+- Capas del catálogo aplicadas, con la versión **verificada en disco de nuevo el 2026-08-02** y sin cambios respecto del 2026-07-30: `Design-Rules-Web-Generico` 1.3, `Design-Rules-Blazor-Mudblazor` 1.3, `Design-Rules-Config-Esquema` 1.2, `Design-Rules-Primer-Arranque` 1.1, `Design-Rules-Acceso-Monousuario` 1.1 y `Design-Rules-Identidad-De-Version` 1.1, bajo `Index-Design-Rules` 1.4.
 - El estado «pendiente de aplicar» no tiene token en el catálogo base (`C-UX-01`, `B-UX-05`). Para no inventar un literal, la maqueta lo **alias** al token de catálogo `color.accent.module-b`, que es violeta y que en este producto no está asignado a ningún módulo, de modo que se conserva la reserva de exclusividad del anexo E-18. Es un alias provisional, no una promoción de token.
 - **Sin llamadas de red a servicios reales.** La maqueta es autónoma. Las únicas peticiones son las `HEAD` de la recarga automática, contra sus propios archivos.
 - **WCAG 2.2 AA como piso:** landmarks semánticos, un encabezado de primer nivel por vista, `label` asociados a cada control, foco visible, recorrido completo por teclado, `role="alert"` en las bandas de error y `role="status"` en las de confirmación, en las regiones de estado y en los anuncios de cambio de estado, contraste 4.5:1 en texto, unidades explícitas y cifras tabulares, y `prefers-reduced-motion` respetado.
@@ -218,11 +267,15 @@ Dos lugares que conviene conocer para corregir a mano:
 
 ## 9. Qué revisar
 
-- **Navegación.** ¿Los recorridos entre superficies son los que esperabas? En particular, el circuito nuevo: alta de servicio → explorar el registro → volver con el origen **completo y sin verificar**.
+- **El alta unificada.** El menú de las siete tarjetas ya no existe: hay una sola entrada y el origen es un campo de **tres valores**. ¿Los tres rótulos y lo que cada uno dice que resuelve son los correctos? ¿La pérdida que el formulario produce está suficientemente compensada por el registro ya puesto y por la exploración?
+- **Las tres entradas al mismo nivel.** Adoptar y usar el catálogo salieron del alta y son acciones de sus propios listados. ¿Se encuentran? El lienzo las declara juntas.
+- **Los dos distintivos.** Cuarentena y no reproducible son **texto y nada más**: sin insignia, sin borde y sin color propios, componiendo sobre el par de estado. ¿Se ven lo suficiente sin competir con el estado del despliegue?
+- **Las seis acciones de ejecución.** Una sola acción de arranque a la vez en el grupo primario, y las otras cuatro en el secundario. ¿La jerarquía es la correcta? ¿«Detener» y «Parar» se distinguen?
+- **Navegación.** ¿Los recorridos entre superficies son los que esperabas? En particular, los dos circuitos nuevos: alta de servicio → explorar el registro → volver con el origen **completo y sin verificar**, e inventario de imágenes → crear un servicio desde una imagen → alta con el origen ya puesto y **sin verificar**.
 - **Datos.** ¿Los campos que se muestran son los que el sistema tiene que mostrar? ¿Falta o sobra alguno? El contrato completo está en `index.html`.
 - **Estados.** Alterná los estados de cada superficie con la barra de validación. ¿Falta alguno? ¿Alguno sobra?
 - **Apariencia.** ¿La jerarquía visual y el peso de cada acción son los correctos? ¿Hay exactamente una acción primaria por pantalla donde la especificación la exige?
-- **Las tres brechas de §5.** Las dos propuestas y las dos ranuras numéricas del umbral son decisiones tuyas.
+- **Las seis brechas y propuestas de §5.** Las dos propuestas, las dos ranuras numéricas del umbral, los tres puntos de la cuarentena, la protección de la imagen que sostiene a un servicio no reproducible y el destino de la variante `repositorio` son decisiones tuyas. **La maqueta no cerró ninguna.**
 - **Las ranuras vacías.** Donde la maqueta dice «sin declarar» con un identificador de brecha, la decisión es tuya. En `SUP-18` son muchas y a propósito: el inventario de imágenes es la superficie donde más se nota qué falta declarar.
 
 ---

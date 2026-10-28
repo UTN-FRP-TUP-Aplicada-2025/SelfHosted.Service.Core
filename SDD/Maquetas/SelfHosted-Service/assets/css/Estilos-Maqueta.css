@@ -62,7 +62,7 @@
      (contradicción C-UX-01, brecha B-UX-05: el token corresponde promoverlo
      al catálogo, no definirlo por proyecto). Para no inventar un literal,
      la maqueta ALIAS al token de catálogo `color.accent.module-b`, que es
-     violeta y que en esta solución no está asignado a ningún módulo: así se
+     violeta y que en este producto no está asignado a ningún módulo: así se
      conserva la reserva de exclusividad que el anexo E-18 exige. Es un alias
      provisional, no una promoción de token. */
   --color-text-pendiente: var(--color-accent-module-b);
@@ -726,7 +726,10 @@ a { color: var(--color-brand-primary); }
 .mq-arista--sin-espera { stroke: var(--color-text-secondary); }
 .mq-arista--invalida { stroke: var(--color-text-danger); stroke-dasharray: 2 3; stroke-width: 2; }
 .mq-arista-rotulo {
-  font-size: 10px;
+  /* El rótulo de la arista usa el escalón de metadato del catálogo. Antes
+     llevaba un literal de 10px, que era el único valor tipográfico ad hoc que
+     quedaba fuera del bloque de tokens. */
+  font-size: var(--type-meta-size);
   fill: var(--color-text-secondary);
   font-family: var(--font-sans);
 }
@@ -1569,3 +1572,154 @@ details.mq-expander > summary {
    que sobre el tinte de advertencia da 3.92:1. Se fuerza a heredar el color
    del bloque, que es un token del catálogo y da 5.87:1. */
 .mq-digesto-conflicto code { color: inherit; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   25. Ronda del 2026-07-31 y del 2026-08-01
+       Alta unificada, distintivos, zona de distintivos del nodo, acciones de
+       ejecución de la cabecera del panel y bloque de cuarentena del tablero.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 25.1 Distintivo — Representacion-Lenguaje-Visual-De-Estados §3.5 ────── */
+
+/* El distintivo es un rótulo TEXTUAL que declara una propiedad del servicio
+   que no es un estado de su despliegue. COMPONE sobre el par de estado, no lo
+   reemplaza y NO le cambia la variante. Por eso, y es la restricción dura:
+   NO lleva insignia, NO lleva borde y NO lleva color propios. Si los llevara
+   agregaría una fila al contrato visual del anexo E-18, y la representación
+   declara que no agrega ninguna.
+   El único canal es el texto, con el peso de metadato del catálogo y el color
+   de texto secundario, que ya está en la rampa neutra y no codifica nada.
+   Su ausencia NO se representa: cuando no hay distintivo no se dibuja nada. */
+.mq-distintivo {
+  display: inline;
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+/* El separador es del contenedor y no del distintivo, para que el primero no
+   arrastre un punto suelto cuando es el único. */
+.mq-distintivos {
+  display: inline-flex; flex-wrap: wrap;
+  align-items: baseline; gap: var(--space-4);
+  min-width: 0;
+}
+.mq-distintivos .mq-distintivo + .mq-distintivo::before {
+  content: "·";
+  margin-right: var(--space-4);
+  color: var(--color-text-tertiary);
+}
+/* La explicación del distintivo va aparte y en el flujo, no dentro del
+   rótulo: el rótulo tiene que poder convivir en línea con el par de estado. */
+.mq-distintivo-detalle {
+  display: block;
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+}
+
+/* ── 25.2 Zona de distintivos del nodo — Representacion-Nodo-De-Servicio §2 ─ */
+
+/* Sexta zona del nodo, intercalada entre el subtítulo y las métricas.
+   Existe SÓLO cuando hay algo que exhibir, y NO altera el ancho de la caja:
+   por eso hereda el ancho del nodo y envuelve en lugar de empujar. */
+.mq-nodo-distintivos {
+  min-width: 0; max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* ── 25.3 Campo de origen del alta unificada — SUP-17 §3.1 ──────────────── */
+
+/* Ya no hay grilla de tarjetas: el origen es un campo del formulario, con sus
+   valores como opciones de radio para que se vean los tres a la vez sin que
+   ninguno quede escondido tras un desplegable. La composición es de opción de
+   formulario del catálogo (Web-Generico §4.6) y no de tarjeta de acceso. */
+.mq-campo-origen {
+  display: grid; gap: var(--space-8);
+  margin: var(--space-8) 0 var(--space-14);
+}
+.mq-origen-opcion {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-8);
+  align-items: start;
+  border: var(--border-control);
+  border-radius: var(--radius-md);
+  background: var(--color-background-primary);
+  padding: var(--space-12);
+  cursor: pointer;
+}
+.mq-origen-opcion[data-elegida="si"] {
+  border-color: var(--color-brand-primary);
+  background: var(--color-brand-primary-tint);
+}
+.mq-origen-opcion-cuerpo { display: grid; gap: 2px; min-width: 0; }
+.mq-origen-opcion-titulo {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+}
+/* El apartado que el valor elegido despliega. Va contiguo al campo y no en
+   otra zona: es el delta del valor, no un paso aparte. */
+.mq-origen-apartado {
+  border-left: 3px solid var(--color-border-secondary);
+  padding-left: var(--space-12);
+  margin-bottom: var(--space-14);
+}
+
+/* ── 25.4 Acciones de ejecución de la cabecera del panel — SUP-06 ───────── */
+
+/* Dos grupos con jerarquía distinta y no una fila plana: el primario son las
+   acciones de las tres fases del despliegue; el secundario, las que operan
+   sobre lo ya desplegado. Separarlos es lo que evita que «Parar» y
+   «Desplegar sin arrancar» se lean como equivalentes. */
+.mq-acciones-ejecucion {
+  display: grid; gap: var(--space-8);
+  margin-bottom: var(--space-12);
+}
+.mq-acciones-ejecucion-grupo {
+  display: flex; flex-wrap: wrap; gap: var(--space-8);
+  align-items: center;
+}
+.mq-acciones-ejecucion-rotulo {
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  color: var(--color-text-tertiary);
+  flex: 0 0 100%;
+}
+
+/* ── 25.5 Bloque de servicios en cuarentena — SUP-09 §3.3 ───────────────── */
+
+/* Región de estado y NO alerta: el servicio ya está quieto y el proyecto
+   sigue corriendo. Usa el par neutro del contrato visual y no el de error,
+   porque la cuarentena no es un fallo en curso sino su desenlace declarado. */
+.mq-bloque-cuarentena {
+  border: var(--border-control);
+  border-radius: var(--radius-lg);
+  background: var(--color-background-primary);
+  padding: var(--card-padding);
+}
+.mq-cuarentena-nota {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  margin: var(--space-8) 0 0;
+}
+
+/* Enunciado del distintivo: el rótulo más su explicación y, cuando el
+   distintivo aloja una brecha, el detalle de qué no se dibuja. No es una
+   banda de estado: no lleva fondo semántico, porque el distintivo no puede
+   usar el tratamiento de error ni el de atención. */
+.mq-distintivo-enunciado {
+  display: grid; gap: 2px;
+  border-left: 3px solid var(--color-border-secondary);
+  padding-left: var(--space-12);
+  margin: var(--space-8) 0;
+}
+
+/* El grupo del campo de origen. `fieldset` sin borde propio: el borde lo
+   llevan las opciones, y un doble borde competiría con ellas. */
+.mq-campo-origen-grupo { border: 0; padding: 0; margin: 0 0 var(--space-14); min-width: 0; }
+.mq-campo-origen-grupo > legend {
+  font-size: var(--type-body-strong-size);
+  font-weight: var(--type-body-strong-weight);
+  padding: 0; margin-bottom: var(--space-4);
+}
